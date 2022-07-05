@@ -1,23 +1,33 @@
 <template>
-  <ol reversed>
-    <li v-for="(pair, index) in pairs">
+  <ol start="0">
+    <li v-for="(match, index) in matches">
       <label>
-        <input type="radio" :name="index" @click="advanceChosen(pair[0])" />
-        {{ pair[0] }}
+        <input
+          type="radio"
+          :name="index"
+          @click="advanceChosen(match[0], index)"
+        />
+        {{ match[0] }}
       </label>
 
       <label>
-        <input type="radio" :name="index" @click="advanceChosen(pair[1])" />
-        {{ pair[1] }}
+        <input
+          type="radio"
+          :name="index"
+          @click="advanceChosen(match[1], index)"
+        />
+        {{ match[1] }}
       </label>
     </li>
   </ol>
+  <p>{{ test }}</p>
 </template>
 
 <script setup lang="ts">
-const images = ['One', 'Two', 'Three', 'Four', 'Five'];
+const images = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+const length = images.length;
 
-const pairs = ref(
+const matches = ref(
   images.map((image, index) => {
     const a = images[2 * index];
     const b = images[2 * index + 1];
@@ -27,10 +37,10 @@ const pairs = ref(
   })
 );
 
-function advanceChosen(chosen) {
-  const nextPair =
-    pairs.value.find((two) => two.length === 1) ||
-    pairs.value.find((two) => two.length === 0);
-  nextPair.push(chosen);
+function advanceChosen(chosen, index) {
+  const match = Math.floor((length + index) / 2);
+  const position = (length + index) % 2;
+
+  matches.value[match][position] = chosen;
 }
 </script>
