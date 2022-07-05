@@ -1,6 +1,6 @@
 <template>
-  <ol start="0">
-    <li v-for="(match, index) in matches">
+  <ol :start="length" reversed>
+    <li v-for="(match, index) in state.matches">
       <label>
         <input
           type="radio"
@@ -27,7 +27,11 @@
 const images = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
 const length = images.length;
 
-const matches = ref(
+const state = reactive({
+  matches: [],
+});
+
+state.matches = ref(
   images.map((image, index) => {
     const a = images[2 * index];
     const b = images[2 * index + 1];
@@ -41,6 +45,6 @@ function advanceChosen(chosen, index) {
   const match = Math.floor((length + index) / 2);
   const position = (length + index) % 2;
 
-  matches.value[match][position] = chosen;
+  state.matches[match][position] = chosen;
 }
 </script>
