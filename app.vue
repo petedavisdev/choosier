@@ -10,7 +10,8 @@
             @input="advanceChosen(matchIndex, option)"
             required
           />
-          {{ option }}
+
+          <img :src="option" alt="" />
         </label>
       </section>
 
@@ -20,14 +21,29 @@
     </template>
 
     <template v-else-if="match[0]">
-      <input disabled :value="match[0]" />
-      {{ match[0] }}
+      <section class="chosen">
+        <div>
+          <img :src="match[0]" alt="" />
+        </div>
+
+        <div>
+          <input disabled name="chosen" :value="match[0]" />
+
+          <h1>To vote, please confirm that you're human</h1>
+
+          <label for="email">Email</label>
+
+          <input type="email" id="email" name="email" />
+
+          <button>Send me an email</button>
+        </div>
+      </section>
     </template>
   </form>
 </template>
 
 <script setup lang="ts">
-const options = ['A', 'B', 'C', 'D', 'E'];
+import options from './chocolate.json';
 const length = options.length;
 
 const state = reactive({
@@ -77,7 +93,8 @@ button {
   pointer-events: initial;
 }
 
-.options {
+.options,
+.chosen {
   display: grid;
   height: 100vh;
   grid-template-rows: 1fr 1fr;
@@ -88,6 +105,9 @@ button {
 .options label {
   display: grid;
   place-content: center;
-  background-color: pink;
+}
+
+input {
+  display: block;
 }
 </style>
