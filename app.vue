@@ -1,23 +1,25 @@
 <template>
   <form v-for="(match, matchIndex) in state.matches" class="match">
     <!-- Matches -->
-    <section class="options">
-      <label v-for="option in match">
-        <input
-          type="radio"
-          :name="'option' + matchIndex"
-          @input="advanceChosen(matchIndex, option)"
-          required
-        />
-        {{ option }}
-      </label>
-    </section>
+    <template v-if="matchIndex < length - 1">
+      <section class="options">
+        <label v-for="option in match">
+          <input
+            type="radio"
+            :name="'option' + matchIndex"
+            @input="advanceChosen(matchIndex, option)"
+            required
+          />
+          {{ option }}
+        </label>
+      </section>
 
-    <aside class="controls">
-      <button type="reset" @click="advanceChosen(matchIndex)">Back</button>
-    </aside>
+      <aside class="controls">
+        <button type="reset" @click="advanceChosen(matchIndex)">Back</button>
+      </aside>
+    </template>
 
-    <template v-else-if="matchIndex === length - 1 && match[0]">
+    <template v-else-if="match[0]">
       <input disabled :value="match[0]" />
       {{ match[0] }}
     </template>
