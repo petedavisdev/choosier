@@ -1,5 +1,5 @@
-# Choosier.app
+# ![Choosier.app](/public/Choosier.svg)
 
-Collaborative visual decisions made easy
+Visual decisions made easy
 
 [Choose](/1)
