@@ -26,9 +26,18 @@
 body {
   margin: 0;
   font-weight: 300;
-  font-size: 20px;
+  font-size: 18px;
   color: #222;
   background-color: #eee;
+}
+
+h1 {
+  margin-block: 0.25em;
+}
+
+h2 {
+  font-size: 1.25em;
+  margin-block: 0.25em;
 }
 
 img {
