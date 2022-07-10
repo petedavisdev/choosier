@@ -31,13 +31,19 @@ body {
   background-color: #eee;
 }
 
+h1,
+h2 {
+  margin-top: 0;
+  margin-bottom: 0.25em;
+  font-weight: 300;
+}
+
 h1 {
-  margin-block: 0.25em;
+  font-size: 1.5em;
 }
 
 h2 {
   font-size: 1.25em;
-  margin-block: 0.25em;
 }
 
 img {
