@@ -1,6 +1,9 @@
 <template>
   <div>
     <Head>
+      <Title>Choosier. Visual decisions made easy</Title>
+      <Meta name="description" content="Too many options? Use Choosier to create an image poll. Collect votes from friends, colleagues and customers. Perfect for art, design, fashion and photography." />
+
       <Link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
       <Link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
       <Link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
@@ -26,28 +29,26 @@
 body {
   margin: 0;
   font-weight: 300;
-  font-size: 18px;
   color: #222;
   background-color: #eee;
 }
 
-h1,
-h2 {
-  margin-top: 0;
-  margin-bottom: 0.25em;
+h1, h2, h3, h4, h5, h6 {
   font-weight: 300;
-}
-
-h1 {
-  font-size: 1.5em;
-}
-
-h2 {
-  font-size: 1.25em;
 }
 
 img {
   height: auto;
   max-width: 100%;
+}
+
+.sr-only:not(:focus):not(:active) {
+  clip: rect(0 0 0 0); 
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap; 
+  width: 1px;
 }
 </style>

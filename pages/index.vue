@@ -1,11 +1,24 @@
 <template>
   <main>
-    <ContentDoc />
+    <Logo class="logo" />
+    <h1>
+      <span class="sr-only">Choosier. </span>
+      Visual decisions made easy
+    </h1>
   </main>
 </template>
 
-<style>
+<style scoped>
 main {
-  margin: 2em;
+  margin: clamp(1em, 5vmin, 4em);
+}
+
+.logo {
+  fill: #222;
+  width: clamp(12em, 50vmin, 24em);
+}
+
+h1 {
+  font-size: clamp(1.5em, 5vmin, 2em);
 }
 </style>
