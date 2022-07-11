@@ -88,10 +88,9 @@ button {
 .options,
 .chosen {
   display: grid;
-  height: 100vh;
+  height: calc(100vh - 4em);
   grid-template-rows: 1fr 1fr;
   gap: 2em;
-  padding: 2em;
 }
 
 .options label {
@@ -99,7 +98,19 @@ button {
   place-content: center;
 }
 
+.chosen {
+  place-content: center;
+}
+
 input {
   display: block;
+}
+
+[type="radio"] {
+  display: none;
+}
+
+img {
+  max-height: calc(50vh - 3em);
 }
 </style>
