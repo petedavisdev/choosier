@@ -14,7 +14,7 @@ main {
 }
 
 .logo {
-  fill: #222;
+  fill: var(--darker);
   width: clamp(12em, 50vmin, 24em);
 }
 

@@ -16,7 +16,8 @@
       </section>
 
       <aside class="controls">
-        <button type="reset" @click="advanceChosen(matchIndex)">Back</button>
+        <button class="undo" title="undo" type="reset" @click="advanceChosen(matchIndex)">←</button>
+        <Progress :percent="100*(matchIndex + 1)/(length - 1)" />
       </aside>
     </template>
 
@@ -78,24 +79,31 @@ function advanceChosen(index: number, option?: string) {
   display: flex;
   justify-content: center;
   align-items: center;
-  pointer-events: none;
 }
 
-button {
-  pointer-events: initial;
+.undo {
+  border: none;
+  background-color: transparent;
+  font-size: xx-large;
+  padding-left: 0;
 }
 
 .options,
 .chosen {
+  position: fixed;
+  inset: 0;
   display: grid;
-  height: calc(100vh - 4em);
+  height: 100%;
   grid-template-rows: 1fr 1fr;
-  gap: 2em;
+  pointer-events: none;
 }
 
-.options label {
+.options label,
+.chosen div {
   display: grid;
   place-content: center;
+  pointer-events: initial;
+  margin: 1em;
 }
 
 .chosen {
@@ -111,6 +119,9 @@ input {
 }
 
 img {
+  object-fit: contain;
   max-height: calc(50vh - 3em);
+  border-radius: 0.5em;
+  box-shadow: 0 2px 5px #0003;
 }
 </style>

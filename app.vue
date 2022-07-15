@@ -21,6 +21,7 @@
 
 <style>
 @import './assets/modern-normalize.css';
+@import './assets/variables.css';
 
 * {
   box-sizing: border-box;
@@ -29,7 +30,7 @@
 body {
   margin: 0;
   font-weight: 300;
-  color: #222;
+  color: var(--darker);
   background-color: #eee;
 }
 
@@ -40,6 +41,11 @@ h1, h2, h3, h4, h5, h6 {
 img {
   height: auto;
   max-width: 100%;
+}
+
+button,
+input {
+  color: var(--darker);
 }
 
 .sr-only:not(:focus):not(:active) {
