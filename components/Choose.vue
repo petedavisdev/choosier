@@ -1,7 +1,11 @@
 <template>
+  <aside class="controls">
+    <button class="undo" title="undo" type="button" disabled>←</button>
+    <Progress :percent="0" />
+  </aside>
+
   <form v-for="(match, matchIndex) in state.matches" class="match">
-    <!-- Matches -->
-    <template v-if="matchIndex < length - 1">
+    <div class="grid" v-if="matchIndex < length - 1">
       <label v-for="(option, optionIndex) in match" :class="`option${optionIndex + 1}`">
         <input
           type="radio"
@@ -12,19 +16,14 @@
 
         <img :src="option" alt="" />
       </label>
+    </div>
 
-      <aside class="controls">
-        <button class="undo" title="undo" type="reset" @click="advanceChosen(matchIndex)">←</button>
-        <Progress :percent="100*(matchIndex + 1)/(length - 1)" />
-      </aside>
-    </template>
-
-    <template v-else-if="match[0]">
+    <div class="grid" v-else-if="match[0]">
       <section>
         <img :src="match[0]" alt="" />
       </section>
 
-      <section>
+      <section class="vote">
         <input disabled name="chosen" :value="match[0]" />
 
         <h1>To vote, please confirm that you're human</h1>
@@ -35,8 +34,14 @@
 
         <button>Send me an email</button>
       </section>
-    </template>
+    </div>
+
+    <aside class="controls">
+      <button class="undo" title="undo" type="reset" @click="advanceChosen(matchIndex)">←</button>
+      <Progress :percent="100*(matchIndex + 1)/(length - 1)" />
+    </aside>
   </form>
+
 </template>
 
 <script setup lang="ts">
@@ -65,31 +70,40 @@ function advanceChosen(index: number, option?: string) {
 <style>
 .match {
   position: absolute;
-  inset: 0;
-  grid-template-rows: 1fr 1fr max-content;
+  inset: 0 0 4em 0;
+  transition: opacity 0.5s 0.5s;
+  z-index: 1;
+}
+
+.grid {
+  grid-template-rows: 1fr 1fr;
   gap: 1em;
 }
 
-.match:invalid + form {
-  visibility: hidden;
+.match:invalid + .match {
+  opacity: 0;
   pointer-events: none;
+  z-index: 0;
 }
 
 .controls {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: opacity 0.5s;
+  transition: opacity 1s;
 }
 
 .match:invalid .controls {
   pointer-events: none;
   opacity: 0;
+}
+
+.match:valid .controls {
+  z-index: 1;
 }
 
 .undo {
@@ -99,9 +113,11 @@ function advanceChosen(index: number, option?: string) {
   padding-left: 0;
 }
 
-.option1,
-.option2,
-.chosen div {
+.undo:disabled {
+  color: silver;
+}
+
+.grid > * {
   display: grid;
   place-content: center;
   pointer-events: initial;
@@ -117,7 +133,8 @@ input {
 }
 
 [type="radio"] {
-  display: none;
+  position: absolute;
+  opacity: 0;
 }
 
 img {
@@ -125,5 +142,17 @@ img {
   max-height: calc(50vh - 3em);
   border-radius: 0.5em;
   box-shadow: 0 2px 5px #0003;
+}
+
+label:focus-within img {
+  outline: var(--darker) 3px solid;
+  outline-offset: -3px;
+}
+
+.vote {
+  display: grid;
+  place-content: center;
+  height: 100%;
+  background-color: var(--lighter);
 }
 </style>
