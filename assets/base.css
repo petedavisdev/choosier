@@ -1,0 +1,52 @@
+* {
+	box-sizing: border-box;
+	position: relative;
+}
+
+html,
+body {
+	margin: 0;
+	font-weight: 300;
+	color: var(--darker);
+	background-color: #eee;
+	height: 100%;
+}
+
+main {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	height: 100%;
+	padding: clamp(1em, 5vmin, 4em);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: 300;
+}
+
+img {
+	height: auto;
+	max-width: 100%;
+}
+
+button,
+input {
+	color: var(--darker);
+}
+
+.sr-only:not(:focus):not(:active) {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}

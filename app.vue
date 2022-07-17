@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <main>
     <Head>
       <Title>Choosier. Visual decisions made easy</Title>
       <Meta name="description" content="Too many options? Use Choosier to create an image poll. Collect votes from friends, colleagues and customers. Perfect for art, design, fashion and photography." />
@@ -16,45 +16,16 @@
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
-  </div>
+  </main>
 </template>
 
 <style>
 @import './assets/modern-normalize.css';
 @import './assets/variables.css';
+@import './assets/base.css';
 
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-weight: 300;
-  color: var(--darker);
-  background-color: #eee;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 300;
-}
-
-img {
-  height: auto;
-  max-width: 100%;
-}
-
-button,
-input {
-  color: var(--darker);
-}
-
-.sr-only:not(:focus):not(:active) {
-  clip: rect(0 0 0 0); 
-  clip-path: inset(50%);
-  height: 1px;
-  overflow: hidden;
-  position: absolute;
-  white-space: nowrap; 
-  width: 1px;
+#__nuxt,
+.page {
+  height: 100%;
 }
 </style>
