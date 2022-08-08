@@ -23,9 +23,4 @@
 @import './assets/modern-normalize.css';
 @import './assets/variables.css';
 @import './assets/base.css';
-
-#__nuxt,
-.page {
-  height: 100%;
-}
 </style>

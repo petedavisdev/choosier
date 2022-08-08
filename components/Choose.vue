@@ -1,45 +1,24 @@
 <template>
-  <aside class="controls">
-    <button class="undo" title="undo" type="button" disabled>←</button>
-    <Progress :percent="0" />
-  </aside>
+  <form v-for="(match, matchIndex) in state.matches" @reset="updateMatches(matchIndex)" :name="'match' + matchIndex">
+    <Vote v-if="matchIndex === length - 1 && match[0]" :image="match[0]" />
 
-  <form v-for="(match, matchIndex) in state.matches" class="match">
-    <div class="grid" v-if="matchIndex < length - 1">
+    <template v-else>
       <label v-for="(option, optionIndex) in match" :class="`option${optionIndex + 1}`">
         <input
           type="radio"
           :name="'option' + matchIndex"
-          @input="advanceChosen(matchIndex, option)"
+          @input="updateMatches(matchIndex, option)"
           required
         />
 
         <img :src="option" alt="" />
       </label>
-    </div>
+    </template>
 
-    <div class="grid" v-else-if="match[0]">
-      <section>
-        <img :src="match[0]" alt="" />
-      </section>
-
-      <section class="vote">
-        <input disabled name="chosen" :value="match[0]" />
-
-        <h1>To vote, please confirm that you're human</h1>
-
-        <label for="email">Email</label>
-
-        <input type="email" id="email" name="email" />
-
-        <button>Send me an email</button>
-      </section>
-    </div>
-
-    <aside class="controls">
-      <button class="undo" title="undo" type="reset" @click="advanceChosen(matchIndex)">←</button>
-      <Progress :percent="100*(matchIndex + 1)/(length - 1)" />
-    </aside>
+    <footer class="controls">
+      <button class="undo" title="undo" type="reset" @click="undo(matchIndex)" :disabled="!matchIndex">←</button>
+      <Progress :percent="100*(matchIndex)/(length - 1)" />
+    </footer>
   </form>
 
 </template>
@@ -57,74 +36,38 @@ state.matches = options.map((_option, index) => [
   options[2 * index + 1],
 ]);
 
-function advanceChosen(index: number, option?: string) {
-  const match = Math.floor((length + index) / 2);
-  const position = (length + index) % 2;
-
-  console.log({ match, position });
+function updateMatches(matchIndex: number, option?: string) {
+  const match = Math.floor((length + matchIndex) / 2);
+  const position = (length + matchIndex) % 2;
 
   state.matches[match][position] = option;
+}
+
+function undo(matchIndex: number) {
+    document.forms[('match' + (matchIndex - 1))].reset();
 }
 </script>
 
 <style>
-.match {
-  position: absolute;
-  inset: 0 0 4em 0;
-  transition: opacity 0.5s 0.5s;
-  z-index: 1;
-}
-
-.grid {
-  grid-template-rows: 1fr 1fr;
-  gap: 1em;
-}
-
-.match:invalid + .match {
-  opacity: 0;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.controls {
+form {
+  display: grid;
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  inset: 0;
+  grid-template-rows: 1fr 1fr max-content;
+  gap: 1em;
+  margin: 1em;
+  opacity: 1;
   transition: opacity 1s;
 }
 
-.match:invalid .controls {
-  pointer-events: none;
+form:valid,
+form:invalid + form {
   opacity: 0;
+  pointer-events: none;
 }
 
-.match:valid .controls {
-  z-index: 1;
-}
-
-.undo {
-  border: none;
-  background-color: transparent;
-  font-size: xx-large;
-  padding-left: 0;
-}
-
-.undo:disabled {
-  color: silver;
-}
-
-.grid > * {
+form > * {
   display: grid;
-  place-content: center;
-  pointer-events: initial;
-  margin: 1em;
-}
-
-.chosen {
   place-content: center;
 }
 
@@ -149,10 +92,21 @@ label:focus-within img {
   outline-offset: -3px;
 }
 
-.vote {
-  display: grid;
-  place-content: center;
-  height: 100%;
-  background-color: var(--lighter);
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 1s;
+}
+
+.undo {
+  border: none;
+  background-color: transparent;
+  font-size: xx-large;
+  padding-left: 0;
+}
+
+.undo:disabled {
+  color: silver;
 }
 </style>
