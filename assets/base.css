@@ -5,8 +5,7 @@
 
 html,
 body,
-#__nuxt,
-main {
+#__nuxt {
 	height: 100%;
 }
 
@@ -19,6 +18,7 @@ body {
 }
 
 main {
+        height: calc(100% - 56px);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
