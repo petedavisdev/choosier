@@ -64,7 +64,6 @@ function undo(matchIndex: number) {
 
 <style>
 form {
-	height: 100%;
 	padding-top: 1em;
 	display: grid;
 	grid-template-rows: 1fr 1fr max-content;
@@ -96,7 +95,7 @@ input {
 
 .image {
 	object-fit: contain;
-	max-height: calc(50vh - 3em);
+	max-height: calc(50vh - 4em);
 	border-radius: 0.5em;
 	box-shadow: 0 2px 5px #0003;
 	background-color: white;
@@ -137,7 +136,7 @@ footer {
 
 	.image {
 		max-height: 100%;
-		max-width: calc(50vw - 3em);
+		max-width: calc(50vw - 4em);
 	}
 }
 </style>
