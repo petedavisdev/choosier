@@ -51,7 +51,7 @@ function undo(matchIndex: number) {
 <style>
 form {
   display: grid;
-  max-height: 100%;
+  max-height: calc(100% - 56px);
   position: absolute;
   bottom: 0;
   grid-template-rows: 1fr 1fr max-content;
