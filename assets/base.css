@@ -4,6 +4,13 @@
 }
 
 html,
+body,
+#__nuxt,
+main {
+	height: 100%;
+}
+
+html,
 body {
 	margin: 0;
 	font-weight: 300;

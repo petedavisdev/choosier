@@ -51,11 +51,11 @@ function undo(matchIndex: number) {
 <style>
 form {
   display: grid;
-  position: fixed;
-  inset: 0;
+  max-height: 100%;
+  position: absolute;
+  bottom: 0;
   grid-template-rows: 1fr 1fr max-content;
   gap: 1em;
-  margin: 1em;
   opacity: 1;
   transition: opacity 1s;
 }
