@@ -7,10 +7,7 @@
 		<Vote v-if="matchIndex === length - 1 && match[0]" :image="match[0]" />
 
 		<template v-else>
-			<label
-				v-for="(option, optionIndex) in match"
-				:class="`option${optionIndex + 1}`"
-			>
+			<label v-for="(option, optionIndex) in match" class="option">
 				<input
 					type="radio"
 					:name="'option' + matchIndex"
@@ -18,7 +15,7 @@
 					required
 				/>
 
-				<img :src="option" alt="" class="image" />
+				<img :src="option" alt="" />
 			</label>
 		</template>
 
@@ -89,19 +86,15 @@ input {
 }
 
 [type='radio'] {
-	position: absolute;
+	position: fixed;
 	opacity: 0;
 }
 
-.image {
-	object-fit: contain;
+img {
 	max-height: calc(50vh - 4em);
-	border-radius: 0.5em;
-	box-shadow: 0 2px 5px #0003;
-	background-color: white;
 }
 
-label:focus-within img {
+.option:focus-within img {
 	outline: var(--darker) 3px solid;
 	outline-offset: -3px;
 }
@@ -134,9 +127,8 @@ footer {
 		grid-area: footer;
 	}
 
-	.image {
-		max-height: 100%;
-		max-width: calc(50vw - 4em);
+	img {
+		max-height: calc(100vh - 6em);
 	}
 }
 </style>
