@@ -20,6 +20,30 @@
 	</NuxtLayout>
 </template>
 
+<script>
+if (process.client) {
+	setWindowHeight();
+	window.onresize = () => delayedAction(setWindowHeight);
+
+	function setWindowHeight() {
+		const windowHeight = window.innerHeight;
+		document.documentElement.style.setProperty(
+			'--windowHeight',
+			`${windowHeight}px`
+		);
+	}
+
+	let act;
+
+	function delayedAction(action) {
+		clearTimeout(act);
+		act = setTimeout(() => {
+			action();
+		}, 200);
+	}
+}
+</script>
+
 <style>
 @import './assets/modern-normalize.css';
 @import './assets/variables.css';
