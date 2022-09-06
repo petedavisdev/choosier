@@ -1,9 +1,9 @@
 <template>
-	<header>
+	<header class="option">
 		<img :src="String($attrs.image)" alt="" class="image" />
 	</header>
 
-	<section>
+	<section class="option">
 		<h1>You have chosen</h1>
 		<p>To vote, please confirm that you're human</p>
 		<label for="email">Email</label>

@@ -8,12 +8,11 @@
 </template>
 
 <style scoped>
-.progress-bar {
-	height: 2px;
+.progress-bar,
+.progress-indicator {
+	height: 3px;
 	background-color: silver;
-	width: 40px;
-	display: inline-block;
-	width: calc(100% - 4em);
+	border-radius: 1.5px;
 }
 
 .progress-indicator {

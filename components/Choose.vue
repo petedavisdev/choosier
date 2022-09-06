@@ -1,37 +1,39 @@
 <template>
-	<form
-		v-for="(match, matchIndex) in state.matches"
-		@reset="updateMatches(matchIndex)"
-		:name="'match' + matchIndex"
-	>
-		<Vote v-if="matchIndex === length - 1 && match[0]" :image="match[0]" />
+	<main>
+		<form
+			v-for="(match, matchIndex) in state.matches"
+			@reset="updateMatches(matchIndex)"
+			:name="'match' + matchIndex"
+		>
+			<Vote v-if="matchIndex === length - 1 && match[0]" :image="match[0]" />
 
-		<template v-else>
-			<label v-for="(option, optionIndex) in match" class="option">
-				<input
-					type="radio"
-					:name="'option' + matchIndex"
-					@input="updateMatches(matchIndex, option)"
-					required
-				/>
+			<template v-else>
+				<label v-for="(option, optionIndex) in match" class="option">
+					<input
+						type="radio"
+						:name="'option' + matchIndex"
+						@input="updateMatches(matchIndex, option)"
+						required
+					/>
 
-				<img :src="option" alt="" />
-			</label>
-		</template>
+					<img :src="option" alt="" />
+				</label>
+			</template>
 
-		<footer class="controls">
-			<button
-				class="undo"
-				title="undo"
-				type="reset"
-				@click="undo(matchIndex)"
-				:disabled="!matchIndex"
-			>
-				←
-			</button>
-			<Progress :percent="(100 * matchIndex) / (length - 1)" />
-		</footer>
-	</form>
+			<footer class="controls">
+				<Progress :percent="(100 * matchIndex) / (length - 1)" />
+				<button
+					class="undo"
+					title="undo"
+					type="reset"
+					@click="undo(matchIndex)"
+					:disabled="!matchIndex"
+				>
+					←
+				</button>
+			</footer>
+		</form>
+	</main>
 </template>
 
 <script setup lang="ts">
@@ -60,25 +62,32 @@ function undo(matchIndex: number) {
 </script>
 
 <style>
-form {
-	padding-top: 1em;
+main {
+	height: 100%;
 	display: grid;
-	grid-template-rows: 1fr 1fr max-content;
+	place-content: end center;
+	grid-template: '📋' 1fr / 1fr;
+}
+
+form {
+	grid-area: 📋;
+	display: grid;
 	gap: 1em;
+	grid-template:
+		'1️⃣' 1fr
+		'2️⃣' 1fr
+		'🦶' max-content
+		/ 1fr;
+	height: var(--windowHeight, 100vh);
+	padding: 1em 1em 0;
 	opacity: 1;
 	transition: opacity 1s;
-	grid-area: form;
 }
 
 form:valid,
 form:invalid + form {
 	opacity: 0;
 	pointer-events: none;
-}
-
-form > * {
-	display: grid;
-	place-content: center;
 }
 
 input {
@@ -90,8 +99,19 @@ input {
 	opacity: 0;
 }
 
-img {
-	max-height: calc(50vh - 4em);
+.option {
+	display: grid;
+	place-content: center;
+	min-height: 0;
+}
+
+.option img {
+	object-fit: contain;
+	min-height: 0;
+	max-width: 100%;
+	max-height: 100%;
+	line-height: 1;
+	background-color: white;
 }
 
 .option:focus-within img {
@@ -100,9 +120,6 @@ img {
 }
 
 footer {
-	display: flex;
-	justify-content: center;
-	align-items: center;
 	transition: opacity 1s;
 }
 
@@ -119,16 +136,14 @@ footer {
 
 @media (orientation: landscape) {
 	form {
-		grid-template: 1fr max-content / 1fr 1fr;
-		grid-template-areas: 'one two' 'footer footer';
+		grid-template:
+			'1️⃣ 2️⃣' 1fr
+			'🦶 🦶' max-content
+			/ 1fr 1fr;
 	}
 
 	footer {
-		grid-area: footer;
-	}
-
-	img {
-		max-height: calc(100vh - 6em);
+		grid-area: 🦶;
 	}
 }
 </style>

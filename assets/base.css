@@ -4,12 +4,6 @@
 }
 
 html,
-body,
-#__nuxt {
-	height: 100%;
-}
-
-html,
 body {
 	margin: 0;
 	font-weight: 300;
