@@ -28,18 +28,7 @@
 				</label>
 			</template>
 
-			<footer class="controls">
-				<Progress :percent="(100 * matchIndex) / (length - 1)" />
-				<button
-					class="undo"
-					title="undo"
-					type="reset"
-					@click="undo(matchIndex)"
-					:disabled="!matchIndex"
-				>
-					←
-				</button>
-			</footer>
+			<Controls class="controls" :matchIndex="matchIndex" :length="length" />
 		</form>
 	</main>
 </template>
@@ -62,10 +51,6 @@ function updateMatches(matchIndex: number, option?: string) {
 	const position = (length + matchIndex) % 2;
 
 	state.matches[match][position] = option;
-}
-
-function undo(matchIndex: number) {
-	document.forms['match' + (matchIndex - 1)].reset();
 }
 
 function getSrc(option) {
@@ -98,13 +83,17 @@ form {
 	height: var(--windowHeight, 100vh);
 	padding: 1em 1em 0;
 	opacity: 1;
-	transition: opacity 2s ease-out;
+	transition: opacity 1.5s;
 }
 
 form:valid,
 form:invalid + form {
 	opacity: 0;
 	pointer-events: none;
+}
+
+form:invalid + form {
+	transition: opacity 0.5s;
 }
 
 input {
@@ -135,17 +124,6 @@ form:valid :not(:checked) + img {
 	opacity: 0;
 }
 
-.undo {
-	border: none;
-	background-color: transparent;
-	font-size: xx-large;
-	padding-left: 0;
-}
-
-.undo:disabled {
-	color: silver;
-}
-
 @media (orientation: landscape) {
 	form {
 		grid-template:
@@ -154,7 +132,7 @@ form:valid :not(:checked) + img {
 			/ 1fr 1fr;
 	}
 
-	footer {
+	.controls {
 		grid-area: 🦶;
 	}
 }
