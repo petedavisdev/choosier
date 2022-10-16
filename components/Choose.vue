@@ -4,11 +4,19 @@
 			v-for="(match, matchIndex) in state.matches"
 			@reset="updateMatches(matchIndex)"
 			:name="'match' + matchIndex"
+			:key="matchIndex"
 		>
-			<Vote v-if="matchIndex === length - 1 && match[0]" :image="match[0]" />
+			<Vote
+				v-if="matchIndex === length - 1 && match[0]"
+				:image="match[0] && getSrc(match[0])"
+			/>
 
 			<template v-else>
-				<label v-for="(option, optionIndex) in match" class="option">
+				<label
+					v-for="(option, optionIndex) in match"
+					class="option"
+					:key="optionIndex"
+				>
 					<input
 						type="radio"
 						:name="'option' + matchIndex"
@@ -16,7 +24,7 @@
 						required
 					/>
 
-					<img :src="option" alt="" />
+					<img :src="option && getSrc(option)" alt="" />
 				</label>
 			</template>
 
@@ -37,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import options from '../chocolate.json';
+import options from '../public/data/FithackerColors.json';
 const length = options.length;
 
 const state = reactive({
@@ -58,6 +66,15 @@ function updateMatches(matchIndex: number, option?: string) {
 
 function undo(matchIndex: number) {
 	document.forms['match' + (matchIndex - 1)].reset();
+}
+
+function getSrc(option) {
+	let src = option;
+	if (option.includes('drive.google.com/file/')) {
+		const id = option.split('/').find((part) => part.length > 30);
+		src = 'https://drive.google.com/uc?export=view&id=' + id;
+	}
+	return src;
 }
 </script>
 
@@ -81,7 +98,7 @@ form {
 	height: var(--windowHeight, 100vh);
 	padding: 1em 1em 0;
 	opacity: 1;
-	transition: opacity 1s;
+	transition: opacity 2s ease-out;
 }
 
 form:valid,
@@ -114,13 +131,8 @@ input {
 	background-color: white;
 }
 
-.option:focus-within img {
-	outline: var(--darker) 3px solid;
-	outline-offset: -3px;
-}
-
-footer {
-	transition: opacity 1s;
+form:valid :not(:checked) + img {
+	opacity: 0;
 }
 
 .undo {
