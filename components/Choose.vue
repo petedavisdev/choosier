@@ -34,16 +34,18 @@
 </template>
 
 <script setup lang="ts">
-import options from '../public/data/FithackerColors.json';
-const length = options.length;
+import images from '~/public/data/FithackerColors.json';
+import { getSrc } from '~/helpers/getSrc';
+
+const length = images.length;
 
 const state = reactive({
 	matches: [],
 });
 
-state.matches = options.map((_option, index) => [
-	options[2 * index],
-	options[2 * index + 1],
+state.matches = images.map((_image, index) => [
+	images[2 * index],
+	images[2 * index + 1],
 ]);
 
 function updateMatches(matchIndex: number, option?: string) {
@@ -51,15 +53,6 @@ function updateMatches(matchIndex: number, option?: string) {
 	const position = (length + matchIndex) % 2;
 
 	state.matches[match][position] = option;
-}
-
-function getSrc(option) {
-	let src = option;
-	if (option.includes('drive.google.com/file/')) {
-		const id = option.split('/').find((part) => part.length > 30);
-		src = 'https://drive.google.com/uc?export=view&id=' + id;
-	}
-	return src;
 }
 </script>
 

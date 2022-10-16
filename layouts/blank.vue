@@ -1,3 +1,3 @@
 <template>
-	<Card to="/1" />
+	<slot />
 </template>
