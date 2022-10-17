@@ -58,7 +58,7 @@ button .icon {
 
 .logo {
 	grid-area: 🪵;
-	height: 1.5em;
+	width: 12em;
 	place-self: center;
 }
 </style>

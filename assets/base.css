@@ -30,3 +30,7 @@ input {
 	white-space: nowrap;
 	width: 1px;
 }
+
+a svg {
+	color: var(--darker);
+}
