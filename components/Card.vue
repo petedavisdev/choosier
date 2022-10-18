@@ -1,5 +1,5 @@
 <template>
-	<NuxtLink :to="to" class="Card">
+	<NuxtLink :to="`/${id}`" class="Card">
 		<div class="Images">
 			<span
 				class="Image"
@@ -8,17 +8,19 @@
 			></span>
 		</div>
 		<h3 class="Title">
-			<small class="TitleIntro">Help Fithacker choose</small>
-			Logo colors
+			<small class="TitleIntro">Help {{ username }} choose</small>
+			<slot />
 		</h3>
 	</NuxtLink>
 </template>
 
 <script setup lang="ts">
-import images from '~/public/data/FithackerColors.json';
+import { getImages } from '~/helpers/getImages';
 import { getSrc } from '~/helpers/getSrc';
 
-defineProps<{ to: string }>();
+const props = defineProps<{ id: string; username: string }>();
+
+const images = getImages(props.id);
 </script>
 
 <style scoped>

@@ -34,8 +34,12 @@
 </template>
 
 <script setup lang="ts">
-import images from '~/public/data/FithackerColors.json';
+import { getImages } from '~/helpers/getImages';
 import { getSrc } from '~/helpers/getSrc';
+
+const props = defineProps<{ id: string }>();
+
+const images = getImages(props.id);
 
 const length = images.length;
 

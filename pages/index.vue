@@ -1,3 +1,4 @@
 <template>
-	<Card to="/1" />
+	<Card id="1" username="Fithacker">Logo colors</Card>
+	<Card id="2" username="Pete">Profile pic</Card>
 </template>
