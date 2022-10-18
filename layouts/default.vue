@@ -12,7 +12,7 @@
 
 <style scoped>
 main {
-	padding: 2em 2em 3em;
+	padding: 2em 2em 6em;
 	display: grid;
 	margin-inline: auto;
 }
@@ -27,14 +27,20 @@ h1 {
 
 .New {
 	position: fixed;
-	top: 1.5em;
-	right: 1.5em;
+	bottom: 1.5em;
+	right: 1em;
 }
 
 @media (min-width: 500px) {
 	main {
 		padding: 4em 3em 6em;
 		margin-inline: auto;
+	}
+
+	.New {
+		top: 1.5em;
+		right: 1.5em;
+		bottom: auto;
 	}
 }
 </style>

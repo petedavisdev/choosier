@@ -16,11 +16,6 @@ img {
 	max-width: 100%;
 }
 
-button,
-input {
-	color: var(--dark);
-}
-
 .sr-only:not(:focus):not(:active) {
 	clip: rect(0 0 0 0);
 	clip-path: inset(50%);
@@ -31,17 +26,19 @@ input {
 	width: 1px;
 }
 
-a svg {
+a {
 	color: var(--dark);
 }
 
 input {
 	padding: 0.75em;
-	border: solid 2px var(--dark);
+	color: var(--dark);
+	border: solid 2px currentColor;
 	background-color: transparent;
 	border-radius: 0;
 }
 
 input:focus {
 	background-color: white;
+	outline: none;
 }
