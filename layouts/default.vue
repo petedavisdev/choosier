@@ -12,7 +12,7 @@
 
 <style scoped>
 main {
-	padding: 2.5em 2em 3em;
+	padding: 2em 2em 3em;
 	display: grid;
 	margin-inline: auto;
 }

@@ -4,7 +4,7 @@
 	color: var(--dark);
 	font-weight: bold;
 	text-decoration: none;
-	box-shadow: -6px 8px var(--dark);
+	box-shadow: -6px 8px 0 1px var(--dark);
 	border: 2px solid var(--dark);
 	transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
 	cursor: pointer;
