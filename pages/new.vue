@@ -2,7 +2,7 @@
 	<main>
 		<section>
 			<Logo class="Logo" />
-			<h1>We're just getting started</h1>
+			<h1>You're early!</h1>
 			<p>While we're beta testing, adding new choices is invite-only.</p>
 
 			<form action="">
