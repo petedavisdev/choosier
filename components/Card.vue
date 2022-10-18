@@ -25,15 +25,16 @@ const images = getImages(props.id);
 
 <style scoped>
 .Card {
-	margin: 1em -1em;
+	margin-block: 1.5em;
+	padding: 0.5em 0.5em 0;
 	aspect-ratio: 1.91/1;
 	display: flex;
 	flex-direction: column;
 	color: var(--darker);
-	background-color: #f6f6f6;
+	background-color: var(--lighter);
 	text-decoration: none;
-	border-radius: 1.5em;
-	box-shadow: 0 0.3em 0.5em #0003;
+	box-shadow: -6px 8px var(--darker);
+	border: 2px solid var(--darker);
 	overflow: hidden;
 	transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
 	cursor: pointer;
@@ -42,7 +43,7 @@ const images = getImages(props.id);
 .Card:hover {
 	background-color: white;
 	transform: translateY(-1px);
-	box-shadow: 0 0.5em 0.6em #0006;
+	box-shadow: -8px 10px var(--darker);
 }
 
 .Images {
@@ -50,6 +51,7 @@ const images = getImages(props.id);
 	display: flex;
 	align-items: stretch;
 	gap: 1px;
+	overflow: hidden;
 }
 
 .Image {
@@ -59,7 +61,7 @@ const images = getImages(props.id);
 }
 
 .Title {
-	padding-inline: 1em;
+	padding-inline: 0.5em;
 }
 
 .TitleIntro {
