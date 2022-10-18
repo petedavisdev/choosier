@@ -1,4 +1,5 @@
 body {
-	--darker: #222;
-	--lighter: #eee;
+	--dark: #222;
+	--mid: #999;
+	--light: #eee;
 }

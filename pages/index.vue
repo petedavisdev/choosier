@@ -1,6 +1,6 @@
 <template>
-	<div>
+	<Grid>
 		<Card id="1" username="Fithacker">Logo colors</Card>
 		<Card id="2" username="Pete">Profile pic</Card>
-	</div>
+	</Grid>
 </template>

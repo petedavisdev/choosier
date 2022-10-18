@@ -35,7 +35,7 @@ button {
 }
 
 .undo:disabled {
-	color: silver;
+	color: var(--mid);
 }
 
 footer {

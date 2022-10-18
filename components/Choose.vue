@@ -12,20 +12,22 @@
 			/>
 
 			<template v-else>
-				<label
+				<div
 					v-for="(option, optionIndex) in match"
 					class="option"
 					:key="optionIndex"
 				>
-					<input
-						type="radio"
-						:name="'option' + matchIndex"
-						@input="updateMatches(matchIndex, option)"
-						required
-					/>
+					<label>
+						<input
+							type="radio"
+							:name="'option' + matchIndex"
+							@input="updateMatches(matchIndex, option)"
+							required
+						/>
 
-					<img :src="option && getSrc(option)" alt="" />
-				</label>
+						<img :src="option && getSrc(option)" alt="" />
+					</label>
+				</div>
 			</template>
 
 			<Controls class="controls" :matchIndex="matchIndex" :length="length" />
@@ -60,7 +62,7 @@ function updateMatches(matchIndex: number, option?: string) {
 }
 </script>
 
-<style>
+<style scoped>
 main {
 	height: 100%;
 	display: grid;

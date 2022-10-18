@@ -47,4 +47,5 @@ if (process.client) {
 @import './assets/modern-normalize.css';
 @import './assets/variables.css';
 @import './assets/base.css';
+@import './assets/utils.css';
 </style>
