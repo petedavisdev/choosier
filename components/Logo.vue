@@ -59,6 +59,6 @@
 
 <style scoped>
 .Logo {
-	width: clamp(12em, 100%, 24em);
+	width: clamp(12em, 100%, 26em);
 }
 </style>

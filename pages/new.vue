@@ -1,7 +1,7 @@
 <template>
 	<main>
 		<section>
-			<Logo />
+			<Logo class="Logo" />
 			<h1>We're just getting started</h1>
 			<p>While we're beta testing, adding new choices is invite-only.</p>
 
