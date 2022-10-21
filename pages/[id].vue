@@ -7,4 +7,8 @@ definePageMeta({
 	layout: false,
 });
 const route = useRoute();
+
+onMounted(() => {
+	window.scrollBy(0, 500);
+});
 </script>

@@ -26,7 +26,8 @@ img {
 	width: 1px;
 }
 
-a {
+a,
+button {
 	color: var(--dark);
 }
 
