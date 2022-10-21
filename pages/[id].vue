@@ -9,6 +9,9 @@ definePageMeta({
 const route = useRoute();
 
 onMounted(() => {
-	window.scrollBy(0, 500);
+	window.scrollBy({
+		top: 100,
+		behavior: 'smooth',
+	});
 });
 </script>
