@@ -1,12 +1,8 @@
 <template>
 	<main>
 		<Logo class="Logo" />
-		<h1>
-			<span class="sr-only">Choosier. </span>
-			Visual decisions made easy
-		</h1>
-		<NuxtLink to="/new" class="New button">+ New</NuxtLink>
 		<slot />
+		<NuxtLink to="/new" class="New button">+ New</NuxtLink>
 	</main>
 </template>
 
@@ -18,7 +14,7 @@ main {
 }
 
 .Logo {
-	width: clamp(12em, 50vmin, 24em);
+	width: clamp(12em, 50vmin, 16em);
 }
 
 h1 {
@@ -33,7 +29,7 @@ h1 {
 
 @media (min-width: 500px) {
 	main {
-		padding: 4em 3em 6em;
+		padding: 3em 3em 6em;
 		margin-inline: auto;
 	}
 

@@ -47,3 +47,7 @@ input:focus {
 a:has(svg) {
 	text-decoration: none;
 }
+
+strong {
+	font-weight: bold;
+}

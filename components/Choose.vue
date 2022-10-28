@@ -83,7 +83,7 @@ form {
 	transition: opacity 1.5s;
 }
 
-form:valid,
+form:not(:last-of-type):valid,
 form:invalid + form {
 	opacity: 0;
 	pointer-events: none;
@@ -117,7 +117,7 @@ input {
 	background-color: white;
 }
 
-form:valid :not(:checked) + img {
+form:not(:last-of-type):valid :not(:checked) + img {
 	opacity: 0;
 }
 
