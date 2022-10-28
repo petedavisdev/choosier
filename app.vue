@@ -22,6 +22,9 @@
 <script>
 if (process.client) {
 	setWindowHeight();
+	setTimeout(() => {
+		setWindowHeight();
+	}, 1000);
 	window.onresize = () => delayedAction(setWindowHeight);
 
 	function setWindowHeight() {

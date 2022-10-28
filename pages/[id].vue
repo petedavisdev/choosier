@@ -8,10 +8,10 @@ definePageMeta({
 });
 const route = useRoute();
 
-onMounted(() => {
-	window.scrollBy({
-		top: 100,
-		behavior: 'smooth',
-	});
-});
+// onMounted(() => {
+// 	window.scrollBy({
+// 		top: 100,
+// 		behavior: 'smooth',
+// 	});
+// });
 </script>
