@@ -13,12 +13,14 @@
 			<input id="website" type="website" v-model="website" />
 		</p>
 
-		<button type="submit" :disabled="loading">
+		<button type="submit" class="button" :disabled="loading">
 			{{ loading ? 'Loading ...' : 'Update' }}
 		</button>
 
 		<div>
-			<button @click="signOut" :disabled="loading">Sign Out</button>
+			<button @click="signOut" class="button" :disabled="loading">
+				Sign Out
+			</button>
 		</div>
 	</form>
 </template>

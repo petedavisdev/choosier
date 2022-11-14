@@ -4,7 +4,7 @@
 		<p>
 			<input type="email" placeholder="Email" v-model="email" title="Email" />
 		</p>
-		<button type="submit" class="button block" :disabled="loading">
+		<button type="submit" class="button" :disabled="loading">
 			{{ loading ? 'Loading' : 'Send me a magic link' }}
 		</button>
 	</form>
