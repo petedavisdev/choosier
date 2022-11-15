@@ -1,24 +1,23 @@
 <template>
 	<form @submit.prevent="updateProfile">
 		<p>
-			<label for="email">Email</label>
-			<input id="email" type="text" :value="user.email" disabled />
+			You are logged in as <strong>{{ user.email }}</strong>
 		</p>
 		<p>
-			<label for="username">Username</label>
-			<input id="username" type="text" v-model="username" />
+			<label for="username">Choosername</label>
+			<input id="username" type="text" v-model="data.username" />
 		</p>
 		<p>
 			<label for="website">Website</label>
-			<input id="website" type="website" v-model="website" />
+			<input id="website" type="website" v-model="data.website" />
 		</p>
 
-		<button type="submit" class="button" :disabled="loading">
-			{{ loading ? 'Loading ...' : 'Update' }}
+		<button type="submit" class="button" :disabled="data.loading">
+			{{ data.loading ? 'Loading ...' : 'Update' }}
 		</button>
 
 		<div>
-			<button @click="signOut" class="button" :disabled="loading">
+			<button @click="signOut" class="button" :disabled="data.loading">
 				Sign Out
 			</button>
 		</div>
@@ -26,35 +25,38 @@
 </template>
 
 <script setup>
-const supabase = useSupabaseClient(),
-	loading = ref(true),
-	username = ref(''),
-	website = ref(''),
-	avatar_path = ref(''),
-	user = useSupabaseUser();
+const supabase = useSupabaseClient();
+const user = useSupabaseUser();
 
-let { data } = await supabase
+const data = reactive({
+	loading: true,
+	username: '',
+	website: '',
+	avatar_path: '',
+});
+
+let response = await supabase
 	.from('profiles')
 	.select(`username, website, avatar_url`)
 	.eq('id', user.value.id)
 	.single();
 
-if (data) {
-	username.value = data.username;
-	website.value = data.website;
-	avatar_path.value = data.avatar_url;
-	loading.value = false;
+if (response.data) {
+	data.username = response.data.username;
+	data.website = response.data.website;
+	data.avatar_url = response.data.avatar_url;
+	data.loading = false;
 }
 
 async function updateProfile() {
 	try {
-		loading.value = true;
+		data.loading = true;
 		const user = useSupabaseUser();
 		const updates = {
 			id: user.value.id,
-			username: username.value,
-			website: website.value,
-			avatar_url: avatar_path.value,
+			username: data.username.toLowerCase().replace(/[^a-z0-9-_]/g, ''),
+			website: data.website,
+			avatar_url: data.avatar_path,
 			updated_at: new Date(),
 		};
 		let { error } = await supabase.from('profiles').upsert(updates, {
@@ -64,20 +66,20 @@ async function updateProfile() {
 	} catch (error) {
 		alert(error.message);
 	} finally {
-		loading.value = false;
+		data.loading = false;
 	}
 }
 
 async function signOut() {
 	try {
-		loading.value = true;
+		data.loading = true;
 		let { error } = await supabase.auth.signOut();
 		if (error) throw error;
 		user.value = null;
 	} catch (error) {
 		alert(error.message);
 	} finally {
-		loading.value = false;
+		data.loading = false;
 	}
 }
 </script>
