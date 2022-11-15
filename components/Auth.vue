@@ -15,7 +15,7 @@
 	</form>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const supabase = useSupabaseClient();
 
 const data = reactive({
@@ -29,7 +29,7 @@ async function handleLogin() {
 		const { error } = await supabase.auth.signInWithOtp({ email: data.email });
 		if (error) throw error;
 		alert('Check your email for the login link!');
-	} catch (error) {
+	} catch (error: any) {
 		alert(error.error_description || error.message);
 	} finally {
 		data.loading = false;

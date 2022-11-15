@@ -24,7 +24,9 @@
 	</form>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { PostgrestError } from '@supabase/postgrest-js';
+
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
 
@@ -32,13 +34,13 @@ const data = reactive({
 	loading: true,
 	username: '',
 	website: '',
-	avatar_path: '',
+	avatar_url: '',
 });
 
 let response = await supabase
 	.from('profiles')
 	.select(`username, website, avatar_url`)
-	.eq('id', user.value.id)
+	.eq('id', user.value?.id)
 	.single();
 
 if (response.data) {
@@ -51,19 +53,25 @@ if (response.data) {
 async function updateProfile() {
 	try {
 		data.loading = true;
-		const user = useSupabaseUser();
+		const username = data.username.toLowerCase().replace(/[^a-z0-9-_]/g, '');
+
 		const updates = {
-			id: user.value.id,
-			username: data.username.toLowerCase().replace(/[^a-z0-9-_]/g, ''),
+			id: user.value?.id,
+			username,
 			website: data.website,
-			avatar_url: data.avatar_path,
+			avatar_url: data.avatar_url,
 			updated_at: new Date(),
 		};
+
+		// @ts-ignore: Unreachable code error
 		let { error } = await supabase.from('profiles').upsert(updates, {
-			returning: 'minimal', // Don't return the value after inserting
+			returning: 'minimal',
 		});
+
 		if (error) throw error;
-	} catch (error) {
+
+		data.username = username;
+	} catch (error: any) {
 		alert(error.message);
 	} finally {
 		data.loading = false;
@@ -74,10 +82,10 @@ async function signOut() {
 	try {
 		data.loading = true;
 		let { error } = await supabase.auth.signOut();
-		if (error) throw error;
+		if (error) throw error.message;
 		user.value = null;
 	} catch (error) {
-		alert(error.message);
+		alert(error);
 	} finally {
 		data.loading = false;
 	}
