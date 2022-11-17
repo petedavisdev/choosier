@@ -1,7 +1,7 @@
 <template>
 	<main>
 		<form class="box" action="">
-			<Logo class="Logo" />
+			<IconLogo class="Logo" />
 			<h1>You're early!</h1>
 			<p>While we're beta testing, adding new choices is invite-only.</p>
 

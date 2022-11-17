@@ -26,7 +26,10 @@ const data = reactive({
 async function handleLogin() {
 	try {
 		data.loading = true;
-		const { error } = await supabase.auth.signInWithOtp({ email: data.email });
+		const { error } = await supabase.auth.signInWithOtp({
+			email: data.email,
+			options: { emailRedirectTo: '/account' },
+		});
 		if (error) throw error;
 		alert('Check your email for the login link!');
 	} catch (error: any) {

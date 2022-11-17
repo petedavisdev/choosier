@@ -1,23 +1,14 @@
 <template>
-	<div class="cen">
-		<h1>
-			<small>You helped Fithacker choose</small>
-			Logo colors
-		</h1>
-		<p>Here are the results so far</p>
-		<article v-for="(image, index) in images" :key="index">
-			<img :src="getSrc(image)" alt="" />
-			<div
-				class="bar"
-				:style="{ width: (100 * results[index]) / results[0] + '%' }"
-			>
-				<strong class="count">{{ results[index] }}</strong>
-				<div class="mychoice" v-if="index === yourChoice">
-					&larr; Your choice
-				</div>
-			</div>
-		</article>
-	</div>
+	<article v-for="(image, index) in images" :key="index">
+		<img :src="getSrc(image)" alt="" />
+		<div
+			class="bar"
+			:style="{ width: (100 * results[index]) / results[0] + '%' }"
+		>
+			<strong class="count">{{ results[index] }}</strong>
+			<div class="mychoice" v-if="index === yourChoice">&larr; Your choice</div>
+		</div>
+	</article>
 </template>
 
 <script setup lang="ts">
@@ -48,11 +39,6 @@ article {
 .count {
 	font-size: 3em;
 	padding: 0.1em;
-}
-
-small {
-	display: block;
-	font-size: 1rem;
 }
 
 .mychoice {

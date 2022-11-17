@@ -1,29 +1,40 @@
 <template>
 	<footer class="controls">
-		<Progress :percent="(100 * matchIndex) / (length - 1)" class="progress" />
+		<ChooseProgress
+			:percent="(100 * props.matchIndex) / (props.length - 1)"
+			class="progress"
+		/>
+
 		<button
 			class="undo"
 			title="undo"
 			type="reset"
-			@click="undo(matchIndex)"
-			:disabled="matchIndex === 0"
+			@click="undo()"
+			:disabled="props.matchIndex === 0"
 		>
-			<Undo class="icon" />
+			<IconUndo class="icon" />
 		</button>
 
-		<Logo class="logo" />
+		<IconLogo class="logo" />
 
 		<button>
-			<Share class="icon" />
+			<IconShare class="icon" />
 		</button>
 	</footer>
 </template>
 
 <script setup lang="ts">
-defineProps<{ matchIndex: number; length: number }>();
+const props = defineProps<{ matchIndex: number; length: number }>();
 
-function undo(matchIndex) {
-	document.forms['match' + (matchIndex - 1)].reset();
+function undo() {
+	let previousForm: HTMLFormElement | undefined;
+
+	// @ts-ignore: form accessed by name not number
+	previousForm = document.forms['match' + (props.matchIndex - 1)];
+
+	if (previousForm) {
+		previousForm.reset();
+	}
 }
 </script>
 

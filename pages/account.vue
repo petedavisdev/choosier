@@ -1,7 +1,7 @@
 <template>
 	<div>
-		<Account v-if="user" />
-		<Auth v-else />
+		<UserAccount v-if="user" />
+		<UserLogin v-else />
 	</div>
 </template>
 

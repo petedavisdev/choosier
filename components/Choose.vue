@@ -1,12 +1,13 @@
 <template>
 	<main>
 		<form
-			v-for="(match, matchIndex) in state.matches"
+			v-for="(match, matchIndex) in data.matches"
 			@reset="updateMatches(matchIndex)"
-			:name="'match' + matchIndex"
+			:id="'match' + matchIndex"
 			:key="matchIndex"
+			ref="chooseForm"
 		>
-			<Vote
+			<ChooseConfirm
 				v-if="matchIndex === length - 1 && match[0]"
 				:image="match[0] && getSrc(match[0])"
 			/>
@@ -28,7 +29,11 @@
 				</label>
 			</template>
 
-			<Controls class="controls" :matchIndex="matchIndex" :length="length" />
+			<ChooseControls
+				class="controls"
+				:matchIndex="matchIndex"
+				:length="length"
+			/>
 		</form>
 	</main>
 </template>
@@ -38,16 +43,14 @@ import { getImages } from '~/helpers/getImages';
 import { getSrc } from '~/helpers/getSrc';
 
 const props = defineProps<{ id: string }>();
-
 const images = getImages(props.id);
-
 const length = images.length;
 
-const state = reactive({
-	matches: [],
+const data = reactive({
+	matches: [] as (string | undefined)[][],
 });
 
-state.matches = images.map((_image, index) => [
+data.matches = images.map((_image, index) => [
 	images[2 * index],
 	images[2 * index + 1],
 ]);
@@ -56,7 +59,7 @@ function updateMatches(matchIndex: number, option?: string) {
 	const match = Math.floor((length + matchIndex) / 2);
 	const position = (length + matchIndex) % 2;
 
-	state.matches[match][position] = option;
+	data.matches[match][position] = option;
 }
 </script>
 

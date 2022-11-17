@@ -1,6 +1,6 @@
 <template>
 	<main>
-		<Logo class="Logo" />
+		<IconLogo class="Logo" />
 		<slot />
 		<NuxtLink to="/new" class="New button">+ New</NuxtLink>
 	</main>

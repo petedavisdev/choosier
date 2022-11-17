@@ -56,9 +56,3 @@
 		</svg>
 	</NuxtLink>
 </template>
-
-<style scoped>
-.Logo {
-	width: clamp(12em, 100%, 16em);
-}
-</style>
