@@ -8,11 +8,7 @@
 		"format": "prettier --write ."
 	},
 	"devDependencies": {
-		"@nuxtjs/supabase": "^0.2.3",
-		"@vueuse/head": "v1.0.0-rc.14",
-		"nuxt": "^3.0.0-rc.13"
-	},
-	"overrides": {
-		"@vueuse/head": "v1.0.0-rc.14"
+		"@nuxtjs/supabase": "^0.2.5",
+		"nuxt": "^3.0.0"
 	}
 }
