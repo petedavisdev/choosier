@@ -11,7 +11,6 @@
 			{{ choice.title }}
 		</h1>
 		<p>Here are the results so far</p>
-		{{ results }}
 		<article v-for="(result, index) in results" :key="index">
 			<img :src="result.imageUrl" alt="" />
 			<div
@@ -63,14 +62,12 @@ const results = computed(() => {
 			const imageUrl = getSrc(image);
 			return {
 				imageUrl,
-				voters: [
-					data.votes
-						.filter((vote) => imageUrl === vote.image_url)
-						.map((vote) => vote.profiles.username),
-				],
+				voters: data.votes
+					.filter((vote) => imageUrl === vote.image_url)
+					.map((vote) => vote.profiles.username),
 			};
 		})
-		.sort((a, b) => a.voters.length - b.voters.length);
+		.sort((a, b) => b.voters.length - a.voters.length);
 });
 
 const mostVotes = computed(() => results.value[0].voters.length);
@@ -80,7 +77,7 @@ try {
 		.from('votes')
 		.select(
 			`
-			image_url, 
+			image_url,
 			profiles(username)
 			`
 		)
