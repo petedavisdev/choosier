@@ -1,16 +1,10 @@
 <template>
-	<div class="cen">
-		<h1>
-			<small>You helped Fithacker choose</small>
-			Logo colors
-		</h1>
-		<p>Here are the results so far</p>
-		<Results :id="(route.params.id as string)" />
-	</div>
+	<Results :id="id" />
 </template>
 
 <script setup lang="ts">
 const route = useRoute();
+const id = +route.params.id;
 </script>
 
 <style>

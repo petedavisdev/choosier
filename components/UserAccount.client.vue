@@ -31,8 +31,6 @@
 </template>
 
 <script setup lang="ts">
-import { rand } from '@vueuse/shared';
-
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
 const router = useRouter();
@@ -69,11 +67,11 @@ async function updateProfile() {
 		};
 
 		// @ts-ignore: Unreachable code error
-		let { error } = await supabase.from('profiles').upsert(updates, {
+		const response = await supabase.from('profiles').upsert(updates, {
 			returning: 'minimal',
 		});
 
-		if (error) throw error;
+		if (response.error) throw response.error;
 
 		router.push('/@' + data.username);
 	} catch (error: any) {

@@ -1,26 +1,99 @@
 <template>
-	<article v-for="(image, index) in images" :key="index">
-		<img :src="getSrc(image)" alt="" />
-		<div
-			class="bar"
-			:style="{ width: (100 * results[index]) / results[0] + '%' }"
-		>
-			<strong class="count">{{ results[index] }}</strong>
-			<div class="mychoice" v-if="index === yourChoice">&larr; Your choice</div>
-		</div>
-	</article>
+	<div class="cen">
+		<h1>
+			<small
+				>You helped
+				<RouterLink :to="'/@' + choice.username"
+					>@{{ choice.username }}</RouterLink
+				>
+				choose</small
+			>
+			{{ choice.title }}
+		</h1>
+		<p>Here are the results so far</p>
+		{{ results }}
+		<article v-for="(result, index) in results" :key="index">
+			<img :src="result.imageUrl" alt="" />
+			<div
+				class="bar"
+				:style="{
+					width: (100 * result.voters.length) / mostVotes + '%',
+				}"
+			>
+				<strong class="count">{{ result.voters.length }}</strong>
+				<div class="mychoice" v-if="index === data.yourChoice">
+					&larr; Your choice
+				</div>
+			</div>
+		</article>
+	</div>
 </template>
 
 <script setup lang="ts">
-import { getImages } from '~/helpers/getImages';
 import { getSrc } from '~/helpers/getSrc';
 
-const props = defineProps<{ id: string }>();
+interface vote {
+	image_url: string;
+	profiles: {
+		username: string;
+	};
+}
 
-const results = [73, 10, 5, 1, 0];
-const yourChoice = 1;
+interface result {
+	imageUrl: string;
+	voters: string[];
+}
 
-const images = getImages(props.id);
+const props = defineProps<{
+	id: number;
+}>();
+
+const supabase = useSupabaseClient();
+const choice = await useChoice(props.id);
+
+const data = reactive({
+	loading: true,
+	votes: [] as vote[],
+	yourChoice: 1,
+});
+
+const results = computed(() => {
+	return choice.images
+		.map((image) => {
+			const imageUrl = getSrc(image);
+			return {
+				imageUrl,
+				voters: [
+					data.votes
+						.filter((vote) => imageUrl === vote.image_url)
+						.map((vote) => vote.profiles.username),
+				],
+			};
+		})
+		.sort((a, b) => a.voters.length - b.voters.length);
+});
+
+const mostVotes = computed(() => results.value[0].voters.length);
+
+try {
+	const response = await supabase
+		.from('votes')
+		.select(
+			`
+			image_url, 
+			profiles(username)
+			`
+		)
+		.eq('choice_id', props.id);
+
+	if (response.error) throw response.error;
+
+	data.votes = response.data as vote[];
+} catch (error) {
+	console.error(error);
+} finally {
+	data.loading = false;
+}
 </script>
 
 <style scoped>

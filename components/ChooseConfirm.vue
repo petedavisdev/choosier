@@ -1,10 +1,10 @@
 <template>
-	<header class="option">
-		<img :src="String($attrs.image)" alt="" class="image" />
-	</header>
-
 	<section class="option">
-		<h1>You have chosen</h1>
+		<img :src="props.image" alt="" class="image" />
+	</section>
+
+	<section v-if="!user" class="option">
+		<h1>You have chosen!</h1>
 		<p>Now please confirm you are human.</p>
 
 		<p class="Field">
@@ -31,17 +31,62 @@
 			</ul>
 		</footer> -->
 	</section>
+
+	<section v-else>
+		<h1>You have chosen!</h1>
+		<button @click.prevent="vote" class="button">Confirm my choice</button>
+	</section>
 </template>
 
+<script setup lang="ts">
+const props = defineProps<{
+	id: number;
+	image: string;
+}>();
+const user = useSupabaseUser();
+const supabase = useSupabaseClient();
+const router = useRouter();
+
+const data = reactive({
+	loading: false,
+});
+
+async function vote() {
+	try {
+		data.loading = true;
+
+		const updates = {
+			user_id: user.value?.id,
+			choice_id: props.id,
+			image_url: props.image,
+			updated_at: new Date(),
+		};
+
+		// @ts-ignore: Unreachable code error
+		const response = await supabase.from('votes').upsert(updates, {
+			returning: 'minimal',
+		});
+
+		if (response.error) throw response.error;
+
+		router.push('/results/' + props.id);
+	} catch (error: any) {
+		alert(error.message);
+	} finally {
+		data.loading = false;
+	}
+}
+</script>
+
 <style scoped>
-.option {
+section {
 	display: grid;
 	place-content: center;
 	min-height: 0;
 	text-align: center;
 }
 
-.option img {
+section img {
 	object-fit: contain;
 	min-height: 0;
 	max-width: 100%;

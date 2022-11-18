@@ -5,8 +5,8 @@
 			Visual decisions made easy
 		</h1>
 		<Grid>
-			<Card id="1" username="Fithacker">Logo colors</Card>
-			<Card id="2" username="Pete">Profile pic</Card>
+			<Card :id="1" username="Fithacker" />
+			<Card :id="2" username="Pete" />
 		</Grid>
 	</div>
 </template>

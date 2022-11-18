@@ -24,7 +24,10 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{ matchIndex: number; length: number }>();
+const props = defineProps<{
+	matchIndex: number;
+	length: number;
+}>();
 
 function undo() {
 	let previousForm: HTMLFormElement | undefined;

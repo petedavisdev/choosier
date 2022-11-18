@@ -10,6 +10,7 @@
 			<ChooseConfirm
 				v-if="matchIndex === length - 1 && match[0]"
 				:image="match[0] && getSrc(match[0])"
+				:id="+props.id"
 			/>
 
 			<template v-else>
@@ -42,17 +43,17 @@
 import { getImages } from '~/helpers/getImages';
 import { getSrc } from '~/helpers/getSrc';
 
-const props = defineProps<{ id: string }>();
-const images = getImages(props.id);
-const length = images.length;
+const props = defineProps<{ id: number }>();
+const choice = await useChoice(props.id);
+const length = choice.images.length;
 
 const data = reactive({
 	matches: [] as (string | undefined)[][],
 });
 
-data.matches = images.map((_image, index) => [
-	images[2 * index],
-	images[2 * index + 1],
+data.matches = choice.images.map((_image, index) => [
+	choice.images[2 * index],
+	choice.images[2 * index + 1],
 ]);
 
 function updateMatches(matchIndex: number, option?: string) {

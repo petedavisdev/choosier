@@ -3,24 +3,23 @@
 		<div class="Images">
 			<span
 				class="Image"
-				v-for="image in images"
+				v-for="image in choice.images"
 				:style="{ backgroundImage: `url(${image && getSrc(image)})` }"
 			></span>
 		</div>
+
 		<h3 class="Title">
-			<small class="TitleIntro">Help {{ username }} choose</small>
-			<slot />
+			<small class="TitleIntro">Help @{{ choice.username }} choose</small>
+			{{ choice.title }}
 		</h3>
 	</NuxtLink>
 </template>
 
 <script setup lang="ts">
-import { getImages } from '~/helpers/getImages';
 import { getSrc } from '~/helpers/getSrc';
 
-const props = defineProps<{ id: string; username: string }>();
-
-const images = getImages(props.id);
+const props = defineProps<{ id: number; username: string }>();
+const choice = await useChoice(props.id);
 </script>
 
 <style scoped>
