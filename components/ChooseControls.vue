@@ -17,17 +17,33 @@
 
 		<IconLogo class="logo" />
 
-		<button>
+		<button @click="toggleShare" type="button" class="share">
 			<IconShare class="icon" />
 		</button>
+
+		<aside v-if="data.shareOpen" class="drawer">
+			{{ shareLink }}
+			<button @click="copyText(shareLink)" type="button" class="button">
+				Copy link
+			</button>
+		</aside>
 	</footer>
 </template>
 
 <script setup lang="ts">
+import { copyText } from '~/helpers/copyText';
+
 const props = defineProps<{
 	matchIndex: number;
 	length: number;
 }>();
+
+const route = useRoute();
+const shareLink = 'https://choosier.app/' + route.params.id;
+
+const data = reactive({
+	shareOpen: false,
+});
 
 function undo() {
 	let previousForm: HTMLFormElement | undefined;
@@ -39,10 +55,15 @@ function undo() {
 		previousForm.reset();
 	}
 }
+
+function toggleShare() {
+	data.shareOpen = !data.shareOpen;
+}
 </script>
 
 <style scoped>
-button {
+.undo,
+.share {
 	border: none;
 	background-color: transparent;
 	padding-left: 0;
@@ -57,6 +78,7 @@ footer {
 	grid-template:
 		'⌛️ ⌛️ ⌛️' max-content
 		'👈 🪵 😘' 1fr
+		'🎁 🎁 🎁' max-content
 		/ max-content 1fr max-content;
 	padding-block: 0.5em;
 	gap: 0.5em;
@@ -64,6 +86,14 @@ footer {
 
 .progress {
 	grid-area: ⌛️;
+}
+
+.undo {
+	grid-area: 👈;
+}
+
+.share {
+	grid-area: 😘;
 }
 
 button .icon {
@@ -74,5 +104,15 @@ button .icon {
 	grid-area: 🪵;
 	width: 12em;
 	place-self: center;
+}
+
+.drawer {
+	grid-area: 🎁;
+	display: grid;
+	grid-template-columns: 1fr max-content;
+	gap: 2em;
+	text-align: right;
+	padding-block: 0.5em;
+	align-items: center;
 }
 </style>

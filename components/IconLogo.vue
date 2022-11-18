@@ -3,6 +3,7 @@
 		<svg
 			class="Logo"
 			viewBox="0 0 279 49"
+			width="205"
 			xmlns="http://www.w3.org/2000/svg"
 			fill="currentColor"
 		>
@@ -56,3 +57,9 @@
 		</svg>
 	</NuxtLink>
 </template>
+
+<style scoped>
+svg {
+	width: inherit;
+}
+</style>

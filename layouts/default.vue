@@ -2,9 +2,37 @@
 	<main>
 		<IconLogo class="Logo" />
 		<slot />
-		<NuxtLink to="/new" class="New button">+ New</NuxtLink>
+		<nav>
+			<NuxtLink v-if="data.username" :to="'/@' + data.username" class="button">
+				<IconUser class="icon" /> My profile
+			</NuxtLink>
+			<NuxtLink to="/new" class="New button">+ New</NuxtLink>
+		</nav>
 	</main>
 </template>
+
+<script setup lang="ts">
+const user = useSupabaseUser();
+const supabase = useSupabaseClient();
+
+const data = reactive({
+	username: '',
+});
+
+try {
+	const response = await supabase
+		.from('profiles')
+		.select('username')
+		.eq('id', user.value?.id)
+		.single();
+
+	if (response.error) throw response.error;
+
+	data.username = response.data.username;
+} catch (error: any) {
+	console.error(error.message);
+}
+</script>
 
 <style scoped>
 main {
@@ -21,19 +49,27 @@ h1 {
 	font-size: clamp(1.5em, 5vmin, 2em);
 }
 
-.New {
+nav {
 	position: fixed;
 	bottom: 1.5em;
 	right: 1em;
+	display: grid;
+	grid-auto-flow: column;
+	gap: 1.5em;
 }
 
-@media (min-width: 500px) {
+.icon {
+	height: 1em;
+	width: 1em;
+}
+
+@media (min-width: 700px) {
 	main {
 		padding: 3em 3em 6em;
 		margin-inline: auto;
 	}
 
-	.New {
+	nav {
 		top: 1.5em;
 		right: 1.5em;
 		bottom: auto;

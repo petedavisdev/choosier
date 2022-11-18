@@ -36,25 +36,53 @@
 				:length="length"
 			/>
 		</form>
+
+		<aside v-if="data.userHasVoted">
+			<NuxtLink :to="'/results/' + props.id" class="button">
+				You have already voted! See the results &rarr;
+			</NuxtLink>
+		</aside>
 	</main>
 </template>
 
 <script setup lang="ts">
-import { getImages } from '~/helpers/getImages';
 import { getSrc } from '~/helpers/getSrc';
 
-const props = defineProps<{ id: number }>();
+const props = defineProps<{
+	id: number;
+}>();
+
+const supabase = useSupabaseClient();
+const user = useSupabaseUser();
 const choice = await useChoice(props.id);
 const length = choice.images.length;
 
 const data = reactive({
 	matches: [] as (string | undefined)[][],
+	userHasVoted: false,
 });
 
 data.matches = choice.images.map((_image, index) => [
 	choice.images[2 * index],
 	choice.images[2 * index + 1],
 ]);
+
+if (user.value) {
+	try {
+		const response = await supabase
+			.from('votes')
+			.select('image_url')
+			.eq('user_id', user.value.id)
+			.eq('choice_id', props.id)
+			.single();
+
+		if (response.error) throw response.error;
+
+		data.userHasVoted = Boolean(response.data.image_url);
+	} catch (error: any) {
+		console.log(error.message);
+	}
+}
 
 function updateMatches(matchIndex: number, option?: string) {
 	const match = Math.floor((length + matchIndex) / 2);
@@ -123,6 +151,11 @@ input {
 
 form:not(:last-of-type):valid :not(:checked) + img {
 	opacity: 0;
+}
+
+aside {
+	grid-area: 📋;
+	place-self: center;
 }
 
 @media (orientation: landscape) {

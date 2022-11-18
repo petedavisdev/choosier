@@ -1,16 +1,18 @@
 <template>
-	<div class="cen">
+	<div v-if="userVote">
 		<h1>
-			<small
-				>You helped
-				<RouterLink :to="'/@' + choice.username"
-					>@{{ choice.username }}</RouterLink
-				>
-				choose</small
-			>
+			<small>
+				You helped
+				<NuxtLink :to="'/@' + choice.username">
+					@{{ choice.username }}
+				</NuxtLink>
+				choose
+			</small>
 			{{ choice.title }}
 		</h1>
+
 		<p>Here are the results so far</p>
+
 		<article v-for="(result, index) in results" :key="index">
 			<img :src="result.imageUrl" alt="" />
 			<div
@@ -20,18 +22,33 @@
 				}"
 			>
 				<strong class="count">{{ result.voters.length }}</strong>
-				<div class="mychoice" v-if="index === data.yourChoice">
+				<div class="mychoice" v-if="result.imageUrl === userVote">
 					&larr; Your choice
 				</div>
 			</div>
 		</article>
+
+		<footer>
+			<h2>Share</h2>
+			<p>{{ shareLink }}</p>
+			<button @click="copyText(shareLink)" type="button" class="button">
+				Copy link
+			</button>
+		</footer>
+	</div>
+
+	<div v-else>
+		<h1>Choose first, then see the results</h1>
+		<Card :id="props.id" class="card" />
 	</div>
 </template>
 
 <script setup lang="ts">
+import { copyText } from '~/helpers/copyText';
 import { getSrc } from '~/helpers/getSrc';
 
 interface vote {
+	user_id: string;
 	image_url: string;
 	profiles: {
 		username: string;
@@ -48,7 +65,9 @@ const props = defineProps<{
 }>();
 
 const supabase = useSupabaseClient();
+const user = useSupabaseUser();
 const choice = await useChoice(props.id);
+const shareLink = 'https://choosier.app/' + props.id;
 
 const data = reactive({
 	loading: true,
@@ -72,11 +91,16 @@ const results = computed(() => {
 
 const mostVotes = computed(() => results.value[0].voters.length);
 
+const userVote = computed(
+	() => data.votes.find((vote) => vote.user_id === user.value?.id)?.image_url
+);
+
 try {
 	const response = await supabase
 		.from('votes')
 		.select(
 			`
+			user_id,
 			image_url,
 			profiles(username)
 			`
@@ -96,9 +120,8 @@ try {
 <style scoped>
 article {
 	display: grid;
-	grid-template-columns: 1fr 2fr;
+	grid-template-columns: max-content 1fr;
 	margin-top: 0.5em;
-	max-width: 600px;
 }
 
 .bar {
@@ -107,7 +130,7 @@ article {
 }
 
 .count {
-	font-size: 3em;
+	font-size: 2em;
 	padding: 0.1em;
 }
 
@@ -117,7 +140,12 @@ article {
 }
 
 img {
-	max-width: 100%;
+	width: 100%;
+	max-width: 20vmin;
 	height: auto;
+}
+
+.card {
+	max-width: 24em;
 }
 </style>

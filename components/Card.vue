@@ -18,7 +18,7 @@
 <script setup lang="ts">
 import { getSrc } from '~/helpers/getSrc';
 
-const props = defineProps<{ id: number; username: string }>();
+const props = defineProps<{ id: number }>();
 const choice = await useChoice(props.id);
 </script>
 

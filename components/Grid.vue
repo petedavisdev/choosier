@@ -8,7 +8,8 @@
 .Grid {
 	display: grid;
 	gap: 2em;
-	margin-block: 1em;
+	margin-top: 1em;
+	margin-bottom: 3em;
 }
 
 @media (min-width: 700px) {

@@ -1,7 +1,5 @@
 <template>
-	<form @submit.prevent="handleLogin">
-		<h1>Log in</h1>
-
+	<form @submit.prevent="login">
 		<input
 			type="email"
 			placeholder="Email"
@@ -10,7 +8,7 @@
 		/>
 
 		<button type="submit" class="button" :disabled="data.loading">
-			{{ data.loading ? 'Loading' : 'Send me a magic link' }}
+			{{ data.loading ? 'Loading' : 'Send me a magic login link' }}
 		</button>
 	</form>
 </template>
@@ -23,7 +21,7 @@ const data = reactive({
 	email: '',
 });
 
-async function handleLogin() {
+async function login() {
 	try {
 		data.loading = true;
 		const { error } = await supabase.auth.signInWithOtp({

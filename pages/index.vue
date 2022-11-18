@@ -5,8 +5,8 @@
 			Visual decisions made easy
 		</h1>
 		<Grid>
-			<Card :id="1" username="Fithacker" />
-			<Card :id="2" username="Pete" />
+			<Card :id="1" />
+			<Card :id="2" />
 		</Grid>
 	</div>
 </template>

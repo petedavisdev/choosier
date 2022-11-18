@@ -1,7 +1,7 @@
 <template>
 	<main>
 		<form class="box" action="">
-			<IconLogo class="Logo" />
+			<IconLogo class="logo" />
 			<h1>You're early!</h1>
 			<p>While we're beta testing, adding new choices is invite-only.</p>
 
@@ -43,5 +43,9 @@ main {
 
 footer {
 	text-align: right;
+}
+
+.logo {
+	width: 100%;
 }
 </style>
