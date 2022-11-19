@@ -44,12 +44,12 @@ const data = reactive({
 	email: '',
 });
 
-async function vote(email?: string) {
+async function vote() {
 	try {
 		data.loading = true;
 
 		const updates = {
-			email: email || user.value?.email,
+			email: data.email || user.value?.email,
 			choice_id: props.id,
 			image_url: props.image,
 			updated_at: new Date(),
@@ -65,7 +65,7 @@ async function vote(email?: string) {
 		router.push('/results/' + props.id);
 		return true;
 	} catch (error: any) {
-		console.error(error.message);
+		alert(error.message);
 		return false;
 	} finally {
 		data.loading = false;
@@ -82,15 +82,13 @@ async function login() {
 
 		if (response.error) throw response.error;
 
-		console.log(response.data);
-
-		const voted = await vote(response.data.user?.email);
+		const voted = await vote();
 
 		if (voted) {
 			alert('Check your email for the login link!');
 		}
 	} catch (error: any) {
-		console.error(error);
+		alert(error);
 	} finally {
 		data.loading = false;
 	}
