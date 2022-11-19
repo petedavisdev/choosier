@@ -47,19 +47,6 @@
 import { copyText } from '~/helpers/copyText';
 import { getSrc } from '~/helpers/getSrc';
 
-interface vote {
-	user_id: string;
-	image_url: string;
-	profiles: {
-		username: string;
-	};
-}
-
-interface result {
-	imageUrl: string;
-	voters: string[];
-}
-
 const props = defineProps<{
 	id: number;
 }>();
@@ -69,9 +56,17 @@ const user = useSupabaseUser();
 const choice = await useChoice(props.id);
 const shareLink = 'https://choosier.app/' + props.id;
 
+type Vote = {
+	email: string;
+	image_url: string;
+	profiles: {
+		username: string;
+	};
+};
+
 const data = reactive({
 	loading: true,
-	votes: [] as vote[],
+	votes: [] as Vote[],
 	yourChoice: 1,
 });
 
@@ -92,7 +87,7 @@ const results = computed(() => {
 const mostVotes = computed(() => results.value[0].voters.length);
 
 const userVote = computed(
-	() => data.votes.find((vote) => vote.user_id === user.value?.id)?.image_url
+	() => data.votes.find((vote) => vote.email === user.value?.email)?.image_url
 );
 
 try {
@@ -100,7 +95,7 @@ try {
 		.from('votes')
 		.select(
 			`
-			user_id,
+			email,
 			image_url,
 			profiles(username)
 			`
@@ -109,7 +104,7 @@ try {
 
 	if (response.error) throw response.error;
 
-	data.votes = response.data as vote[];
+	data.votes = response.data as Vote[];
 } catch (error) {
 	console.error(error);
 } finally {

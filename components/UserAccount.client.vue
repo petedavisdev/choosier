@@ -34,7 +34,6 @@
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
 const router = useRouter();
-const randomNumber = 100 + Math.floor(Math.random() * 900);
 
 const data = reactive({
 	loading: true,
@@ -47,12 +46,12 @@ const handle = computed(() =>
 
 const response = await supabase
 	.from('profiles')
-	.select(`username`)
-	.eq('id', user.value?.id)
+	.select(`username, index`)
+	.eq('email', user.value?.email)
 	.single();
 
 if (response.data) {
-	data.username = response.data.username || 'chooser' + randomNumber;
+	data.username = response.data.username || 'chooser' + response.data.index;
 	data.loading = false;
 }
 
@@ -61,7 +60,7 @@ async function updateProfile() {
 		data.loading = true;
 
 		const updates = {
-			id: user.value?.id,
+			email: user.value?.email,
 			username: data.username,
 			updated_at: new Date(),
 		};

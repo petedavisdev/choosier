@@ -72,7 +72,7 @@ if (user.value) {
 		const response = await supabase
 			.from('votes')
 			.select('image_url')
-			.eq('user_id', user.value.id)
+			.eq('email', user.value.email)
 			.eq('choice_id', props.id)
 			.single();
 

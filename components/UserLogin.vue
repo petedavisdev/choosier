@@ -1,5 +1,7 @@
 <template>
 	<form @submit.prevent="login">
+		<h1>Login/Register</h1>
+
 		<input
 			type="email"
 			placeholder="Email"
@@ -26,7 +28,6 @@ async function login() {
 		data.loading = true;
 		const { error } = await supabase.auth.signInWithOtp({
 			email: data.email,
-			options: { emailRedirectTo: '/account' },
 		});
 		if (error) throw error;
 		alert('Check your email for the login link!');

@@ -3,7 +3,7 @@
 		<IconLogo class="Logo" />
 		<slot />
 		<nav>
-			<NuxtLink v-if="data.username" :to="'/@' + data.username" class="button">
+			<NuxtLink v-if="user" :to="'/@' + data.username" class="button">
 				<IconUser class="icon" /> My profile
 			</NuxtLink>
 			<NuxtLink to="/new" class="New button">+ New</NuxtLink>
@@ -23,7 +23,7 @@ try {
 	const response = await supabase
 		.from('profiles')
 		.select('username')
-		.eq('id', user.value?.id)
+		.eq('email', user.value?.email)
 		.single();
 
 	if (response.error) throw response.error;

@@ -13,7 +13,7 @@ export async function useChoice(id: number) {
 			.from('choices')
 			.select(
 				`
-				profiles!choices_user_id_fkey(username),
+				profiles!choices_email_fkey(username),
 				title,
 				image_urls
 				`

@@ -15,8 +15,8 @@
 			required
 		/>
 
-		<button @click="login" class="button">
-			Send me a confirmation link &rarr;
+		<button @click="login" type="button" class="button">
+			{{ data.loading ? 'Loading' : 'Send me a confirmation link &rarr;' }}
 		</button>
 		<br />
 		<p>Essential cookies only.</p>
@@ -24,7 +24,9 @@
 
 	<section v-else>
 		<h1>You have chosen!</h1>
-		<button @click.prevent="vote" class="button">✓ Confirm my choice</button>
+		<button @click="vote()" type="button" class="button">
+			✓ Confirm my choice
+		</button>
 	</section>
 </template>
 
@@ -42,12 +44,12 @@ const data = reactive({
 	email: '',
 });
 
-async function vote(userId?: string) {
+async function vote(email?: string) {
 	try {
 		data.loading = true;
 
 		const updates = {
-			user_id: userId || user.value?.id,
+			email: email || user.value?.email,
 			choice_id: props.id,
 			image_url: props.image,
 			updated_at: new Date(),
@@ -63,7 +65,7 @@ async function vote(userId?: string) {
 		router.push('/results/' + props.id);
 		return true;
 	} catch (error: any) {
-		alert(error.message);
+		console.error(error.message);
 		return false;
 	} finally {
 		data.loading = false;
@@ -80,13 +82,15 @@ async function login() {
 
 		if (response.error) throw response.error;
 
-		const voted = await vote(response.data.user?.id);
+		console.log(response.data);
+
+		const voted = await vote(response.data.user?.email);
 
 		if (voted) {
 			alert('Check your email for the login link!');
 		}
 	} catch (error: any) {
-		alert(error.error_description || error.message);
+		console.error(error);
 	} finally {
 		data.loading = false;
 	}
