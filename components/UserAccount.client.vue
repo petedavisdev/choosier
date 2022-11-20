@@ -46,12 +46,12 @@ const handle = computed(() =>
 
 const response = await supabase
 	.from('profiles')
-	.select(`username, index`)
+	.select(`username`)
 	.eq('user_id', user.value?.id)
 	.single();
 
 if (response.data) {
-	data.username = response.data.username || 'chooser' + response.data.index;
+	data.username = response.data.username;
 	data.loading = false;
 }
 
