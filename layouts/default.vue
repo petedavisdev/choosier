@@ -8,7 +8,8 @@
 				:to="data.username ? '/@' + data.username : '/account'"
 				class="button"
 			>
-				<IconUser class="icon" /> Me
+				<IconUser class="icon" />
+				{{ data.username ? '@' + data.username : 'My Account' }}
 			</NuxtLink>
 			<NuxtLink to="/new" class="New button">+ New</NuxtLink>
 		</nav>
