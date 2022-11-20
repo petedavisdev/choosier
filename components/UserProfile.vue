@@ -1,8 +1,8 @@
 <template>
 	<div>
-		<h1 v-if="data.email">
+		<h1 v-if="data.userId">
 			@{{ props.username }}
-			<NuxtLink v-if="user?.email === data.email" to="/account">
+			<NuxtLink v-if="user?.id === data.userId" to="/account">
 				<IconSettings class="icon" />
 			</NuxtLink>
 		</h1>
@@ -12,20 +12,20 @@
 			<NuxtLink to="/" class="button">Home</NuxtLink>
 		</template>
 
-		<template v-if="data.email && !data.choices && !data.votes">
+		<template v-if="data.userId && !data.choices && !data.votes">
 			<h2>No activity</h2>
 			<NuxtLink to="/" class="button">Home</NuxtLink>
 		</template>
 
-		<template v-if="data.choices.length">
+		<template v-if="data.choices?.length">
 			<h2>Choices</h2>
 			<Grid>
 				<Card v-for="choice in data.choices" :key="choice.id" :id="choice.id" />
 			</Grid>
 		</template>
 
-		<template v-if="data.votes.length">
-			<h2>Activity</h2>
+		<template v-if="data.votes?.length">
+			<h2>Votes</h2>
 			<Grid>
 				<Card
 					v-for="vote in data.votes"
@@ -49,7 +49,7 @@ const supabase = useSupabaseClient();
 const user = useSupabaseUser();
 
 const data = reactive({
-	email: '',
+	userId: '',
 	choices: [] as Choices,
 	votes: [] as Votes,
 });
@@ -58,8 +58,8 @@ try {
 	const response = await supabase
 		.from('profiles')
 		.select(
-			`email, 
-			choices!choices_email_fkey(id),
+			`user_id, 
+			choices!choices_user_id_fkey(id),
 			votes(choice_id)`
 		)
 		.eq('username', props.username)
@@ -67,7 +67,7 @@ try {
 
 	if (response.error) throw response.error;
 
-	data.email = response.data.email;
+	data.userId = response.data.user_id;
 	data.choices = response.data.choices as Choices;
 	const allVotes = response.data.votes as Votes;
 	data.votes =

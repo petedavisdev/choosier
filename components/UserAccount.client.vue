@@ -47,7 +47,7 @@ const handle = computed(() =>
 const response = await supabase
 	.from('profiles')
 	.select(`username, index`)
-	.eq('email', user.value?.email)
+	.eq('user_id', user.value?.id)
 	.single();
 
 if (response.data) {
@@ -60,7 +60,7 @@ async function updateProfile() {
 		data.loading = true;
 
 		const updates = {
-			email: user.value?.email,
+			user_id: user.value?.id,
 			username: data.username,
 			updated_at: new Date(),
 		};

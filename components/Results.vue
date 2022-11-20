@@ -1,5 +1,13 @@
 <template>
-	<div v-if="userVote">
+	<div v-if="!user">
+		<h1>Only registered choosers can see results</h1>
+		<p>Check your email for a login link.</p>
+		<p>
+			If you haven't received one,
+			<NuxtLink to="/account">click here</NuxtLink>.
+		</p>
+	</div>
+	<div v-else-if="userVote">
 		<h1>
 			<small>
 				You helped
@@ -22,14 +30,17 @@
 				}"
 			>
 				<strong class="count">{{ result.voters.length }}</strong>
-				<div class="mychoice" v-if="result.imageUrl === userVote">
-					&larr; Your choice
+				<div class="voters">
+					<small v-for="voter in result.voters" :key="voter">
+						<NuxtLink :to="'/@' + voter">{{ voter }}</NuxtLink>
+						{{ ' ' }}
+					</small>
 				</div>
 			</div>
 		</article>
 
 		<footer>
-			<h2>Share</h2>
+			<h2>Share to get more votes</h2>
 			<p>{{ shareLink }}</p>
 			<button @click="copyText(shareLink)" type="button" class="button">
 				Copy link
@@ -57,7 +68,7 @@ const choice = await useChoice(props.id);
 const shareLink = 'https://choosier.app/' + props.id;
 
 type Vote = {
-	email: string;
+	user_id: string;
 	image_url: string;
 	profiles: {
 		username: string;
@@ -87,7 +98,7 @@ const results = computed(() => {
 const mostVotes = computed(() => results.value[0].voters.length);
 
 const userVote = computed(
-	() => data.votes.find((vote) => vote.email === user.value?.email)?.image_url
+	() => data.votes.find((vote) => vote.user_id === user.value?.id)?.image_url
 );
 
 try {
@@ -95,7 +106,7 @@ try {
 		.from('votes')
 		.select(
 			`
-			email,
+			user_id,
 			image_url,
 			profiles(username)
 			`
@@ -129,9 +140,13 @@ article {
 	padding: 0.1em;
 }
 
-.mychoice {
+.voters {
 	padding: 0.2em 0.5em;
 	white-space: nowrap;
+}
+
+.voters small {
+	display: inline;
 }
 
 img {

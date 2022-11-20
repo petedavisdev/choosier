@@ -42,6 +42,7 @@ const router = useRouter();
 const data = reactive({
 	loading: false,
 	email: '',
+	userId: '',
 });
 
 async function vote() {
@@ -49,7 +50,7 @@ async function vote() {
 		data.loading = true;
 
 		const updates = {
-			email: data.email || user.value?.email,
+			user_id: data.userId || user.value?.id,
 			choice_id: props.id,
 			image_url: props.image,
 			updated_at: new Date(),
@@ -72,6 +73,24 @@ async function vote() {
 	}
 }
 
+async function getUserId() {
+	try {
+		const response = await supabase
+			.from('profiles')
+			.select('user_id')
+			.eq('email', data.email)
+			.single();
+
+		if (response.error) throw response.error;
+
+		data.userId = response.data.user_id;
+		return true;
+	} catch (error: any) {
+		alert(error.message);
+		return false;
+	}
+}
+
 async function login() {
 	try {
 		data.loading = true;
@@ -82,11 +101,15 @@ async function login() {
 
 		if (response.error) throw response.error;
 
+		const hasId = await getUserId();
+
+		if (!hasId) throw 'Unable to get user id';
+
 		const voted = await vote();
 
-		if (voted) {
-			alert('Check your email for the login link!');
-		}
+		if (!voted) throw 'Unable to record vote';
+
+		alert('Check your email for the login link!');
 	} catch (error: any) {
 		alert(error);
 	} finally {
