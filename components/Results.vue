@@ -78,7 +78,6 @@ type Vote = {
 const data = reactive({
 	loading: true,
 	votes: [] as Vote[],
-	yourChoice: 1,
 });
 
 const results = computed(() => {

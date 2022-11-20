@@ -3,8 +3,12 @@
 		<IconLogo class="Logo" />
 		<slot />
 		<nav>
-			<NuxtLink v-if="user" :to="'/@' + data.username" class="button">
-				<IconUser class="icon" /> My profile
+			<NuxtLink
+				v-if="user"
+				:to="data.username ? '/@' + data.username : '/account'"
+				class="button"
+			>
+				<IconUser class="icon" /> Me
 			</NuxtLink>
 			<NuxtLink to="/new" class="New button">+ New</NuxtLink>
 		</nav>

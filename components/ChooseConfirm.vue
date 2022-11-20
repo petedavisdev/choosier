@@ -96,7 +96,7 @@ async function login() {
 		data.loading = true;
 		const response = await supabase.auth.signInWithOtp({
 			email: data.email,
-			options: { emailRedirectTo: '/account' },
+			options: { emailRedirectTo: 'https://choosier.app/account' },
 		});
 
 		if (response.error) throw response.error;
