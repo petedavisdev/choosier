@@ -28,7 +28,7 @@ async function login() {
 		data.loading = true;
 		const { error } = await supabase.auth.signInWithOtp({
 			email: data.email,
-			options: { emailRedirectTo: 'https://choosier.app/profile' },
+			options: { emailRedirectTo: 'https://choosier.app/account' },
 		});
 		if (error) throw error;
 		alert('Check your email for the login link!');
