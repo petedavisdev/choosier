@@ -20,7 +20,7 @@ export async function useMyProfile() {
 		data.username = response.data.username;
 		data.loading = false;
 	} catch (error: any) {
-		alert(error.message);
+		console.log(error.message);
 	} finally {
 		data.loading = false;
 	}
