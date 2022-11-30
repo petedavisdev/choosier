@@ -64,6 +64,8 @@
 			<button @click="copyText(shareLink)" type="button" class="button">
 				Copy link
 			</button>
+
+			<p><NuxtLink to="/">Choosier homepage &rarr;</NuxtLink></p>
 		</footer>
 	</div>
 </template>
