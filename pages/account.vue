@@ -1,6 +1,9 @@
 <template>
 	<div>
-		<UserAccount v-if="user" />
+		<template v-if="user">
+			<UserEdit />
+			<UserLogout />
+		</template>
 		<UserLogin v-else />
 	</div>
 </template>

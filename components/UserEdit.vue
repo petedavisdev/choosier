@@ -1,7 +1,5 @@
 <template>
 	<form @submit.prevent="updateProfile">
-		<p v-if="data.loading">Loading...</p>
-
 		<h1>
 			<label for="username">My choosername</label>
 		</h1>
@@ -16,48 +14,30 @@
 			/>
 		</p>
 
-		<button type="submit" class="button" :disabled="data.loading">Save</button>
+		<p v-if="data.saving">Saving...</p>
+		<button type="submit" class="button" :disabled="data.saving">Save</button>
 	</form>
-
-	<footer>
-		<p>
-			Logged in with <strong>{{ user?.email }}</strong>
-		</p>
-
-		<button @click.prevent="signOut" class="button" :disabled="data.loading">
-			Log Out
-		</button>
-	</footer>
 </template>
 
 <script setup lang="ts">
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
+const profile = await useMyProfile();
 const router = useRouter();
+const route = useRoute();
 
 const data = reactive({
-	loading: true,
-	username: '',
+	saving: false,
+	username: profile.username,
 });
 
 const handle = computed(() =>
 	data.username.toLowerCase().replace(/[^a-z0-9-_]/g, '')
 );
 
-const response = await supabase
-	.from('profiles')
-	.select(`username`)
-	.eq('user_id', user.value?.id)
-	.single();
-
-if (response.data) {
-	data.username = response.data.username;
-	data.loading = false;
-}
-
 async function updateProfile() {
 	try {
-		data.loading = true;
+		data.saving = true;
 
 		const updates = {
 			user_id: user.value?.id,
@@ -72,30 +52,15 @@ async function updateProfile() {
 
 		if (response.error) throw response.error;
 
-		router.push('/@' + data.username);
+		if (route.path === '/account') {
+			router.push('/@' + data.username);
+		} else {
+			location.reload();
+		}
 	} catch (error: any) {
 		alert(error.message);
 	} finally {
-		data.loading = false;
-	}
-}
-
-async function signOut() {
-	try {
-		data.loading = true;
-		let { error } = await supabase.auth.signOut();
-		if (error) throw error.message;
-		user.value = null;
-	} catch (error) {
-		alert(error);
-	} finally {
-		data.loading = false;
+		data.saving = false;
 	}
 }
 </script>
-
-<style scoped>
-footer {
-	margin-top: 5em;
-}
-</style>

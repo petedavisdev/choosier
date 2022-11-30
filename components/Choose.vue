@@ -1,4 +1,12 @@
 <template>
+	<Head>
+		<Title>Choosier. Help @{{ choice.username }} choose</Title>
+		<Meta
+			name="description"
+			:content="`Help @${choice.username} choose: ${choice.title}`"
+		/>
+	</Head>
+
 	<main>
 		<form
 			v-for="(match, matchIndex) in data.matches"
@@ -39,7 +47,8 @@
 
 		<aside v-if="data.userHasVoted">
 			<NuxtLink :to="'/results/' + props.id" class="button">
-				You have already voted! See the results &rarr;
+				You have made your choice
+				<h2>See the results &rarr;</h2>
 			</NuxtLink>
 		</aside>
 	</main>

@@ -10,7 +10,7 @@
 		/>
 
 		<button type="submit" class="button" :disabled="data.loading">
-			{{ data.loading ? 'Loading' : 'Send me a magic login link' }}
+			{{ data.loading ? 'Loading' : 'Send me a login link' }}
 		</button>
 	</form>
 </template>

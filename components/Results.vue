@@ -1,5 +1,13 @@
 <template>
-	<div v-if="!user">
+	<Head>
+		<Title>Choosier. Results for @{{ choice.username }}</Title>
+		<Meta
+			name="description"
+			:content="`Results for @${choice.username} choosing ${choice.title}`"
+		/>
+	</Head>
+
+	<div v-if="!profile.userId">
 		<h1>Only registered choosers can see results</h1>
 		<p>Check your email for a login link.</p>
 		<p>
@@ -7,7 +15,18 @@
 			<NuxtLink to="/account">click here</NuxtLink>.
 		</p>
 	</div>
-	<div v-else-if="userVote">
+
+	<div v-else-if="!userVote">
+		<h1>Choose first, then see the results</h1>
+		<Card :id="props.id" class="card" />
+	</div>
+
+	<div v-else-if="!profile.username">
+		<p>You need a choosername to show on the results</p>
+		<UserEdit />
+	</div>
+
+	<div v-else>
 		<h1>
 			<small>
 				You helped
@@ -47,11 +66,6 @@
 			</button>
 		</footer>
 	</div>
-
-	<div v-else>
-		<h1>Choose first, then see the results</h1>
-		<Card :id="props.id" class="card" />
-	</div>
 </template>
 
 <script setup lang="ts">
@@ -63,8 +77,8 @@ const props = defineProps<{
 }>();
 
 const supabase = useSupabaseClient();
-const user = useSupabaseUser();
 const choice = await useChoice(props.id);
+const profile = await useMyProfile();
 const shareLink = 'https://choosier.app/' + props.id;
 
 type Vote = {
@@ -88,7 +102,8 @@ const results = computed(() => {
 				imageUrl,
 				voters: data.votes
 					.filter((vote) => imageUrl === vote.image_url)
-					.map((vote) => vote.profiles.username),
+					.map((vote) => vote.profiles.username)
+					.filter((vote) => vote),
 			};
 		})
 		.sort((a, b) => b.voters.length - a.voters.length);
@@ -97,7 +112,7 @@ const results = computed(() => {
 const mostVotes = computed(() => results.value[0].voters.length);
 
 const userVote = computed(
-	() => data.votes.find((vote) => vote.user_id === user.value?.id)?.image_url
+	() => data.votes.find((vote) => vote.user_id === profile.userId)?.image_url
 );
 
 try {

@@ -5,11 +5,10 @@
 		<nav>
 			<NuxtLink
 				v-if="user"
-				:to="data.username ? '/@' + data.username : '/account'"
+				:to="profile.username ? '/@' + profile.username : '/account'"
 				class="button"
 			>
-				<IconUser class="icon" />
-				{{ data.username ? '@' + data.username : 'My Account' }}
+				{{ profile.username ? '@' + profile.username : 'My Account' }}
 			</NuxtLink>
 			<NuxtLink to="/new" class="New button">+ New</NuxtLink>
 		</nav>
@@ -19,24 +18,7 @@
 <script setup lang="ts">
 const user = useSupabaseUser();
 const supabase = useSupabaseClient();
-
-const data = reactive({
-	username: '',
-});
-
-try {
-	const response = await supabase
-		.from('profiles')
-		.select('username')
-		.eq('email', user.value?.email)
-		.single();
-
-	if (response.error) throw response.error;
-
-	data.username = response.data.username;
-} catch (error: any) {
-	console.error(error.message);
-}
+const profile = await useMyProfile();
 </script>
 
 <style scoped>
@@ -70,7 +52,7 @@ nav {
 
 @media (min-width: 700px) {
 	main {
-		padding: 3em 3em 6em;
+		padding: 2em 3em 6em;
 		margin-inline: auto;
 	}
 

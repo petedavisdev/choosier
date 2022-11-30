@@ -1,4 +1,8 @@
 <template>
+	<Head>
+		<Title>Choosier. @{{ username }}</Title>
+	</Head>
+
 	<div>
 		<h1 v-if="data.userId">
 			@{{ props.username }}
