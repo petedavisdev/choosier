@@ -51,7 +51,11 @@
 				<strong class="count">{{ result.voters.length }}</strong>
 				<div class="voters">
 					<small v-for="voter in result.voters" :key="voter">
-						<NuxtLink :to="'/@' + voter">{{ voter }}</NuxtLink>
+						<NuxtLink :to="'/@' + voter">
+							<Component :is="voter === profile.username ? 'strong' : 'span'">
+								@{{ voter }}
+							</Component>
+						</NuxtLink>
 						{{ ' ' }}
 					</small>
 				</div>
