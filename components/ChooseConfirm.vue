@@ -15,11 +15,13 @@
 			required
 		/>
 
-		<button @click="login" type="button" class="button">
-			{{ data.loading ? 'Loading' : 'Send me a confirmation link &rarr;' }}
-		</button>
+		<p>
+			<button @click="login" type="button" class="button">
+				{{ data.loading ? 'Loading' : 'Send me a confirmation link &rarr;' }}
+			</button>
+		</p>
 		<br />
-		<p>Essential cookies only.</p>
+		<p>🍪 Essential cookies only. No spam.</p>
 	</section>
 
 	<section v-else>
@@ -119,6 +121,10 @@ async function login() {
 </script>
 
 <style scoped>
+.button {
+	margin-top: 1em;
+}
+
 section {
 	display: grid;
 	place-content: center;

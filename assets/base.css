@@ -1,6 +1,7 @@
 * {
 	box-sizing: border-box;
 	position: relative;
+	accent-color: var(--dark);
 }
 
 html,
@@ -29,6 +30,10 @@ img {
 a,
 button {
 	color: var(--dark);
+}
+
+h1 {
+	font-size: 2em;
 }
 
 input {

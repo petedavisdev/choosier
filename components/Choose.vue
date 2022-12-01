@@ -1,9 +1,11 @@
 <template>
 	<Head>
-		<Title>Choosier. Help @{{ choice.username }} choose</Title>
+		<Title
+			>Choosier. Help @{{ choice.username }} choose {{ choice.title }}</Title
+		>
 		<Meta
 			name="description"
-			:content="`Help @${choice.username} choose: ${choice.title}`"
+			:content="`Help @${choice.username} choose ${choice.title}`"
 		/>
 	</Head>
 
@@ -45,12 +47,19 @@
 			/>
 		</form>
 
-		<aside v-if="data.userHasVoted">
+		<aside class="popup backdrop" v-if="data.userHasVoted">
 			<NuxtLink :to="'/results/' + props.id" class="button">
 				You have made your choice
 				<h2>See the results &rarr;</h2>
 			</NuxtLink>
 		</aside>
+
+		<ChooseIntro
+			v-else
+			class="popup"
+			:username="choice.username"
+			:title="choice.title"
+		/>
 	</main>
 </template>
 
@@ -160,11 +169,6 @@ input {
 
 form:not(:last-of-type):valid :not(:checked) + img {
 	opacity: 0;
-}
-
-aside {
-	grid-area: 📋;
-	place-self: center;
 }
 
 @media (orientation: landscape) {

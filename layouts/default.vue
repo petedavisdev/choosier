@@ -4,11 +4,16 @@
 		<slot />
 		<nav>
 			<NuxtLink
-				v-if="user"
 				:to="profile.username ? '/@' + profile.username : '/account'"
 				class="button"
 			>
-				{{ profile.username ? '@' + profile.username : 'My Account' }}
+				{{
+					profile.username
+						? '@' + profile.username
+						: user
+						? 'My Account'
+						: 'Login'
+				}}
 			</NuxtLink>
 			<NuxtLink to="/new" class="New button">+ New</NuxtLink>
 		</nav>

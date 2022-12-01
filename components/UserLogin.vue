@@ -1,18 +1,24 @@
 <template>
-	<form @submit.prevent="login">
-		<h1>Login/Register</h1>
+	<section class="backdrop">
+		<form @submit.prevent="login" class="box">
+			<h1>Login/Register</h1>
 
-		<input
-			type="email"
-			placeholder="Email"
-			v-model="data.email"
-			title="Email"
-		/>
+			<input
+				type="email"
+				placeholder="Email"
+				v-model="data.email"
+				title="Email"
+			/>
 
-		<button type="submit" class="button" :disabled="data.loading">
-			{{ data.loading ? 'Loading' : 'Send me a login link' }}
-		</button>
-	</form>
+			<footer>
+				<button type="submit" class="button" :disabled="data.loading">
+					{{ data.loading ? 'Loading' : 'Send me a login link &rarr;' }}
+				</button>
+			</footer>
+
+			<p><NuxtLink to="/">&larr; Home</NuxtLink></p>
+		</form>
+	</section>
 </template>
 
 <script setup lang="ts">
@@ -45,9 +51,10 @@ form {
 	max-width: 24em;
 }
 
-input {
+input,
+button {
 	display: block;
 	width: 100%;
-	margin-bottom: 1em;
+	margin-bottom: 2em;
 }
 </style>

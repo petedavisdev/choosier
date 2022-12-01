@@ -23,20 +23,20 @@
 
 		<template v-if="data.choices?.length">
 			<h2>Choices</h2>
-			<Grid>
+			<section class="grid">
 				<Card v-for="choice in data.choices" :key="choice.id" :id="choice.id" />
-			</Grid>
+			</section>
 		</template>
 
 		<template v-if="data.votes?.length">
 			<h2>Votes</h2>
-			<Grid>
+			<section class="grid">
 				<Card
 					v-for="vote in data.votes"
 					:key="vote.choice_id"
 					:id="vote.choice_id"
 				/>
-			</Grid>
+			</section>
 		</template>
 	</div>
 </template>

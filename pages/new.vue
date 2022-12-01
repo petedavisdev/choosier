@@ -1,51 +1,26 @@
 <template>
-	<main>
-		<form class="box" action="">
-			<IconLogo class="logo" />
-			<h1>You're early!</h1>
-			<p>While we're beta testing, adding new choices is invite-only.</p>
+	<div>
+		<h1>New choice</h1>
 
-			<p class="Field">
-				<label for="email">Email *</label>
-				<input type="email" id="email" name="email" required />
+		<aside>
+			<h2>Image uploads are coming soon...</h2>
+			<p>
+				While Choosier is in beta, I recommend uploading your images on
+				<NuxtLink to="https://cloudinary.com/users/register_free"
+					>Cloudinary</NuxtLink
+				>
+				and copying the URLs.
 			</p>
-			<p class="Field">
-				<label for="instagram">Instagram username</label>
-				<input id="instagram" name="instagram" required />
-			</p>
-			<footer>
-				<button class="button">Join the waiting list</button>
-			</footer>
-		</form>
-	</main>
+		</aside>
+
+		<NewChoice />
+	</div>
 </template>
 
-<script setup lang="ts">
-definePageMeta({
-	layout: false,
-});
-</script>
-
 <style scoped>
-main {
-	display: grid;
-	min-height: var(--windowHeight);
-	place-content: center;
-	padding: 2em;
-}
-
-.Field {
-	display: grid;
-	grid-template-columns: auto 1fr;
-	gap: 0.5em;
-	align-items: center;
-}
-
-footer {
-	text-align: right;
-}
-
-.logo {
-	width: 100%;
+aside {
+	background-color: var(--mid);
+	padding: 0.25em 1em;
+	margin-block: 1em;
 }
 </style>

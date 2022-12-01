@@ -5,24 +5,28 @@ export async function useMyProfile() {
 	const data = reactive({
 		loading: true,
 		userId: user.value?.id,
+		email: user.value?.email,
 		username: '',
+		credits: null as null | number,
 	});
 
-	try {
-		const response = await supabase
-			.from('profiles')
-			.select(`username`)
-			.eq('user_id', user.value?.id)
-			.single();
+	if (user.value) {
+		try {
+			const response = await supabase
+				.from('profiles')
+				.select(`username, credits`)
+				.eq('user_id', user.value?.id)
+				.single();
 
-		if (response.error) throw response.error;
+			if (response.error) throw response.error;
 
-		data.username = response.data.username;
-		data.loading = false;
-	} catch (error: any) {
-		console.log(error.message);
-	} finally {
-		data.loading = false;
+			data.username = response.data.username;
+			data.loading = false;
+		} catch (error: any) {
+			console.log(error.message);
+		} finally {
+			data.loading = false;
+		}
 	}
 
 	return data;
