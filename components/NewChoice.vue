@@ -6,17 +6,6 @@
 			<small>E.g. "Which color is best?". Up to 25 characters</small>
 		</section>
 
-		<section>
-			<h2>Listing preview</h2>
-			<div class="grid">
-				<NewChoicePreview
-					:images="imageURLs"
-					:title="data.title"
-					:username="profile.username"
-				/>
-			</div>
-		</section>
-
 		<section class="fullwidth">
 			<h2>Images</h2>
 			<p>You can add 2 to 10 images URLs</p>
@@ -67,6 +56,16 @@
 		</section>
 
 		<section>
+			<h2>Listing preview</h2>
+			<NewChoicePreview
+				:images="imageURLs"
+				:title="data.title"
+				:username="profile.username"
+			/>
+		</section>
+
+		<section>
+			<p>Looking good!</p>
 			<button type="submit" class="button">Save and publish</button>
 		</section>
 	</form>
@@ -74,8 +73,8 @@
 
 <script setup lang="ts">
 const visibility = {
-	Promoted: 'on our homepage and Instagram (1 credit)',
-	Public: '- anyone can view, vote and share (free)',
+	Promoted: '- homepage + Instagram (1 credit)',
+	Public: '- anyone can vote and share (free)',
 	Private: '- coming soon... (1 credit)',
 };
 
@@ -126,15 +125,5 @@ form {
 
 .ImageInput:placeholder-shown + .ImageInput:nth-of-type(n + 8) {
 	display: none;
-}
-
-@media (min-width: 800px) {
-	form {
-		grid-template-columns: 1fr 1fr;
-	}
-
-	.fullwidth {
-		grid-column: span 2;
-	}
 }
 </style>

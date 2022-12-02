@@ -29,6 +29,7 @@ const props = defineProps<{
 .Card {
 	padding: 0.75em 0.75em 0;
 	aspect-ratio: 1.91/1;
+	max-width: 25em;
 	display: flex;
 	flex-direction: column;
 }
