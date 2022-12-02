@@ -9,14 +9,24 @@
 		<section class="fullwidth">
 			<h2>Images</h2>
 			<p>You can add 2 to 10 images URLs</p>
-			<input
+			<div
 				v-for="(url, index) in data.imageValues"
 				:key="index"
-				v-model="data.imageValues[index]"
-				placeholder="https://..."
-				class="ImageInput"
-				:required="index < 2"
-			/>
+				class="ImageField"
+			>
+				<input
+					v-model="data.imageValues[index]"
+					placeholder="https://..."
+					class="ImageInput"
+					:required="index < 2"
+				/>
+
+				<img
+					v-if="imageURLs[index]"
+					class="Image"
+					:src="imageURLs[index] && getSrc(imageURLs[index])"
+				/>
+			</div>
 		</section>
 
 		<section>
@@ -65,13 +75,25 @@
 		</section>
 
 		<section>
-			<p>Looking good!</p>
+			<p>
+				{{
+					!data.title
+						? 'You need a title!'
+						: imageURLs.length < 2
+						? 'You need at least 2 images!'
+						: !data.category
+						? 'Choose a category'
+						: 'Looking good!'
+				}}
+			</p>
 			<button type="submit" class="button">Save and publish</button>
 		</section>
 	</form>
 </template>
 
 <script setup lang="ts">
+import { getSrc } from '~/helpers/getSrc';
+
 const visibility = {
 	Promoted: '- homepage + Instagram (1 credit)',
 	Public: '- anyone can vote and share (free)',
@@ -113,17 +135,13 @@ form {
 	max-width: 25em;
 }
 
-.ImageInput {
-	display: block;
-	width: 100%;
+.ImageField {
+	display: grid;
 	margin-bottom: 1em;
+	grid-template-columns: 1fr 3em;
 }
 
 .ImageInput:focus::placeholder {
 	color: transparent;
-}
-
-.ImageInput:placeholder-shown + .ImageInput:nth-of-type(n + 8) {
-	display: none;
 }
 </style>

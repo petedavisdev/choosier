@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { getSrc } from '~~/helpers/getSrc';
+import { getSrc } from '~/helpers/getSrc';
 
 const props = defineProps<{
 	images: string[];
