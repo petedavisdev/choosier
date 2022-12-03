@@ -2,13 +2,13 @@
 	<UserLogin v-if="!profile.userId" />
 	<UserEdit v-else-if="!profile.username" />
 	<form v-else @submit.prevent="submit">
-		<section>
+		<section id="title">
 			<h2><label for="title">Title</label></h2>
 			<input v-model="data.title" class="TitleInput" maxlength="25" required />
 			<small>Up to 25 characters</small>
 		</section>
 
-		<section class="fullwidth">
+		<section id="images">
 			<h2>Images</h2>
 			<p>You can add between 2 and 8 image URLs.</p>
 			<p>
@@ -40,14 +40,15 @@
 			</div>
 		</section>
 
-		<section>
+		<section id="categories">
 			<h2>Category</h2>
-			<p v-for="(category, index) in categories" :key="index">
+			<p v-for="(category, key) in categories" :key="key">
 				<label>
 					<input
 						type="radio"
+						name="category"
 						v-model="data.category"
-						:value="category"
+						:value="key"
 						required
 					/>
 					{{ category }}
@@ -55,7 +56,7 @@
 			</p>
 		</section>
 
-		<section>
+		<section id="visibility">
 			<h2>Visibility</h2>
 			<p>
 				You have {{ profile.credits }} credit{{
@@ -87,7 +88,7 @@
 			</p>
 		</section>
 
-		<section>
+		<section id="preview">
 			<h2>Listing preview</h2>
 			<NewChoicePreview
 				:images="imageURLs"
@@ -96,7 +97,7 @@
 			/>
 		</section>
 
-		<section>
+		<footer>
 			<p>
 				{{
 					!data.title
@@ -108,34 +109,19 @@
 						: 'Looking good!'
 				}}
 			</p>
-			<button type="submit" class="button">Save and publish</button>
-		</section>
+			<button type="submit" class="button" :disabled="data.loading">
+				Save and publish
+			</button>
+		</footer>
 	</form>
 </template>
 
 <script setup lang="ts">
 import { getSrc } from '~/helpers/getSrc';
+import { categories, visibility } from '~/constants';
 
 const supabase = useSupabaseClient();
 const router = useRouter();
-
-const visibility = {
-	Promoted: '(1 credit) Choosier homepage + Instagram',
-	Public: '(free)',
-	Private: '(1 credit) Coming soon...',
-};
-
-const categories = [
-	'Architecture',
-	'Art and illustration',
-	'Fashion',
-	'Graphic design',
-	'Interior design and homewares',
-	'Pattern and surface design',
-	'Photography',
-	'Product design',
-	'Other',
-];
 
 const profile = await useMyProfile();
 const data = reactive({
@@ -154,11 +140,13 @@ async function submit() {
 
 	try {
 		const response = await supabase.from('choices').insert([
+			// @ts-ignore: Unreachable code error
 			{
 				title: data.title,
 				image_urls: imageURLs.value,
 				user_id: profile.userId,
 				visibility: data.visibility,
+				category: data.category,
 			},
 		]);
 
@@ -186,7 +174,6 @@ form {
 .TitleInput {
 	display: block;
 	width: 100%;
-	max-width: 25em;
 }
 
 .ImageFields {
@@ -213,5 +200,9 @@ form {
 
 .ImageInput:focus::placeholder {
 	color: transparent;
+}
+
+[type='radio'] {
+	margin-inline: 1em 0.5em;
 }
 </style>

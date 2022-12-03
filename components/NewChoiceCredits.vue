@@ -2,7 +2,7 @@
 	<div id="credits" class="backdrop" @click="props.close"></div>
 	<section class="box">
 		<h2>
-			You have {{ props.credits }} credit{{ props.credits === 1 ? '' : 's' }}.
+			You have {{ props.credits }} credit{{ props.credits === 1 ? '' : 's' }}
 		</h2>
 
 		<button @click="props.close" type="button" class="close"></button>
@@ -23,8 +23,8 @@
 		</ol>
 
 		<p>
-			When I read your message I will give you 2 more credits. Please be
-			patient, I usually check my messages once a day.
+			When I read your message I will give you 2 credits. Please be patient, I
+			usually check my messages once a day.
 		</p>
 
 		<p>

@@ -65,7 +65,7 @@ async function vote() {
 
 		if (response.error) throw response.error;
 
-		router.push('/results/' + props.id);
+		router.push('/result' + props.id);
 		return true;
 	} catch (error: any) {
 		alert(error.message);

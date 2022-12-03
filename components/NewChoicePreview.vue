@@ -1,17 +1,17 @@
 <template>
-	<div class="Card box">
-		<div class="Images">
+	<div class="card">
+		<div class="card-images">
 			<span
-				class="Image"
+				class="card-image"
 				v-for="image in props.images"
 				:style="{ backgroundImage: `url(${image && getSrc(image)})` }"
 			></span>
 		</div>
 
-		<h3 class="Title">
-			<small class="TitleIntro">Help @{{ props.username }} choose</small>
-			{{ props.title || 'No title' }}
-		</h3>
+		<div class="card-title">
+			<small>Help @{{ props.username }} choose</small>
+			<div>{{ props.title || 'No title' }}</div>
+		</div>
 	</div>
 </template>
 
@@ -24,33 +24,3 @@ const props = defineProps<{
 	username: string;
 }>();
 </script>
-
-<style scoped>
-.Card {
-	padding: 0.75em 0.75em 0;
-	aspect-ratio: 1.91/1;
-	max-width: 25em;
-	display: flex;
-	flex-direction: column;
-}
-
-.Images {
-	flex-grow: 1;
-	display: flex;
-	align-items: stretch;
-	gap: 0.125em;
-	overflow: hidden;
-}
-
-.Image {
-	flex-grow: 1;
-	background-size: cover;
-	background-position: center;
-}
-
-.TitleIntro {
-	display: block;
-	font-weight: normal;
-	color: #333;
-}
-</style>
