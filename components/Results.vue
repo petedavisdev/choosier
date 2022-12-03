@@ -164,6 +164,11 @@ article {
 	padding: 0.1em;
 }
 
+small {
+	display: block;
+	font-size: 1rem;
+}
+
 .voters {
 	padding: 0.2em 0.5em;
 	white-space: nowrap;
