@@ -1,5 +1,7 @@
 <template>
-	<form>
+	<UserLogin v-if="profile.userId" />
+	<UserEdit v-else-if="profile.username" />
+	<form v-else>
 		<section>
 			<h2><label for="title">Title</label></h2>
 			<input v-model="data.title" class="TitleInput" maxlength="25" required />
@@ -55,7 +57,16 @@
 			<p>
 				You have {{ profile.credits }} credit{{
 					profile.credits === 1 ? '' : 's'
-				}}. <NuxtLink to="/credits">Get more credits</NuxtLink>
+				}}.
+				<a href="#credits" @click.prevent="data.showCredits = true"
+					>Get more credits</a
+				>
+
+				<NewChoiceCredits
+					v-if="data.showCredits"
+					:close="closeCredits"
+					:credits="profile.credits"
+				/>
 			</p>
 			<p v-for="(text, name) in visibility" :key="name">
 				<label>
@@ -63,7 +74,9 @@
 						type="radio"
 						v-model="data.visibility"
 						:value="name"
-						:disabled="name === 'Private'"
+						:disabled="
+							name === 'Private' || (name === 'Promoted' && profile.credits < 1)
+						"
 						required
 					/>
 					{{ name }} <small>{{ text }}</small>
@@ -101,9 +114,9 @@
 import { getSrc } from '~/helpers/getSrc';
 
 const visibility = {
-	Promoted: '- homepage + Instagram (1 credit)',
-	Public: '- anyone can vote and share (free)',
-	Private: '- coming soon... (1 credit)',
+	Promoted: '(1 credit) Choosier homepage + Instagram',
+	Public: '(free)',
+	Private: '(1 credit) Coming soon...',
 };
 
 const categories = [
@@ -124,7 +137,12 @@ const data = reactive({
 	imageValues: ['', '', '', '', '', '', '', ''],
 	category: '',
 	visibility: 'Public',
+	showCredits: false,
 });
+
+function closeCredits() {
+	data.showCredits = !data.showCredits;
+}
 
 const imageURLs = computed(() => data.imageValues.filter((value) => value));
 </script>

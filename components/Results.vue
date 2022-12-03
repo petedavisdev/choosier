@@ -41,7 +41,11 @@
 		<p>Here are the results so far</p>
 
 		<article v-for="(result, index) in results" :key="index">
-			<img :src="result.imageUrl" alt="" />
+			<img
+				:src="result.imageUrl"
+				alt=""
+				:title="result.imageUrl.split('/').pop()"
+			/>
 			<div
 				class="bar"
 				:style="{

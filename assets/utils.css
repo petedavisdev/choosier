@@ -39,6 +39,19 @@
 	margin-inline: auto;
 }
 
+.close {
+	position: absolute;
+	top: 0.5em;
+	right: 1em;
+	border: 0;
+	padding: 0.5em;
+}
+
+.close::before {
+	content: '×';
+	font-size: xx-large;
+}
+
 .grid {
 	display: grid;
 	gap: 2em;
