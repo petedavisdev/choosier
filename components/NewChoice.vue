@@ -3,29 +3,35 @@
 		<section>
 			<h2><label for="title">Title</label></h2>
 			<input v-model="data.title" class="TitleInput" maxlength="25" required />
-			<small>E.g. "Which color is best?". Up to 25 characters</small>
+			<small>Up to 25 characters</small>
 		</section>
 
 		<section class="fullwidth">
 			<h2>Images</h2>
-			<p>You can add 2 to 10 images URLs</p>
-			<div
-				v-for="(url, index) in data.imageValues"
-				:key="index"
-				class="ImageField"
-			>
-				<input
-					v-model="data.imageValues[index]"
-					placeholder="https://..."
-					class="ImageInput"
-					:required="index < 2"
-				/>
+			<p>You can add between 2 and 8 image URLs.</p>
+			<p>
+				I recommend uploading your images to a media library like
+				<NuxtLink to="https://cloudinary.com/users/register_free"
+					>Cloudinary</NuxtLink
+				>
+				and copying the URLs.
+			</p>
+			<div class="ImageFields">
+				<label
+					v-for="(url, index) in data.imageValues"
+					:key="index"
+					class="ImageField"
+				>
+					<img v-if="url" class="Image" :src="getSrc(url)" />
+					<span v-else>{{ index + 1 }}.</span>
 
-				<img
-					v-if="imageURLs[index]"
-					class="Image"
-					:src="imageURLs[index] && getSrc(imageURLs[index])"
-				/>
+					<input
+						v-model="data.imageValues[index]"
+						placeholder="https://..."
+						class="ImageInput"
+						:required="index < 2"
+					/>
+				</label>
 			</div>
 		</section>
 
@@ -115,7 +121,7 @@ const categories = [
 const profile = await useMyProfile();
 const data = reactive({
 	title: '',
-	imageValues: ['', '', '', '', '', '', '', '', '', ''],
+	imageValues: ['', '', '', '', '', '', '', ''],
 	category: '',
 	visibility: 'Public',
 });
@@ -135,10 +141,26 @@ form {
 	max-width: 25em;
 }
 
-.ImageField {
+.ImageFields {
 	display: grid;
-	margin-bottom: 1em;
-	grid-template-columns: 1fr 3em;
+	gap: 1em 0;
+	grid-template-columns: max-content 1fr;
+	align-items: center;
+}
+
+.ImageField {
+	display: contents;
+}
+
+.Image {
+	height: 2.9em;
+	width: auto;
+}
+
+.ImageField span {
+	min-width: 2.9em;
+	text-align: center;
+	place-self: center;
 }
 
 .ImageInput:focus::placeholder {

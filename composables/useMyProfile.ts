@@ -7,7 +7,7 @@ export async function useMyProfile() {
 		userId: user.value?.id,
 		email: user.value?.email,
 		username: '',
-		credits: null as null | number,
+		credits: 0,
 	});
 
 	if (user.value) {

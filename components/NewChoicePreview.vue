@@ -10,7 +10,7 @@
 
 		<h3 class="Title">
 			<small class="TitleIntro">Help @{{ props.username }} choose</small>
-			{{ props.title }}
+			{{ props.title || 'No title' }}
 		</h3>
 	</div>
 </template>

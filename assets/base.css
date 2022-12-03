@@ -2,6 +2,7 @@
 	box-sizing: border-box;
 	position: relative;
 	accent-color: var(--dark);
+	scroll-margin-top: 5em;
 }
 
 html,
@@ -10,6 +11,7 @@ body {
 	font-weight: 300;
 	color: var(--dark);
 	background-color: var(--light);
+	line-height: 1.4;
 }
 
 img {
@@ -55,4 +57,8 @@ a:has(svg) {
 
 strong {
 	font-weight: bold;
+}
+
+ol > li {
+	margin-block: 1em;
 }
