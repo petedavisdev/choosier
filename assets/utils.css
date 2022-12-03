@@ -35,6 +35,10 @@
 	box-shadow: -8px 10px 0 2px var(--dark);
 }
 
+.button:disabled {
+	background-color: var(--mid);
+}
+
 .card {
 	aspect-ratio: 16 / 9;
 	display: grid;

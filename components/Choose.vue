@@ -48,7 +48,7 @@
 		</form>
 
 		<aside class="popup backdrop" v-if="data.userHasVoted">
-			<NuxtLink :to="'/results/' + props.id" class="button">
+			<NuxtLink :to="'/result' + props.id" class="button">
 				You have made your choice
 				<h2>See the results &rarr;</h2>
 			</NuxtLink>

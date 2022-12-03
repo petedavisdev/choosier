@@ -7,7 +7,7 @@ const route = useRoute();
 const id = +route.params.id;
 </script>
 
-<style>
+<style scoped>
 small {
 	display: block;
 	font-size: 1rem;
