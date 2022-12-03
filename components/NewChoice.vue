@@ -1,7 +1,7 @@
 <template>
 	<UserLogin v-if="!profile.userId" />
 	<UserEdit v-else-if="!profile.username" />
-	<form v-else>
+	<form v-else @submit.prevent="submit">
 		<section>
 			<h2><label for="title">Title</label></h2>
 			<input v-model="data.title" class="TitleInput" maxlength="25" required />
@@ -12,11 +12,14 @@
 			<h2>Images</h2>
 			<p>You can add between 2 and 8 image URLs.</p>
 			<p>
-				I recommend uploading your images to a media library like
-				<NuxtLink to="https://cloudinary.com/users/register_free"
-					>Cloudinary</NuxtLink
+				Upload your images to a media library like
+				<a
+					to="https://cloudinary.com/users/register_free"
+					target="_blank"
+					rel="noopener noreferrer"
+					>Cloudinary</a
 				>
-				and copying the URLs.
+				and then copy the URLs.
 			</p>
 			<div class="ImageFields">
 				<label
@@ -113,6 +116,9 @@
 <script setup lang="ts">
 import { getSrc } from '~/helpers/getSrc';
 
+const supabase = useSupabaseClient();
+const router = useRouter();
+
 const visibility = {
 	Promoted: '(1 credit) Choosier homepage + Instagram',
 	Public: '(free)',
@@ -133,6 +139,7 @@ const categories = [
 
 const profile = await useMyProfile();
 const data = reactive({
+	loading: false,
 	title: '',
 	imageValues: ['', '', '', '', '', '', '', ''],
 	category: '',
@@ -140,11 +147,34 @@ const data = reactive({
 	showCredits: false,
 });
 
+const imageURLs = computed(() => data.imageValues.filter((value) => value));
+
+async function submit() {
+	data.loading = true;
+
+	try {
+		const response = await supabase.from('choices').insert([
+			{
+				title: data.title,
+				image_urls: imageURLs.value,
+				user_id: profile.userId,
+				visibility: data.visibility,
+			},
+		]);
+
+		if (response.error) throw response.error;
+
+		router.push('/@' + profile.username);
+	} catch (error: any) {
+		alert(error.message);
+	} finally {
+		data.loading = false;
+	}
+}
+
 function closeCredits() {
 	data.showCredits = !data.showCredits;
 }
-
-const imageURLs = computed(() => data.imageValues.filter((value) => value));
 </script>
 
 <style scoped>

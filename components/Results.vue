@@ -44,7 +44,7 @@
 			<img
 				:src="result.imageUrl"
 				alt=""
-				:title="result.imageUrl.split('/').pop()"
+				:title="result.imageUrl.split('/').pop()?.replace('.webp', '')"
 			/>
 			<div
 				class="bar"

@@ -21,6 +21,7 @@ export async function useMyProfile() {
 			if (response.error) throw response.error;
 
 			data.username = response.data.username;
+			data.credits = response.data.credits;
 			data.loading = false;
 		} catch (error: any) {
 			console.log(error.message);
