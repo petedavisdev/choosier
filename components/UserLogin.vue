@@ -1,7 +1,13 @@
 <template>
 	<section class="backdrop">
-		<form @submit.prevent="login" class="box">
+		<form @submit.prevent="login" class="box cen">
 			<h1>Login/Register</h1>
+
+			<button type="button" @click="googleLogin" class="button">
+				Log in with Google
+			</button>
+
+			<p>or</p>
 
 			<input
 				type="email"
@@ -43,6 +49,12 @@ async function login() {
 	} finally {
 		data.loading = false;
 	}
+}
+
+async function googleLogin() {
+	const { data, error } = await supabase.auth.signInWithOAuth({
+		provider: 'google',
+	});
 }
 </script>
 
