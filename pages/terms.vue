@@ -11,10 +11,10 @@
 	</p>
 	<p>Content may be removed at any time without warning or explanation.</p>
 
-	<h2>Don't expect 100% reliability during beta</h2>
+	<h2>Don't expect 100% reliability</h2>
 	<p>
-		Choosier is new and constantly evolving so there may be bugs or loss of
-		data.
+		Choosier is new and being actively developed, so there may be bugs or loss
+		of data.
 	</p>
 	<p>
 		If the results you get using Chooiser are important to you, make sure you
