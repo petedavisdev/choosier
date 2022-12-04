@@ -3,8 +3,9 @@
 		<form @submit.prevent="login" class="box cen">
 			<h1>Login/Register</h1>
 
-			<button type="button" @click="googleLogin" class="button">
-				Log in with Google
+			<button type="button" @click="googleLogin" class="button google">
+				<IconGoogle />
+				<span>Log in with Google</span>
 			</button>
 
 			<p>or</p>
@@ -60,13 +61,19 @@ async function googleLogin() {
 
 <style scoped>
 form {
-	max-width: 24em;
+	min-width: 25em;
+	max-width: 35em;
 }
 
 input,
 button {
-	display: block;
 	width: 100%;
 	margin-bottom: 2em;
+}
+
+.google {
+	display: grid;
+	grid-template-columns: 1fr max-content 1fr;
+	align-items: center;
 }
 </style>
