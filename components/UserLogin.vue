@@ -2,14 +2,6 @@
 	<section class="backdrop">
 		<form @submit.prevent="login" class="box cen">
 			<h1>Login/Register</h1>
-
-			<button type="button" @click="googleLogin" class="button google">
-				<IconGoogle />
-				<span>Log in with Google</span>
-			</button>
-
-			<p>or</p>
-
 			<input
 				type="email"
 				placeholder="Email"
@@ -51,12 +43,6 @@ async function login() {
 		data.loading = false;
 	}
 }
-
-async function googleLogin() {
-	const { data, error } = await supabase.auth.signInWithOAuth({
-		provider: 'google',
-	});
-}
 </script>
 
 <style scoped>
@@ -69,11 +55,5 @@ input,
 button {
 	width: 100%;
 	margin-bottom: 2em;
-}
-
-.google {
-	display: grid;
-	grid-template-columns: 1fr max-content 1fr;
-	align-items: center;
 }
 </style>
