@@ -1,10 +1,10 @@
 <template>
-	<section class="option">
-		<img :src="props.image" alt="" class="image" />
+	<section>
+		<img :src="props.image" alt="" />
+		<h1>You have chosen!</h1>
 	</section>
 
-	<section v-if="!user" class="option">
-		<h1>You have chosen!</h1>
+	<section v-if="!user">
 		<p>To submit your choice, please confirm you are human.</p>
 
 		<input
@@ -25,7 +25,6 @@
 	</section>
 
 	<section v-else>
-		<h1>You have chosen!</h1>
 		<button @click="vote()" type="button" class="button">
 			✓ Confirm my choice
 		</button>
@@ -134,6 +133,7 @@ section {
 
 section img {
 	object-fit: contain;
+	place-self: center;
 	min-height: 0;
 	max-width: 100%;
 	max-height: 100%;

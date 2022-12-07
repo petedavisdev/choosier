@@ -18,6 +18,14 @@
 			<NuxtLink to="/new" class="New button">+ New</NuxtLink>
 		</nav>
 	</main>
+	<footer>
+		<p>
+			<NuxtLink to="/privacy">Privacy</NuxtLink> |
+			<NuxtLink to="/terms">Terms of use</NuxtLink> | &copy;
+			{{ new Date().getFullYear() }}
+			<NuxtLink to="https://petedavis.dev">Pete Davis</NuxtLink>
+		</p>
+	</footer>
 </template>
 
 <script setup lang="ts">
@@ -25,7 +33,8 @@ const profile = await useMyProfile();
 </script>
 
 <style scoped>
-main {
+main,
+footer {
 	padding: 2em 2em 6em;
 	display: grid;
 	margin-inline: auto;
@@ -43,6 +52,7 @@ nav {
 	position: fixed;
 	bottom: 1.5em;
 	right: 1em;
+	z-index: 1;
 	display: grid;
 	grid-auto-flow: column;
 	gap: 1.5em;
@@ -55,7 +65,7 @@ nav {
 
 @media (min-width: 700px) {
 	main {
-		padding: 2em 3em 6em;
+		padding: 2em 3em 8em;
 		margin-inline: auto;
 	}
 

@@ -7,23 +7,24 @@
 
 		<Categories />
 
-		<article>
-			<h2>
-				Welcome to Choosier, your new favourite way to choose between images.
-			</h2>
-			<p>
-				Choosier shows your images two at a time, like a knock-out tournament,
-				to help you pick a favourite.
-			</p>
-
-			<p>Share your choice with anyone to help you choose with confidence.</p>
-
-			<h3>Here are some examples:</h3>
-		</article>
-
 		<section class="grid">
 			<Card :id="1" />
 			<Card :id="2" />
 		</section>
+
+		<article>
+			<h2>How Choosier Works</h2>
+			<p>
+				Choosier shows your images two at a time, like a knock-out tournament,
+				so you can make quick comparisons and find your favourite.
+			</p>
+			<p>
+				Share your choice with friends, followers, colleagues or customers to
+				instantly see their favourites and choose with confidence.
+			</p>
+			<h3>No more dithering. No more guesswork.</h3>
+		</article>
+
+		<NuxtLink to="/new" class="button">+ Make your own choice</NuxtLink>
 	</div>
 </template>

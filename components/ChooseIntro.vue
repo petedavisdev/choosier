@@ -41,4 +41,8 @@ const data = reactive({
 footer {
 	margin-top: 2em;
 }
+
+small {
+	font-size: 1rem;
+}
 </style>

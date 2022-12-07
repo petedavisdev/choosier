@@ -156,6 +156,7 @@ input {
 	display: grid;
 	place-content: center;
 	min-height: 0;
+	cursor: pointer;
 }
 
 .option img {

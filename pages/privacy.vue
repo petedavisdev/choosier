@@ -4,9 +4,10 @@
 	<h2>Personal data</h2>
 	<p>Choosier only collects email addresses for account management purposes.</p>
 	<p>Your email address will not be shared.</p>
+	<p>No other personal data is required to user Choosier.</p>
 	<p>
-		Your 'choosername' is public. It does not have to resemble your real name,
-		so you can be as anonymous as you like.
+		Your 'choosername' is public, but it does not need to resemble your real
+		name and you can change it <NuxtLink to="/account">here</NuxtLink>.
 	</p>
 
 	<h2>Cookies</h2>
