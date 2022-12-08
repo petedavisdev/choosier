@@ -1,6 +1,6 @@
 <template>
-	<UserLogin v-if="profile.userId" />
-	<UserEdit v-else-if="profile.username" />
+	<UserLogin v-if="!profile.userId" />
+	<UserEdit v-else-if="!profile.username" />
 	<form v-else @submit.prevent="submit">
 		<section id="title">
 			<h2><label for="title">Title</label></h2>
