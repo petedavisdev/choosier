@@ -1,6 +1,6 @@
 <template>
-	<UserLogin v-if="!profile.userId" />
-	<UserEdit v-else-if="!profile.username" />
+	<UserLogin v-if="profile.userId" />
+	<UserEdit v-else-if="profile.username" />
 	<form v-else @submit.prevent="submit">
 		<section id="title">
 			<h2><label for="title">Title</label></h2>
@@ -20,6 +20,18 @@
 					>Cloudinary</a
 				>
 				and then copy the URLs.
+			</p>
+			<p>
+				<em
+					>— Image uploads are coming soon. Message me on
+					<a
+						href="https://www.instagram.com/choosier.app/"
+						target="_blank"
+						rel="noopener noreferrer"
+						>Instagram</a
+					>
+					to request early access.</em
+				>
 			</p>
 			<div class="ImageFields">
 				<label

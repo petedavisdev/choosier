@@ -12,8 +12,11 @@
 		<ol>
 			<li>
 				Follow me on
-				<NuxtLink to="https://www.instagram.com/choosier.app/"
-					>Instagram.</NuxtLink
+				<a
+					href="https://www.instagram.com/choosier.app/"
+					target="_blank"
+					rel="noopener noreferrer"
+					>Instagram</a
 				>
 				and send me a message.
 			</li>
