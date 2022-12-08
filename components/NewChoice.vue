@@ -14,7 +14,7 @@
 			<p>
 				Upload your images to a media library like
 				<a
-					to="https://cloudinary.com/users/register_free"
+					href="https://cloudinary.com/users/register_free"
 					target="_blank"
 					rel="noopener noreferrer"
 					>Cloudinary</a
