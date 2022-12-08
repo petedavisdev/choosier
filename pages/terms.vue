@@ -18,7 +18,7 @@
 		of data.
 	</p>
 	<p>
-		If the results you get using Chooiser are important to you, make sure you
+		If the results you get using Choosier are important to you, make sure you
 		keep your own copy - do not rely on Choosier.
 	</p>
 	<p>I appreciate your understanding.</p>

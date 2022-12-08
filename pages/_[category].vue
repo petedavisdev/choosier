@@ -8,7 +8,7 @@
 				<Title>Choosier. Art and illustration decisions made easy</Title>
 				<Meta
 					name="description"
-					content="Get help choosing colours, styles and layouts for your artwork. Use Choosier to poll your friends, followers and clients so that you can choose with confidence."
+					content="Get help choosing colors, styles and layouts for your artwork. Use Choosier to poll your friends, followers and clients so that you can choose with confidence."
 				/>
 			</Head>
 
@@ -23,11 +23,11 @@
 			</p>
 			<p>
 				Choosier shows your images two at a time, like a knock-out tournament,
-				to help you pick a favourite.
+				to help you pick a favorite.
 			</p>
 			<p>
 				You can share a link with your friends, clients or followers to
-				instantly see their favourites and know which artwork is most likely to
+				instantly see their favorites and know which artwork is most likely to
 				sell.
 			</p>
 			<h3>No more dithering. No more guesswork.</h3>
@@ -45,16 +45,16 @@
 			<h2>Fashion decisions are hard</h2>
 			<p>So many styles. So little time.</p>
 			<p>
-				Whether you are designing clothes, putting together the perfet outfit or
-				coming up with costume ideas, Choosier is here to help.
+				Whether you are designing clothes, putting together the perfect outfit
+				or coming up with costume ideas, Choosier is here to help.
 			</p>
 			<p>
 				Choosier shows your images two at a time, like a knock-out tournament,
-				so you can quickly find your favourite.
+				so you can quickly find your favorite.
 			</p>
 			<p>
 				Share with friends, colleagues and followers to instantly see their
-				favourites and choose with confidence.
+				favorites and choose with confidence.
 			</p>
 			<h3>No more dithering. No more guesswork.</h3>
 		</template>
@@ -70,7 +70,7 @@
 
 			<h2>Graphic design decisions are hard</h2>
 			<p>
-				Brand colours, logo variants, UI styles, layout options, typography… The
+				Brand colors, logo variants, UI styles, layout options, typography… The
 				possibilities are endless.
 			</p>
 			<p>
@@ -79,11 +79,11 @@
 			</p>
 			<p>
 				Choosier shows your images two at a time, like a knock-out tournament,
-				so you can quickly find your favourite.
+				so you can quickly find your favorite.
 			</p>
 			<p>
 				Share with colleagues, stakeholders or customers to instantly see their
-				favourites and choose with confidence.
+				favorites and choose with confidence.
 			</p>
 			<h3>No more dithering. No more guesswork.</h3>
 
@@ -112,11 +112,11 @@
 			<p>Choosier is here to help.</p>
 			<p>
 				Choosier shows your images two at a time, like a knock-out tournament,
-				so you can quickly find your favourite.
+				so you can quickly find your favorite.
 			</p>
 			<p>
 				Share with your friends, family or followers to instantly see their
-				favourites and choose with confidence.
+				favorites and choose with confidence.
 			</p>
 			<h3>No more dithering. No more guesswork.</h3>
 
