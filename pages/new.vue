@@ -1,12 +1,5 @@
 <template>
 	<main>
-		<Head>
-			<Script
-				src="https://widget.cloudinary.com/v2.0/global/all.js"
-				type="text/javascript"
-			/>
-		</Head>
-
 		<header>
 			<IconLogo />
 			<h1>New choice</h1>

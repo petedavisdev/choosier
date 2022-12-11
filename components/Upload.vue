@@ -1,13 +1,15 @@
 <template>
+	<Head>
+		<Script
+			src="https://widget.cloudinary.com/v2.0/global/all.js"
+			type="text/javascript"
+		/>
+	</Head>
 	<button @click="showUploadWidget" type="button" class="button">Upload</button>
 </template>
 
 <script setup lang="ts">
 const emit = defineEmits<{ (e: 'uploaded', value: string): void }>();
-
-const data = reactive({
-	images: [] as string[],
-});
 
 interface UploadInfo {
 	event: string;

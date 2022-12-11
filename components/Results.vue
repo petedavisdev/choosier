@@ -42,9 +42,9 @@
 
 		<article v-for="(result, index) in results" :key="index">
 			<img
-				:src="result.imageUrl"
+				:src="result.image"
 				alt=""
-				:title="result.imageUrl.split('/').pop()?.replace('.webp', '')"
+				:title="result.image.split('/').pop()?.replace('.webp', '')"
 			/>
 			<div
 				class="bar"
@@ -105,7 +105,7 @@ const data = reactive({
 
 const results = computed(() => {
 	return choice.images
-		.map((image) => {
+		.map((image: string) => {
 			return {
 				image,
 				voters: data.votes
