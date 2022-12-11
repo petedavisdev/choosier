@@ -10,46 +10,21 @@
 
 		<section id="images">
 			<h2>Images</h2>
-			<p>You can add between 2 and 8 image URLs.</p>
-			<p>
-				Upload your images to a media library like
-				<a
-					href="https://cloudinary.com/users/register_free"
-					target="_blank"
-					rel="noopener noreferrer"
-					>Cloudinary</a
-				>
-				and then copy the URLs.
-			</p>
-			<p>
-				<em
-					>— Image uploads are coming soon. Message me on
-					<a
-						href="https://www.instagram.com/choosier.app/"
-						target="_blank"
-						rel="noopener noreferrer"
-						>Instagram</a
-					>
-					to request early access.</em
-				>
-			</p>
-			<div class="ImageFields">
-				<label
-					v-for="(url, index) in data.imageValues"
-					:key="index"
-					class="ImageField"
-				>
-					<img v-if="url" class="Image" :src="getSrc(url)" />
-					<span v-else>{{ index + 1 }}.</span>
+			<p>Add between 2 and 8 images.</p>
 
-					<input
-						v-model="data.imageValues[index]"
-						placeholder="https://..."
-						class="ImageInput"
-						:required="index < 2"
-					/>
-				</label>
+			<div class="grid" v-if="data.images.length">
+				<img
+					v-for="(image, index) in data.images"
+					:key="index"
+					:src="image"
+					alt=""
+				/>
 			</div>
+
+			<Upload
+				v-if="data.images.length < 8"
+				@uploaded="(url) => (data.images = [...data.images, url])"
+			/>
 		</section>
 
 		<section id="categories">
@@ -75,7 +50,7 @@
 					profile.credits === 1 ? '' : 's'
 				}}.
 				<a href="#credits" @click.prevent="data.showCredits = true"
-					>Get more credits</a
+					>Get credits</a
 				>
 
 				<NewChoiceCredits
@@ -103,7 +78,7 @@
 		<section id="preview">
 			<h2>Listing preview</h2>
 			<NewChoicePreview
-				:images="imageURLs"
+				:images="data.images"
 				:title="data.title"
 				:username="profile.username"
 			/>
@@ -114,14 +89,18 @@
 				{{
 					!data.title
 						? 'You need a title!'
-						: imageURLs.length < 2
+						: data.images.length < 2
 						? 'You need at least 2 images!'
 						: !data.category
 						? 'Choose a category'
 						: 'Looking good!'
 				}}
 			</p>
-			<button type="submit" class="button" :disabled="data.loading">
+			<button
+				type="submit"
+				class="button"
+				:disabled="data.images.length < 2 || data.loading"
+			>
 				Save and publish
 			</button>
 		</footer>
@@ -129,7 +108,6 @@
 </template>
 
 <script setup lang="ts">
-import { getSrc } from '~/helpers/getSrc';
 import { categories, visibility } from '~/constants';
 
 const supabase = useSupabaseClient();
@@ -139,13 +117,11 @@ const profile = await useMyProfile();
 const data = reactive({
 	loading: false,
 	title: '',
-	imageValues: ['', '', '', '', '', '', '', ''],
+	images: [] as string[],
 	category: '',
 	visibility: 'Public',
 	showCredits: false,
 });
-
-const imageURLs = computed(() => data.imageValues.filter((value) => value));
 
 async function submit() {
 	data.loading = true;
@@ -155,7 +131,7 @@ async function submit() {
 			// @ts-ignore: Unreachable code error
 			{
 				title: data.title,
-				image_urls: imageURLs.value,
+				image_urls: data.images,
 				user_id: profile.userId,
 				visibility: data.visibility,
 				category: data.category,
@@ -184,37 +160,6 @@ form {
 }
 
 .TitleInput {
-	display: block;
 	width: 100%;
-}
-
-.ImageFields {
-	display: grid;
-	gap: 1em 0;
-	grid-template-columns: max-content 1fr;
-	align-items: center;
-}
-
-.ImageField {
-	display: contents;
-}
-
-.Image {
-	height: 2.9em;
-	width: auto;
-}
-
-.ImageField span {
-	min-width: 2.9em;
-	text-align: center;
-	place-self: center;
-}
-
-.ImageInput:focus::placeholder {
-	color: transparent;
-}
-
-[type='radio'] {
-	margin-inline: 1em 0.5em;
 }
 </style>

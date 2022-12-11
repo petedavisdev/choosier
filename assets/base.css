@@ -48,12 +48,24 @@ input {
 	color: var(--dark);
 	border: solid 2px currentColor;
 	background-color: transparent;
-	border-radius: 0;
+	border-radius: 0.5em;
+	overflow: hidden;
 }
 
 input:focus {
 	background-color: white;
 	outline: none;
+}
+
+[type='radio'] {
+	margin-inline: 0.1rem 0.5em;
+	height: 1.5em;
+	width: 1.5em;
+	vertical-align: text-bottom;
+}
+
+label:has(:checked) {
+	font-weight: 500;
 }
 
 a:has(svg) {

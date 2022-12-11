@@ -4,7 +4,7 @@
 			<span
 				class="card-image"
 				v-for="image in choice.images"
-				:style="{ backgroundImage: `url(${image && getSrc(image)})` }"
+				:style="{ backgroundImage: `url(${image})` }"
 			></span>
 		</div>
 
@@ -16,8 +16,6 @@
 </template>
 
 <script setup lang="ts">
-import { getSrc } from '~/helpers/getSrc';
-
 const props = defineProps<{ id: number }>();
 const choice = await useChoice(props.id);
 </script>

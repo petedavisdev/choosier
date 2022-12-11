@@ -15,6 +15,8 @@
 	background-color: var(--light);
 	box-shadow: -6px 8px 0 1px var(--dark);
 	border: 2px solid var(--dark);
+	border-radius: var(--radius);
+	overflow: hidden;
 }
 
 .button,
@@ -42,13 +44,13 @@
 .card {
 	aspect-ratio: 16 / 9;
 	display: grid;
-	grid-template-areas: 'x';
+	grid-template-areas: 'one';
 	padding: 0;
 	text-decoration: none;
 }
 
 .card-images {
-	grid-area: x;
+	grid-area: one;
 	display: grid;
 	grid-auto-flow: column;
 }
@@ -59,12 +61,12 @@
 }
 
 .card-title {
-	grid-area: x;
+	grid-area: one;
 	justify-self: start;
 	align-self: end;
 	background-color: var(--light);
 	padding: 0.5em 1em;
-	box-shadow: var(--box-shadow);
+	border-top-right-radius: var(--radius);
 	transition: background-color 0.3s;
 }
 

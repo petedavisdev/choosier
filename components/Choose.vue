@@ -19,7 +19,7 @@
 		>
 			<ChooseConfirm
 				v-if="matchIndex === length - 1 && match[0]"
-				:image="match[0] && getSrc(match[0])"
+				:image="match[0]"
 				:id="+props.id"
 			/>
 
@@ -36,7 +36,7 @@
 						required
 					/>
 
-					<img :src="option && getSrc(option)" alt="" />
+					<img :src="option" alt="" />
 				</label>
 			</template>
 
@@ -64,8 +64,6 @@
 </template>
 
 <script setup lang="ts">
-import { getSrc } from '~/helpers/getSrc';
-
 const props = defineProps<{
 	id: number;
 }>();

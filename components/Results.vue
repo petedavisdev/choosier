@@ -80,7 +80,6 @@
 
 <script setup lang="ts">
 import { copyText } from '~/helpers/copyText';
-import { getSrc } from '~/helpers/getSrc';
 
 const props = defineProps<{
 	id: number;
@@ -107,11 +106,10 @@ const data = reactive({
 const results = computed(() => {
 	return choice.images
 		.map((image) => {
-			const imageUrl = getSrc(image);
 			return {
-				imageUrl,
+				image,
 				voters: data.votes
-					.filter((vote) => imageUrl === vote.image_url)
+					.filter((vote) => image === vote.image_url)
 					.map((vote) => vote.profiles.username)
 					.filter((vote) => vote),
 			};

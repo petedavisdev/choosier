@@ -4,7 +4,7 @@
 			<span
 				class="card-image"
 				v-for="image in props.images"
-				:style="{ backgroundImage: `url(${image && getSrc(image)})` }"
+				:style="{ backgroundImage: `url(${image})` }"
 			></span>
 		</div>
 
@@ -16,8 +16,6 @@
 </template>
 
 <script setup lang="ts">
-import { getSrc } from '~/helpers/getSrc';
-
 const props = defineProps<{
 	images: string[];
 	title: string;
