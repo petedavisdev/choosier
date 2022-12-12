@@ -1,11 +1,15 @@
 <template>
 	<NuxtLink :to="`/${id}`" class="card">
 		<div class="card-images">
-			<span
+			<img
 				class="card-image"
 				v-for="image in choice.images"
-				:style="{ backgroundImage: `url(${image})` }"
-			></span>
+				:src="image"
+				alt=""
+				loading="lazy"
+				height="92"
+				width="92"
+			/>
 		</div>
 
 		<div class="card-title">

@@ -1,20 +1,32 @@
 <template>
 	<Head>
-		<Script
-			src="https://widget.cloudinary.com/v2.0/global/all.js"
-			type="text/javascript"
-		/>
+		<Script src="https://widget.cloudinary.com/v2.0/global/all.js" />
 	</Head>
-	<button @click="showUploadWidget" type="button" class="button">Upload</button>
+
+	<div class="thumbnails" v-if="data.uploads.length">
+		<div v-for="({ url, delete_token }, index) in data.uploads" :key="index">
+			<img :src="url" alt="" />
+			<button class="close" @click="deleteUpload(index, delete_token)"></button>
+		</div>
+	</div>
+
+	<button
+		v-if="data.uploads.length < props.max"
+		@click="showUploadWidget"
+		type="button"
+		class="button"
+		:disabled="data.loading"
+	>
+		Upload
+	</button>
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits<{ (e: 'uploaded', value: string): void }>();
-
 interface UploadInfo {
 	event: string;
 	info: {
-		eager: [
+		delete_token?: string;
+		eager?: [
 			{
 				secure_url: string;
 			}
@@ -23,9 +35,29 @@ interface UploadInfo {
 	};
 }
 
+interface Upload {
+	url: string;
+	delete_token: string | undefined;
+}
+
+const props = defineProps<{
+	folder: string;
+	max: number;
+}>();
+
+const emit = defineEmits<{
+	(e: 'uploaded', value: string[]): void;
+}>();
+
+const data = reactive({
+	uploads: [] as Upload[],
+	loading: false,
+});
+
 const uploadConfig = {
 	cloudName: 'choosier',
 	uploadPreset: 'choices',
+	folder: props.folder,
 	sources: ['local', 'camera', 'url', 'instagram', 'google_drive', 'dropbox'],
 	showAdvancedOptions: false,
 	cropping: false,
@@ -58,16 +90,46 @@ const uploadConfig = {
 };
 
 function uploadHandler(error: unknown, info: UploadInfo) {
+	data.loading = false;
+
 	if (info?.event === 'success') {
-		const url = info.info?.eager[0]?.secure_url || info.info?.secure_url;
-		emit('uploaded', url);
+		console.log(info.info);
+		const url = info.info?.eager?.[0]?.secure_url || info.info?.secure_url;
+		data.uploads = [
+			...data.uploads,
+			{ url, delete_token: info.info?.delete_token },
+		];
+		updateUploaded();
 	}
 
 	if (error) console.error(error);
 }
 
 function showUploadWidget() {
+	data.loading = true;
 	// @ts-ignore
 	cloudinary.openUploadWidget(uploadConfig, uploadHandler);
 }
+
+function deleteUpload(index: number, delete_token: string | undefined) {
+	// TODO: Delete from cloudinary
+	console.log(delete_token);
+	data.uploads.splice(index, 1);
+	updateUploaded();
+}
+
+function updateUploaded() {
+	emit(
+		'uploaded',
+		data.uploads.map((upload) => upload.url)
+	);
+}
 </script>
+
+<style scoped>
+.thumbnails {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 0.5em;
+}
+</style>

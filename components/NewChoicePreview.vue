@@ -1,11 +1,15 @@
 <template>
 	<div class="card">
 		<div class="card-images">
-			<span
+			<img
 				class="card-image"
 				v-for="image in props.images"
-				:style="{ backgroundImage: `url(${image})` }"
-			></span>
+				:src="image"
+				alt=""
+				loading="lazy"
+				height="100"
+				width="100"
+			/>
 		</div>
 
 		<div class="card-title">
@@ -22,3 +26,9 @@ const props = defineProps<{
 	username: string;
 }>();
 </script>
+
+<style scoped>
+.card {
+	cursor: unset;
+}
+</style>

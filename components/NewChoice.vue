@@ -2,29 +2,28 @@
 	<UserLogin v-if="!profile.userId" />
 	<UserEdit v-else-if="!profile.username" />
 	<form v-else @submit.prevent="submit">
+		<section id="images">
+			<h2>Images</h2>
+			<p v-if="data.images.length < minImages">
+				Add {{ minImages }} to {{ maxImages }} images.
+			</p>
+
+			<p v-if="data.images.length > maxImages">
+				You have added more that {{ maxImages }} images! Please remove
+				{{ data.images.length - maxImages }}.
+			</p>
+
+			<Upload
+				@uploaded="(urls) => (data.images = urls)"
+				:folder="profile.username"
+				:max="maxImages"
+			/>
+		</section>
+
 		<section id="title">
 			<h2><label for="title">Title</label></h2>
 			<input v-model="data.title" class="TitleInput" maxlength="25" required />
 			<small>Up to 25 characters</small>
-		</section>
-
-		<section id="images">
-			<h2>Images</h2>
-			<p>Add between 2 and 8 images.</p>
-
-			<div class="grid" v-if="data.images.length">
-				<img
-					v-for="(image, index) in data.images"
-					:key="index"
-					:src="image"
-					alt=""
-				/>
-			</div>
-
-			<Upload
-				v-if="data.images.length < 8"
-				@uploaded="(url) => (data.images = [...data.images, url])"
-			/>
 		</section>
 
 		<section id="categories">
@@ -87,10 +86,12 @@
 		<footer>
 			<p>
 				{{
-					!data.title
+					data.images.length < minImages
+						? `You need at least ${minImages} images!`
+						: data.images.length > maxImages
+						? `You have more than ${maxImages} images!`
+						: !data.title
 						? 'You need a title!'
-						: data.images.length < 2
-						? 'You need at least 2 images!'
 						: !data.category
 						? 'Choose a category'
 						: 'Looking good!'
@@ -99,7 +100,11 @@
 			<button
 				type="submit"
 				class="button"
-				:disabled="data.images.length < 2 || data.loading"
+				:disabled="
+					data.images.length < minImages ||
+					data.images.length > maxImages ||
+					data.loading
+				"
 			>
 				Save and publish
 			</button>
@@ -122,6 +127,8 @@ const data = reactive({
 	visibility: 'Public',
 	showCredits: false,
 });
+const minImages = 2;
+const maxImages = 8;
 
 async function submit() {
 	data.loading = true;
