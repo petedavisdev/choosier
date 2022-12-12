@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-const profile = await useMyProfile();
+const profile = await useProfile();
 </script>
 
 <style scoped>

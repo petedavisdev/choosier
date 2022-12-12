@@ -30,7 +30,8 @@
 				instantly see their favorites and know which artwork is most likely to
 				sell.
 			</p>
-			<h3>No more dithering. No more guesswork.</h3>
+			<h3>No more dithering.</h3>
+			<h3>No more guesswork.</h3>
 		</template>
 
 		<template v-if="category === 'fashion'">
@@ -56,7 +57,8 @@
 				Share with friends, colleagues and followers to instantly see their
 				favorites and choose with confidence.
 			</p>
-			<h3>No more dithering. No more guesswork.</h3>
+			<h3>No more dithering.</h3>
+			<h3>No more guesswork.</h3>
 		</template>
 
 		<template v-if="category === 'graphic-design'">
@@ -85,12 +87,8 @@
 				Share with colleagues, stakeholders or customers to instantly see their
 				favorites and choose with confidence.
 			</p>
-			<h3>No more dithering. No more guesswork.</h3>
-
-			<h2>Here is an example:</h2>
-			<section class="grid">
-				<Card :id="1" />
-			</section>
+			<h3>No more dithering.</h3>
+			<h3>No more guesswork.</h3>
 		</template>
 
 		<template v-if="category === 'photography'">
@@ -118,7 +116,8 @@
 				Share with your friends, family or followers to instantly see their
 				favorites and choose with confidence.
 			</p>
-			<h3>No more dithering. No more guesswork.</h3>
+			<h3>No more dithering.</h3>
+			<h3>No more guesswork.</h3>
 
 			<h2>Here is an example:</h2>
 			<section class="grid">

@@ -7,8 +7,8 @@
 				:src="image"
 				alt=""
 				loading="lazy"
-				height="100"
-				width="100"
+				height="800"
+				width="800"
 			/>
 		</div>
 

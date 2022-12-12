@@ -118,7 +118,7 @@ import { categories, visibility } from '~/constants';
 const supabase = useSupabaseClient();
 const router = useRouter();
 
-const profile = await useMyProfile();
+const profile = await useProfile();
 const data = reactive({
 	loading: false,
 	title: '',

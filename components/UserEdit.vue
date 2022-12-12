@@ -12,6 +12,7 @@
 				@input="data.username = handle"
 				required
 			/>
+			<small>Up to 15 lowercase letters</small>
 		</p>
 
 		<p v-if="data.saving">Saving...</p>
@@ -22,7 +23,7 @@
 <script setup lang="ts">
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
-const profile = await useMyProfile();
+const profile = await useProfile();
 const router = useRouter();
 const route = useRoute();
 
@@ -64,3 +65,9 @@ async function updateProfile() {
 	}
 }
 </script>
+
+<style scoped>
+small {
+	display: block;
+}
+</style>

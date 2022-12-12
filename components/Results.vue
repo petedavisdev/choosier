@@ -87,7 +87,7 @@ const props = defineProps<{
 
 const supabase = useSupabaseClient();
 const choice = await useChoice(props.id);
-const profile = await useMyProfile();
+const profile = await useProfile();
 const shareLink = 'https://choosier.app/' + props.id;
 
 type Vote = {

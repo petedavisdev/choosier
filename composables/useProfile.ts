@@ -1,7 +1,6 @@
-export async function useMyProfile() {
+export async function useProfile() {
 	const supabase = useSupabaseClient();
 	const user = useSupabaseUser();
-
 	const data = reactive({
 		loading: true,
 		userId: user.value?.id,

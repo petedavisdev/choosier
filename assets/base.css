@@ -45,6 +45,7 @@ h1 {
 
 input {
 	padding: 0.75em;
+	font-weight: 500;
 	color: var(--dark);
 	border: solid 2px currentColor;
 	background-color: transparent;
