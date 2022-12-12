@@ -2,7 +2,7 @@
 	<section class="backdrop">
 		<form
 			v-if="!data.requested"
-			@submit.prevent="request()"
+			@submit.prevent="request"
 			class="box cen"
 			id="request"
 		>
@@ -12,6 +12,7 @@
 				placeholder="Email"
 				v-model="data.email"
 				title="Email"
+				autocomplete="email"
 				required
 			/>
 
@@ -24,7 +25,7 @@
 			<p><NuxtLink to="/">&larr; Home</NuxtLink></p>
 		</form>
 
-		<form v-else @submit.prevent="verify()" class="box cen" id="verify">
+		<form v-else @submit.prevent="verify" class="box cen" id="verify">
 			<h1>
 				<label for="token">Confirmation code</label>
 			</h1>
