@@ -9,7 +9,7 @@
 				v-model="data.username"
 				id="username"
 				maxlength="15"
-				@input="data.username = handle"
+				@input="data.username = cleanUsername"
 				required
 			/>
 			<small>Up to 15 lowercase letters</small>
@@ -23,16 +23,16 @@
 <script setup lang="ts">
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
-const profile = await useProfile();
+const profile = useProfile();
 const router = useRouter();
 const route = useRoute();
 
 const data = reactive({
 	saving: false,
-	username: profile.username,
+	username: profile.username.value,
 });
 
-const handle = computed(() =>
+const cleanUsername = computed(() =>
 	data.username.toLowerCase().replace(/[^a-z0-9-_]/g, '')
 );
 
@@ -53,10 +53,10 @@ async function updateProfile() {
 
 		if (response.error) throw response.error;
 
-		if (route.path === '/account') {
+		profile.getProfile();
+
+		if (route.path === '/@') {
 			router.push('/@' + data.username);
-		} else {
-			location.reload();
 		}
 	} catch (error: any) {
 		alert(error.message);

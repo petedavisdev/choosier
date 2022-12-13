@@ -4,14 +4,14 @@
 		<slot />
 		<nav>
 			<NuxtLink
-				:to="profile.username ? '/@' + profile.username : '/account'"
+				:to="profile.username.value ? '/@' + profile.username.value : '/@'"
 				class="button"
 			>
 				{{
-					profile.username
-						? '@' + profile.username
-						: profile.userId
-						? 'My Account'
+					profile.username.value
+						? '@' + profile.username.value
+						: user?.id
+						? 'Me'
 						: 'Login'
 				}}
 			</NuxtLink>
@@ -29,7 +29,8 @@
 </template>
 
 <script setup lang="ts">
-const profile = await useProfile();
+const user = useSupabaseUser();
+const profile = useProfile();
 </script>
 
 <style scoped>

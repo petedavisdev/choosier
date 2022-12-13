@@ -6,7 +6,7 @@
 	<div>
 		<h1 v-if="data.userId">
 			@{{ props.username }}
-			<NuxtLink v-if="user?.id === data.userId" to="/account">
+			<NuxtLink v-if="user?.id === data.userId" to="/@">
 				<IconSettings class="icon" />
 			</NuxtLink>
 		</h1>

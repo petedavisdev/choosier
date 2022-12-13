@@ -1,6 +1,6 @@
 <template>
-	<UserLogin v-if="!profile.userId" />
-	<UserEdit v-else-if="!profile.username" />
+	<UserLogin v-if="!user" />
+	<UserEdit v-else-if="!profile.username.value" />
 	<form v-else @submit.prevent="submit">
 		<section id="images">
 			<h2>Images</h2>
@@ -15,7 +15,7 @@
 
 			<Upload
 				@uploaded="(urls) => (data.images = urls)"
-				:folder="profile.username"
+				:folder="profile.username.value"
 				:max="maxImages"
 			/>
 		</section>
@@ -46,7 +46,7 @@
 			<h2>Visibility</h2>
 			<p>
 				You have {{ profile.credits }} credit{{
-					profile.credits === 1 ? '' : 's'
+					profile.credits.value === 1 ? '' : 's'
 				}}.
 				<a href="#credits" @click.prevent="data.showCredits = true"
 					>Get credits</a
@@ -55,7 +55,7 @@
 				<NewChoiceCredits
 					v-if="data.showCredits"
 					:close="closeCredits"
-					:credits="profile.credits"
+					:credits="profile.credits.value"
 				/>
 			</p>
 			<p v-for="(text, name) in visibility" :key="name">
@@ -65,7 +65,8 @@
 						v-model="data.visibility"
 						:value="name"
 						:disabled="
-							name === 'Private' || (name === 'Promoted' && profile.credits < 1)
+							name === 'Private' ||
+							(name === 'Promoted' && profile.credits.value < 1)
 						"
 						required
 					/>
@@ -79,7 +80,7 @@
 			<NewChoicePreview
 				:images="data.images"
 				:title="data.title"
-				:username="profile.username"
+				:username="profile.username.value"
 			/>
 		</section>
 
@@ -115,10 +116,11 @@
 <script setup lang="ts">
 import { categories, visibility } from '~/constants';
 
-const supabase = useSupabaseClient();
 const router = useRouter();
+const supabase = useSupabaseClient();
+const user = useSupabaseUser();
+const profile = useProfile();
 
-const profile = await useProfile();
 const data = reactive({
 	loading: false,
 	title: '',
@@ -127,19 +129,20 @@ const data = reactive({
 	visibility: 'Public',
 	showCredits: false,
 });
+
 const minImages = 2;
 const maxImages = 8;
 
 async function submit() {
-	data.loading = true;
-
 	try {
+		data.loading = true;
+
 		const response = await supabase.from('choices').insert([
 			// @ts-ignore: Unreachable code error
 			{
 				title: data.title,
 				image_urls: data.images,
-				user_id: profile.userId,
+				user_id: user.value?.id,
 				visibility: data.visibility,
 				category: data.category,
 			},

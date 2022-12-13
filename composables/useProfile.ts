@@ -1,33 +1,29 @@
-export async function useProfile() {
+export function useProfile() {
 	const supabase = useSupabaseClient();
 	const user = useSupabaseUser();
-	const data = reactive({
-		loading: true,
-		userId: user.value?.id,
-		email: user.value?.email,
-		username: '',
-		credits: 0,
-	});
+	const username = useState<string>('username', () => '');
+	const credits = useState<number>('credits', () => 0);
 
-	if (user.value) {
-		try {
-			const response = await supabase
-				.from('profiles')
-				.select(`username, credits`)
-				.eq('user_id', user.value?.id)
-				.single();
+	async function getProfile() {
+		if (user.value) {
+			try {
+				const response = await supabase
+					.from('profiles')
+					.select(`username, credits`)
+					.eq('user_id', user.value?.id)
+					.single();
 
-			if (response.error) throw response.error;
+				if (response.error) throw response.error;
 
-			data.username = response.data.username;
-			data.credits = response.data.credits;
-			data.loading = false;
-		} catch (error: any) {
-			console.log(error.message);
-		} finally {
-			data.loading = false;
+				username.value = response.data.username;
+				credits.value = response.data.credits;
+			} catch (error: any) {
+				console.log(error.message);
+			}
 		}
 	}
 
-	return data;
+	getProfile();
+
+	return { username, credits, getProfile };
 }
