@@ -1,5 +1,7 @@
 <template>
-	<UserLogin v-if="!user" />
+	<UserLogin v-if="!user">
+		<h2>Login/register</h2>
+	</UserLogin>
 	<UserEdit v-else-if="!profile.username.value" />
 	<form v-else @submit.prevent="submit">
 		<section id="images">

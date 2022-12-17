@@ -11,7 +11,7 @@
 					profile.username.value
 						? '@' + profile.username.value
 						: user?.id
-						? 'Me'
+						? 'Account'
 						: 'Login'
 				}}
 			</NuxtLink>

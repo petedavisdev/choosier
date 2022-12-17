@@ -4,7 +4,9 @@
 			<UserEdit />
 			<UserLogout />
 		</template>
-		<UserLogin v-else />
+		<UserLogin v-else>
+			<h1>Login</h1>
+		</UserLogin>
 	</div>
 </template>
 

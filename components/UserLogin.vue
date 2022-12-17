@@ -1,12 +1,9 @@
 <template>
-	<section class="backdrop">
-		<form
-			v-if="!data.requested"
-			@submit.prevent="request"
-			class="box cen"
-			id="request"
-		>
-			<h1>Login/Register</h1>
+	<section>
+		<UserLoginToken v-if="data.requested" :email="data.email" :retry="retry" />
+		<form v-else @submit.prevent="request" id="request">
+			<slot />
+
 			<input
 				type="email"
 				placeholder="Email"
@@ -18,44 +15,15 @@
 
 			<footer>
 				<button type="submit" class="button" :disabled="data.loading">
-					{{ data.loading ? 'Loading' : 'Send me a login link &rarr;' }}
+					{{ data.loading ? 'Loading' : 'Send me a confirmation code &rarr;' }}
 				</button>
 			</footer>
-
-			<p><NuxtLink to="/">&larr; Home</NuxtLink></p>
-		</form>
-
-		<form v-else @submit.prevent="verify" class="box cen" id="verify">
-			<h1>
-				<label for="token">Confirmation code</label>
-			</h1>
-			<input
-				v-model="data.token"
-				id="token"
-				class="token"
-				inputmode="numeric"
-				min-length="6"
-				max-length="6"
-				required
-			/>
-			<br />
-			<button type="submit" class="button token" :disabled="data.loading">
-				{{ data.loading ? 'Loading' : 'Enter &rarr;' }}
-			</button>
-
-			<p>Check your inbox (or maybe your spam folder)</p>
-			<p>
-				If you don't get an email in a couple of minutes,
-				<NuxtLink to="#request" @click="data.requested = false"
-					>try again</NuxtLink
-				>.
-			</p>
 		</form>
 	</section>
 </template>
 
 <script setup lang="ts">
-const supabase = useSupabaseClient();
+const { auth } = useSupabaseAuthClient();
 
 const data = reactive({
 	loading: false,
@@ -67,9 +35,9 @@ const data = reactive({
 async function request() {
 	try {
 		data.loading = true;
-		const { error } = await supabase.auth.signInWithOtp({ email: data.email });
+		const response = await auth.signInWithOtp({ email: data.email });
 
-		if (error) throw error;
+		if (response.error) throw response.error;
 
 		data.requested = true;
 	} catch (error: any) {
@@ -79,22 +47,8 @@ async function request() {
 	}
 }
 
-async function verify() {
-	try {
-		data.loading = true;
-
-		const { error } = await supabase.auth.verifyOtp({
-			email: data.email,
-			token: data.token,
-			type: 'magiclink',
-		});
-
-		if (error) throw error;
-	} catch (error: any) {
-		alert(error.error_description || error.message);
-	} finally {
-		data.loading = false;
-	}
+function retry() {
+	data.requested = false;
 }
 </script>
 

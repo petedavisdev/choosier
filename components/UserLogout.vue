@@ -1,18 +1,19 @@
 <template>
-	<aside>
+	<form @submit.prevent="signOut">
 		<p>
 			Logged in with <strong>{{ user?.email }}</strong>
 		</p>
 
-		<button @click.prevent="signOut" class="button" :disabled="data.loading">
+		<button type="submit" class="button" :disabled="data.loading">
 			Log Out
 		</button>
-	</aside>
+	</form>
 </template>
 
 <script setup lang="ts">
-const supabase = useSupabaseClient();
+const { auth } = useSupabaseAuthClient();
 const user = useSupabaseUser();
+const profile = useProfile();
 
 const data = reactive({
 	loading: false,
@@ -21,13 +22,14 @@ const data = reactive({
 async function signOut() {
 	try {
 		data.loading = true;
-		let { error } = await supabase.auth.signOut();
-		if (error) throw error.message;
+		const response = await auth.signOut();
+		if (response.error) throw response.error;
 		user.value = null;
-	} catch (error) {
-		alert(error);
+	} catch (error: any) {
+		alert(error.message);
 	} finally {
 		data.loading = false;
+		profile.getProfile();
 	}
 }
 </script>
