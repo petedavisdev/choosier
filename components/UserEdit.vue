@@ -29,7 +29,7 @@ const route = useRoute();
 
 const data = reactive({
 	saving: false,
-	username: profile.username.value,
+	username: (await profile.get()).username.value,
 });
 
 const cleanUsername = computed(() =>
@@ -53,10 +53,10 @@ async function updateProfile() {
 
 		if (response.error) throw response.error;
 
-		profile.getProfile();
+		const { username } = await profile.get();
 
-		if (route.path === '/@') {
-			router.push('/@' + data.username);
+		if (route.path === '/account' && username.value) {
+			router.push('/@' + username.value);
 		}
 	} catch (error: any) {
 		alert(error.message);

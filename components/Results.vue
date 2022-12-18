@@ -12,7 +12,7 @@
 		<p>Check your email for a login link.</p>
 		<p>
 			If you haven't received one,
-			<NuxtLink to="/@">click here</NuxtLink>.
+			<NuxtLink to="/account">click here</NuxtLink>.
 		</p>
 	</div>
 

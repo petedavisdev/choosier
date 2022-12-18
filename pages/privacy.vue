@@ -7,7 +7,7 @@
 	<p>No other personal data is required to user Choosier.</p>
 	<p>
 		Your 'choosername' is public, but it does not need to resemble your real
-		name and you can change it <NuxtLink to="/@">here</NuxtLink>.
+		name and you can change it <NuxtLink to="/account">here</NuxtLink>.
 	</p>
 
 	<h2>Cookies</h2>

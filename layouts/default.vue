@@ -4,7 +4,9 @@
 		<slot />
 		<nav>
 			<NuxtLink
-				:to="profile.username.value ? '/@' + profile.username.value : '/@'"
+				:to="
+					profile.username.value ? '/@' + profile.username.value : '/account'
+				"
 				class="button"
 			>
 				{{

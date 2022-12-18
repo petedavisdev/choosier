@@ -1,10 +1,16 @@
 export function useProfile() {
-	const supabase = useSupabaseClient();
-	const user = useSupabaseUser();
 	const username = useState<string>('username', () => '');
 	const credits = useState<number>('credits', () => 0);
 
-	async function getProfile() {
+	function reset() {
+		username.value = '';
+		credits.value = 0;
+	}
+
+	async function get() {
+		const supabase = useSupabaseClient();
+		const user = useSupabaseUser();
+
 		if (user.value) {
 			try {
 				const response = await supabase
@@ -20,10 +26,14 @@ export function useProfile() {
 			} catch (error: any) {
 				console.log(error.message);
 			}
+		} else {
+			reset();
 		}
+
+		return { username, credits };
 	}
 
-	getProfile();
+	get();
 
-	return { username, credits, getProfile };
+	return { username, credits, get, reset };
 }

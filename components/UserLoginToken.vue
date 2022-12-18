@@ -57,12 +57,12 @@ async function verify() {
 
 		if (error) throw error;
 
-		profile.getProfile();
+		const { username } = await profile.get();
 
 		if (props.choiceId) {
 			router.push('/result' + props.choiceId);
-		} else if (profile.username) {
-			router.push('/@' + profile.username);
+		} else if (username.value) {
+			router.push('/@' + username.value);
 		}
 	} catch (error: any) {
 		alert(error.error_description || error.message);
