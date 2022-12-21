@@ -39,12 +39,14 @@
 </template>
 
 <script setup lang="ts">
+const router = useRouter();
+const user = useSupabaseUser();
+const supabase = useSupabaseClient();
+
 const props = defineProps<{
 	id: number;
 	image: string;
 }>();
-const user = useSupabaseUser();
-const supabase = useSupabaseClient();
 
 const data = reactive({
 	loading: false,
@@ -70,6 +72,10 @@ async function vote() {
 		});
 
 		if (response.error) throw response.error;
+
+		if (user.value) {
+			router.push('/result' + props.id);
+		}
 		return true;
 	} catch (error: any) {
 		alert(error.message);

@@ -257,7 +257,8 @@ async function submit() {
 
 		if (response.error) throw response.error;
 
-		router.push('/@' + profile.username);
+		// todo: update profile credits
+		router.push('/@' + profile.username.value);
 	} catch (error: any) {
 		alert(error.message);
 	} finally {

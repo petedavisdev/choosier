@@ -17,7 +17,7 @@
 		class="button"
 		:disabled="data.loading"
 	>
-		Upload
+		+ Add images
 	</button>
 </template>
 

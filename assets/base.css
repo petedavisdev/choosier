@@ -35,7 +35,7 @@ button {
 }
 
 [aria-current='page'] {
-	font-weight: bold;
+	font-weight: 500;
 	text-decoration: none;
 }
 
