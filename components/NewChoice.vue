@@ -60,19 +60,53 @@
 					:credits="profile.credits.value"
 				/>
 			</p>
-			<p v-for="(text, name) in visibility" :key="name">
+			<p v-for="(value, key) in visibility" :key="key">
 				<label>
 					<input
 						type="radio"
 						v-model="data.visibility"
-						:value="name"
+						:value="key"
 						:disabled="
-							name === 'Private' ||
-							(name === 'Promoted' && profile.credits.value < 1)
+							key === 'private' || profile.credits.value < value.credits
 						"
 						required
 					/>
-					{{ name }} <small>{{ text }}</small>
+					{{ value.name }}
+					<small>
+						<strong>
+							{{ value.credits ? `(${value.credits} credit)` : '(free)' }}
+						</strong>
+						{{ value.description }}
+					</small>
+				</label>
+			</p>
+		</section>
+
+		<section id="duration">
+			<h2>Duration</h2>
+			You have {{ profile.credits }} credit{{
+				profile.credits.value === 1 ? '' : 's'
+			}}.
+			<a href="#credits" @click.prevent="data.showCredits = true"
+				>Get credits</a
+			>
+
+			<p v-for="(value, key) in duration" :key="key">
+				<label>
+					<input
+						type="radio"
+						v-model="data.duration"
+						:value="key"
+						:disabled="profile.credits.value < value.credits"
+						required
+					/>
+					{{ value.name }}
+					<small>
+						<strong>
+							{{ value.credits ? `(${value.credits} credit)` : '(free)' }}
+						</strong>
+						{{ value.description }}
+					</small>
 				</label>
 			</p>
 		</section>
@@ -87,25 +121,43 @@
 		</section>
 
 		<footer>
-			<p>
-				{{
-					data.images.length < minImages
-						? `You need at least ${minImages} images!`
-						: data.images.length > maxImages
-						? `You have more than ${maxImages} images!`
-						: !data.title
-						? 'You need a title!'
-						: !data.category
-						? 'Choose a category'
-						: 'Looking good!'
-				}}
+			<ul
+				v-if="
+					data.visibility &&
+					data.duration &&
+					creditsRequired <= profile.credits.value
+				"
+			>
+				<li>
+					Voting will close
+					{{ dates.closeText }}
+				</li>
+
+				<li>
+					Your results will be available until
+					{{ dates.removeText }}
+				</li>
+
+				<li>
+					You will have
+					{{ profile.credits.value - creditsRequired }} credit{{
+						profile.credits.value - creditsRequired === 1 ? '' : 's'
+					}}
+					left after publishing.
+				</li>
+			</ul>
+
+			<p v-if="validationMessage">
+				<strong>{{ validationMessage }}</strong>
 			</p>
+
 			<button
 				type="submit"
 				class="button"
 				:disabled="
 					data.images.length < minImages ||
 					data.images.length > maxImages ||
+					creditsRequired > profile.credits.value ||
 					data.loading
 				"
 			>
@@ -116,7 +168,7 @@
 </template>
 
 <script setup lang="ts">
-import { categories, visibility } from '~/constants';
+import { categories, visibility, duration } from '~/constants';
 
 const router = useRouter();
 const supabase = useSupabaseClient();
@@ -128,8 +180,59 @@ const data = reactive({
 	title: '',
 	images: [] as string[],
 	category: '',
-	visibility: 'Public',
+	visibility: '',
+	duration: 0,
 	showCredits: false,
+});
+
+const creditsRequired = computed(() => {
+	return (
+		visibility[data.visibility as keyof typeof visibility]?.credits +
+		duration[data.duration as keyof typeof duration]?.credits
+	);
+});
+
+const dates = computed(() => {
+	const date = new Date();
+
+	date.setDate(date.getDate() + +data.duration);
+	date.setSeconds(0, 0);
+	const close = date.toISOString();
+	const closeText = date.toLocaleString(undefined, {
+		weekday: 'long',
+		day: 'numeric',
+		month: 'long',
+		hour: 'numeric',
+		minute: 'numeric',
+	});
+
+	date.setDate(date.getDate() + +data.duration + 0.007);
+	const remove = date.toISOString();
+	const removeText = date.toLocaleString(undefined, {
+		weekday: 'long',
+		day: 'numeric',
+		month: 'long',
+	});
+
+	return { close, remove, closeText, removeText };
+});
+
+const validationMessage = computed(() => {
+	return data.images.length < minImages
+		? `You need at least ${minImages} images!`
+		: data.images.length > maxImages
+		? `You have more than ${maxImages} images!`
+		: !data.title
+		? 'You need a title!'
+		: !data.category
+		? 'Choose a category!'
+		: !data.duration
+		? 'Choose a duration!'
+		: creditsRequired.value > profile.credits.value
+		? `You need ${creditsRequired.value} credit${
+				creditsRequired.value === 1 ? '' : 's'
+		  }! Choose free options or get more credits.`
+		: false;
 });
 
 const minImages = 2;
@@ -147,6 +250,8 @@ async function submit() {
 				user_id: user.value?.id,
 				visibility: data.visibility,
 				category: data.category,
+				close_at: dates.value.close,
+				remove_at: dates.value.remove,
 			},
 		]);
 

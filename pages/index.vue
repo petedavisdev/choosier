@@ -13,9 +13,10 @@
 
 		<article>
 			<h2>How Choosier Works</h2>
+			<p>When you have too many options, Choosier is here to help.</p>
 			<p>
-				Choosier shows your images two at a time, like a knock-out tournament,
-				so you can make quick comparisons and find your favorite.
+				It shows your images two at a time, like a knock-out tournament, so you
+				can make quick comparisons and find your favorite.
 			</p>
 			<p>
 				Share your choice with friends, followers, colleagues or customers to

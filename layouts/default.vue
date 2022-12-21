@@ -22,6 +22,7 @@
 	</main>
 	<footer>
 		<p>
+			Essential cookies only.
 			<NuxtLink to="/privacy">Privacy</NuxtLink> |
 			<NuxtLink to="/terms">Terms of use</NuxtLink> | &copy;
 			{{ new Date().getFullYear() }}
