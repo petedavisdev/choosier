@@ -233,9 +233,11 @@ const validationMessage = computed(() => {
 		: !data.duration
 		? 'Choose a duration!'
 		: creditsRequired.value > profile.credits.value
-		? `You need ${creditsRequired.value} credit${
+		? `You have chosen to use ${creditsRequired.value} credit${
 				creditsRequired.value === 1 ? '' : 's'
-		  }! Choose free options or get more credits.`
+		  }, but you have ${
+				profile.credits.value
+		  }. Choose free options or get some credits.`
 		: false;
 });
 
@@ -243,41 +245,47 @@ const minImages = 2;
 const maxImages = 8;
 
 async function submit() {
-	try {
-		data.loading = true;
+	if (
+		data.images.length >= minImages &&
+		data.images.length <= maxImages &&
+		creditsRemaining.value >= 0
+	) {
+		try {
+			data.loading = true;
 
-		const choicesResponse = await supabase.from('choices').insert([
-			// @ts-ignore: Unreachable code error
-			{
-				title: data.title,
-				image_urls: data.images,
-				user_id: user.value?.id,
-				visibility: data.visibility,
-				category: data.category,
-				close_at: dates.value.close,
-				remove_at: dates.value.remove,
-			},
-		]);
-
-		if (choicesResponse.error) throw choicesResponse.error;
-
-		const profilesResponse = await supabase
-			.from('profiles')
-			.update(
+			const choicesResponse = await supabase.from('choices').insert([
 				// @ts-ignore: Unreachable code error
-				{ credits: creditsRemaining.value }
-			)
-			.eq('user_id', user.value?.id);
+				{
+					title: data.title,
+					image_urls: data.images,
+					user_id: user.value?.id,
+					visibility: data.visibility,
+					category: data.category,
+					close_at: dates.value.close,
+					remove_at: dates.value.remove,
+				},
+			]);
 
-		if (profilesResponse.error) throw profilesResponse.error;
+			if (choicesResponse.error) throw choicesResponse.error;
 
-		profile.credits.value = creditsRemaining.value;
+			const profilesResponse = await supabase
+				.from('profiles')
+				.update(
+					// @ts-ignore: Unreachable code error
+					{ credits: creditsRemaining.value }
+				)
+				.eq('user_id', user.value?.id);
 
-		router.push('/@' + profile.username.value);
-	} catch (error: any) {
-		alert(error.message);
-	} finally {
-		data.loading = false;
+			if (profilesResponse.error) throw profilesResponse.error;
+
+			profile.credits.value = creditsRemaining.value;
+
+			router.push('/@' + profile.username.value);
+		} catch (error: any) {
+			alert(error.message);
+		} finally {
+			data.loading = false;
+		}
 	}
 }
 
