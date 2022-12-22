@@ -15,8 +15,9 @@
 			<small>Up to 15 lowercase letters</small>
 		</p>
 
-		<p v-if="data.saving">Saving...</p>
-		<button type="submit" class="button" :disabled="data.saving">Save</button>
+		<button type="submit" class="button" :disabled="data.loading">
+			{{ data.loading ? 'Saving...' : 'Save' }}
+		</button>
 	</form>
 </template>
 
@@ -28,7 +29,7 @@ const router = useRouter();
 const route = useRoute();
 
 const data = reactive({
-	saving: false,
+	loading: false,
 	username: (await profile.get()).username.value,
 });
 
@@ -38,7 +39,7 @@ const cleanUsername = computed(() =>
 
 async function updateProfile() {
 	try {
-		data.saving = true;
+		data.loading = true;
 
 		const updates = {
 			user_id: user.value?.id,
@@ -61,7 +62,7 @@ async function updateProfile() {
 	} catch (error: any) {
 		alert(error.message);
 	} finally {
-		data.saving = false;
+		data.loading = false;
 	}
 }
 </script>
