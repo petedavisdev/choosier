@@ -140,9 +140,7 @@
 
 				<li>
 					You will have
-					{{ profile.credits.value - creditsRequired }} credit{{
-						profile.credits.value - creditsRequired === 1 ? '' : 's'
-					}}
+					{{ creditsRemaining }} credit{{ creditsRemaining === 1 ? '' : 's' }}
 					left after publishing.
 				</li>
 			</ul>
@@ -192,6 +190,10 @@ const creditsRequired = computed(() => {
 	);
 });
 
+const creditsRemaining = computed(() => {
+	return profile.credits.value - creditsRequired.value;
+});
+
 const dates = computed(() => {
 	const date = new Date();
 
@@ -226,6 +228,8 @@ const validationMessage = computed(() => {
 		? 'You need a title!'
 		: !data.category
 		? 'Choose a category!'
+		: !data.visibility
+		? 'Choose visibility!'
 		: !data.duration
 		? 'Choose a duration!'
 		: creditsRequired.value > profile.credits.value
@@ -242,7 +246,7 @@ async function submit() {
 	try {
 		data.loading = true;
 
-		const response = await supabase.from('choices').insert([
+		const choicesResponse = await supabase.from('choices').insert([
 			// @ts-ignore: Unreachable code error
 			{
 				title: data.title,
@@ -255,9 +259,20 @@ async function submit() {
 			},
 		]);
 
-		if (response.error) throw response.error;
+		if (choicesResponse.error) throw choicesResponse.error;
 
-		// todo: update profile credits
+		const profilesResponse = await supabase
+			.from('profiles')
+			.update(
+				// @ts-ignore: Unreachable code error
+				{ credits: creditsRemaining.value }
+			)
+			.eq('user_id', user.value?.id);
+
+		if (profilesResponse.error) throw profilesResponse.error;
+
+		profile.credits.value = creditsRemaining.value;
+
 		router.push('/@' + profile.username.value);
 	} catch (error: any) {
 		alert(error.message);

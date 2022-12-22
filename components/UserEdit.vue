@@ -53,10 +53,10 @@ async function updateProfile() {
 
 		if (response.error) throw response.error;
 
-		const { username } = await profile.get();
+		profile.username.value = data.username;
 
-		if (route.path === '/account' && username.value) {
-			router.push('/@' + username.value);
+		if (route.path === '/account' && data.username) {
+			router.push('/@' + data.username);
 		}
 	} catch (error: any) {
 		alert(error.message);
