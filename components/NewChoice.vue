@@ -5,27 +5,65 @@
 	<UserEdit v-else-if="!profile.username.value" />
 	<form v-else @submit.prevent="submit">
 		<section id="images">
+			<p>Choices are free, but you can use credits for bonus features.</p>
+			<p>
+				You have <strong>{{ profile.credits }}</strong> credit{{
+					profile.credits.value === 1 ? '' : 's'
+				}}.
+				<a href="#credits" @click.prevent="data.showCredits = true"
+					>Get credits</a
+				>
+			</p>
+			<NewChoiceCredits
+				v-if="data.showCredits"
+				:close="closeCredits"
+				:credits="profile.credits.value"
+			/>
+
 			<h2>Images</h2>
-			<p v-if="data.images.length < minImages">
-				Add {{ minImages }} to {{ maxImages }} images.
+			<p v-for="(credits, max) in imageLimits" :key="max">
+				<label
+					:title="
+						profile.credits.value < credits ? `Requires ${credits} credit` : ''
+					"
+				>
+					<input
+						type="radio"
+						v-model="data.maxImages"
+						:value="max"
+						:disabled="profile.credits.value < credits"
+						required
+						@change="data.maxImages = max"
+					/>
+					up to {{ max }} images
+					<small>
+						<strong>
+							{{ credits ? `(${credits} credit)` : '(free)' }}
+						</strong>
+					</small>
+				</label>
 			</p>
 
-			<p v-if="data.images.length > maxImages">
-				You have added more that {{ maxImages }} images! Please remove
-				{{ data.images.length - maxImages }}.
+			<p v-if="data.images.length > data.maxImages">
+				You have added more that {{ data.maxImages }} images! Please remove
+				{{ data.images.length - data.maxImages }}.
 			</p>
 
 			<Upload
 				@uploaded="(urls) => (data.images = urls)"
 				:folder="profile.username.value"
-				:max="maxImages"
+				:max="data.maxImages"
 			/>
 		</section>
 
 		<section id="title">
 			<h2><label for="title">Title</label></h2>
 			<input v-model="data.title" class="TitleInput" maxlength="25" required />
-			<small>Up to 25 characters</small>
+			<small>{{
+				data.title.length > 15
+					? `${25 - data.title.length} characters remaining`
+					: '&nbsp;'
+			}}</small>
 		</section>
 
 		<section id="categories">
@@ -46,22 +84,14 @@
 
 		<section id="visibility">
 			<h2>Visibility</h2>
-			<p>
-				You have {{ profile.credits }} credit{{
-					profile.credits.value === 1 ? '' : 's'
-				}}.
-				<a href="#credits" @click.prevent="data.showCredits = true"
-					>Get credits</a
-				>
-
-				<NewChoiceCredits
-					v-if="data.showCredits"
-					:close="closeCredits"
-					:credits="profile.credits.value"
-				/>
-			</p>
 			<p v-for="(value, key) in visibility" :key="key">
-				<label>
+				<label
+					:title="
+						profile.credits.value < value.credits
+							? `Requires ${value.credits} credit`
+							: ''
+					"
+				>
 					<input
 						type="radio"
 						v-model="data.visibility"
@@ -84,15 +114,14 @@
 
 		<section id="duration">
 			<h2>Duration</h2>
-			You have {{ profile.credits }} credit{{
-				profile.credits.value === 1 ? '' : 's'
-			}}.
-			<a href="#credits" @click.prevent="data.showCredits = true"
-				>Get credits</a
-			>
-
 			<p v-for="(value, key) in duration" :key="key">
-				<label>
+				<label
+					:title="
+						profile.credits.value < value.credits
+							? `Requires ${value.credits} credit`
+							: ''
+					"
+				>
 					<input
 						type="radio"
 						v-model="data.duration"
@@ -111,90 +140,87 @@
 			</p>
 		</section>
 
-		<section id="preview">
-			<h2>Listing preview</h2>
+		<footer>
+			<button @click="data.showPreview = true" type="button" class="button">
+				Continue &rarr;
+			</button>
+
 			<NewChoicePreview
+				v-if="data.showPreview"
 				:images="data.images"
 				:title="data.title"
 				:username="profile.username.value"
-			/>
-		</section>
-
-		<footer>
-			<ul
-				v-if="
-					data.visibility &&
-					data.duration &&
-					creditsRequired <= profile.credits.value
-				"
+				:validationMessage="validationMessage"
+				:close="closePreview"
 			>
-				<li>
+				<p>
 					Voting will close
-					{{ dates.closeText }}
-				</li>
+					{{ dates.closeText }}.
+				</p>
 
-				<li>
+				<p>
 					Your results will be available until
-					{{ dates.removeText }}
-				</li>
+					{{ dates.removeText }}.
+				</p>
 
-				<li>
-					You will have
-					{{ creditsRemaining }} credit{{ creditsRemaining === 1 ? '' : 's' }}
-					left after publishing.
-				</li>
-			</ul>
+				<p v-if="credits.required">
+					You are using {{ credits.required }} credit{{
+						credits.required === 1 ? '' : 's'
+					}}.
+				</p>
 
-			<p v-if="validationMessage">
-				<strong>{{ validationMessage }}</strong>
-			</p>
-
-			<button
-				type="submit"
-				class="button"
-				:disabled="
-					data.images.length < minImages ||
-					data.images.length > maxImages ||
-					creditsRequired > profile.credits.value ||
-					data.loading
-				"
-			>
-				Save and publish
-			</button>
+				<button
+					type="submit"
+					class="button"
+					:disabled="
+						data.images.length < minImages ||
+						data.images.length > data.maxImages ||
+						credits.required > profile.credits.value ||
+						data.loading
+					"
+				>
+					Save and publish
+				</button>
+			</NewChoicePreview>
 		</footer>
 	</form>
 </template>
 
 <script setup lang="ts">
-import { categories, visibility, duration } from '~/constants';
+import { imageLimits, categories, visibility, duration } from '~/constants';
 
 const router = useRouter();
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
 const profile = useProfile();
+const minImages = 2;
 
 const data = reactive({
 	loading: false,
 	title: '',
 	images: [] as string[],
+	maxImages: +Object.keys(imageLimits)[0],
 	category: '',
-	visibility: '',
-	duration: 0,
+	visibility: 'public',
+	duration: 1,
 	showCredits: false,
+	showPreview: false,
 });
 
-const creditsRequired = computed(() => {
-	return (
-		visibility[data.visibility as keyof typeof visibility]?.credits +
-		duration[data.duration as keyof typeof duration]?.credits
-	);
-});
+const credits = computed(() => {
+	const required =
+		(imageLimits[data.maxImages as keyof typeof imageLimits] || 0) +
+		(visibility[data.visibility as keyof typeof visibility]?.credits || 0) +
+		(duration[data.duration as keyof typeof duration]?.credits || 0);
 
-const creditsRemaining = computed(() => {
-	return profile.credits.value - creditsRequired.value;
+	const remaining = profile.credits.value - required;
+
+	return { required, remaining };
 });
 
 const dates = computed(() => {
+	const updateOnPreview = data.showPreview;
+
 	const date = new Date();
 
 	date.setDate(date.getDate() + +data.duration);
@@ -216,14 +242,14 @@ const dates = computed(() => {
 		month: 'long',
 	});
 
-	return { close, remove, closeText, removeText };
+	return { close, closeText, remove, removeText };
 });
 
 const validationMessage = computed(() => {
 	return data.images.length < minImages
 		? `You need at least ${minImages} images!`
-		: data.images.length > maxImages
-		? `You have more than ${maxImages} images!`
+		: data.images.length > data.maxImages
+		? `You have more than ${data.maxImages} images!`
 		: !data.title
 		? 'You need a title!'
 		: !data.category
@@ -232,23 +258,20 @@ const validationMessage = computed(() => {
 		? 'Choose visibility!'
 		: !data.duration
 		? 'Choose a duration!'
-		: creditsRequired.value > profile.credits.value
-		? `You have chosen to use ${creditsRequired.value} credit${
-				creditsRequired.value === 1 ? '' : 's'
+		: credits.value.required > profile.credits.value
+		? `You have chosen to use ${credits.value.required} credit${
+				credits.value.required === 1 ? '' : 's'
 		  }, but you have ${
 				profile.credits.value
-		  }. Choose free options or get some credits.`
-		: false;
+		  }. Use the free options to get started.`
+		: '';
 });
-
-const minImages = 2;
-const maxImages = 8;
 
 async function submit() {
 	if (
 		data.images.length >= minImages &&
-		data.images.length <= maxImages &&
-		creditsRemaining.value >= 0
+		data.images.length <= data.maxImages &&
+		credits.value.remaining >= 0
 	) {
 		try {
 			data.loading = true;
@@ -263,6 +286,7 @@ async function submit() {
 					category: data.category,
 					close_at: dates.value.close,
 					remove_at: dates.value.remove,
+					credits_used: credits.value.required,
 				},
 			]);
 
@@ -272,13 +296,13 @@ async function submit() {
 				.from('profiles')
 				.update(
 					// @ts-ignore: Unreachable code error
-					{ credits: creditsRemaining.value }
+					{ credits: credits.value.remaining }
 				)
 				.eq('user_id', user.value?.id);
 
 			if (profilesResponse.error) throw profilesResponse.error;
 
-			profile.credits.value = creditsRemaining.value;
+			profile.credits.value = credits.value.remaining;
 
 			router.push('/@' + profile.username.value);
 		} catch (error: any) {
@@ -290,7 +314,11 @@ async function submit() {
 }
 
 function closeCredits() {
-	data.showCredits = !data.showCredits;
+	data.showCredits = false;
+}
+
+function closePreview() {
+	data.showPreview = false;
 }
 </script>
 

@@ -7,7 +7,14 @@
 
 		<button @click="props.close" type="button" class="close"></button>
 
-		<h3>Earn 2 credits by giving feedback</h3>
+		<p>Hi 👋 I'm Pete. Choosier is my pet project.</p>
+
+		<p>
+			In future, you will be able to buy credits and help fund Choosier, but for
+			now what I really need is feedback.
+		</p>
+
+		<h3>Earn 3 credits by giving feedback</h3>
 
 		<ol>
 			<li>
@@ -21,12 +28,14 @@
 				and send me a message.
 			</li>
 
-			<li>Tell me what you like or dislike about Choosier.</li>
+			<li>
+				Give me some feedback. Anything you like or dislike about Choosier.
+			</li>
 			<li>Tell me your choosername.</li>
 		</ol>
 
 		<p>
-			When I read your message I will give you 2 credits. Please be patient, I
+			When I read your message I will give you 3 credits. Please be patient, I
 			usually check my messages once a day.
 		</p>
 

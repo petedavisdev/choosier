@@ -1,3 +1,8 @@
+export const imageLimits = {
+	6: 0,
+	10: 1,
+};
+
 export const categories = {
 	art: 'Art and illustration',
 	fashion: 'Fashion and costume',
