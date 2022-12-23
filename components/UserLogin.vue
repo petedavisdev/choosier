@@ -1,6 +1,8 @@
 <template>
 	<section>
-		<UserLoginToken v-if="data.requested" :email="data.email" :retry="retry" />
+		<UserLoginToken v-if="data.requested" :email="data.email" :retry="retry">
+			<h1>Confirmation code</h1>
+		</UserLoginToken>
 		<form v-else @submit.prevent="request" id="request">
 			<slot />
 

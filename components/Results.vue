@@ -21,7 +21,7 @@
 		<Card :id="props.id" class="card" />
 	</div>
 
-	<div v-else-if="!profile.username">
+	<div v-else-if="!profile.username.value">
 		<p>You need a choosername to show on the results</p>
 		<UserEdit />
 	</div>
@@ -113,7 +113,14 @@ const results = computed(() => {
 				voters: data.votes
 					.filter((vote) => image === vote.image_url)
 					.map((vote) => vote.profiles.username)
-					.filter((vote) => vote),
+					.filter((vote) => vote)
+					.sort(function (a, b) {
+						return a === profile.username.value
+							? -1
+							: b === profile.username.value
+							? 1
+							: 0;
+					}),
 			};
 		})
 		.sort((a, b) => b.voters.length - a.voters.length);

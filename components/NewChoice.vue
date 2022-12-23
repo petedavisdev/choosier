@@ -179,7 +179,7 @@
 						data.loading
 					"
 				>
-					Save and publish
+					✓ Save and publish
 				</button>
 			</NewChoicePreview>
 		</footer>

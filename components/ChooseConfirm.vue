@@ -10,14 +10,6 @@
 		</button>
 	</section>
 
-	<UserLoginToken
-		v-else-if="data.requested"
-		:email="data.email"
-		:retry="retry"
-		:choice-id="props.id"
-		class="confirm"
-	/>
-
 	<section v-else class="confirm">
 		<p>To vote, please confirm you are human.</p>
 
@@ -36,6 +28,18 @@
 			</button>
 		</footer>
 	</section>
+
+	<div class="backdrop" v-if="data.requested">
+		<section class="box">
+			<UserLoginToken
+				:email="data.email"
+				:retry="retry"
+				:choice-id="props.id"
+				class="confirm"
+				><h2>Confirmation code</h2></UserLoginToken
+			>
+		</section>
+	</div>
 </template>
 
 <script setup lang="ts">

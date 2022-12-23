@@ -12,6 +12,7 @@
 	<main>
 		<form
 			v-for="(match, matchIndex) in data.matches"
+			@submit.prevent
 			@reset="updateMatches(matchIndex)"
 			:id="'match' + matchIndex"
 			:key="matchIndex"

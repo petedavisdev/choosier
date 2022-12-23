@@ -11,6 +11,7 @@
 .progress-bar,
 .progress-indicator {
 	height: 0.375em;
+	border-radius: 2px;
 	background-color: var(--mid);
 }
 

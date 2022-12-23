@@ -1,8 +1,14 @@
 <template>
 	<form @submit.prevent="verify" id="verify">
-		<h1>
-			<label for="token">Confirmation code</label>
-		</h1>
+		<slot />
+		<p>
+			We sent a code to
+			<br />
+			<strong>{{ props.email }}</strong>
+			<br />
+			If you don't get it soon,
+			<NuxtLink to="#request" @click="retry" class="retry">try again</NuxtLink>.
+		</p>
 
 		<p>
 			<input
@@ -15,16 +21,10 @@
 				required
 			/>
 		</p>
-
-		<button type="submit" class="button token" :disabled="data.loading">
-			{{ data.loading ? 'Loading' : 'Enter &rarr;' }}
-		</button>
-		<br />
 		<p>
-			Check your inbox (or maybe your spam folder)
-			<br />
-			If you don't get an email in a couple of minutes,
-			<NuxtLink to="#request" @click="retry">try again</NuxtLink>.
+			<button type="submit" class="button token" :disabled="data.loading">
+				{{ data.loading ? 'Loading' : 'Enter &rarr;' }}
+			</button>
 		</p>
 	</form>
 </template>
@@ -71,3 +71,21 @@ async function verify() {
 	}
 }
 </script>
+
+<style scoped>
+.token {
+	width: 7.5rem;
+	display: inline-block;
+	margin-bottom: -1rem;
+	padding-bottom: 0.5rem;
+	padding-top: 0.7rem;
+}
+
+input.token {
+	font-size: 1.5em;
+}
+
+.retry {
+	text-decoration: underline;
+}
+</style>
