@@ -19,11 +19,8 @@
 		<ol>
 			<li>
 				Follow me on
-				<a
-					href="https://www.instagram.com/choosier.app/"
-					target="_blank"
-					rel="noopener noreferrer"
-					>Instagram</a
+				<LinkTo to="https://www.instagram.com/choosier.app/" target="_blank"
+					>Instagram</LinkTo
 				>
 				and send me a message.
 			</li>
@@ -40,13 +37,12 @@
 		</p>
 
 		<p>
-			<a
-				href="https://www.instagram.com/choosier.app/"
+			<LinkTo
+				to="https://www.instagram.com/choosier.app/"
 				class="button"
 				target="_blank"
-				rel="noopener noreferrer"
-				>Follow choosier.app on Instagram</a
-			>
+				>Follow choosier.app on Instagram
+			</LinkTo>
 		</p>
 	</section>
 	<!-- </div> -->

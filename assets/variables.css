@@ -2,5 +2,16 @@ body {
 	--dark: #222;
 	--mid: #999;
 	--light: #eee;
+	--lighter: #fff;
 	--radius: 0.4em;
 }
+
+/* @media (prefers-color-scheme: dark) {
+	body {
+		--dark: #000;
+		--mid: #5a5a5a;
+		--light: #757575;
+		--lighter: #959595;
+		--radius: 0.4em;
+	}
+} */

@@ -22,6 +22,11 @@
 	</main>
 	<footer>
 		<p>
+			<LinkTo to="https://www.instagram.com/choosier.app/" target="_blank"
+				>Say hello on Instagram</LinkTo
+			>
+		</p>
+		<p>
 			Essential cookies only.
 			<NuxtLink to="/privacy">Privacy</NuxtLink> |
 			<NuxtLink to="/terms">Terms of use</NuxtLink> | &copy;

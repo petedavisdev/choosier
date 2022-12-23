@@ -70,19 +70,18 @@
 
 		<footer>
 			<h2>Share to get more votes</h2>
-			<p>{{ shareLink }}</p>
-			<button @click="copyText(shareLink)" type="button" class="button">
-				Copy link
-			</button>
+			<Share :id="props.id" />
 
-			<p><NuxtLink to="/">Choosier homepage &rarr;</NuxtLink></p>
+			<p>
+				<NuxtLink to="/" :target="linkTarget"
+					>Choosier homepage &rarr;</NuxtLink
+				>
+			</p>
 		</footer>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { copyText } from '~/helpers/copyText';
-
 const props = defineProps<{
 	id: number;
 }>();
@@ -91,7 +90,7 @@ const supabase = useSupabaseClient();
 const user = useSupabaseUser();
 const choice = await useChoice(props.id);
 const profile = useProfile();
-const shareLink = 'https://choosier.app/' + props.id;
+const linkTarget = process.browser && window.frameElement ? '_parent' : '_self';
 
 type Vote = {
 	user_id: string;

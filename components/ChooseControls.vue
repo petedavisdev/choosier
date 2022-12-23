@@ -22,20 +22,16 @@
 		</button>
 
 		<aside v-if="data.shareOpen" class="drawer">
-			{{ shareLink }}
-			<button @click="copyText(shareLink)" type="button" class="button">
-				Copy link
-			</button>
+			<Share :id="props.id" />
 		</aside>
 	</footer>
 </template>
 
 <script setup lang="ts">
-import { copyText } from '~/helpers/copyText';
-
 const props = defineProps<{
 	matchIndex: number;
 	length: number;
+	id: number;
 }>();
 
 const route = useRoute();
@@ -62,6 +58,10 @@ function toggleShare() {
 </script>
 
 <style scoped>
+.controls {
+	padding: 0;
+}
+
 .undo,
 .share {
 	border: none;

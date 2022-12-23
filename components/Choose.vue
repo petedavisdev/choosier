@@ -44,6 +44,7 @@
 				class="controls"
 				:matchIndex="matchIndex"
 				:length="length"
+				:id="props.id"
 			/>
 		</form>
 
@@ -163,7 +164,7 @@ input {
 	max-width: 100%;
 	max-height: 100%;
 	line-height: 1;
-	background-color: white;
+	background-color: var(--lighter);
 }
 
 form:not(:last-of-type):valid :not(:checked) + img {

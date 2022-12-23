@@ -54,7 +54,7 @@ input {
 }
 
 input:focus {
-	background-color: white;
+	background-color: var(--lighter);
 	outline: none;
 }
 
