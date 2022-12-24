@@ -7,29 +7,17 @@
 
 		<button @click="props.close" type="button" class="close"></button>
 
-		<p>Hi 👋 I'm Pete. Choosier is my pet project.</p>
-
-		<p>
-			In future, you will be able to buy credits and help fund Choosier, but for
-			now what I really need is feedback.
-		</p>
-
 		<h3>Earn 3 credits by giving feedback</h3>
 
-		<ol>
-			<li>
-				Follow me on
-				<LinkTo to="https://www.instagram.com/choosier.app/" target="_blank"
-					>Instagram</LinkTo
-				>
-				and send me a message.
-			</li>
+		<p>
+			Follow choosier.app on
+			<LinkTo to="https://www.instagram.com/choosier.app/" target="_blank"
+				>Instagram</LinkTo
+			>
+			and send me a message.
+		</p>
 
-			<li>
-				Give me some feedback. Anything you like or dislike about Choosier.
-			</li>
-			<li>Tell me your choosername.</li>
-		</ol>
+		<p>Give me some feedback. Anything good or bad about Choosier.</p>
 
 		<p>
 			When I read your message I will give you 3 credits. Please be patient, I

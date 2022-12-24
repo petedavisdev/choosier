@@ -15,7 +15,7 @@
 <script setup lang="ts">
 const props = defineProps<{
 	to: string;
-	className?: string;
+	class?: string;
 	target?: string;
 }>();
 const inFrame = process.browser && window.frameElement;
