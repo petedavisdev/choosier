@@ -22,8 +22,10 @@
 	</div>
 
 	<div v-else-if="!profile.username.value">
-		<p>You need a choosername to show on the results</p>
-		<UserEdit />
+		<UserEdit>
+			<h1>My choosername</h1>
+			<p>You need a choosername to show on the results page</p>
+		</UserEdit>
 	</div>
 
 	<div v-else>

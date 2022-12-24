@@ -1,10 +1,8 @@
 <template>
 	<form @submit.prevent="updateProfile">
-		<h1>
-			<label for="username">My choosername</label>
-		</h1>
+		<slot />
 
-		<p>
+		<p class="field">
 			<input
 				v-model="data.username"
 				id="username"
@@ -15,6 +13,18 @@
 			<small>Up to 15 lowercase letters</small>
 		</p>
 
+		<template v-if="props.showWebsite">
+			<label for="website">My website or instagram link</label>
+			<p class="field">
+				<input v-model="data.website" id="website" required />
+				<small v-if="data.website">
+					Test your link:
+					<LinkTo :to="cleanWebsite" target="_blank">{{ cleanWebsite }}</LinkTo>
+				</small>
+				<small v-else>Optional</small>
+			</p>
+		</template>
+
 		<button type="submit" class="button" :disabled="data.loading">
 			{{ data.loading ? 'Saving...' : 'Save' }}
 		</button>
@@ -22,6 +32,10 @@
 </template>
 
 <script setup lang="ts">
+const props = defineProps<{
+	showWebsite?: boolean;
+}>();
+
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
 const profile = useProfile();
@@ -30,12 +44,23 @@ const route = useRoute();
 
 const data = reactive({
 	loading: false,
-	username: (await profile.get()).username.value,
+	username: profile.username.value,
+	website: profile.website.value,
 });
 
 const cleanUsername = computed(() =>
 	data.username.toLowerCase().replace(/[^a-z0-9-_]/g, '')
 );
+
+const cleanWebsite = computed(() => {
+	let url = data.website.toLowerCase();
+
+	if (!url.startsWith('http://') && !url.startsWith('https://')) {
+		url = 'https://' + url;
+	}
+
+	return url;
+});
 
 async function updateProfile() {
 	try {
@@ -43,8 +68,9 @@ async function updateProfile() {
 
 		const updates = {
 			user_id: user.value?.id,
-			username: data.username,
+			username: cleanUsername.value,
 			updated_at: new Date(),
+			website: cleanWebsite.value,
 		};
 
 		// @ts-ignore: Unreachable code error
@@ -54,10 +80,11 @@ async function updateProfile() {
 
 		if (response.error) throw response.error;
 
-		profile.username.value = data.username;
+		profile.username.value = cleanUsername.value;
+		profile.website.value = cleanWebsite.value;
 
-		if (route.path === '/account' && data.username) {
-			router.push('/@' + data.username);
+		if (route.path === '/account' && cleanUsername.value) {
+			router.push('/@' + cleanUsername.value);
 		}
 	} catch (error: any) {
 		alert(error.message);
@@ -70,5 +97,10 @@ async function updateProfile() {
 <style scoped>
 small {
 	display: block;
+}
+
+.field {
+	margin-top: 0;
+	margin-bottom: 2rem;
 }
 </style>

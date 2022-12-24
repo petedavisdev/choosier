@@ -1,8 +1,13 @@
 <template>
 	<div>
 		<template v-if="user">
-			<UserEdit />
-			<UserLogout />
+			<h1>My profile</h1>
+			<UserEdit show-website>
+				<label for="username">My choosername</label>
+			</UserEdit>
+			<br />
+			<h2>My account</h2>
+			<UserAccount />
 		</template>
 		<UserLogin v-else>
 			<h1>Login</h1>

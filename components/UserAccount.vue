@@ -1,5 +1,7 @@
 <template>
 	<form @submit.prevent="signOut">
+		<UserCredits />
+
 		<p>
 			Logged in with <strong>{{ user?.email }}</strong>
 		</p>

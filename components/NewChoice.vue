@@ -2,23 +2,16 @@
 	<UserLogin v-if="!user">
 		<h2>Login/register</h2>
 	</UserLogin>
-	<UserEdit v-else-if="!profile.username.value" />
+
+	<UserEdit v-else-if="!profile.username.value">
+		<h2>
+			<label for="username">My choosername</label>
+		</h2>
+	</UserEdit>
+
 	<form v-else @submit.prevent="submit">
 		<section id="images">
-			<p>Choices are free, but you can use credits for bonus features.</p>
-			<p>
-				You have <strong>{{ profile.credits }}</strong> credit{{
-					profile.credits.value === 1 ? '' : 's'
-				}}.
-				<a href="#credits" @click.prevent="data.showCredits = true"
-					>Get credits</a
-				>
-			</p>
-			<NewChoiceCredits
-				v-if="data.showCredits"
-				:close="closeCredits"
-				:credits="profile.credits.value"
-			/>
+			<UserCredits />
 
 			<h2>Images</h2>
 			<p v-for="(credits, max) in imageLimits" :key="max">
@@ -203,7 +196,6 @@ const data = reactive({
 	category: '',
 	visibility: 'public',
 	duration: 1,
-	showCredits: false,
 	showPreview: false,
 });
 
@@ -311,10 +303,6 @@ async function submit() {
 			data.loading = false;
 		}
 	}
-}
-
-function closeCredits() {
-	data.showCredits = false;
 }
 
 function closePreview() {

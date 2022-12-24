@@ -1,10 +1,12 @@
 export function useProfile() {
-	const username = useState<string>('username', () => '');
-	const credits = useState<number>('credits', () => 0);
+	const username = useState<string>('username');
+	const credits = useState<number>('credits');
+	const website = useState<string>('website');
 
 	function reset() {
 		username.value = '';
 		credits.value = 0;
+		website.value = '';
 	}
 
 	async function get() {
@@ -15,7 +17,7 @@ export function useProfile() {
 			try {
 				const response = await supabase
 					.from('profiles')
-					.select(`username, credits`)
+					.select(`username, credits, website`)
 					.eq('user_id', user.value?.id)
 					.single();
 
@@ -30,10 +32,10 @@ export function useProfile() {
 			reset();
 		}
 
-		return { username, credits };
+		return { username, credits, website };
 	}
 
 	get();
 
-	return { username, credits, get, reset };
+	return { username, credits, website, get, reset };
 }
