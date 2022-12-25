@@ -56,8 +56,8 @@ function retry() {
 
 <style scoped>
 form {
-	min-width: 25em;
-	max-width: 35em;
+	width: 100%;
+	max-width: 30em;
 }
 
 input,
