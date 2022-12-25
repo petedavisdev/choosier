@@ -18,5 +18,8 @@ const props = defineProps<{
 	class?: string;
 	target?: string;
 }>();
-const inFrame = process.browser && window.frameElement;
+
+onMounted(() => {
+	const inFrame = window?.frameElement;
+});
 </script>
