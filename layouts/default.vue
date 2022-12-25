@@ -27,7 +27,7 @@
 			{{ new Date().getFullYear() }}
 			<LinkTo to="https://petedavis.dev">Pete Davis</LinkTo> |
 			<LinkTo to="https://www.instagram.com/choosier.app/" target="_blank"
-				>Say hello on Instagram</LinkTo
+				>Say hello on Instagram ↗</LinkTo
 			>
 		</p>
 	</footer>

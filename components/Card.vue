@@ -1,5 +1,5 @@
 <template>
-	<NuxtLink :to="`/${id}`" class="card">
+	<LinkTo :to="`/${id}`" class="card">
 		<div class="card-images">
 			<img
 				class="card-image"
@@ -16,7 +16,7 @@
 			<small>Help @{{ choice.username }} choose</small>
 			<div>{{ choice.title }}</div>
 		</div>
-	</NuxtLink>
+	</LinkTo>
 </template>
 
 <script setup lang="ts">

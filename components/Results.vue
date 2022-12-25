@@ -12,11 +12,11 @@
 		<p>Check your email for a login link.</p>
 		<p>
 			If you haven't received one,
-			<NuxtLink to="/account">click here</NuxtLink>.
+			<LinkTo to="/account">click here</LinkTo>.
 		</p>
 	</div>
 
-	<div v-else-if="!userVote">
+	<div v-else-if="!userVoted">
 		<h1>Choose first, then see the results</h1>
 		<Card :id="props.id" class="card" />
 	</div>
@@ -32,9 +32,7 @@
 		<h1>
 			<small>
 				You helped
-				<NuxtLink :to="'/@' + choice.username">
-					@{{ choice.username }}
-				</NuxtLink>
+				<LinkTo :to="'/@' + choice.username"> @{{ choice.username }} </LinkTo>
 				choose
 			</small>
 			{{ choice.title }}
@@ -57,13 +55,13 @@
 				<strong class="count">{{ result.voters.length }}</strong>
 				<div class="voters">
 					<small v-for="voter in result.voters" :key="voter">
-						<NuxtLink :to="'/@' + voter">
+						<LinkTo :to="'/@' + voter">
 							<Component
 								:is="voter === profile.username.value ? 'strong' : 'span'"
 							>
 								@{{ voter }}
 							</Component>
-						</NuxtLink>
+						</LinkTo>
 						{{ ' ' }}
 					</small>
 				</div>
@@ -75,9 +73,7 @@
 			<Share :id="props.id" />
 
 			<p>
-				<NuxtLink to="/" :target="linkTarget"
-					>Choosier homepage &rarr;</NuxtLink
-				>
+				<LinkTo to="/" :target="linkTarget">Choosier homepage &rarr;</LinkTo>
 			</p>
 		</footer>
 	</div>
@@ -130,7 +126,7 @@ const results = computed(() => {
 
 const mostVotes = computed(() => results.value[0].voters.length);
 
-const userVote = computed(
+const userVoted = computed(
 	() => data.votes.find((vote) => vote.user_id === user.value?.id)?.image_url
 );
 

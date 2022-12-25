@@ -11,7 +11,8 @@
 
 	<form v-else @submit.prevent="submit">
 		<section id="images">
-			<UserCredits />
+			<p>Choices are free, but you can use credits for bonus features.</p>
+			<Credits />
 
 			<h2>Images</h2>
 			<p v-for="(credits, max) in imageLimits" :key="max">

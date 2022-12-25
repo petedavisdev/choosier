@@ -6,19 +6,24 @@
 	<div>
 		<h1 v-if="data.userId">
 			@{{ props.username }}
-			<NuxtLink v-if="user?.id === data.userId" to="/account">
+			<LinkTo v-if="user?.id === data.userId" to="/account">
 				<IconSettings class="icon" />
-			</NuxtLink>
+			</LinkTo>
 		</h1>
 
 		<template v-else>
 			<h1>Chooser not found</h1>
-			<NuxtLink to="/" class="button">Home</NuxtLink>
+			<LinkTo to="/" class="button">Home</LinkTo>
 		</template>
+
+		<LinkTo v-if="data.website" :to="data.website" target="_blank">
+			{{ data.website.replace(/^https?:\/\//, '') }}
+			↗
+		</LinkTo>
 
 		<template v-if="data.userId && !data.choices && !data.votes">
 			<h2>No activity</h2>
-			<NuxtLink to="/" class="button">Home</NuxtLink>
+			<LinkTo to="/" class="button">Home</LinkTo>
 		</template>
 
 		<template v-if="data.choices?.length">
@@ -54,6 +59,7 @@ const user = useSupabaseUser();
 
 const data = reactive({
 	userId: '',
+	website: '',
 	choices: [] as Choices,
 	votes: [] as Votes,
 });
@@ -63,6 +69,7 @@ try {
 		.from('profiles')
 		.select(
 			`user_id, 
+			website,
 			choices!choices_user_id_fkey(id),
 			votes(choice_id)`
 		)
@@ -72,8 +79,11 @@ try {
 	if (response.error) throw response.error;
 
 	data.userId = response.data.user_id;
+	data.website = response.data.website;
 	data.choices = response.data.choices as Choices;
+
 	const allVotes = response.data.votes as Votes;
+
 	data.votes =
 		allVotes?.filter(
 			(vote) => !data.choices?.find((choice) => choice.id === vote.choice_id)
@@ -85,12 +95,9 @@ try {
 </script>
 
 <style scoped>
-a {
-	text-decoration: none;
-}
-
 .icon {
 	width: 0.8em;
 	height: 0.8em;
+	text-decoration: none;
 }
 </style>

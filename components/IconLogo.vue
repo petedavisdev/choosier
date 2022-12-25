@@ -1,5 +1,5 @@
 <template>
-	<NuxtLink to="/">
+	<LinkTo to="/">
 		<svg
 			class="Logo"
 			viewBox="0 0 279 49"
@@ -55,7 +55,7 @@
 				beta
 			</text>
 		</svg>
-	</NuxtLink>
+	</LinkTo>
 </template>
 
 <style scoped>

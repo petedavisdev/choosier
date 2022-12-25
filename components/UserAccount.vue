@@ -1,14 +1,21 @@
 <template>
 	<form @submit.prevent="signOut">
-		<UserCredits />
+		<Credits />
+		<p>
+			It is free to create choices, but you can use credits for bonus features.
+		</p>
+
+		<LinkTo to="/new" class="button">+ New choice</LinkTo>
 
 		<p>
 			Logged in with <strong>{{ user?.email }}</strong>
 		</p>
 
-		<button type="submit" class="button" :disabled="data.loading">
-			Log Out
-		</button>
+		<p>
+			<button type="submit" class="button" :disabled="data.loading">
+				&rarr; Log Out
+			</button>
+		</p>
 	</form>
 </template>
 

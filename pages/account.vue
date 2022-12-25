@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<template v-if="user">
-			<h1>My profile</h1>
+			<h2>My profile</h2>
 			<UserEdit show-website>
 				<label for="username">My choosername</label>
 			</UserEdit>
@@ -12,6 +12,9 @@
 		<UserLogin v-else>
 			<h1>Login</h1>
 		</UserLogin>
+		<p>
+			<LinkTo to="/">&larr; Choosier homepage</LinkTo>
+		</p>
 	</div>
 </template>
 

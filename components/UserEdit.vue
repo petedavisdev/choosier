@@ -16,8 +16,13 @@
 		<template v-if="props.showWebsite">
 			<label for="website">My website or instagram link</label>
 			<p class="field">
-				<input v-model="data.website" id="website" required />
-				<small v-if="data.website">
+				<input
+					v-model="data.website"
+					id="website"
+					inputmode="url"
+					autocomplete="url"
+				/>
+				<small v-if="data.website?.length > 8">
 					Test your link:
 					<LinkTo :to="cleanWebsite" target="_blank">{{ cleanWebsite }}</LinkTo>
 				</small>
@@ -26,7 +31,7 @@
 		</template>
 
 		<button type="submit" class="button" :disabled="data.loading">
-			{{ data.loading ? 'Saving...' : 'Save' }}
+			{{ data.loading ? 'Saving...' : '✓ Save' }}
 		</button>
 	</form>
 </template>
@@ -38,7 +43,7 @@ const props = defineProps<{
 
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
-const profile = useProfile();
+const profile = await useProfile().get();
 const router = useRouter();
 const route = useRoute();
 
@@ -49,13 +54,13 @@ const data = reactive({
 });
 
 const cleanUsername = computed(() =>
-	data.username.toLowerCase().replace(/[^a-z0-9-_]/g, '')
+	data.username?.toLowerCase().replace(/[^a-z0-9-_]/g, '')
 );
 
 const cleanWebsite = computed(() => {
-	let url = data.website.toLowerCase();
+	let url = data.website?.toLowerCase() || '';
 
-	if (!url.startsWith('http://') && !url.startsWith('https://')) {
+	if (url && !url.startsWith('http://') && !url.startsWith('https://')) {
 		url = 'https://' + url;
 	}
 
@@ -85,6 +90,8 @@ async function updateProfile() {
 
 		if (route.path === '/account' && cleanUsername.value) {
 			router.push('/@' + cleanUsername.value);
+		} else {
+			location.reload();
 		}
 	} catch (error: any) {
 		alert(error.message);
@@ -102,5 +109,10 @@ small {
 .field {
 	margin-top: 0;
 	margin-bottom: 2rem;
+}
+
+#website {
+	width: 100%;
+	max-width: 30em;
 }
 </style>

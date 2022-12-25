@@ -19,3 +19,9 @@ function copy() {
 	}
 }
 </script>
+
+<style scoped>
+.button {
+	margin-bottom: 1em;
+}
+</style>

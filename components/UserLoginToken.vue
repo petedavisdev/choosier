@@ -7,7 +7,7 @@
 			<strong>{{ props.email }}</strong>
 			<br />
 			If you don't get it soon,
-			<NuxtLink to="#request" @click="retry" class="retry">try again</NuxtLink>.
+			<LinkTo to="#request" @click="retry" class="retry">try again</LinkTo>.
 		</p>
 
 		<p>

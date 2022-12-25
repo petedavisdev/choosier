@@ -12,7 +12,7 @@
 		<p>
 			Follow choosier.app on
 			<LinkTo to="https://www.instagram.com/choosier.app/" target="_blank"
-				>Instagram</LinkTo
+				>Instagram ↗</LinkTo
 			>
 			and send me a message.
 		</p>
@@ -29,7 +29,7 @@
 				to="https://www.instagram.com/choosier.app/"
 				class="button"
 				target="_blank"
-				>Follow choosier.app on Instagram
+				>Follow choosier.app on Instagram ↗
 			</LinkTo>
 		</p>
 	</section>

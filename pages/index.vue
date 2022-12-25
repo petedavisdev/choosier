@@ -29,6 +29,6 @@
 			</h3>
 		</article>
 
-		<NuxtLink to="/new" class="button">+ Make your own choice</NuxtLink>
+		<LinkTo to="/new" class="button">+ Make your own choice</LinkTo>
 	</div>
 </template>
