@@ -6,8 +6,9 @@
 			content="Too many options? Use Choosier to create an image poll. Collect votes from friends, colleagues and customers. Perfect for art, design, fashion and photography."
 		/>
 		<Meta
-			name="Content-Security-Policy"
-			content="default-src 'self'; img-src https://res.cloudinary.com;"
+			v-if="config.public.prod"
+			http-equiv="Content-Security-Policy"
+			:content="`default-src 'self' ${config.public?.apiBase} 'unsafe-inline' ; img-src 'self' https://res.cloudinary.com;`"
 		/>
 		<Link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 		<Link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -23,31 +24,32 @@
 	</NuxtLayout>
 </template>
 
-<script>
-if (process.client) {
+<script setup lang="ts">
+const config = useRuntimeConfig();
+let act: NodeJS.Timeout;
+
+function delayedAction(action: () => void) {
+	clearTimeout(act);
+	act = setTimeout(() => {
+		action();
+	}, 200);
+}
+
+function setWindowHeight() {
+	const windowHeight = window.innerHeight;
+	document.documentElement.style.setProperty(
+		'--windowHeight',
+		`${windowHeight}px`
+	);
+}
+
+onMounted(() => {
 	setWindowHeight();
 	setTimeout(() => {
 		setWindowHeight();
 	}, 1000);
 	window.onresize = () => delayedAction(setWindowHeight);
-
-	function setWindowHeight() {
-		const windowHeight = window.innerHeight;
-		document.documentElement.style.setProperty(
-			'--windowHeight',
-			`${windowHeight}px`
-		);
-	}
-
-	let act;
-
-	function delayedAction(action) {
-		clearTimeout(act);
-		act = setTimeout(() => {
-			action();
-		}, 200);
-	}
-}
+});
 </script>
 
 <style>

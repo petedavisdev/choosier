@@ -1,5 +1,5 @@
 <template>
-	<NuxtLink v-if="inFrame" :to="to" :class="class" target="_parent">
+	<NuxtLink v-if="data.inFrame" :to="to" :class="class" target="_parent">
 		<slot />
 	</NuxtLink>
 
@@ -19,7 +19,11 @@ const props = defineProps<{
 	target?: string;
 }>();
 
+const data = reactive({
+	inFrame: false,
+});
+
 onMounted(() => {
-	const inFrame = window?.frameElement;
+	data.inFrame = Boolean(window?.frameElement);
 });
 </script>
