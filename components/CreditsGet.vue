@@ -7,37 +7,30 @@
 
 		<button @click="props.close" type="button" class="close"></button>
 
-		<h3>Earn 2 credits by giving feedback</h3>
-
-		<ol>
-			<li>
-				Follow me on
-				<a
-					href="https://www.instagram.com/choosier.app/"
-					target="_blank"
-					rel="noopener noreferrer"
-					>Instagram</a
-				>
-				and send me a message.
-			</li>
-
-			<li>Tell me what you like or dislike about Choosier.</li>
-			<li>Tell me your choosername.</li>
-		</ol>
+		<h3>Earn 3 credits by giving feedback</h3>
 
 		<p>
-			When I read your message I will give you 2 credits. Please be patient, I
+			Follow choosier.app on
+			<LinkTo to="https://www.instagram.com/choosier.app/" target="_blank"
+				>Instagram ↗</LinkTo
+			>
+			and send me a message.
+		</p>
+
+		<p>Give me some feedback. Anything good or bad about Choosier.</p>
+
+		<p>
+			When I read your message I will give you 3 credits. Please be patient, I
 			usually check my messages once a day.
 		</p>
 
 		<p>
-			<a
-				href="https://www.instagram.com/choosier.app/"
+			<LinkTo
+				to="https://www.instagram.com/choosier.app/"
 				class="button"
 				target="_blank"
-				rel="noopener noreferrer"
-				>Follow choosier.app on Instagram</a
-			>
+				>Follow choosier.app on Instagram ↗
+			</LinkTo>
 		</p>
 	</section>
 	<!-- </div> -->

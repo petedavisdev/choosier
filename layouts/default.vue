@@ -4,14 +4,16 @@
 		<slot />
 		<nav>
 			<NuxtLink
-				:to="profile.username ? '/@' + profile.username : '/account'"
+				:to="
+					profile.username.value ? '/@' + profile.username.value : '/account'
+				"
 				class="button"
 			>
 				{{
-					profile.username
-						? '@' + profile.username
-						: profile.userId
-						? 'My Account'
+					profile.username.value
+						? '@' + profile.username.value
+						: user?.id
+						? 'Account'
 						: 'Login'
 				}}
 			</NuxtLink>
@@ -20,16 +22,20 @@
 	</main>
 	<footer>
 		<p>
-			<NuxtLink to="/privacy">Privacy</NuxtLink> |
-			<NuxtLink to="/terms">Terms of use</NuxtLink> | &copy;
+			<NuxtLink to="/privacy">Essential cookies only</NuxtLink> |
+			<NuxtLink to="/terms">Terms of use</NuxtLink> | Choosier &copy;
 			{{ new Date().getFullYear() }}
-			<NuxtLink to="https://petedavis.dev">Pete Davis</NuxtLink>
+			<LinkTo to="https://petedavis.dev">Pete Davis</LinkTo> |
+			<LinkTo to="https://www.instagram.com/choosier.app/" target="_blank"
+				>Say hello on Instagram ↗</LinkTo
+			>
 		</p>
 	</footer>
 </template>
 
 <script setup lang="ts">
-const profile = await useProfile();
+const user = useSupabaseUser();
+const profile = useProfile();
 </script>
 
 <style scoped>

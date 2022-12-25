@@ -6,7 +6,11 @@
 	<div class="thumbnails" v-if="data.uploads.length">
 		<div v-for="({ url, delete_token }, index) in data.uploads" :key="index">
 			<img :src="url" alt="" />
-			<button class="close" @click="deleteUpload(index, delete_token)"></button>
+			<button
+				@click.prevent="deleteUpload(index, delete_token)"
+				type="button"
+				class="close"
+			></button>
 		</div>
 	</div>
 
@@ -17,7 +21,7 @@
 		class="button"
 		:disabled="data.loading"
 	>
-		Upload
+		+ Add images
 	</button>
 </template>
 

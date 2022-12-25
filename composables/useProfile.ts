@@ -1,33 +1,41 @@
-export async function useProfile() {
-	const supabase = useSupabaseClient();
-	const user = useSupabaseUser();
-	const data = reactive({
-		loading: true,
-		userId: user.value?.id,
-		email: user.value?.email,
-		username: '',
-		credits: 0,
-	});
+export function useProfile() {
+	const username = useState<string>('username');
+	const credits = useState<number>('credits');
+	const website = useState<string>('website');
 
-	if (user.value) {
-		try {
-			const response = await supabase
-				.from('profiles')
-				.select(`username, credits`)
-				.eq('user_id', user.value?.id)
-				.single();
-
-			if (response.error) throw response.error;
-
-			data.username = response.data.username;
-			data.credits = response.data.credits;
-			data.loading = false;
-		} catch (error: any) {
-			console.log(error.message);
-		} finally {
-			data.loading = false;
-		}
+	function reset() {
+		username.value = '';
+		credits.value = 0;
+		website.value = '';
 	}
 
-	return data;
+	async function get() {
+		const supabase = useSupabaseClient();
+		const user = useSupabaseUser();
+
+		if (user.value) {
+			try {
+				const response = await supabase
+					.from('profiles')
+					.select(`username, credits, website`)
+					.eq('user_id', user.value?.id)
+					.single();
+
+				if (response.error) throw response.error;
+
+				username.value = response.data.username;
+				credits.value = response.data.credits;
+			} catch (error: any) {
+				console.log(error.message);
+			}
+		} else {
+			reset();
+		}
+
+		return { username, credits, website };
+	}
+
+	get();
+
+	return { username, credits, website, get, reset };
 }

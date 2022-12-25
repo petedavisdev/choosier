@@ -1,9 +1,9 @@
 <template>
 	<nav>
 		<span v-for="(category, key) in categories" key="key">
-			<NuxtLink v-if="key !== 'other'" :to="'/_' + key">{{
+			<LinkTo v-if="key !== 'other'" :to="'/_' + key">{{
 				key.replace('-', ' ')
-			}}</NuxtLink>
+			}}</LinkTo>
 		</span>
 	</nav>
 </template>

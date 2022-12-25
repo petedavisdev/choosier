@@ -7,32 +7,32 @@
 		/>
 	</Head>
 
-	<div v-if="!profile.userId">
+	<div v-if="!user">
 		<h1>Only registered choosers can see results</h1>
 		<p>Check your email for a login link.</p>
 		<p>
 			If you haven't received one,
-			<NuxtLink to="/account">click here</NuxtLink>.
+			<LinkTo to="/account">click here</LinkTo>.
 		</p>
 	</div>
 
-	<div v-else-if="!userVote">
+	<div v-else-if="!userVoted">
 		<h1>Choose first, then see the results</h1>
 		<Card :id="props.id" class="card" />
 	</div>
 
-	<div v-else-if="!profile.username">
-		<p>You need a choosername to show on the results</p>
-		<UserEdit />
+	<div v-else-if="!profile.username.value">
+		<UserEdit>
+			<h1>My choosername</h1>
+			<p>You need a choosername to show on the results page</p>
+		</UserEdit>
 	</div>
 
 	<div v-else>
 		<h1>
 			<small>
 				You helped
-				<NuxtLink :to="'/@' + choice.username">
-					@{{ choice.username }}
-				</NuxtLink>
+				<LinkTo :to="'/@' + choice.username"> @{{ choice.username }} </LinkTo>
 				choose
 			</small>
 			{{ choice.title }}
@@ -55,11 +55,13 @@
 				<strong class="count">{{ result.voters.length }}</strong>
 				<div class="voters">
 					<small v-for="voter in result.voters" :key="voter">
-						<NuxtLink :to="'/@' + voter">
-							<Component :is="voter === profile.username ? 'strong' : 'span'">
+						<LinkTo :to="'/@' + voter">
+							<Component
+								:is="voter === profile.username.value ? 'strong' : 'span'"
+							>
 								@{{ voter }}
 							</Component>
-						</NuxtLink>
+						</LinkTo>
 						{{ ' ' }}
 					</small>
 				</div>
@@ -68,27 +70,25 @@
 
 		<footer>
 			<h2>Share to get more votes</h2>
-			<p>{{ shareLink }}</p>
-			<button @click="copyText(shareLink)" type="button" class="button">
-				Copy link
-			</button>
+			<Share :id="props.id" />
 
-			<p><NuxtLink to="/">Choosier homepage &rarr;</NuxtLink></p>
+			<p>
+				<LinkTo to="/" :target="linkTarget">Choosier homepage &rarr;</LinkTo>
+			</p>
 		</footer>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { copyText } from '~/helpers/copyText';
-
 const props = defineProps<{
 	id: number;
 }>();
 
 const supabase = useSupabaseClient();
+const user = useSupabaseUser();
 const choice = await useChoice(props.id);
-const profile = await useProfile();
-const shareLink = 'https://choosier.app/' + props.id;
+const profile = useProfile();
+const linkTarget = process.browser && window.frameElement ? '_parent' : '_self';
 
 type Vote = {
 	user_id: string;
@@ -111,7 +111,14 @@ const results = computed(() => {
 				voters: data.votes
 					.filter((vote) => image === vote.image_url)
 					.map((vote) => vote.profiles.username)
-					.filter((vote) => vote),
+					.filter((vote) => vote)
+					.sort(function (a, b) {
+						return a === profile.username.value
+							? -1
+							: b === profile.username.value
+							? 1
+							: 0;
+					}),
 			};
 		})
 		.sort((a, b) => b.voters.length - a.voters.length);
@@ -119,8 +126,8 @@ const results = computed(() => {
 
 const mostVotes = computed(() => results.value[0].voters.length);
 
-const userVote = computed(
-	() => data.votes.find((vote) => vote.user_id === profile.userId)?.image_url
+const userVoted = computed(
+	() => data.votes.find((vote) => vote.user_id === user.value?.id)?.image_url
 );
 
 try {

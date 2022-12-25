@@ -1,4 +1,9 @@
-export const categories: Record<string, string> = {
+export const imageLimits = {
+	6: 0,
+	10: 1,
+};
+
+export const categories = {
 	art: 'Art and illustration',
 	fashion: 'Fashion and costume',
 	'graphic-design': 'Graphic design',
@@ -6,8 +11,33 @@ export const categories: Record<string, string> = {
 	other: 'Other',
 };
 
-export const visibility: Record<string, string> = {
-	Public: '(free)',
-	Promoted: '(1 credit) Choosier homepage + Instagram',
-	Private: '(1 credit) Coming soon...',
+export const visibility = {
+	public: {
+		name: 'Public',
+		description: '',
+		credits: 0,
+	},
+	promoted: {
+		name: 'Promoted',
+		description: 'Choosier homepage + Instagram',
+		credits: 1,
+	},
+	private: {
+		name: 'Private',
+		description: 'Coming soon...',
+		credits: 1,
+	},
+};
+
+export const duration = {
+	1: {
+		name: 'Quick decision',
+		description: 'Voting open for 24 hours',
+		credits: 0,
+	},
+	7: {
+		name: 'Take your time',
+		description: 'Voting open for 7 days',
+		credits: 1,
+	},
 };

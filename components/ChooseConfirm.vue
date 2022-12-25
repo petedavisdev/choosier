@@ -1,47 +1,60 @@
 <template>
-	<section>
+	<section class="chosen">
 		<img :src="props.image" alt="" />
 		<h1>You have chosen!</h1>
 	</section>
 
-	<section v-if="!user">
-		<p>To submit your choice, please confirm you are human.</p>
+	<section v-if="user" class="confirm">
+		<button @click="vote()" type="button" class="button">
+			✓ Confirm my choice
+		</button>
+	</section>
+
+	<section v-else class="confirm">
+		<p>To vote, please confirm you are human.</p>
 
 		<input
 			type="email"
 			placeholder="Email"
 			v-model="data.email"
 			title="Email"
+			autocomplete="email"
 			required
 		/>
 
-		<p>
-			<button @click="login" type="button" class="button">
-				{{ data.loading ? 'Loading' : 'Send me a confirmation link &rarr;' }}
+		<footer>
+			<button @click.prevent="request" type="button" class="button">
+				{{ data.loading ? 'Loading' : 'Send me a confirmation code &rarr;' }}
 			</button>
-		</p>
-		<br />
-		<p>🍪 Essential cookies only. No spam.</p>
+		</footer>
 	</section>
 
-	<section v-else>
-		<button @click="vote()" type="button" class="button">
-			✓ Confirm my choice
-		</button>
-	</section>
+	<div class="backdrop" v-if="data.requested">
+		<section class="box">
+			<UserLoginToken
+				:email="data.email"
+				:retry="retry"
+				:choice-id="props.id"
+				class="confirm"
+				><h2>Confirmation code</h2></UserLoginToken
+			>
+		</section>
+	</div>
 </template>
 
 <script setup lang="ts">
+const router = useRouter();
+const user = useSupabaseUser();
+const supabase = useSupabaseClient();
+
 const props = defineProps<{
 	id: number;
 	image: string;
 }>();
-const user = useSupabaseUser();
-const supabase = useSupabaseClient();
-const router = useRouter();
 
 const data = reactive({
 	loading: false,
+	requested: false,
 	email: '',
 	userId: '',
 });
@@ -64,7 +77,9 @@ async function vote() {
 
 		if (response.error) throw response.error;
 
-		router.push('/result' + props.id);
+		if (user.value) {
+			router.push('/result' + props.id);
+		}
 		return true;
 	} catch (error: any) {
 		alert(error.message);
@@ -92,13 +107,10 @@ async function getUserId() {
 	}
 }
 
-async function login() {
+async function request() {
 	try {
 		data.loading = true;
-		const response = await supabase.auth.signInWithOtp({
-			email: data.email,
-			options: { emailRedirectTo: 'https://choosier.app/account' },
-		});
+		const response = await supabase.auth.signInWithOtp({ email: data.email });
 
 		if (response.error) throw response.error;
 
@@ -106,16 +118,18 @@ async function login() {
 
 		if (!hasId) throw 'Unable to get user id';
 
-		const voted = await vote();
+		await vote();
 
-		if (!voted) throw 'Unable to record vote';
-
-		alert('Check your email for the login link!');
+		data.requested = true;
 	} catch (error: any) {
 		alert(error);
 	} finally {
 		data.loading = false;
 	}
+}
+
+function retry() {
+	data.requested = false;
 }
 </script>
 
@@ -124,20 +138,21 @@ async function login() {
 	margin-top: 1em;
 }
 
-section {
+.chosen,
+.confirm {
 	display: grid;
 	place-content: center;
 	min-height: 0;
 	text-align: center;
 }
 
-section img {
+.chosen img {
 	object-fit: contain;
 	place-self: center;
 	min-height: 0;
 	max-width: 100%;
 	max-height: 100%;
 	line-height: 1;
-	background-color: white;
+	background-color: var(--lighter);
 }
 </style>

@@ -9,9 +9,10 @@
 		/>
 	</Head>
 
-	<main>
+	<main v-if="choice.title">
 		<form
 			v-for="(match, matchIndex) in data.matches"
+			@submit.prevent
 			@reset="updateMatches(matchIndex)"
 			:id="'match' + matchIndex"
 			:key="matchIndex"
@@ -44,14 +45,15 @@
 				class="controls"
 				:matchIndex="matchIndex"
 				:length="length"
+				:id="props.id"
 			/>
 		</form>
 
 		<aside class="popup backdrop" v-if="data.userHasVoted">
-			<NuxtLink :to="'/result' + props.id" class="button">
+			<LinkTo :to="'/result' + props.id" class="button">
 				You have made your choice
 				<h2>See the results &rarr;</h2>
-			</NuxtLink>
+			</LinkTo>
 		</aside>
 
 		<ChooseIntro
@@ -60,6 +62,16 @@
 			:username="choice.username"
 			:title="choice.title"
 		/>
+	</main>
+
+	<main v-else>
+		<form>
+			<div>
+				<IconLogo />
+				<h1>Choice not found.</h1>
+				<LinkTo to="/">&larr; Go back home</LinkTo>
+			</div>
+		</form>
 	</main>
 </template>
 
@@ -163,7 +175,7 @@ input {
 	max-width: 100%;
 	max-height: 100%;
 	line-height: 1;
-	background-color: white;
+	background-color: var(--lighter);
 }
 
 form:not(:last-of-type):valid :not(:checked) + img {
