@@ -8,7 +8,7 @@
 		<Categories />
 
 		<section class="grid">
-			<Card :id="2" />
+			<List :filter="['visibility', 'promoted']" />
 		</section>
 
 		<article>

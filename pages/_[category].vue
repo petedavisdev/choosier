@@ -3,6 +3,10 @@
 		<h1>{{ categories[category] || 'Visual' }} decisions made easy</h1>
 		<Categories />
 
+		<section class="grid">
+			<List :filter="['category', category]" />
+		</section>
+
 		<template v-if="category === 'art'">
 			<Head>
 				<Title>Choosier. Art and illustration decisions made easy</Title>
@@ -130,11 +134,6 @@
 				<br />
 				No more guesswork.
 			</h3>
-
-			<h2>Here is an example:</h2>
-			<section class="grid">
-				<Card :id="2" />
-			</section>
 		</template>
 
 		<LinkTo to="/new" class="button">+ Make your own choice</LinkTo>

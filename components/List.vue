@@ -1,5 +1,10 @@
 <template>
-	<LinkTo :to="`/${id}`" class="card">
+	<LinkTo
+		v-for="choice in choices"
+		:key="choice.id"
+		:to="`/${choice.id}`"
+		class="card"
+	>
 		<div class="card-images">
 			<img
 				class="card-image"
@@ -20,6 +25,9 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{ id: number }>();
-const choice = await useChoice(props.id);
+const props = defineProps<{
+	filter: [string, string];
+}>();
+
+const choices = await useFilteredChoices(props.filter);
 </script>
