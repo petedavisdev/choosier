@@ -7,9 +7,7 @@
 
 		<Categories />
 
-		<section class="grid">
-			<List :filter="['visibility', 'promoted']" />
-		</section>
+		<List :filter="['visibility', 'promoted']" />
 
 		<article>
 			<h2>How Choosier Works</h2>

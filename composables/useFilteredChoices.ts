@@ -1,8 +1,16 @@
 import { Choice } from '~/types';
 
-export async function useFilteredChoices(filter: [string, string]) {
+export async function useFilteredChoices(filter: [string, string | number[]]) {
 	const supabase = useSupabaseClient();
-	const now = new Date();
+	const now = new Date().toISOString();
+
+	let filterEq = ['', ''] as [string, string];
+	let filterIn = ['', []] as [string, number[]];
+	if (typeof filter[1] === 'string') {
+		filterEq = filter as [string, string];
+	} else {
+		filterIn = filter as [string, number[]];
+	}
 
 	const data = reactive({
 		choices: [] as Choice[],
@@ -21,8 +29,9 @@ export async function useFilteredChoices(filter: [string, string]) {
 				`
 			)
 			.neq('visibility', 'private')
-			.eq(...filter)
-			.gt('remove_at', now.toISOString())
+			.eq(...filterEq)
+			.in(...filterIn)
+			.gt('remove_at', now)
 			.order('created_at', { ascending: false });
 
 		if (response.error) throw response.error;
