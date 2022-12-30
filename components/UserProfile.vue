@@ -38,7 +38,9 @@
 
 		<template v-if="data.votes?.length">
 			<h2>Votes</h2>
-			<List :filter="['id', data.votes]" />
+			<List :filter="['id', data.votes]">
+				<p>@{{ username }} has no votes to show</p>
+			</List>
 		</template>
 	</div>
 </template>
