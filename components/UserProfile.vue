@@ -26,22 +26,21 @@
 			<LinkTo to="/" class="button">Home</LinkTo>
 		</template>
 
-		<template v-if="data.choices?.length">
+		<template v-if="data.userId">
 			<h2>Choices</h2>
-			<section class="grid">
-				<Card v-for="choice in data.choices" :key="choice.id" :id="choice.id" />
-			</section>
+			<List :filter="['user_id', data.userId]">
+				<p>@{{ username }} has no active choices.</p>
+				<LinkTo v-if="user?.id === data.userId" to="/new" class="button">
+					+ New choice
+				</LinkTo>
+			</List>
 		</template>
 
 		<template v-if="data.votes?.length">
 			<h2>Votes</h2>
-			<section class="grid">
-				<Card
-					v-for="vote in data.votes"
-					:key="vote.choice_id"
-					:id="vote.choice_id"
-				/>
-			</section>
+			<List :filter="['id', data.votes]">
+				<p>@{{ username }} has no votes to show</p>
+			</List>
 		</template>
 	</div>
 </template>
@@ -61,7 +60,7 @@ const data = reactive({
 	userId: '',
 	website: '',
 	choices: [] as Choices,
-	votes: [] as Votes,
+	votes: [] as number[] | null,
 });
 
 try {
@@ -85,9 +84,11 @@ try {
 	const allVotes = response.data.votes as Votes;
 
 	data.votes =
-		allVotes?.filter(
-			(vote) => !data.choices?.find((choice) => choice.id === vote.choice_id)
-		) || null;
+		allVotes
+			?.filter(
+				(vote) => !data.choices?.find((choice) => choice.id === vote.choice_id)
+			)
+			.map((vote) => vote.choice_id) || null;
 } catch (error: any) {
 	console.error(error.message);
 	console.warn(error.hint);

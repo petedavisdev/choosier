@@ -1,11 +1,11 @@
+import { Choice } from '~/types';
+
 export async function useChoice(id: number) {
 	const supabase = useSupabaseClient();
 
 	const data = reactive({
 		loading: true,
-		username: '',
-		title: '',
-		images: [],
+		choice: {} as Choice,
 	});
 
 	try {
@@ -24,14 +24,14 @@ export async function useChoice(id: number) {
 		if (choiceResponse.error) throw choiceResponse.error;
 
 		// @ts-ignore: unreachable type error
-		data.username = choiceResponse.data.profiles?.username;
-		data.title = choiceResponse.data.title;
-		data.images = choiceResponse.data.image_urls;
+		data.choice.username = choiceResponse.data.profiles?.username;
+		data.choice.title = choiceResponse.data.title;
+		data.choice.images = choiceResponse.data.image_urls;
 	} catch (error: any) {
 		console.error(error.message);
 	} finally {
 		data.loading = false;
 	}
 
-	return data;
+	return { ...data.choice, loading: data.loading };
 }

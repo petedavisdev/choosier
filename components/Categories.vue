@@ -1,9 +1,7 @@
 <template>
 	<nav>
 		<span v-for="(category, key) in categories" key="key">
-			<LinkTo v-if="key !== 'other'" :to="'/_' + key">{{
-				key.replace('-', ' ')
-			}}</LinkTo>
+			<LinkTo :to="'/_' + key">{{ key.replace('-', ' ') }}</LinkTo>
 		</span>
 	</nav>
 </template>

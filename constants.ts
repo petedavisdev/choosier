@@ -5,10 +5,9 @@ export const imageLimits = {
 
 export const categories = {
 	art: 'Art and illustration',
-	fashion: 'Fashion and costume',
 	'graphic-design': 'Graphic design',
 	photography: 'Photography',
-	other: 'Other',
+	style: 'Style',
 };
 
 export const visibility = {
