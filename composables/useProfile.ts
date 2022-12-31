@@ -25,6 +25,7 @@ export function useProfile() {
 
 				username.value = response.data.username;
 				credits.value = response.data.credits;
+				website.value = response.data.website;
 			} catch (error: any) {
 				console.log(error.message);
 			}
@@ -35,5 +36,11 @@ export function useProfile() {
 		return { username, credits, website };
 	}
 
-	return { username, credits, website, get, unset };
+	return {
+		username,
+		credits,
+		website,
+		get,
+		unset,
+	};
 }

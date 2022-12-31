@@ -1,12 +1,14 @@
 import { Choice } from '~/types';
 
-export async function useFilteredChoices(filter: [string, string | number[]]) {
+export async function useFilteredChoices(
+	filter: [string, string | number | number[]]
+) {
 	const supabase = useSupabaseClient();
 	const now = new Date().toISOString();
 
 	let filterEq = ['', ''] as [string, string];
 	let filterIn = ['', []] as [string, number[]];
-	if (typeof filter[1] === 'string') {
+	if (typeof filter[1] === 'string' || typeof filter[1] === 'number') {
 		filterEq = filter as [string, string];
 	} else {
 		filterIn = filter as [string, number[]];
@@ -36,12 +38,14 @@ export async function useFilteredChoices(filter: [string, string | number[]]) {
 
 		if (response.error) throw response.error;
 
-		data.choices = response.data.map((choice) => ({
-			id: choice.id,
-			title: choice.title,
-			images: choice.image_urls,
-			username: choice.profiles?.username,
-		}));
+		if (response.data) {
+			data.choices = response.data.map((choice) => ({
+				id: choice.id,
+				title: choice.title,
+				images: choice.image_urls,
+				username: choice.profiles?.username,
+			}));
+		}
 	} catch (error: any) {
 		console.error(error.message);
 	} finally {

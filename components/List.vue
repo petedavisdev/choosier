@@ -30,7 +30,7 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-	filter: [string, string | number[]];
+	filter: [string, string | number | number[]];
 }>();
 
 const choices = await useFilteredChoices(props.filter);

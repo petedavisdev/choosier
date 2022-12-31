@@ -18,7 +18,7 @@
 
 	<div v-else-if="!userVoted">
 		<h1>Choose first, then see the results</h1>
-		<Card :id="props.id" class="card" />
+		<List :filter="['id', props.id]" />
 	</div>
 
 	<div v-else-if="!profile.username.value">
@@ -187,9 +187,5 @@ img {
 	width: 100%;
 	max-width: 20vmin;
 	height: auto;
-}
-
-.card {
-	max-width: 24em;
 }
 </style>

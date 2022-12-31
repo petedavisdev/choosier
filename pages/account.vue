@@ -12,9 +12,6 @@
 		<UserLogin v-else>
 			<h1>Login</h1>
 		</UserLogin>
-		<p>
-			<LinkTo to="/">&larr; Choosier homepage</LinkTo>
-		</p>
 	</div>
 </template>
 
