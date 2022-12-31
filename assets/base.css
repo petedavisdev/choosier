@@ -88,6 +88,10 @@ a:has(svg) {
 	text-decoration: none;
 }
 
+small {
+	font-weight: normal;
+}
+
 strong {
 	font-weight: bold;
 }

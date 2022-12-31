@@ -28,6 +28,8 @@
 const config = useRuntimeConfig();
 let act: NodeJS.Timeout;
 
+await useProfile().get();
+
 function delayedAction(action: () => void) {
 	clearTimeout(act);
 	act = setTimeout(() => {

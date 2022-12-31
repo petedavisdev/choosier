@@ -34,7 +34,7 @@ async function signOut() {
 		const response = await auth.signOut();
 		if (response.error) throw response.error;
 		user.value = null;
-		profile.reset();
+		profile.unset();
 	} catch (error: any) {
 		alert(error.message);
 	} finally {

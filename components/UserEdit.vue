@@ -43,7 +43,7 @@ const props = defineProps<{
 
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
-const profile = await useProfile().get();
+const profile = useProfile();
 const router = useRouter();
 const route = useRoute();
 

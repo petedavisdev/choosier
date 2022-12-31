@@ -3,7 +3,7 @@ export function useProfile() {
 	const credits = useState<number>('credits');
 	const website = useState<string>('website');
 
-	function reset() {
+	function unset() {
 		username.value = '';
 		credits.value = 0;
 		website.value = '';
@@ -29,13 +29,11 @@ export function useProfile() {
 				console.log(error.message);
 			}
 		} else {
-			reset();
+			unset();
 		}
 
 		return { username, credits, website };
 	}
 
-	get();
-
-	return { username, credits, website, get, reset };
+	return { username, credits, website, get, unset };
 }
