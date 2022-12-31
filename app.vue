@@ -8,7 +8,7 @@
 		<Meta
 			v-if="config.public.prod"
 			http-equiv="Content-Security-Policy"
-			:content="`default-src 'self' https://widget.cloudinary.com ${config.public?.apiBase} 'unsafe-inline' ; img-src 'self' https://res.cloudinary.com;`"
+			:content="`default-src 'self' ${config.public?.apiBase} *.cloudinary.com 'unsafe-inline'`"
 		/>
 		<Link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 		<Link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
