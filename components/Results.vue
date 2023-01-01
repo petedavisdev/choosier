@@ -7,7 +7,7 @@
 		/>
 	</Head>
 
-	<div v-if="!user">
+	<div v-if="!profile.userId.value">
 		<h1>Only registered choosers can see results</h1>
 		<p>Check your email for a login link.</p>
 		<p>
@@ -85,7 +85,6 @@ const props = defineProps<{
 }>();
 
 const supabase = useSupabaseClient();
-const user = useSupabaseUser();
 const choice = await useChoice(props.id);
 const profile = useProfile();
 const linkTarget = process.browser && window.frameElement ? '_parent' : '_self';
@@ -127,7 +126,8 @@ const results = computed(() => {
 const mostVotes = computed(() => results.value[0].voters.length);
 
 const userVoted = computed(
-	() => data.votes.find((vote) => vote.user_id === user.value?.id)?.image_url
+	() =>
+		data.votes.find((vote) => vote.user_id === profile.userId.value)?.image_url
 );
 
 try {

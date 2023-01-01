@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<template v-if="user">
+		<template v-if="profile.userId.value">
 			<h2>My profile</h2>
 			<UserEdit show-website>
 				<label for="username">My choosername</label>
@@ -16,5 +16,5 @@
 </template>
 
 <script setup>
-const user = useSupabaseUser();
+const profile = useProfile();
 </script>

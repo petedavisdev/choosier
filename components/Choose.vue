@@ -81,7 +81,7 @@ const props = defineProps<{
 }>();
 
 const supabase = useSupabaseClient();
-const user = useSupabaseUser();
+const profile = useProfile();
 const choice = await useChoice(props.id);
 const length = choice.images.length;
 
@@ -95,12 +95,12 @@ data.matches = choice.images.map((_image, index) => [
 	choice.images[2 * index + 1],
 ]);
 
-if (user.value) {
+if (profile.userId.value) {
 	try {
 		const response = await supabase
 			.from('votes')
 			.select('image_url')
-			.eq('user_id', user.value.id)
+			.eq('user_id', profile.userId.value)
 			.eq('choice_id', props.id)
 			.single();
 

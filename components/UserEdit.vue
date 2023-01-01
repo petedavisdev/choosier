@@ -42,8 +42,7 @@ const props = defineProps<{
 }>();
 
 const supabase = useSupabaseClient();
-const user = useSupabaseUser();
-const profile = await useProfile().get();
+const profile = useProfile();
 const router = useRouter();
 const route = useRoute();
 
@@ -72,7 +71,7 @@ async function updateProfile() {
 		data.loading = true;
 
 		const updates = {
-			user_id: user.value?.id,
+			user_id: profile.userId.value,
 			username: cleanUsername.value,
 			updated_at: new Date(),
 			website: cleanWebsite.value,

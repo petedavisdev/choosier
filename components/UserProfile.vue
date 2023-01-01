@@ -6,7 +6,7 @@
 	<div>
 		<h1 v-if="data.userId">
 			@{{ props.username }}
-			<LinkTo v-if="user?.id === data.userId" to="/account">
+			<LinkTo v-if="isUser" to="/account">
 				<IconSettings class="icon" />
 			</LinkTo>
 		</h1>
@@ -30,9 +30,7 @@
 			<h2>Choices</h2>
 			<List :filter="['user_id', data.userId]">
 				<p>@{{ username }} has no active choices.</p>
-				<LinkTo v-if="user?.id === data.userId" to="/new" class="button">
-					+ New choice
-				</LinkTo>
+				<LinkTo v-if="isUser" to="/new" class="button"> + New choice </LinkTo>
 			</List>
 		</template>
 
@@ -54,7 +52,7 @@ const props = defineProps<{
 }>();
 
 const supabase = useSupabaseClient();
-const user = useSupabaseUser();
+const profile = useProfile();
 
 const data = reactive({
 	userId: '',
@@ -62,6 +60,8 @@ const data = reactive({
 	choices: [] as Choices,
 	votes: [] as number[] | null,
 });
+
+const isUser = computed(() => profile.userId.value === data.userId);
 
 try {
 	const response = await supabase

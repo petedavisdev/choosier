@@ -49,19 +49,13 @@ async function verify() {
 	try {
 		data.loading = true;
 
-		const { error } = await auth.verifyOtp({
+		const response = await auth.verifyOtp({
 			email: props.email,
 			token: data.token,
 			type: 'magiclink',
 		});
 
-		if (error) throw error;
-
-		const updatedProfile = await profile.get();
-
-		if (updatedProfile && props.choiceId) {
-			router.push('/result' + props.choiceId);
-		}
+		if (response.error) throw response.error;
 	} catch (error: any) {
 		alert(error.error_description || error.message);
 	} finally {

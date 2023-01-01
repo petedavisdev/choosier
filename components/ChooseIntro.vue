@@ -7,7 +7,7 @@
 				<div>{{ props.title }}</div>
 			</h1>
 
-			<template v-if="!user">
+			<template v-if="!profile.userId.value">
 				<h2>How it works:</h2>
 				<p>Choosier works like a knockout tournament.</p>
 				<ul>
@@ -31,7 +31,7 @@ const props = defineProps<{
 	title: string;
 }>();
 
-const user = useSupabaseUser();
+const profile = useProfile();
 const data = reactive({
 	show: true,
 });

@@ -12,7 +12,7 @@
 				{{
 					profile.username.value
 						? '@' + profile.username.value
-						: user?.id
+						: profile.userId.value
 						? 'Account'
 						: 'Login'
 				}}
@@ -34,7 +34,6 @@
 </template>
 
 <script setup lang="ts">
-const user = useSupabaseUser();
 const profile = useProfile();
 </script>
 

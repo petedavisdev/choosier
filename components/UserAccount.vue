@@ -8,7 +8,7 @@
 		<LinkTo to="/new" class="button">+ New choice</LinkTo>
 
 		<p>
-			Logged in with <strong>{{ user?.email }}</strong>
+			Logged in with <strong>{{ profile.email }}</strong>
 		</p>
 
 		<p>
@@ -21,7 +21,6 @@
 
 <script setup lang="ts">
 const { auth } = useSupabaseAuthClient();
-const user = useSupabaseUser();
 const profile = useProfile();
 
 const data = reactive({
@@ -33,8 +32,6 @@ async function signOut() {
 		data.loading = true;
 		const response = await auth.signOut();
 		if (response.error) throw response.error;
-		user.value = null;
-		profile.unset();
 	} catch (error: any) {
 		alert(error.message);
 	} finally {

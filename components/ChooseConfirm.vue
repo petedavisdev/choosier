@@ -4,7 +4,7 @@
 		<h1>You have chosen!</h1>
 	</section>
 
-	<section v-if="user" class="confirm">
+	<section v-if="profile.userId.value" class="confirm">
 		<button @click="vote()" type="button" class="button">
 			✓ Confirm my choice
 		</button>
@@ -44,7 +44,7 @@
 
 <script setup lang="ts">
 const router = useRouter();
-const user = useSupabaseUser();
+const profile = useProfile();
 const supabase = useSupabaseClient();
 
 const props = defineProps<{
@@ -64,7 +64,7 @@ async function vote() {
 		data.loading = true;
 
 		const updates = {
-			user_id: data.userId || user.value?.id,
+			user_id: data.userId || profile.userId.value,
 			choice_id: props.id,
 			image_url: props.image,
 			updated_at: new Date(),
@@ -77,7 +77,7 @@ async function vote() {
 
 		if (response.error) throw response.error;
 
-		if (user.value) {
+		if (profile.userId.value) {
 			router.push('/result' + props.id);
 		}
 		return true;

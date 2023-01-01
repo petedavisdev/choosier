@@ -1,46 +1,59 @@
 export function useProfile() {
-	const username = useState<string>('username');
-	const credits = useState<number>('credits');
-	const website = useState<string>('website');
+	const supabase = useSupabaseClient();
+	const user = useSupabaseUser();
 
-	function unset() {
-		username.value = '';
-		credits.value = 0;
-		website.value = '';
-	}
+	const userId = useState<string | null>('userId');
+	const email = useState<string | null>('email');
+	const username = useState<string | null>('username');
+	const credits = useState<number | null>('credits');
+	const website = useState<string | null>('website');
+	const loading = useState<boolean>('loading');
+
+	watch(user, (newUser, oldUser) => {
+		if (newUser?.id !== oldUser?.id) get();
+	});
 
 	async function get() {
-		const supabase = useSupabaseClient();
-		const user = useSupabaseUser();
+		if (user.value?.id) {
+			loading.value = true;
 
-		if (user.value) {
 			try {
 				const response = await supabase
 					.from('profiles')
-					.select(`username, credits, website`)
-					.eq('user_id', user.value?.id)
+					.select(`user_id, email, username, credits, website`)
+					.eq('user_id', user.value.id)
 					.single();
 
 				if (response.error) throw response.error;
 
+				userId.value = response.data.user_id;
+				email.value = response.data.email;
 				username.value = response.data.username;
 				credits.value = response.data.credits;
 				website.value = response.data.website;
+				loading.value = false;
 			} catch (error: any) {
 				console.log(error.message);
+			} finally {
+				loading.value = false;
 			}
 		} else {
-			unset();
+			userId.value =
+				email.value =
+				username.value =
+				credits.value =
+				website.value =
+					null;
 		}
-
-		return { username, credits, website };
 	}
 
 	return {
+		userId,
+		email,
 		username,
 		credits,
 		website,
+		loading,
 		get,
-		unset,
 	};
 }

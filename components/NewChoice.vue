@@ -1,5 +1,5 @@
 <template>
-	<UserLogin v-if="!user">
+	<UserLogin v-if="!profile.userId.value">
 		<h2>Login/register</h2>
 	</UserLogin>
 
@@ -185,7 +185,6 @@ import { imageLimits, categories, visibility, duration } from '~/constants';
 
 const router = useRouter();
 const supabase = useSupabaseClient();
-const user = useSupabaseUser();
 const profile = useProfile();
 const minImages = 2;
 
@@ -274,7 +273,7 @@ async function submit() {
 				{
 					title: data.title,
 					image_urls: data.images,
-					user_id: user.value?.id,
+					user_id: profile.userId.value,
 					visibility: data.visibility,
 					category: data.category,
 					close_at: dates.value.close,
@@ -291,7 +290,7 @@ async function submit() {
 					// @ts-ignore: Unreachable code error
 					{ credits: credits.value.remaining }
 				)
-				.eq('user_id', user.value?.id);
+				.eq('user_id', profile.userId.value);
 
 			if (profilesResponse.error) throw profilesResponse.error;
 
