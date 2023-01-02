@@ -48,7 +48,7 @@
 			/>
 		</form>
 
-		<aside class="popup backdrop" v-if="data.userHasVoted">
+		<aside class="popup backdrop" v-if="userVoted">
 			<LinkTo :to="'/result' + props.id" class="button">
 				You have made your choice
 				<h2>See the results &rarr;</h2>
@@ -79,37 +79,22 @@ const props = defineProps<{
 	id: number;
 }>();
 
-const supabase = useSupabaseClient();
 const profile = useProfile();
 const choice = await useChoice(props.id);
 const length = choice.images.length;
 
 const data = reactive({
 	matches: [] as (string | undefined)[][],
-	userHasVoted: false,
 });
+
+const userVoted = computed(() =>
+	profile.votes.value?.find((vote) => vote.choice_id === props.id)
+);
 
 data.matches = choice.images.map((_image, index) => [
 	choice.images[2 * index],
 	choice.images[2 * index + 1],
 ]);
-
-if (profile.userId.value) {
-	try {
-		const response = await supabase
-			.from('votes')
-			.select('image_url')
-			.eq('user_id', profile.userId.value)
-			.eq('choice_id', props.id)
-			.single();
-
-		if (response.error) throw response.error;
-
-		data.userHasVoted = Boolean(response.data.image_url);
-	} catch (error: any) {
-		console.log(error.message);
-	}
-}
 
 function updateMatches(matchIndex: number, option?: string) {
 	const match = Math.floor((length + matchIndex) / 2);

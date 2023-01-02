@@ -6,7 +6,7 @@
 			<br />
 			<strong>{{ props.email }}</strong>
 			<br />
-			If you don't get it soon,
+			If you don't get it in a few minutes,
 			<LinkTo to="#request" @click="retry" class="retry">try again</LinkTo>.
 		</p>
 

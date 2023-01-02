@@ -16,6 +16,8 @@ export async function useChoice(id: number) {
 				profiles!choices_user_id_fkey(username),
 				title,
 				image_urls,
+				close_at,
+				remove_at,
 				ogimage
 				`
 			)
@@ -28,6 +30,8 @@ export async function useChoice(id: number) {
 		data.choice.username = choiceResponse.data.profiles?.username;
 		data.choice.title = choiceResponse.data.title;
 		data.choice.images = choiceResponse.data.image_urls;
+		data.choice.closeAt = choiceResponse.data.close_at;
+		data.choice.removeAt = choiceResponse.data.remove_at;
 		data.choice.ogimage = choiceResponse.data.ogimage;
 	} catch (error: any) {
 		console.error(error.message);

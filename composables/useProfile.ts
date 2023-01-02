@@ -1,5 +1,4 @@
 export function useProfile() {
-	const supabase = useSupabaseClient();
 	const user = useSupabaseUser();
 
 	const userId = useState<string | null>('userId');
@@ -7,20 +6,33 @@ export function useProfile() {
 	const username = useState<string | null>('username');
 	const credits = useState<number | null>('credits');
 	const website = useState<string | null>('website');
-	const loading = useState<boolean>('loading');
+	const votes = useState<{ choice_id: number }[] | null>('votes');
+	const choices = useState<{ id: number }[] | null>('choices');
 
 	watch(user, (newUser, oldUser) => {
-		if (newUser?.id !== oldUser?.id) get();
+		if (newUser?.id !== oldUser?.id) {
+			console.log({ newUser: newUser?.id, oldUser: oldUser?.id });
+			get();
+		}
 	});
 
 	async function get() {
 		if (user.value?.id) {
-			loading.value = true;
+			const supabase = useSupabaseClient();
 
 			try {
 				const response = await supabase
 					.from('profiles')
-					.select(`user_id, email, username, credits, website`)
+					.select(
+						`user_id, 
+						email, 
+						username, 
+						credits, 
+						website,
+						choices:choices_user_id_fkey(id),
+						votes(choice_id)
+					`
+					)
 					.eq('user_id', user.value.id)
 					.single();
 
@@ -31,11 +43,10 @@ export function useProfile() {
 				username.value = response.data.username;
 				credits.value = response.data.credits;
 				website.value = response.data.website;
-				loading.value = false;
+				votes.value = response.data.votes as { choice_id: number }[];
+				choices.value = response.data.choices as { id: number }[];
 			} catch (error: any) {
 				console.log(error.message);
-			} finally {
-				loading.value = false;
 			}
 		} else {
 			userId.value =
@@ -53,7 +64,8 @@ export function useProfile() {
 		username,
 		credits,
 		website,
-		loading,
+		choices,
+		votes,
 		get,
 	};
 }

@@ -27,7 +27,8 @@ export async function useFilteredChoices(
                 id,
 				profiles!choices_user_id_fkey(username),
 				title,
-				image_urls
+				image_urls,
+				close_at
 				`
 			)
 			.neq('visibility', 'private')
@@ -38,14 +39,13 @@ export async function useFilteredChoices(
 
 		if (response.error) throw response.error;
 
-		if (response.data) {
-			data.choices = response.data.map((choice) => ({
-				id: choice.id,
-				title: choice.title,
-				images: choice.image_urls,
-				username: choice.profiles?.username,
-			}));
-		}
+		data.choices = response.data.map((choice) => ({
+			id: choice.id,
+			title: choice.title,
+			images: choice.image_urls,
+			username: choice.profiles?.username,
+			closeAt: choice.close_at,
+		}));
 	} catch (error: any) {
 		console.error(error.message);
 	} finally {

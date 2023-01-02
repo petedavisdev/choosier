@@ -10,7 +10,7 @@
 		</button>
 	</section>
 
-	<section v-else class="confirm">
+	<section v-else-if="!data.requested" class="confirm">
 		<p>To vote, please confirm you are human.</p>
 
 		<input
@@ -29,7 +29,7 @@
 		</footer>
 	</section>
 
-	<div class="backdrop" v-if="data.requested">
+	<div class="backdrop" v-else>
 		<section class="box">
 			<UserLoginToken
 				:email="data.email"

@@ -125,9 +125,8 @@ const results = computed(() => {
 
 const mostVotes = computed(() => results.value[0].voters.length);
 
-const userVoted = computed(
-	() =>
-		data.votes.find((vote) => vote.user_id === profile.userId.value)?.image_url
+const userVoted = computed(() =>
+	profile.votes.value?.find((vote) => vote.choice_id === props.id)
 );
 
 try {

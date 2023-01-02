@@ -61,7 +61,7 @@ const data = reactive({
 	votes: [] as number[] | null,
 });
 
-const isUser = computed(() => profile.userId.value === data.userId);
+const isUser = computed(() => profile.username.value === props.username);
 
 try {
 	const response = await supabase
