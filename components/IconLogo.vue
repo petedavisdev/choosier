@@ -1,5 +1,5 @@
 <template>
-	<LinkTo to="/">
+	<LinkTo to="/" aria-label="Home">
 		<svg
 			class="Logo"
 			viewBox="0 0 279 49"
