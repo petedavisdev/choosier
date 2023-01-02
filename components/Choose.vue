@@ -1,11 +1,9 @@
 <template>
 	<Head>
-		<Title
-			>Choosier. Help @{{ choice.username }} choose {{ choice.title }}</Title
-		>
+		<Title>Choosier. @{{ choice.username }}: {{ choice.title }}</Title>
 		<Meta
 			name="description"
-			:content="`Help @${choice.username} choose ${choice.title}`"
+			:content="`Help @${choice.username} choose: {{ choice.title }}. Choosier - art, design, fashion and photo decisions made easy.`"
 		/>
 	</Head>
 
