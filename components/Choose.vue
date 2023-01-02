@@ -5,6 +5,7 @@
 			name="description"
 			:content="`Image poll made with Choosier.app - art, design, photography and style decisions made easy.`"
 		/>
+		<Meta property="og:image" :content="choice.ogimage || choice.images[0]" />
 	</Head>
 
 	<main v-if="choice.title">

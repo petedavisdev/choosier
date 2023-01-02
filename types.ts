@@ -3,4 +3,5 @@ export type Choice = {
 	title: string;
 	images: string[];
 	username: string;
+	ogimage?: string;
 };

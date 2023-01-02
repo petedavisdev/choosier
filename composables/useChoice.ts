@@ -15,7 +15,8 @@ export async function useChoice(id: number) {
 				`
 				profiles!choices_user_id_fkey(username),
 				title,
-				image_urls
+				image_urls,
+				ogimage
 				`
 			)
 			.eq('id', id)
@@ -27,6 +28,7 @@ export async function useChoice(id: number) {
 		data.choice.username = choiceResponse.data.profiles?.username;
 		data.choice.title = choiceResponse.data.title;
 		data.choice.images = choiceResponse.data.image_urls;
+		data.choice.ogimage = choiceResponse.data.ogimage;
 	} catch (error: any) {
 		console.error(error.message);
 	} finally {
