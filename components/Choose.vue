@@ -1,9 +1,9 @@
 <template>
 	<Head>
-		<Title>Help @{{ choice.username }} choose - {{ choice.title }}.</Title>
+		<Title>Help @{{ choice.username }} choose: {{ choice.title }}</Title>
 		<Meta
 			name="description"
-			:content="`Image poll made with Choosier.app - art, design, photography and style decisions made easy.`"
+			:content="`Image poll made with Choosier.app — Visual decisions made easy`"
 		/>
 		<Meta property="og:image" :content="choice.ogimage || choice.images[0]" />
 	</Head>
