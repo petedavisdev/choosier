@@ -16,29 +16,34 @@
 		</p>
 	</div>
 
-	<div v-else-if="!userVoted">
+	<div v-else-if="!userVoted && !closed">
 		<h1>Choose first, then see the results</h1>
 		<List :filter="['id', props.id]" />
 	</div>
 
-	<div v-else-if="!profile.username.value">
+	<div v-else-if="!profile.username.value && !closed">
 		<UserEdit>
 			<h1>My choosername</h1>
 			<p>You need a choosername to show on the results page</p>
 		</UserEdit>
 	</div>
 
-	<div v-else>
+	<div v-else-if="!removed">
 		<h1>
 			<small>
-				You helped
+				{{ userVoted ? 'You helped' : 'Help' }}
 				<LinkTo :to="'/@' + choice.username"> @{{ choice.username }} </LinkTo>
 				choose
 			</small>
 			{{ choice.title }}
 		</h1>
 
-		<p>Here are the results so far</p>
+		<template v-if="closed">
+			<h2>Final results</h2>
+			<p>Available until {{ removeText }}</p>
+		</template>
+
+		<h2 v-else>Results so far...</h2>
 
 		<article v-for="(result, index) in results" :key="index">
 			<img
@@ -69,12 +74,15 @@
 		</article>
 
 		<footer>
-			<h2>Share to get more votes</h2>
-			<Share :id="props.id" />
+			<template v-if="!closed">
+				<h2>Share to get more votes</h2>
+				<Share :id="props.id" />
+			</template>
 
-			<p>
-				<LinkTo to="/" :target="linkTarget">Choosier homepage &rarr;</LinkTo>
-			</p>
+			<h2>More choices...</h2>
+			<List :filter="['', '']" open>No more choices available right now</List>
+
+			<LinkTo to="/new" class="button">+ Make your own choice</LinkTo>
 		</footer>
 	</div>
 </template>
@@ -87,7 +95,15 @@ const props = defineProps<{
 const supabase = useSupabaseClient();
 const choice = await useChoice(props.id);
 const profile = useProfile();
-const linkTarget = process.browser && window.frameElement ? '_parent' : '_self';
+const closed = new Date(choice.closeAt) < new Date();
+const removed = new Date(choice.remove) < new Date();
+const removeText = new Date(choice.removeAt).toLocaleString(undefined, {
+	weekday: 'long',
+	day: 'numeric',
+	month: 'long',
+	hour: 'numeric',
+	minute: 'numeric',
+});
 
 type Vote = {
 	user_id: string;

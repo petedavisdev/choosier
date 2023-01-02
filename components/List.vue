@@ -31,7 +31,8 @@
 <script setup lang="ts">
 const props = defineProps<{
 	filter: [string, string | number | number[]];
+	open?: boolean;
 }>();
 
-const choices = await useFilteredChoices(props.filter);
+const choices = await useFilteredChoices(props.filter, props.open);
 </script>

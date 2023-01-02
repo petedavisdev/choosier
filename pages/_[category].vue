@@ -11,7 +11,7 @@
 
 		<Categories />
 
-		<List :filter="['category', category]" />
+		<List :filter="['category', category]" open />
 
 		<template v-if="category === 'art'">
 			<Head>

@@ -48,7 +48,14 @@
 			/>
 		</form>
 
-		<aside class="popup backdrop" v-if="userVoted">
+		<aside class="popup backdrop" v-if="closed">
+			<LinkTo :to="'/result' + props.id" class="button">
+				Voting has closed
+				<h2>See the results &rarr;</h2>
+			</LinkTo>
+		</aside>
+
+		<aside class="popup backdrop" v-else-if="userVoted">
 			<LinkTo :to="'/result' + props.id" class="button">
 				You have made your choice
 				<h2>See the results &rarr;</h2>
@@ -82,6 +89,7 @@ const props = defineProps<{
 const profile = useProfile();
 const choice = await useChoice(props.id);
 const length = choice.images.length;
+const closed = new Date(choice.closeAt) < new Date();
 
 const data = reactive({
 	matches: [] as (string | undefined)[][],

@@ -1,10 +1,12 @@
 import { Choice } from '~/types';
 
 export async function useFilteredChoices(
-	filter: [string, string | number | number[]]
+	filter: [string, string | number | number[]],
+	open?: boolean
 ) {
 	const supabase = useSupabaseClient();
 	const now = new Date().toISOString();
+	const dateLimit = open ? 'close_at' : 'remove_at';
 
 	let filterEq = ['', ''] as [string, string];
 	let filterIn = ['', []] as [string, number[]];
@@ -34,7 +36,7 @@ export async function useFilteredChoices(
 			.neq('visibility', 'private')
 			.eq(...filterEq)
 			.in(...filterIn)
-			.gt('remove_at', now)
+			.gt(dateLimit, now)
 			.order('created_at', { ascending: false });
 
 		if (response.error) throw response.error;

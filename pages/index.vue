@@ -7,7 +7,7 @@
 
 		<Categories />
 
-		<List :filter="['visibility', 'promoted']" />
+		<List :filter="['visibility', 'promoted']" open />
 
 		<article>
 			<h2>How Choosier Works</h2>
