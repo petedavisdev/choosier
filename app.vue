@@ -8,7 +8,7 @@
 		/>
 		<Meta
 			v-if="config.public.prod"
-			http-equiv="Content-Security-Policy"
+			httpEquiv="content-security-policy"
 			:content="`default-src 'self' ${config.public?.apiBase} *.cloudinary.com 'unsafe-inline'`"
 		/>
 		<Link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
