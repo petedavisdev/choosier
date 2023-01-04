@@ -89,7 +89,7 @@ const props = defineProps<{
 const profile = useProfile();
 const choice = await useChoice(props.id);
 const length = choice.images.length;
-const closed = new Date(choice.closeAt) < new Date();
+const closed = new Date(choice.closeAt as string) < new Date();
 
 const data = reactive({
 	matches: [] as (string | undefined)[][],

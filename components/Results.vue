@@ -16,7 +16,7 @@
 		<UserLogin />
 	</div>
 
-	<div v-else-if="!userVoted && !closed">
+	<div v-else-if="!userVoted && !closed && !userCreated">
 		<h1>Choose first, then see the results</h1>
 		<List :filter="['id', props.id]" />
 	</div>
@@ -95,15 +95,18 @@ const props = defineProps<{
 const supabase = useSupabaseClient();
 const choice = await useChoice(props.id);
 const profile = useProfile();
-const closed = new Date(choice.closeAt) < new Date();
-const removed = new Date(choice.remove) < new Date();
-const removeText = new Date(choice.removeAt).toLocaleString(undefined, {
-	weekday: 'long',
-	day: 'numeric',
-	month: 'long',
-	hour: 'numeric',
-	minute: 'numeric',
-});
+const closed = new Date(choice.closeAt as string) < new Date();
+const removed = new Date(choice.removeAt as string) < new Date();
+const removeText = new Date(choice.removeAt as string).toLocaleString(
+	undefined,
+	{
+		weekday: 'long',
+		day: 'numeric',
+		month: 'long',
+		hour: 'numeric',
+		minute: 'numeric',
+	}
+);
 
 type Vote = {
 	user_id: string;
@@ -144,6 +147,8 @@ const mostVotes = computed(() => results.value[0].voters.length);
 const userVoted = computed(() =>
 	profile.votes.value?.find((vote) => vote.choice_id === props.id)
 );
+
+const userCreated = computed(() => choice.username === profile.username.value);
 
 try {
 	const response = await supabase
