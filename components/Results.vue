@@ -7,13 +7,13 @@
 		/>
 	</Head>
 
-	<div v-if="!profile.userId.value">
-		<h1>Only registered choosers can see results</h1>
-		<p>Check your email for a login link.</p>
-		<p>
-			If you haven't received one,
-			<LinkTo to="/account">click here</LinkTo>.
-		</p>
+	<div v-if="!profile.userId.value && !closed">
+		<h1>Results</h1>
+		<p>You need to vote and login to see the results so far...</p>
+		<h2>Vote</h2>
+		<List :filter="['id', props.id]" />
+		<h2>Login</h2>
+		<UserLogin />
 	</div>
 
 	<div v-else-if="!userVoted && !closed">
@@ -40,7 +40,7 @@
 
 		<template v-if="closed">
 			<h2>Final results</h2>
-			<p>Available until {{ removeText }}</p>
+			<p>Voting has closed. Results available until {{ removeText }}</p>
 		</template>
 
 		<h2 v-else>Results so far...</h2>
@@ -79,7 +79,7 @@
 				<Share :id="props.id" />
 			</template>
 
-			<h2>More choices...</h2>
+			<h2>Latest choices...</h2>
 			<List :filter="['', '']" open>No more choices available right now</List>
 
 			<LinkTo to="/new" class="button">+ Make your own choice</LinkTo>
