@@ -1,13 +1,13 @@
 export function useProfile() {
 	const user = useSupabaseUser();
 
-	const userId = useState<string | null>('userId');
-	const email = useState<string | null>('email');
-	const username = useState<string | null>('username');
-	const credits = useState<number | null>('credits');
-	const website = useState<string | null>('website');
-	const votes = useState<{ choice_id: number }[] | null>('votes');
-	const choices = useState<{ id: number }[] | null>('choices');
+	const userId = useState<string>('userId');
+	const email = useState<string>('email');
+	const username = useState<string>('username');
+	const credits = useState<number>('credits');
+	const website = useState<string>('website');
+	const votes = useState<{ choice_id: number }[]>('votes');
+	const choices = useState<{ id: number }[]>('choices');
 
 	watch(user, (newUser, oldUser) => {
 		if (newUser?.id !== oldUser?.id) {
@@ -49,12 +49,9 @@ export function useProfile() {
 				console.log(error.message);
 			}
 		} else {
-			userId.value =
-				email.value =
-				username.value =
-				credits.value =
-				website.value =
-					null;
+			userId.value = email.value = username.value = website.value = '';
+			credits.value = 0;
+			votes.value = choices.value = [];
 		}
 	}
 

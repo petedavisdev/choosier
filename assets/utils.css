@@ -62,14 +62,25 @@
 	object-fit: cover;
 }
 
-.card-title {
+.card-title,
+.card-edit {
 	grid-area: one;
-	justify-self: start;
-	align-self: end;
 	background-color: var(--light);
 	padding: 0.5em 1em;
-	border-top-right-radius: var(--radius);
 	transition: background-color 0.3s;
+}
+
+.card-title {
+	justify-self: start;
+	align-self: end;
+	border-top-right-radius: var(--radius);
+}
+
+.card-edit {
+	justify-self: end;
+	align-self: start;
+	border-bottom-left-radius: var(--radius);
+	text-decoration: none;
 }
 
 .card:hover .card-title {

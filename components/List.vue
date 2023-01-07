@@ -24,6 +24,10 @@
 				<small>Help @{{ choice.username }} choose</small>
 				<div>{{ choice.title }}</div>
 			</div>
+
+			<LinkTo v-if="props.edit" class="card-edit" :to="'edit' + choice.id">
+				✎ Edit
+			</LinkTo>
 		</LinkTo>
 	</section>
 </template>
@@ -32,7 +36,7 @@
 const props = defineProps<{
 	filter: [string, string | number | number[]];
 	open?: boolean;
+	edit?: boolean;
 }>();
-
 const choices = await useFilteredChoices(props.filter, props.open);
 </script>

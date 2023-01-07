@@ -28,7 +28,7 @@
 
 		<template v-if="data.userId">
 			<h2>Choices</h2>
-			<List :filter="['user_id', data.userId]">
+			<List :filter="['user_id', data.userId]" :edit="isUser">
 				<p>@{{ username }} has no active choices.</p>
 				<LinkTo v-if="isUser" to="/new" class="button"> + New choice </LinkTo>
 			</List>

@@ -1,14 +1,14 @@
 export const imageLimits = {
 	6: 0,
 	10: 1,
-};
+} as const;
 
 export const categories = {
 	art: 'Art and illustration',
 	'graphic-design': 'Graphic design',
 	photography: 'Photography',
 	style: 'Style',
-};
+} as const;
 
 export const visibility = {
 	public: {
@@ -26,7 +26,7 @@ export const visibility = {
 		description: 'Coming soon...',
 		credits: 1,
 	},
-};
+} as const;
 
 export const duration = {
 	1: {
@@ -39,4 +39,4 @@ export const duration = {
 		description: 'Voting open for 7 days',
 		credits: 1,
 	},
-};
+} as const;
