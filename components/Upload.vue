@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-interface UploadInfo {
+type UploadInfo = {
 	event: string;
 	info: {
 		delete_token?: string;
@@ -37,12 +37,12 @@ interface UploadInfo {
 		];
 		secure_url: string;
 	};
-}
+};
 
-interface Upload {
+type Upload = {
 	url: string;
 	delete_token: string | undefined;
-}
+};
 
 const props = defineProps<{
 	folder: string;

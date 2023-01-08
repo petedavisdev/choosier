@@ -19,12 +19,12 @@ export const visibility = {
 	promoted: {
 		name: 'Promoted',
 		description: 'Choosier homepage + Instagram',
-		credits: 1,
+		credits: 2,
 	},
 	private: {
 		name: 'Private',
 		description: 'Coming soon...',
-		credits: 1,
+		credits: 3,
 	},
 } as const;
 

@@ -1,4 +1,4 @@
-import { Choice } from '~/types';
+import { type Choice } from './useChoice';
 
 export async function useFilteredChoices(
 	filter: [string, string | number | number[]],
@@ -45,6 +45,7 @@ export async function useFilteredChoices(
 			id: choice.id,
 			title: choice.title,
 			images: choice.image_urls,
+			// @ts-ignore: unreachable type error
 			username: choice.profiles?.username,
 			closeAt: choice.close_at,
 		}));

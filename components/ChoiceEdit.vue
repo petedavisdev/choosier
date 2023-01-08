@@ -32,8 +32,8 @@
 </template>
 
 <script setup lang="ts">
-import { Choice } from '~/types';
 import { categories } from '~/constants';
+import { type Choice } from '~/composables/useChoice';
 
 const props = defineProps<{
 	id: number;
