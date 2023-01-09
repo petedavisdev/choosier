@@ -82,7 +82,7 @@ async function vote() {
 		}
 		return true;
 	} catch (error: any) {
-		alert(error.message);
+		console.warn(error.message);
 		return false;
 	} finally {
 		data.loading = false;
