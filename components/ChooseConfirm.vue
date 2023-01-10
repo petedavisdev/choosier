@@ -1,7 +1,6 @@
 <template>
 	<section class="chosen">
 		<img :src="props.image" alt="" />
-		<h1>You have chosen!</h1>
 	</section>
 
 	<section v-if="profile.userId.value" class="confirm">
@@ -11,6 +10,7 @@
 	</section>
 
 	<section v-else-if="!data.requested" class="confirm">
+		<h1>Confirm your choice</h1>
 		<p>To vote, please confirm you are human.</p>
 
 		<input
