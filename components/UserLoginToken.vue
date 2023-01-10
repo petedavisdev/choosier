@@ -56,6 +56,10 @@ async function verify() {
 		});
 
 		if (response.error) throw response.error;
+
+		if (props.choiceId) {
+			router.push('result' + props.choiceId);
+		}
 	} catch (error: any) {
 		alert(error.error_description || error.message);
 	} finally {
