@@ -16,7 +16,6 @@
 	box-shadow: -6px 8px 0 1px var(--dark);
 	border: 2px solid var(--dark);
 	border-radius: var(--radius);
-	overflow: hidden;
 }
 
 .button,
@@ -28,6 +27,7 @@
 	text-decoration: none;
 	transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
 	cursor: pointer;
+	overflow: hidden;
 }
 
 .button:hover,

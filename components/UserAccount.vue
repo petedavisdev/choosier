@@ -8,7 +8,7 @@
 		<LinkTo to="/new" class="button">+ New choice</LinkTo>
 
 		<p>
-			Logged in with <strong>{{ profile.email }}</strong>
+			Logged in with <strong>{{ profile.email.value }}</strong>
 		</p>
 
 		<p>

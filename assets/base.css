@@ -99,3 +99,7 @@ strong {
 ol > li {
 	margin-block: 1em;
 }
+
+button {
+	background-color: inherit;
+}
