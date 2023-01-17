@@ -13,11 +13,14 @@
 		<p>
 			<input
 				v-model="data.token"
+				type="text"
 				id="token"
 				class="token"
 				inputmode="numeric"
+				pattern="[0-9]+"
 				min-length="6"
 				max-length="6"
+				title="6 digit code"
 				required
 			/>
 		</p>
