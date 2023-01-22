@@ -110,6 +110,10 @@ function updateMatches(matchIndex: number, option?: string) {
 
 	data.matches[match][position] = option;
 }
+
+onMounted(() => {
+	window.scrollTo(0, document.body.scrollHeight); // Instagram fix
+});
 </script>
 
 <style scoped>
@@ -129,7 +133,8 @@ form {
 		'2️⃣' 1fr
 		'🦶' max-content
 		/ 1fr;
-	height: 100svh;
+	height: 100vh;
+	height: 100dvh;
 	padding: 1em 1em 0;
 	opacity: 1;
 	transition: opacity 1.5s;
