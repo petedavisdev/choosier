@@ -66,7 +66,7 @@ function toggleShare() {
 .share {
 	border: none;
 	background-color: transparent;
-	padding-left: 0;
+	padding: 0;
 }
 
 .undo:disabled {
@@ -80,7 +80,6 @@ footer {
 		'👈 🪵 😘' 1fr
 		'🎁 🎁 🎁' max-content
 		/ max-content 1fr max-content;
-	padding-block: 0.5em;
 	gap: 0.5em;
 }
 

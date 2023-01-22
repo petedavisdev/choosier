@@ -10,8 +10,8 @@
 <style scoped>
 .progress-bar,
 .progress-indicator {
-	height: 0.375em;
-	border-radius: 2px;
+	height: 0.5em;
+	border-radius: 0.25em;
 	background-color: var(--mid);
 }
 

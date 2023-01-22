@@ -135,7 +135,7 @@ form {
 		/ 1fr;
 	height: 100vh;
 	height: 100dvh;
-	padding: 1em 1em 0;
+	padding: 1.5em 1.5em 0.5em;
 	opacity: 1;
 	transition: opacity 1.5s;
 }
