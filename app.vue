@@ -17,7 +17,7 @@
 		<Link rel="manifest" href="/site.webmanifest" />
 		<Link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
 		<Meta name="msapplication-TileColor" content="#2b5797" />
-		<Meta name="theme-color" content="#eeeeee" />
+		<Meta name="theme-color" content="#000000" />
 	</Head>
 
 	<NuxtLayout>
@@ -40,6 +40,7 @@ useProfile().get();
 .frame {
 	position: fixed;
 	inset: -0.5em;
+	min-height: 100dvh;
 	border: solid 1em var(--dark);
 	border-radius: 1.5em;
 	pointer-events: none;

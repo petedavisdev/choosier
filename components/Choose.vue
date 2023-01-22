@@ -112,7 +112,10 @@ function updateMatches(matchIndex: number, option?: string) {
 }
 
 onMounted(() => {
-	window.scrollTo(0, document.body.scrollHeight); // Instagram fix
+	setTimeout(() => {
+		// setWindowHeight();
+		window.scrollTo(0, document.body.scrollHeight); // Instagram fix
+	}, 2000);
 });
 </script>
 
