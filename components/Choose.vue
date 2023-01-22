@@ -129,7 +129,7 @@ form {
 		'2️⃣' 1fr
 		'🦶' max-content
 		/ 1fr;
-	height: var(--windowHeight, 100vh);
+	height: 100dvh;
 	padding: 1em 1em 0;
 	opacity: 1;
 	transition: opacity 1.5s;

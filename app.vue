@@ -27,32 +27,7 @@
 
 <script setup lang="ts">
 const config = useRuntimeConfig();
-let act: NodeJS.Timeout;
-
 useProfile().get();
-
-function delayedAction(action: () => void) {
-	clearTimeout(act);
-	act = setTimeout(() => {
-		action();
-	}, 200);
-}
-
-function setWindowHeight() {
-	const windowHeight = window.innerHeight;
-	document.documentElement.style.setProperty(
-		'--windowHeight',
-		`${windowHeight}px`
-	);
-}
-
-onMounted(() => {
-	setWindowHeight();
-	setTimeout(() => {
-		setWindowHeight();
-	}, 1000);
-	window.onresize = () => delayedAction(setWindowHeight);
-});
 </script>
 
 <style>
