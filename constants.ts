@@ -1,6 +1,6 @@
 export const imageLimits = {
 	6: 0,
-	10: 1,
+	10: 2,
 } as const;
 
 export const categories = {
@@ -18,13 +18,13 @@ export const visibility = {
 	},
 	promoted: {
 		name: 'Promoted',
-		description: 'Choosier homepage + Instagram',
+		description: 'Choosier homepage',
 		credits: 2,
 	},
 	private: {
 		name: 'Private',
 		description: 'Coming soon...',
-		credits: 3,
+		credits: 5,
 	},
 } as const;
 
@@ -37,6 +37,6 @@ export const duration = {
 	7: {
 		name: 'Take your time',
 		description: 'Voting open for 7 days',
-		credits: 1,
+		credits: 2,
 	},
 } as const;
