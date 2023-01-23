@@ -82,6 +82,8 @@
 </template>
 
 <script setup lang="ts">
+import { windowHeightFix } from '~~/helpers/windowHeightFix';
+
 const props = defineProps<{
 	id: number;
 }>();
@@ -112,10 +114,7 @@ function updateMatches(matchIndex: number, option?: string) {
 }
 
 onMounted(() => {
-	setTimeout(() => {
-		// setWindowHeight();
-		window.scrollTo(0, document.body.scrollHeight); // Instagram fix
-	}, 2000);
+	windowHeightFix();
 });
 </script>
 
@@ -137,7 +136,7 @@ form {
 		'🦶' max-content
 		/ 1fr;
 	height: 100vh;
-	height: 100dvh;
+	height: var(--windowHeight, 100dvh);
 	padding: 1.5em 1.5em 0.5em;
 	opacity: 1;
 	transition: opacity 1.5s;

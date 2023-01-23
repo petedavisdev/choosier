@@ -40,7 +40,6 @@ useProfile().get();
 .frame {
 	position: fixed;
 	inset: -0.5em;
-	min-height: 100dvh;
 	border: solid 1em var(--dark);
 	border-radius: 1.5em;
 	pointer-events: none;

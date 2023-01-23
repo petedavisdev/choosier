@@ -10,9 +10,9 @@
 				<h2>Listing preview</h2>
 
 				<div class="card">
-					<div class="card-images">
+					<div class="cardImages">
 						<img
-							class="card-image"
+							class="cardImage"
 							v-for="image in props.images"
 							:src="image"
 							alt=""
@@ -22,7 +22,7 @@
 						/>
 					</div>
 
-					<div class="card-title">
+					<div class="cardTitle">
 						<small>Help @{{ props.username }} choose</small>
 						<div>{{ props.title || 'No title' }}</div>
 					</div>

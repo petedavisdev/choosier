@@ -8,9 +8,9 @@
 			:to="`/${choice.id}`"
 			class="card"
 		>
-			<div class="card-images">
+			<div class="cardImages">
 				<img
-					class="card-image"
+					class="cardImage"
 					v-for="image in choice.images"
 					:src="image"
 					alt=""
@@ -20,12 +20,12 @@
 				/>
 			</div>
 
-			<div class="card-title">
+			<div class="cardTitle">
 				<small>Help @{{ choice.username }} choose</small>
 				<div>{{ choice.title }}</div>
 			</div>
 
-			<LinkTo v-if="props.edit" class="card-edit" :to="'edit' + choice.id">
+			<LinkTo v-if="props.edit" class="cardEdit" :to="'edit' + choice.id">
 				✎ Edit
 			</LinkTo>
 		</LinkTo>

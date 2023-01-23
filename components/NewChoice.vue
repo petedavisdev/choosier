@@ -52,7 +52,7 @@
 
 		<section id="title">
 			<h2><label for="title">Title</label></h2>
-			<input v-model="data.title" class="TitleInput" maxlength="25" required />
+			<input v-model="data.title" class="titleInput" maxlength="25" required />
 			<small>{{
 				data.title.length > 15
 					? `${25 - data.title.length} characters remaining`
@@ -316,7 +316,7 @@ form {
 	gap: 1em;
 }
 
-.TitleInput {
+.titleInput {
 	width: 100%;
 }
 </style>

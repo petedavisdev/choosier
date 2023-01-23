@@ -1,11 +1,11 @@
 <template>
 	<div class="backdrop">
-		<div class="card-images">
+		<div class="cardImages">
 			<img
 				v-for="(image, index) in choice.images"
 				:src="image"
 				:key="index"
-				class="card-image"
+				class="cardImage"
 			/>
 		</div>
 	</div>
@@ -22,7 +22,7 @@ const choice = await useChoice(id);
 </script>
 
 <style scoped>
-.card-images {
+.cardImages {
 	width: 1200px;
 	height: 630px;
 }
