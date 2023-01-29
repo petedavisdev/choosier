@@ -134,6 +134,11 @@
 			</p>
 		</section>
 
+		<section id="subscriptions">
+			<h2>My subsctiptions</h2>
+			<UserSubscriptions />
+		</section>
+
 		<footer>
 			<button @click="data.showPreview = true" type="button" class="button">
 				Continue &rarr;

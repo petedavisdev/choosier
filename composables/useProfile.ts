@@ -6,6 +6,7 @@ export function useProfile() {
 	const username = useState<string>('username');
 	const credits = useState<number>('credits');
 	const website = useState<string>('website');
+	const subscriptions = useState<string[]>('subscriptions');
 	const votes = useState<{ choice_id: number }[]>('votes');
 	const choices = useState<{ id: number }[]>('choices');
 
@@ -29,6 +30,7 @@ export function useProfile() {
 						username, 
 						credits, 
 						website,
+						subscriptions,
 						choices:choices_user_id_fkey(id),
 						votes(choice_id)
 					`
@@ -40,9 +42,10 @@ export function useProfile() {
 
 				userId.value = response.data.user_id;
 				email.value = response.data.email;
-				username.value = response.data.username;
-				credits.value = response.data.credits;
-				website.value = response.data.website;
+				username.value = response.data.username || '';
+				credits.value = response.data.credits || 0;
+				website.value = response.data.website || '';
+				subscriptions.value = response.data.subscriptions || [];
 				votes.value = response.data.votes as { choice_id: number }[];
 				choices.value = response.data.choices as { id: number }[];
 			} catch (error: any) {
@@ -51,7 +54,7 @@ export function useProfile() {
 		} else {
 			userId.value = email.value = username.value = website.value = '';
 			credits.value = 0;
-			votes.value = choices.value = [];
+			subscriptions.value = votes.value = choices.value = [];
 		}
 	}
 
@@ -61,6 +64,7 @@ export function useProfile() {
 		username,
 		credits,
 		website,
+		subscriptions,
 		choices,
 		votes,
 		get,

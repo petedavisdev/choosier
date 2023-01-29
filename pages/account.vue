@@ -9,6 +9,11 @@
 			</div>
 
 			<div class="box">
+				<h2>My subscriptions</h2>
+				<UserSubscriptions />
+			</div>
+
+			<div class="box">
 				<h2>My account</h2>
 				<UserAccount />
 			</div>
