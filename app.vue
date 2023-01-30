@@ -22,7 +22,6 @@
 
 	<NuxtLayout>
 		<NuxtPage />
-		<div class="frame"></div>
 	</NuxtLayout>
 </template>
 
@@ -36,12 +35,4 @@ useProfile().get();
 @import './assets/variables.css';
 @import './assets/base.css';
 @import './assets/utils.css';
-
-.frame {
-	position: fixed;
-	inset: -0.5em;
-	border: solid 1em var(--dark);
-	border-radius: 1.5em;
-	pointer-events: none;
-}
 </style>

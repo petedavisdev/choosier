@@ -88,6 +88,8 @@ async function vote() {
 				if (profileResponse.error) throw profileResponse.error;
 			}
 
+			profile.votes.value = [...profile.votes.value, { choice_id: props.id }];
+
 			router.push('/result' + props.id);
 		}
 		return true;

@@ -25,8 +25,8 @@
 
 		<p v-if="profile.userId.value">
 			So far you have bought
-			{{ profile.credits.value - profile.recruits.value?.length }} credits,
-			earned {{ profile.recruits.value?.length }} credits and used
+			{{ profile.credits.value - profile.recruits.value?.length }}, earned
+			{{ profile.recruits.value?.length }}, and used
 			{{ profile.creditsUsed.value }} credits.
 		</p>
 

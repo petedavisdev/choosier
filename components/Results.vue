@@ -215,6 +215,7 @@ if (userCreated.value && newRecruits.value.length) {
 			.update({ recruits })
 			.eq('user_id', profile.userId.value);
 
+		profile.credits.value += newRecruits.value.length;
 		profile.recruits.value = recruits;
 	} catch (error) {
 		alert(error);

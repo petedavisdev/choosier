@@ -15,7 +15,6 @@ export function useProfile() {
 
 	watch(user, (newUser, oldUser) => {
 		if (newUser?.id !== oldUser?.id) {
-			console.log({ newUser: newUser?.id, oldUser: oldUser?.id });
 			get();
 		}
 	});

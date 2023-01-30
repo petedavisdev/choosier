@@ -1,9 +1,6 @@
 <template>
 	<form @submit.prevent="signOut">
 		<Credits />
-		<p>
-			It is free to create choices, but you can use credits for bonus features.
-		</p>
 
 		<LinkTo to="/new" class="button">+ New choice</LinkTo>
 

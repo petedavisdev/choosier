@@ -11,7 +11,6 @@
 
 	<form v-else @submit.prevent="submit">
 		<section id="images">
-			<p>Choices are free, but you can use credits for bonus features.</p>
 			<Credits />
 
 			<h2>Images</h2>
