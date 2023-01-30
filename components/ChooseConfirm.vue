@@ -57,7 +57,6 @@ const data = reactive({
 	requested: false,
 	email: '',
 	userId: '',
-	firstVote: 0,
 });
 
 async function vote() {
@@ -79,7 +78,7 @@ async function vote() {
 		if (response.error) throw response.error;
 
 		if (profile.userId.value) {
-			if (!data.firstVote && !profile.firstVote.value) {
+			if (!profile.firstVote.value) {
 				const profileResponse = await supabase
 					.from('profiles')
 					// @ts-ignore: Unreachable code error
@@ -104,14 +103,13 @@ async function getUserId() {
 	try {
 		const response = await supabase
 			.from('profiles')
-			.select('user_id, first_vote')
+			.select('user_id')
 			.eq('email', data.email)
 			.single();
 
 		if (response.error) throw response.error;
 
 		data.userId = response.data.user_id;
-		data.firstVote = response.data.first_vote || 0;
 		return true;
 	} catch (error: any) {
 		alert(error.message);
