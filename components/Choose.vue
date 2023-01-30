@@ -5,7 +5,7 @@
 			name="description"
 			:content="`Image poll made with Choosier.app — Visual decisions made easy`"
 		/>
-		<Meta property="og:image" :content="choice.ogimage || choice.images[0]" />
+		<Meta property="og:image" :content="choice.ogimage || choice.images?.[0]" />
 	</Head>
 
 	<main v-if="choice.title">
@@ -90,7 +90,7 @@ const props = defineProps<{
 
 const profile = useProfile();
 const choice = await useChoice(props.id);
-const length = choice.images.length;
+const length = choice.images?.length;
 const closed = new Date(choice.closeAt as string) < new Date();
 
 const data = reactive({
@@ -101,7 +101,7 @@ const userVoted = computed(() =>
 	profile.votes.value?.find((vote) => vote.choice_id === props.id)
 );
 
-data.matches = choice.images.map((_image, index) => [
+data.matches = choice.images?.map((_image, index) => [
 	choice.images[2 * index],
 	choice.images[2 * index + 1],
 ]);
