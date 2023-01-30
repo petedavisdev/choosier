@@ -42,7 +42,7 @@ async function updateProfile() {
 
 		if (response.error) throw response.error;
 
-		profile.subscriptions.value = data.subscriptions;
+		profile.subscriptions.value = updates.subscriptions;
 	} catch (error: any) {
 		alert(error.message);
 	} finally {
