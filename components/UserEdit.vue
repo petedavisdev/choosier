@@ -75,6 +75,7 @@ async function updateProfile() {
 			username: cleanUsername.value,
 			updated_at: new Date(),
 			website: cleanWebsite.value,
+			first_vote: profile.firstVote.value || profile.votes.value[0]?.choice_id,
 		};
 
 		// @ts-ignore: Unreachable code error

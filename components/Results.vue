@@ -7,19 +7,19 @@
 		/>
 	</Head>
 
-	<div v-if="!profile.userId.value && !closed">
+	<template v-if="!profile.userId.value && !closed">
 		<h1>Results</h1>
 		<p>You need to vote and login to see the results so far...</p>
 		<h2>Vote</h2>
 		<List :filter="['id', props.id]" />
 		<h2>Login</h2>
 		<UserLogin />
-	</div>
+	</template>
 
-	<div v-else-if="!userVoted && !closed && !userCreated">
+	<template v-else-if="!userVoted && !closed && !userCreated">
 		<h1>Choose first, then see the results</h1>
 		<List :filter="['id', props.id]" />
-	</div>
+	</template>
 
 	<div v-else-if="!profile.username.value && !closed">
 		<UserEdit>
@@ -28,7 +28,7 @@
 		</UserEdit>
 	</div>
 
-	<div v-else-if="!removed">
+	<template v-else-if="!removed">
 		<h1>
 			<small>
 				{{ userVoted ? 'You helped' : 'Help' }}
@@ -73,18 +73,37 @@
 			</div>
 		</article>
 
-		<footer>
-			<template v-if="!closed">
-				<h2>Share to get more votes</h2>
-				<Share :id="props.id" />
-			</template>
+		<div class="grid">
+			<aside v-if="firstTimeVoters" class="box welcome">
+				<h2>Welcome to {{ firstTimeVoters.length }} first-time choosers!</h2>
+				<p>
+					<template v-for="{ username } in firstTimeVoters" :key="username">
+						<LinkTo :to="'/@' + username"> @{{ username }}</LinkTo
+						>{{ ' ' }}
+					</template>
+				</p>
+				<strong>
+					<LinkTo to="/credits">+{{ firstTimeVoters.length }} credits</LinkTo>
+					for
+					<LinkTo :to="'/@' + choice.username"> @{{ choice.username }} </LinkTo>
+				</strong>
+			</aside>
 
+			<aside class="box">
+				<template v-if="!closed">
+					<h2>Share to get more votes</h2>
+					<Share :id="props.id" />
+				</template>
+			</aside>
+		</div>
+
+		<footer>
 			<h2>Latest choices...</h2>
 			<List :filter="['', '']" open>No more choices available right now</List>
 
 			<LinkTo to="/new" class="button">+ Make your own choice</LinkTo>
 		</footer>
-	</div>
+	</template>
 </template>
 
 <script setup lang="ts">
@@ -113,6 +132,7 @@ type Vote = {
 	image_url: string;
 	profiles: {
 		username: string;
+		first_vote: number;
 	};
 };
 
@@ -150,6 +170,20 @@ const userVoted = computed(() =>
 
 const userCreated = computed(() => choice.username === profile.username.value);
 
+const firstTimeVoters = computed(() => {
+	return data.votes
+		.filter((vote) => vote.profiles.first_vote === props.id)
+		.map((vote) => ({
+			username: vote.profiles.username,
+			userId: vote.user_id,
+		}));
+});
+
+const newRecruits = computed(() => {
+	const rucruitIds = firstTimeVoters.value.map((voter) => voter.userId);
+	return rucruitIds.filter((id) => !profile.recruits.value.includes(id));
+});
+
 try {
 	const response = await supabase
 		.from('votes')
@@ -157,7 +191,7 @@ try {
 			`
 			user_id,
 			image_url,
-			profiles(username)
+			profiles(username, first_vote)
 			`
 		)
 		.eq('choice_id', props.id);
@@ -169,6 +203,22 @@ try {
 	console.error(error);
 } finally {
 	data.loading = false;
+}
+
+if (userCreated.value && newRecruits.value.length) {
+	const recruits = [...profile.recruits.value, ...newRecruits.value];
+
+	try {
+		await supabase
+			.from('profiles')
+			// @ts-ignore
+			.update({ recruits })
+			.eq('user_id', profile.userId.value);
+
+		profile.recruits.value = recruits;
+	} catch (error) {
+		alert(error);
+	}
 }
 </script>
 
@@ -207,5 +257,15 @@ img {
 	width: 100%;
 	max-width: 20vmin;
 	height: auto;
+}
+
+.box {
+	margin-block: 2em;
+}
+
+@media (min-width: 1000px) {
+	.welcome {
+		grid-column: span 2;
+	}
 }
 </style>

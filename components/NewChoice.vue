@@ -293,7 +293,7 @@ async function submit() {
 				.from('profiles')
 				.update(
 					// @ts-ignore: Unreachable code error
-					{ credits: credits.value.remaining }
+					{ credits_used: profile.creditsUsed.value + credits.value.required }
 				)
 				.eq('user_id', profile.userId.value);
 
