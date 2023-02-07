@@ -72,7 +72,7 @@ const uploadConfig = {
 			window: '#ffffff',
 			sourceBg: '#f4f4f5',
 			windowBorder: '#90a0b3',
-			tabIcon: '#000000',
+			tabIcon: '#222222',
 			inactiveTabIcon: '#555a5f',
 			menuIcons: '#555a5f',
 			link: '#222222',
@@ -80,7 +80,7 @@ const uploadConfig = {
 			inProgress: '#333333',
 			complete: '#339933',
 			error: '#cc0000',
-			textDark: '#000000',
+			textDark: '#222222',
 			textLight: '#fcfffd',
 		},
 		fonts: {

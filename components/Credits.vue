@@ -1,25 +1,13 @@
 <template>
-	<CreditsGet
-		v-if="data.showCredits"
-		:close="closeCredits"
-		:credits="profile.credits.value"
-	/>
 	<p>
-		You have <strong>{{ profile.credits }}</strong> credit{{
+		You have <strong>{{ profile.credits.value }}</strong> credit{{
 			profile.credits.value === 1 ? '' : 's'
 		}}.
-		<a href="#credits" @click.prevent="data.showCredits = true">Get credits</a>
+		<LinkTo to="/credits" target="_blank">Get credits</LinkTo>
+		<p>It is free to create choices. Credits are for bonus features.</p>
 	</p>
 </template>
 
 <script setup lang="ts">
 const profile = useProfile();
-
-const data = reactive({
-	showCredits: false,
-});
-
-function closeCredits() {
-	data.showCredits = false;
-}
 </script>

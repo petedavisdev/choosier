@@ -11,7 +11,6 @@
 
 	<form v-else @submit.prevent="submit">
 		<section id="images">
-			<p>Choices are free, but you can use credits for bonus features.</p>
 			<Credits />
 
 			<h2>Images</h2>
@@ -293,7 +292,7 @@ async function submit() {
 				.from('profiles')
 				.update(
 					// @ts-ignore: Unreachable code error
-					{ credits: credits.value.remaining }
+					{ credits_used: profile.creditsUsed.value + credits.value.required }
 				)
 				.eq('user_id', profile.userId.value);
 

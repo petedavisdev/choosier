@@ -70,7 +70,7 @@ nav {
 
 @media (min-width: 700px) {
 	main {
-		padding: 2em 3em 8em;
+		padding: 2em 2em 8em;
 		margin-inline: auto;
 	}
 

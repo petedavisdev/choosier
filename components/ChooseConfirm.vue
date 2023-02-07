@@ -78,6 +78,18 @@ async function vote() {
 		if (response.error) throw response.error;
 
 		if (profile.userId.value) {
+			if (!profile.firstVote.value) {
+				const profileResponse = await supabase
+					.from('profiles')
+					// @ts-ignore: Unreachable code error
+					.update({ first_vote: props.id })
+					.eq('user_id', profile.userId.value);
+
+				if (profileResponse.error) throw profileResponse.error;
+			}
+
+			profile.votes.value = [...profile.votes.value, { choice_id: props.id }];
+
 			router.push('/result' + props.id);
 		}
 		return true;

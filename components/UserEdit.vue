@@ -75,6 +75,8 @@ async function updateProfile() {
 			username: cleanUsername.value,
 			updated_at: new Date(),
 			website: cleanWebsite.value,
+			first_vote:
+				profile.firstVote.value || profile.votes.value[0]?.choice_id || 0,
 		};
 
 		// @ts-ignore: Unreachable code error
@@ -84,8 +86,9 @@ async function updateProfile() {
 
 		if (response.error) throw response.error;
 
-		profile.username.value = cleanUsername.value;
-		profile.website.value = cleanWebsite.value;
+		profile.username.value = updates.username;
+		profile.website.value = updates.website;
+		profile.firstVote.value = updates.first_vote;
 
 		if (route.path === '/account' && cleanUsername.value) {
 			router.push('/@' + cleanUsername.value);
