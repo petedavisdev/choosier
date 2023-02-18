@@ -164,7 +164,8 @@
 				<p v-if="credits.required">
 					You are using {{ credits.required }} credit{{
 						credits.required === 1 ? '' : 's'
-					}}.
+					}}
+					and you will have {{ credits.remaining }} remaining.
 				</p>
 
 				<button
@@ -257,9 +258,7 @@ const validationMessage = computed(() => {
 		: credits.value.required > profile.credits.value
 		? `You have chosen to use ${credits.value.required} credit${
 				credits.value.required === 1 ? '' : 's'
-		  }, but you have ${
-				profile.credits.value
-		  }. Use the free options to get started.`
+		  }, but you have ${profile.credits.value}.`
 		: '';
 });
 

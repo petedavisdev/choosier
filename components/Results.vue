@@ -58,6 +58,11 @@
 				}"
 			>
 				<strong class="count">{{ result.voters.length }}</strong>
+				<span
+					>({{
+						Math.round((100 * result.voters.length) / data.votes.length)
+					}}%)</span
+				>
 				<div class="voters">
 					<small v-for="voter in result.voters" :key="voter">
 						<LinkTo :to="'/@' + voter">
@@ -74,7 +79,7 @@
 		</article>
 
 		<div class="grid">
-			<aside v-if="firstTimeVoters" class="box welcome">
+			<aside v-if="firstTimeVoters.length" class="box welcome">
 				<h2>Welcome to {{ firstTimeVoters.length }} first-time choosers!</h2>
 				<p>
 					<template v-for="{ username } in firstTimeVoters" :key="username">

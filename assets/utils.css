@@ -48,6 +48,7 @@
 	grid-template-areas: 'one';
 	padding: 0;
 	text-decoration: none;
+	background-color: var(--mid);
 }
 
 .cardImages {
@@ -101,6 +102,7 @@
 	right: 0.75em;
 	border: 0;
 	padding: 0.1em 0.5em;
+	background-color: var(--light);
 	border-radius: var(--radius);
 	cursor: pointer;
 	transition: transform 0.15s;

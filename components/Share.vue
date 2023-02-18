@@ -24,4 +24,8 @@ function copy() {
 .button {
 	margin-bottom: 1em;
 }
+
+.button:focus {
+	background-color: var(--mid);
+}
 </style>
