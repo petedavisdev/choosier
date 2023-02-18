@@ -16,7 +16,7 @@ definePageMeta({
 
 <style scoped>
 main {
-	max-width: 35em;
+	max-width: 36em;
 	display: grid;
 	margin-inline: auto;
 	padding: 2em 2em 6em;

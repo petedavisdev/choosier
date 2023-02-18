@@ -88,8 +88,7 @@
 					</template>
 				</p>
 				<strong>
-					<LinkTo to="/credits">+{{ firstTimeVoters.length }} credits</LinkTo>
-					for
+					+{{ firstTimeVoters.length }} credits for
 					<LinkTo :to="'/@' + choice.username"> @{{ choice.username }} </LinkTo>
 				</strong>
 			</aside>
