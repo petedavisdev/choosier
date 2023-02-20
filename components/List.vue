@@ -12,11 +12,11 @@
 				<img
 					class="cardImage"
 					v-for="image in choice.images"
-					:src="image"
+					:src="image.replace('h_800', 'h_320')"
 					alt=""
 					loading="lazy"
-					height="800"
-					width="800"
+					height="320"
+					width="320"
 				/>
 			</div>
 
