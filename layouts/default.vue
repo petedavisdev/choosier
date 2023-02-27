@@ -26,9 +26,7 @@
 			<NuxtLink to="/terms">Terms of use</NuxtLink> | Choosier &copy;
 			{{ new Date().getFullYear() }}
 			<LinkTo to="https://petedavis.dev">Pete Davis</LinkTo> |
-			<LinkTo to="https://www.instagram.com/choosier.app/" target="_blank"
-				>Say hello on Instagram ↗</LinkTo
-			>
+			<LinkTo to="/contact">Say hello 👋</LinkTo>
 		</p>
 	</footer>
 </template>
@@ -70,7 +68,7 @@ nav {
 
 @media (min-width: 700px) {
 	main {
-		padding: 2em 2em 8em;
+		padding: 2em 2em 4em;
 		margin-inline: auto;
 	}
 
