@@ -52,13 +52,21 @@ async function verify() {
 	try {
 		data.loading = true;
 
-		const response = await auth.verifyOtp({
+		const loginResponse = await auth.verifyOtp({
 			email: props.email,
 			token: data.token,
 			type: 'magiclink',
 		});
 
-		if (response.error) throw response.error;
+		if (loginResponse.error) {
+			const signupResponse = await auth.verifyOtp({
+				email: props.email,
+				token: data.token,
+				type: 'signup',
+			});
+
+			if (signupResponse.error) throw signupResponse.error;
+		}
 
 		if (props.choiceId) {
 			router.push('result' + props.choiceId);
