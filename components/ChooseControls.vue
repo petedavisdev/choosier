@@ -1,32 +1,3 @@
-<template>
-	<footer class="controls">
-		<ChooseProgress
-			:percent="(100 * props.matchIndex) / (props.length - 1)"
-			class="progress"
-		/>
-
-		<button
-			class="undo"
-			title="undo"
-			type="reset"
-			@click="undo()"
-			:disabled="props.matchIndex === 0"
-		>
-			<IconUndo class="icon" />
-		</button>
-
-		<IconLogo class="logo" />
-
-		<button @click="toggleShare" type="button" class="share">
-			<IconShare class="icon" />
-		</button>
-
-		<aside v-if="data.shareOpen" class="drawer">
-			<Share :id="props.id" />
-		</aside>
-	</footer>
-</template>
-
 <script setup lang="ts">
 const props = defineProps<{
 	matchIndex: number;
@@ -34,18 +5,14 @@ const props = defineProps<{
 	id: number;
 }>();
 
-const route = useRoute();
-const shareLink = 'https://choosier.app/' + route.params.id;
-
 const data = reactive({
 	shareOpen: false,
 });
 
 function undo() {
-	let previousForm: HTMLFormElement | undefined;
-
-	// @ts-ignore: form accessed by name not number
-	previousForm = document.forms['match' + (props.matchIndex - 1)];
+	let previousForm: HTMLFormElement | undefined =
+		// @ts-ignore: form accessed by name not number
+		document.forms['match' + (props.matchIndex - 1)];
 
 	if (previousForm) {
 		previousForm.reset();
@@ -57,23 +24,37 @@ function toggleShare() {
 }
 </script>
 
-<style scoped>
+<template>
+	<footer :class="$style.controls">
+		<ChooseProgress
+			:percent="(100 * props.matchIndex) / (props.length - 1)"
+			class="progress"
+		/>
+
+		<button
+			title="undo"
+			type="reset"
+			@click="undo()"
+			:disabled="props.matchIndex === 0"
+			:class="$style.undo"
+		>
+			<IconUndo :class="$style.icon" />
+		</button>
+
+		<IconLogo :class="$style.logo" />
+
+		<button @click="toggleShare" type="button" :class="$style.share">
+			<IconShare :class="$style.icon" />
+		</button>
+
+		<aside v-if="data.shareOpen" :class="$style.drawer">
+			<Share :id="props.id" />
+		</aside>
+	</footer>
+</template>
+
+<style module>
 .controls {
-	padding: 0;
-}
-
-.undo,
-.share {
-	border: none;
-	background-color: transparent;
-	padding: 0;
-}
-
-.undo:disabled {
-	color: var(--mid);
-}
-
-footer {
 	display: grid;
 	grid-template:
 		'⌛️ ⌛️ ⌛️' max-content
@@ -81,6 +62,18 @@ footer {
 		'🎁 🎁 🎁' max-content
 		/ max-content 1fr max-content;
 	gap: 0.5em;
+	padding: 0;
+}
+
+.share,
+.undo {
+	border: none;
+	background-color: transparent;
+	padding: 0;
+}
+
+.undo:disabled {
+	color: var(--mid);
 }
 
 .progress {
@@ -95,7 +88,7 @@ footer {
 	grid-area: 😘;
 }
 
-button .icon {
+.icon {
 	height: 3em;
 }
 
