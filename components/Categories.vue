@@ -1,5 +1,5 @@
 <template>
-	<nav>
+	<nav class="categories">
 		<span v-for="(category, key) in categories" key="key">
 			<LinkTo :to="'/_' + key">{{ key.replace('-', ' ') }}</LinkTo>
 		</span>
@@ -7,11 +7,11 @@
 </template>
 
 <script setup lang="ts">
-import { categories } from '~~/constants';
+import { categories } from '~/constants';
 </script>
 
 <style scoped>
-nav {
+.categories {
 	display: flex;
 	gap: 1em;
 	flex-wrap: wrap;

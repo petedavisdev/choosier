@@ -3,7 +3,7 @@
 
 	<section class="grid">
 		<LinkTo
-			v-for="choice in choices"
+			v-for="(choice, index) in choices"
 			:key="choice.id"
 			:to="`/${choice.id}`"
 			class="card"
@@ -14,9 +14,9 @@
 					v-for="image in choice.images"
 					:src="image.replace('h_800', 'h_240')"
 					alt=""
-					loading="lazy"
-					height="320"
-					width="320"
+					:loading="index > 2 ? 'lazy' : null"
+					height="240"
+					width="240"
 				/>
 			</div>
 

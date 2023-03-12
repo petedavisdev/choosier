@@ -170,8 +170,8 @@ input {
 
 .option img {
 	object-fit: contain;
+	width: 100%;
 	min-height: 0;
-	max-width: 100%;
 	max-height: 100%;
 	line-height: 1;
 	background-color: var(--lighter);
