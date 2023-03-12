@@ -1,25 +1,3 @@
-<template>
-	<form @submit.prevent="closeChoice">
-		<section>
-			<h3>Close voting for this choice</h3>
-			<p>You will still have access to the results.</p>
-			<p>
-				<button class="button" type="submit">Close voting now!</button>
-			</p>
-		</section>
-	</form>
-
-	<form @submit.prevent="deleteChoice">
-		<section>
-			<h3>Delete this choice</h3>
-			<p>You will lose access to the choice and the results.</p>
-			<p>
-				<button class="button" type="submit">Delete it now!</button>
-			</p>
-		</section>
-	</form>
-</template>
-
 <script setup lang="ts">
 const props = defineProps<{
 	id: number;
@@ -54,3 +32,25 @@ async function updateChoice(update: Record<string, string>) {
 	}
 }
 </script>
+
+<template>
+	<form @submit.prevent="closeChoice">
+		<section>
+			<h3>Close voting for this choice</h3>
+			<p>You will still have access to the results.</p>
+			<p>
+				<button class="button" type="submit">Close voting now!</button>
+			</p>
+		</section>
+	</form>
+
+	<form @submit.prevent="deleteChoice">
+		<section>
+			<h3>Delete this choice</h3>
+			<p>You will lose access to the choice and the results.</p>
+			<p>
+				<button class="button" type="submit">Delete it now!</button>
+			</p>
+		</section>
+	</form>
+</template>

@@ -1,21 +1,23 @@
-<template>
-	<nav class="categories">
-		<span v-for="(category, key) in categories" key="key">
-			<LinkTo :to="'/_' + key">{{ key.replace('-', ' ') }}</LinkTo>
-		</span>
-	</nav>
-</template>
-
 <script setup lang="ts">
 import { categories } from '~/constants';
 </script>
 
-<style scoped>
+<template>
+	<nav :class="$style.categories">
+		<template v-for="(category, key) in categories" key="key">
+			<LinkTo :to="'/_' + key" :class="$style.link">{{
+				key.replace('-', ' ')
+			}}</LinkTo>
+		</template>
+	</nav>
+</template>
+
+<style module>
 .categories {
 	display: flex;
 	gap: 1em;
 	flex-wrap: wrap;
-	margin-bottom: 3em;
+	margin-bottom: 2em;
 	text-transform: capitalize;
 }
 </style>
