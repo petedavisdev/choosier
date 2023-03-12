@@ -19,19 +19,17 @@ img {
 	max-width: 100%;
 }
 
-.sr-only:not(:focus):not(:active) {
-	clip: rect(0 0 0 0);
-	clip-path: inset(50%);
-	height: 1px;
-	overflow: hidden;
-	position: absolute;
-	white-space: nowrap;
-	width: 1px;
-}
-
 a,
 button {
 	color: var(--dark);
+}
+
+a:has(svg) {
+	text-decoration: none;
+}
+
+button {
+	background-color: inherit;
 }
 
 [aria-current='page'] {
@@ -52,6 +50,10 @@ legend {
 
 h1 {
 	font-size: 2em;
+}
+
+ol > li {
+	margin-block: 1em;
 }
 
 input,
@@ -86,22 +88,10 @@ label:has(:checked) {
 	font-weight: var(--bold);
 }
 
-a:has(svg) {
-	text-decoration: none;
-}
-
 small {
 	font-weight: normal;
 }
 
 strong {
 	font-weight: bold;
-}
-
-ol > li {
-	margin-block: 1em;
-}
-
-button {
-	background-color: inherit;
 }
