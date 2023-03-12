@@ -174,7 +174,7 @@ input {
 	min-height: 0;
 	max-height: 100%;
 	line-height: 1;
-	background-color: var(--lighter);
+	background-color: var(--light);
 }
 
 form:not(:last-of-type):valid :not(:checked) + img {
