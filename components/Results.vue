@@ -56,7 +56,7 @@ try {
 
 <template>
 	<Head>
-		<Title>Choosier. Results for @{{ choice.username }}</Title>
+		<Title>Results: @{{ choice.username }} {{ choice.title }}</Title>
 		<Meta
 			name="description"
 			:content="`Results for @${choice.username} choosing ${choice.title}`"
