@@ -1,3 +1,131 @@
+<script setup lang="ts">
+import { imageLimits, categories, visibility, duration } from '~/constants';
+
+const router = useRouter();
+const supabase = useSupabaseClient();
+const profile = useProfile();
+const minImages = 2;
+
+const data = reactive({
+	loading: false,
+	title: '',
+	images: [] as string[],
+	maxImages: +Object.keys(imageLimits)[0],
+	category: '',
+	visibility: 'public',
+	duration: 1,
+	showPreview: false,
+});
+
+const credits = computed(() => {
+	const required =
+		(imageLimits[data.maxImages as keyof typeof imageLimits] || 0) +
+		(visibility[data.visibility as keyof typeof visibility]?.credits || 0) +
+		(duration[data.duration as keyof typeof duration]?.credits || 0);
+
+	const remaining = profile.credits.value - required;
+
+	return { required, remaining };
+});
+
+const dates = computed(() => {
+	const updateOnPreview = data.showPreview;
+
+	const date = new Date();
+
+	date.setDate(date.getDate() + +data.duration);
+	date.setSeconds(0, 0);
+	const close = date.toISOString();
+	const closeText = date.toLocaleString(undefined, {
+		weekday: 'long',
+		day: 'numeric',
+		month: 'long',
+		hour: 'numeric',
+		minute: 'numeric',
+	});
+
+	date.setDate(date.getDate() + +data.duration + 0.007);
+	const remove = date.toISOString();
+	const removeText = date.toLocaleString(undefined, {
+		weekday: 'long',
+		day: 'numeric',
+		month: 'long',
+	});
+
+	return { close, closeText, remove, removeText };
+});
+
+const validationMessage = computed(() => {
+	return data.images.length < minImages
+		? `You need at least ${minImages} images!`
+		: data.images.length > data.maxImages
+		? `You have more than ${data.maxImages} images!`
+		: !data.title
+		? 'You need a title!'
+		: !data.category
+		? 'Choose a category!'
+		: !data.visibility
+		? 'Choose visibility!'
+		: !data.duration
+		? 'Choose a duration!'
+		: credits.value.required > profile.credits.value
+		? `You have chosen to use ${credits.value.required} credit${
+				credits.value.required === 1 ? '' : 's'
+		  }, but you have ${profile.credits.value}.`
+		: '';
+});
+
+async function submit() {
+	if (
+		data.images.length >= minImages &&
+		data.images.length <= data.maxImages &&
+		credits.value.remaining >= 0
+	) {
+		try {
+			data.loading = true;
+
+			const choicesResponse = await supabase.from('choices').insert([
+				// @ts-ignore: Unreachable code error
+				{
+					title: data.title,
+					image_urls: data.images,
+					user_id: profile.userId.value,
+					visibility: data.visibility,
+					category: data.category,
+					close_at: dates.value.close,
+					remove_at: dates.value.remove,
+					credits_used: credits.value.required,
+				},
+			]);
+
+			if (choicesResponse.error) throw choicesResponse.error;
+
+			const profilesResponse = await supabase
+				.from('profiles')
+				.update(
+					// @ts-ignore: Unreachable code error
+					{ credits_used: profile.creditsUsed.value + credits.value.required }
+				)
+				.eq('user_id', profile.userId.value);
+
+			if (profilesResponse.error) throw profilesResponse.error;
+
+			profile.credits.value = credits.value.remaining;
+
+			router.push('/@' + profile.username.value);
+		} catch (error: any) {
+			alert(error.message);
+		} finally {
+			data.loading = false;
+		}
+	}
+}
+
+function closePreview() {
+	data.showPreview = false;
+}
+</script>
+
 <template>
 	<UserLogin v-if="!profile.userId.value">
 		<h2>Login/register</h2>
@@ -9,7 +137,7 @@
 		</h2>
 	</UserEdit>
 
-	<form v-else @submit.prevent="submit">
+	<form v-else @submit.prevent="submit" :class="$style.form">
 		<section id="images">
 			<Credits />
 
@@ -51,7 +179,12 @@
 
 		<section id="title">
 			<h2><label for="title">Title</label></h2>
-			<input v-model="data.title" class="titleInput" maxlength="25" required />
+			<input
+				v-model="data.title"
+				maxlength="25"
+				required
+				:class="$style.titleInput"
+			/>
 			<small>{{
 				data.title.length > 15
 					? `${25 - data.title.length} characters remaining`
@@ -185,136 +318,8 @@
 	</form>
 </template>
 
-<script setup lang="ts">
-import { imageLimits, categories, visibility, duration } from '~/constants';
-
-const router = useRouter();
-const supabase = useSupabaseClient();
-const profile = useProfile();
-const minImages = 2;
-
-const data = reactive({
-	loading: false,
-	title: '',
-	images: [] as string[],
-	maxImages: +Object.keys(imageLimits)[0],
-	category: '',
-	visibility: 'public',
-	duration: 1,
-	showPreview: false,
-});
-
-const credits = computed(() => {
-	const required =
-		(imageLimits[data.maxImages as keyof typeof imageLimits] || 0) +
-		(visibility[data.visibility as keyof typeof visibility]?.credits || 0) +
-		(duration[data.duration as keyof typeof duration]?.credits || 0);
-
-	const remaining = profile.credits.value - required;
-
-	return { required, remaining };
-});
-
-const dates = computed(() => {
-	const updateOnPreview = data.showPreview;
-
-	const date = new Date();
-
-	date.setDate(date.getDate() + +data.duration);
-	date.setSeconds(0, 0);
-	const close = date.toISOString();
-	const closeText = date.toLocaleString(undefined, {
-		weekday: 'long',
-		day: 'numeric',
-		month: 'long',
-		hour: 'numeric',
-		minute: 'numeric',
-	});
-
-	date.setDate(date.getDate() + +data.duration + 0.007);
-	const remove = date.toISOString();
-	const removeText = date.toLocaleString(undefined, {
-		weekday: 'long',
-		day: 'numeric',
-		month: 'long',
-	});
-
-	return { close, closeText, remove, removeText };
-});
-
-const validationMessage = computed(() => {
-	return data.images.length < minImages
-		? `You need at least ${minImages} images!`
-		: data.images.length > data.maxImages
-		? `You have more than ${data.maxImages} images!`
-		: !data.title
-		? 'You need a title!'
-		: !data.category
-		? 'Choose a category!'
-		: !data.visibility
-		? 'Choose visibility!'
-		: !data.duration
-		? 'Choose a duration!'
-		: credits.value.required > profile.credits.value
-		? `You have chosen to use ${credits.value.required} credit${
-				credits.value.required === 1 ? '' : 's'
-		  }, but you have ${profile.credits.value}.`
-		: '';
-});
-
-async function submit() {
-	if (
-		data.images.length >= minImages &&
-		data.images.length <= data.maxImages &&
-		credits.value.remaining >= 0
-	) {
-		try {
-			data.loading = true;
-
-			const choicesResponse = await supabase.from('choices').insert([
-				// @ts-ignore: Unreachable code error
-				{
-					title: data.title,
-					image_urls: data.images,
-					user_id: profile.userId.value,
-					visibility: data.visibility,
-					category: data.category,
-					close_at: dates.value.close,
-					remove_at: dates.value.remove,
-					credits_used: credits.value.required,
-				},
-			]);
-
-			if (choicesResponse.error) throw choicesResponse.error;
-
-			const profilesResponse = await supabase
-				.from('profiles')
-				.update(
-					// @ts-ignore: Unreachable code error
-					{ credits_used: profile.creditsUsed.value + credits.value.required }
-				)
-				.eq('user_id', profile.userId.value);
-
-			if (profilesResponse.error) throw profilesResponse.error;
-
-			profile.credits.value = credits.value.remaining;
-
-			router.push('/@' + profile.username.value);
-		} catch (error: any) {
-			alert(error.message);
-		} finally {
-			data.loading = false;
-		}
-	}
-}
-
-function closePreview() {
-	data.showPreview = false;
-}
-</script>
-
-<style scoped>
-form {
+<style module>
+.form {
 	display: grid;
 	gap: 1em;
 }

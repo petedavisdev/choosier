@@ -28,7 +28,7 @@ function toggleShare() {
 	<footer :class="$style.controls">
 		<ChooseProgress
 			:percent="(100 * props.matchIndex) / (props.length - 1)"
-			class="progress"
+			:class="$style.progress"
 		/>
 
 		<button

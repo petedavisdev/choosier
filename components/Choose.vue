@@ -76,26 +76,21 @@ onMounted(() => {
 			/>
 		</form>
 
-		<aside :class="($style.popup, $style.backdrop)" v-if="closed">
+		<aside class="backdrop" v-if="closed">
 			<LinkTo :to="'/result' + props.id" class="button">
 				Voting has closed
 				<h2>See the results &rarr;</h2>
 			</LinkTo>
 		</aside>
 
-		<aside :class="($style.popup, $style.backdrop)" v-else-if="userVoted">
+		<aside class="backdrop" v-else-if="userVoted">
 			<LinkTo :to="'/result' + props.id" class="button">
 				You have made your choice
 				<h2>See the results &rarr;</h2>
 			</LinkTo>
 		</aside>
 
-		<ChooseIntro
-			v-else
-			:class="$style.popup"
-			:username="choice.username"
-			:title="choice.title"
-		/>
+		<ChooseIntro v-else :username="choice.username" :title="choice.title" />
 	</main>
 
 	<main v-else>
