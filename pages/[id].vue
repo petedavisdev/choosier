@@ -1,7 +1,3 @@
-<template>
-	<Choose :id="id" />
-</template>
-
 <script setup lang="ts">
 definePageMeta({
 	layout: false,
@@ -10,3 +6,7 @@ definePageMeta({
 const route = useRoute();
 const id = +route.params.id;
 </script>
+
+<template>
+	<Choose :id="id" />
+</template>

@@ -1,14 +1,3 @@
-<template>
-	<p>
-		<label>
-			<input type="checkbox" value="monthly" v-model="data.subscriptions" />
-			Monthly choosletter
-		</label>
-
-		{{ data.loading ? 'Saving...' : '' }}
-	</p>
-</template>
-
 <script setup lang="ts">
 const profile = useProfile();
 const supabase = useSupabaseClient();
@@ -20,9 +9,7 @@ const data = reactive({
 
 watch(
 	() => data.subscriptions,
-	(subscriptions) => {
-		updateProfile();
-	}
+	() => updateProfile()
 );
 
 async function updateProfile() {
@@ -50,3 +37,14 @@ async function updateProfile() {
 	}
 }
 </script>
+
+<template>
+	<p>
+		<label>
+			<input type="checkbox" value="monthly" v-model="data.subscriptions" />
+			Monthly choosletter
+		</label>
+
+		{{ data.loading ? 'Saving...' : '' }}
+	</p>
+</template>

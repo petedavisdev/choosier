@@ -10,14 +10,23 @@
 		</p>
 	</section>
 
-	<form action="https://formspree.io/f/mzbqgzvz" method="POST">
+	<form
+		action="https://formspree.io/f/mzbqgzvz"
+		method="POST"
+		:class="$style.form"
+	>
 		<label>
 			Your email:
-			<input type="email" name="email" required />
+			<input type="email" name="email" required :class="$style.input" />
 		</label>
 		<label>
 			Your message:
-			<textarea name="message" required rows="6"></textarea>
+			<textarea
+				name="message"
+				required
+				rows="6"
+				:class="$style.input"
+			></textarea>
 		</label>
 		<p>
 			<button type="submit" class="button">Send</button>
@@ -25,14 +34,13 @@
 	</form>
 </template>
 
-<style>
-form {
+<style module>
+.form {
 	display: grid;
 	gap: 1em;
 }
 
-input,
-textarea {
+.input {
 	display: block;
 	width: min(100%, 800px);
 }

@@ -1,5 +1,11 @@
+<script setup lang="ts">
+definePageMeta({
+	layout: false,
+});
+</script>
+
 <template>
-	<main>
+	<main :class="$style.container">
 		<header>
 			<IconLogo />
 			<h1>New choice</h1>
@@ -8,28 +14,16 @@
 	</main>
 </template>
 
-<script setup lang="ts">
-definePageMeta({
-	layout: false,
-});
-</script>
-
-<style scoped>
-main {
+<style module>
+.container {
 	max-width: 36em;
 	display: grid;
 	margin-inline: auto;
 	padding: 2em 2em 6em;
 }
 
-aside {
-	background-color: var(--mid);
-	padding: 0.25em 1em;
-	margin-block: 1em;
-}
-
 @media (min-width: 700px) {
-	main {
+	.container {
 		padding: 2em 3em 6em;
 		margin-inline: auto;
 	}

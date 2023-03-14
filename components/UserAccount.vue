@@ -1,21 +1,3 @@
-<template>
-	<form @submit.prevent="signOut">
-		<Credits />
-
-		<LinkTo to="/new" class="button">+ New choice</LinkTo>
-
-		<p>
-			Logged in with <strong>{{ profile.email.value }}</strong>
-		</p>
-
-		<p>
-			<button type="submit" class="button" :disabled="data.loading">
-				&rarr; Log Out
-			</button>
-		</p>
-	</form>
-</template>
-
 <script setup lang="ts">
 const { auth } = useSupabaseAuthClient();
 const profile = useProfile();
@@ -37,8 +19,20 @@ async function signOut() {
 }
 </script>
 
-<style scoped>
-aside {
-	margin-top: 5em;
-}
-</style>
+<template>
+	<form @submit.prevent="signOut">
+		<Credits />
+
+		<LinkTo to="/new" class="button">+ New choice</LinkTo>
+
+		<p>
+			Logged in with <strong>{{ profile.email.value }}</strong>
+		</p>
+
+		<p>
+			<button type="submit" class="button" :disabled="data.loading">
+				&rarr; Log Out
+			</button>
+		</p>
+	</form>
+</template>

@@ -1,30 +1,3 @@
-<template>
-	<Head>
-		<Script src="https://widget.cloudinary.com/v2.0/global/all.js" />
-	</Head>
-
-	<div class="thumbnails" v-if="data.uploads.length">
-		<div v-for="({ url, delete_token }, index) in data.uploads" :key="index">
-			<img :src="url" alt="" />
-			<button
-				@click.prevent="deleteUpload(index, delete_token)"
-				type="button"
-				class="close"
-			></button>
-		</div>
-	</div>
-
-	<button
-		v-if="data.uploads.length < props.max"
-		@click="showUploadWidget"
-		type="button"
-		class="button"
-		:disabled="data.loading"
-	>
-		+ Add images
-	</button>
-</template>
-
 <script setup lang="ts">
 type UploadInfo = {
 	event: string;
@@ -130,7 +103,34 @@ function updateUploaded() {
 }
 </script>
 
-<style scoped>
+<template>
+	<Head>
+		<Script src="https://widget.cloudinary.com/v2.0/global/all.js"></Script>
+	</Head>
+
+	<div :class="$style.thumbnails" v-if="data.uploads.length">
+		<div v-for="({ url, delete_token }, index) in data.uploads" :key="index">
+			<img :src="url" alt="" />
+			<button
+				@click.prevent="deleteUpload(index, delete_token)"
+				type="button"
+				class="close"
+			></button>
+		</div>
+	</div>
+
+	<button
+		v-if="data.uploads.length < props.max"
+		@click="showUploadWidget"
+		type="button"
+		class="button"
+		:disabled="data.loading"
+	>
+		+ Add images
+	</button>
+</template>
+
+<style module>
 .thumbnails {
 	display: grid;
 	grid-template-columns: 1fr 1fr;

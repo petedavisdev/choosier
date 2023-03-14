@@ -21,6 +21,7 @@ async function updateChoice(update: Record<string, string>) {
 	try {
 		const response = await supabase
 			.from('choices')
+			// @ts-ignore unreachable code
 			.update(update)
 			.eq('id', props.id);
 
