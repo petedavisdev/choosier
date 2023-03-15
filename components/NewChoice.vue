@@ -159,7 +159,7 @@ function closePreview() {
 					up to {{ max }} images
 					<small>
 						<strong>
-							{{ credits ? `(${credits} credit)` : '(free)' }}
+							{{ credits ? `(${credits} credits)` : '(free)' }}
 						</strong>
 					</small>
 				</label>
@@ -230,7 +230,7 @@ function closePreview() {
 					{{ value.name }}
 					<small>
 						<strong>
-							{{ value.credits ? `(${value.credits} credit)` : '(free)' }}
+							{{ value.credits ? `(${value.credits} credits)` : '(free)' }}
 						</strong>
 						{{ value.description }}
 					</small>
@@ -258,7 +258,7 @@ function closePreview() {
 					{{ value.name }}
 					<small>
 						<strong>
-							{{ value.credits ? `(${value.credits} credit)` : '(free)' }}
+							{{ value.credits ? `(${value.credits} credits)` : '(free)' }}
 						</strong>
 						{{ value.description }}
 					</small>
