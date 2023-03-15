@@ -89,13 +89,6 @@
 	background-color: var(--lighter);
 }
 
-.cen {
-	place-items: center;
-	place-self: center;
-	text-align: center;
-	margin-inline: auto;
-}
-
 .close {
 	position: absolute;
 	top: 0.75em;

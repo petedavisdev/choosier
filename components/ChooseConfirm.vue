@@ -106,7 +106,7 @@ function retry() {
 		<img :src="props.image" alt="" :class="$style.chosenImage" />
 	</section>
 
-	<section v-if="profile.userId.value" class="confirm">
+	<section v-if="profile.userId.value" :class="$style.confirm">
 		<button @click="vote()" type="button" class="button">
 			✓ Confirm my choice
 		</button>

@@ -1,7 +1,7 @@
 <template>
 	<LinkTo to="/" aria-label="Home">
 		<svg
-			class="Logo"
+			:class="$style.logo"
 			viewBox="0 0 279 49"
 			width="205"
 			xmlns="http://www.w3.org/2000/svg"
@@ -58,8 +58,8 @@
 	</LinkTo>
 </template>
 
-<style scoped>
-svg {
+<style module>
+.logo {
 	width: inherit;
 }
 </style>

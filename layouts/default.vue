@@ -1,8 +1,8 @@
 <template>
-	<main>
-		<IconLogo class="Logo" />
+	<main :class="$style.container">
+		<IconLogo :class="$style.logo" />
 		<slot />
-		<nav>
+		<nav :class="$style.nav">
 			<NuxtLink
 				:to="
 					profile.username.value ? '/@' + profile.username.value : '/account'
@@ -20,7 +20,8 @@
 			<NuxtLink to="/new" class="New button">+ New</NuxtLink>
 		</nav>
 	</main>
-	<footer>
+
+	<footer :class="$style.container">
 		<p>
 			<NuxtLink to="/privacy">Essential cookies only</NuxtLink> |
 			<NuxtLink to="/terms">Terms of use</NuxtLink> | Choosier &copy;
@@ -35,23 +36,17 @@
 const profile = useProfile();
 </script>
 
-<style scoped>
-main,
-footer {
-	padding: 2em 2em 6em;
+<style module>
+.container {
 	display: grid;
 	margin-inline: auto;
+	padding: 2em 2em 5em;
 }
-
-.Logo {
+ß .logo {
 	width: clamp(12em, 50vmin, 16em);
 }
 
-h1 {
-	font-size: clamp(1.5em, 5vmin, 2em);
-}
-
-nav {
+.nav {
 	position: fixed;
 	bottom: 1.5em;
 	right: 1em;
@@ -61,18 +56,8 @@ nav {
 	gap: 1.5em;
 }
 
-.icon {
-	height: 1em;
-	width: 1em;
-}
-
 @media (min-width: 700px) {
-	main {
-		padding: 2em 2em 4em;
-		margin-inline: auto;
-	}
-
-	nav {
+	.nav {
 		top: 1.5em;
 		right: 1.5em;
 		bottom: auto;
