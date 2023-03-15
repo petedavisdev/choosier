@@ -4,8 +4,9 @@
 	<article>
 		<h2>Personal data</h2>
 		<p>
-			Your email address will not be shared. It is only used to enable you to
-			access and manage your account.
+			Your email address will not be shared. It is only required to enable you
+			to access and manage your account. No emails will be sent to you without
+			your permission.
 		</p>
 		<p>No other personal data is required to user Choosier.</p>
 		<p>
@@ -16,7 +17,7 @@
 
 	<article>
 		<h2>Cookies</h2>
-		<p>Choosier only uses essential cookies so that you can stay logged in.</p>
+		<p>Choosier only uses essential cookies so that you can log in.</p>
 		<p>No trackers. No advertising cookies. No analytics cookies.</p>
 	</article>
 

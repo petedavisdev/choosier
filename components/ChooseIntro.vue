@@ -1,9 +1,21 @@
+<script setup lang="ts">
+const props = defineProps<{
+	username: string;
+	title: string;
+}>();
+
+const profile = useProfile();
+const data = reactive({
+	show: true,
+});
+</script>
+
 <template>
 	<div v-if="data.show" class="backdrop">
 		<article class="box">
 			<IconLogo />
 			<h1>
-				<small>Help @{{ props.username }} choose</small>
+				<small :class="$style.intro">Help @{{ props.username }} choose</small>
 				<div>{{ props.title }}</div>
 			</h1>
 
@@ -17,7 +29,12 @@
 			</template>
 
 			<footer class="cen">
-				<button @click="data.show = false" class="button" type="button">
+				<button
+					@click="data.show = false"
+					type="button"
+					class="button"
+					:class="$style.start"
+				>
 					Start &rarr;
 				</button>
 			</footer>
@@ -25,24 +42,12 @@
 	</div>
 </template>
 
-<script setup lang="ts">
-const props = defineProps<{
-	username: string;
-	title: string;
-}>();
-
-const profile = useProfile();
-const data = reactive({
-	show: true,
-});
-</script>
-
-<style scoped>
-footer {
+<style module>
+.start {
 	margin-top: 2em;
 }
 
-small {
+.intro {
 	font-size: 1rem;
 }
 </style>

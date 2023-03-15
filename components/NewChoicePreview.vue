@@ -1,7 +1,17 @@
+<script setup lang="ts">
+const props = defineProps<{
+	images: string[];
+	title: string;
+	username: string;
+	validationMessage: string;
+	close: () => void;
+}>();
+</script>
+
 <template>
-	<div class="container">
+	<div :class="$style.container">
 		<div id="preview" class="backdrop" @click="props.close"></div>
-		<section class="box">
+		<section class="box" :class="$style.box">
 			<button @click="props.close" type="button" class="close"></button>
 
 			<h2 v-if="props.validationMessage">{{ props.validationMessage }}</h2>
@@ -9,7 +19,7 @@
 			<template v-else>
 				<h2>Listing preview</h2>
 
-				<div class="card">
+				<div class="card" :class="$style.card">
 					<div class="cardImages">
 						<img
 							class="cardImage"
@@ -33,17 +43,7 @@
 	</div>
 </template>
 
-<script setup lang="ts">
-const props = defineProps<{
-	images: string[];
-	title: string;
-	username: string;
-	validationMessage: string;
-	close: () => void;
-}>();
-</script>
-
-<style scoped>
+<style module>
 .container {
 	position: fixed;
 	inset: 0;

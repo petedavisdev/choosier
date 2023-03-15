@@ -1,21 +1,21 @@
 <template>
-	<div class="progress-bar">
+	<div :class="$style.bar">
 		<div
-			class="progress-indicator"
+			:class="$style.indicator"
 			:style="{ width: String($attrs.percent) + '%' }"
 		></div>
 	</div>
 </template>
 
-<style scoped>
-.progress-bar,
-.progress-indicator {
+<style module>
+.bar,
+.indicator {
 	height: 0.5em;
 	border-radius: 0.25em;
 	background-color: var(--mid);
 }
 
-.progress-indicator {
+.indicator {
 	height: 100%;
 	background-color: var(--dark);
 }

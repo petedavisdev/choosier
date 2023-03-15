@@ -1,88 +1,5 @@
-<template>
-	<Head>
-		<Title>Help @{{ choice.username }} choose: {{ choice.title }}</Title>
-		<Meta
-			name="description"
-			:content="`Image poll made with Choosier.app — Visual decisions made easy`"
-		/>
-		<Meta property="og:image" :content="choice.ogimage || choice.images?.[0]" />
-	</Head>
-
-	<main v-if="choice.title">
-		<form
-			v-for="(match, matchIndex) in data.matches"
-			@submit.prevent
-			@reset="updateMatches(matchIndex)"
-			:id="'match' + matchIndex"
-			:key="matchIndex"
-			ref="chooseForm"
-		>
-			<ChooseConfirm
-				v-if="matchIndex === length - 1 && match[0]"
-				:image="match[0]"
-				:id="+props.id"
-			/>
-
-			<template v-else>
-				<label
-					v-for="(option, optionIndex) in match"
-					class="option"
-					:key="optionIndex"
-				>
-					<input
-						type="radio"
-						:name="'option' + matchIndex"
-						@input="updateMatches(matchIndex, option)"
-						required
-					/>
-
-					<img :src="option" alt="" />
-				</label>
-			</template>
-
-			<ChooseControls
-				class="controls"
-				:matchIndex="matchIndex"
-				:length="length"
-				:id="props.id"
-			/>
-		</form>
-
-		<aside class="popup backdrop" v-if="closed">
-			<LinkTo :to="'/result' + props.id" class="button">
-				Voting has closed
-				<h2>See the results &rarr;</h2>
-			</LinkTo>
-		</aside>
-
-		<aside class="popup backdrop" v-else-if="userVoted">
-			<LinkTo :to="'/result' + props.id" class="button">
-				You have made your choice
-				<h2>See the results &rarr;</h2>
-			</LinkTo>
-		</aside>
-
-		<ChooseIntro
-			v-else
-			class="popup"
-			:username="choice.username"
-			:title="choice.title"
-		/>
-	</main>
-
-	<main v-else>
-		<form>
-			<div>
-				<IconLogo />
-				<h1>Choice not found.</h1>
-				<LinkTo to="/">&larr; Go back home</LinkTo>
-			</div>
-		</form>
-	</main>
-</template>
-
 <script setup lang="ts">
-import { windowHeightFix } from '~~/helpers/windowHeightFix';
+import { windowHeightFix } from '~/helpers/windowHeightFix';
 
 const props = defineProps<{
 	id: number;
@@ -118,15 +35,84 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
-main {
+<template>
+	<Head>
+		<Title>Help @{{ choice.username }} choose: {{ choice.title }}</Title>
+		<Meta
+			name="description"
+			:content="`Image poll made with Choosier.app — Visual decisions made easy`"
+		/>
+		<Meta property="og:image" :content="choice.ogimage || choice.images?.[0]" />
+	</Head>
+
+	<main v-if="choice.title" :class="$style.container">
+		<form
+			v-for="(match, matchIndex) in data.matches"
+			@submit.prevent
+			@reset="updateMatches(matchIndex)"
+			:id="'match' + matchIndex"
+			:key="matchIndex"
+			ref="chooseForm"
+			:class="$style.match"
+		>
+			<ChooseConfirm
+				v-if="matchIndex === length - 1 && match[0]"
+				:image="match[0]"
+				:id="+props.id"
+			/>
+
+			<ChooseMatch
+				v-else
+				:match="match"
+				:matchIndex="matchIndex"
+				:updateMatches="updateMatches"
+			/>
+
+			<ChooseControls
+				:class="$style.controls"
+				:matchIndex="matchIndex"
+				:length="length"
+				:id="props.id"
+			/>
+		</form>
+
+		<aside class="backdrop" v-if="closed">
+			<LinkTo :to="'/result' + props.id" class="button">
+				Voting has closed
+				<h2>See the results &rarr;</h2>
+			</LinkTo>
+		</aside>
+
+		<aside class="backdrop" v-else-if="userVoted">
+			<LinkTo :to="'/result' + props.id" class="button">
+				You have made your choice
+				<h2>See the results &rarr;</h2>
+			</LinkTo>
+		</aside>
+
+		<ChooseIntro v-else :username="choice.username" :title="choice.title" />
+	</main>
+
+	<main v-else>
+		<form>
+			<div>
+				<IconLogo />
+				<h1>Choice not found.</h1>
+				<LinkTo to="/">&larr; Go back home</LinkTo>
+			</div>
+		</form>
+	</main>
+</template>
+
+<style module>
+.container {
 	height: 100%;
 	display: grid;
 	place-content: end center;
 	grid-template: '📋' 1fr / 1fr;
 }
 
-form {
+.match {
 	grid-area: 📋;
 	display: grid;
 	gap: 1em;
@@ -142,47 +128,18 @@ form {
 	transition: opacity 1.5s;
 }
 
-form:not(:last-of-type):valid,
-form:invalid + form {
+.match:not(:last-of-type):valid,
+.match:invalid + .match {
 	opacity: 0;
 	pointer-events: none;
 }
 
-form:invalid + form {
+.match:invalid + .match {
 	transition: opacity 0.5s;
 }
 
-input {
-	display: block;
-}
-
-[type='radio'] {
-	position: fixed;
-	opacity: 0;
-}
-
-.option {
-	display: grid;
-	place-content: center;
-	min-height: 0;
-	cursor: pointer;
-}
-
-.option img {
-	object-fit: contain;
-	width: 100%;
-	min-height: 0;
-	max-height: 100%;
-	line-height: 1;
-	background-color: var(--light);
-}
-
-form:not(:last-of-type):valid :not(:checked) + img {
-	opacity: 0;
-}
-
 @media (orientation: landscape) {
-	form {
+	.match {
 		grid-template:
 			'1️⃣ 2️⃣' 1fr
 			'🦶 🦶' max-content

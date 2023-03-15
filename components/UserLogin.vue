@@ -1,29 +1,3 @@
-<template>
-	<section>
-		<UserLoginToken v-if="data.requested" :email="data.email" :retry="retry">
-			<h1>Confirmation code</h1>
-		</UserLoginToken>
-		<form v-else @submit.prevent="request" id="request">
-			<slot />
-
-			<input
-				type="email"
-				placeholder="Email"
-				v-model="data.email"
-				title="Email"
-				autocomplete="email"
-				required
-			/>
-
-			<footer>
-				<button type="submit" class="button" :disabled="data.loading">
-					{{ data.loading ? 'Loading' : 'Send me a confirmation code &rarr;' }}
-				</button>
-			</footer>
-		</form>
-	</section>
-</template>
-
 <script setup lang="ts">
 const { auth } = useSupabaseAuthClient();
 
@@ -54,24 +28,46 @@ function retry() {
 }
 </script>
 
-<style scoped>
-form {
+<template>
+	<section>
+		<UserLoginToken v-if="data.requested" :email="data.email" :retry="retry">
+			<h1>Confirmation code</h1>
+		</UserLoginToken>
+		<form v-else @submit.prevent="request" id="request" :class="$style.form">
+			<slot></slot>
+
+			<input
+				type="email"
+				placeholder="Email"
+				v-model="data.email"
+				title="Email"
+				autocomplete="email"
+				required
+				:class="$style.control"
+			/>
+
+			<footer>
+				<button
+					type="submit"
+					class="button"
+					:disabled="data.loading"
+					:class="$style.control"
+				>
+					{{ data.loading ? 'Loading' : 'Send me a confirmation code &rarr;' }}
+				</button>
+			</footer>
+		</form>
+	</section>
+</template>
+
+<style module>
+.form {
 	width: 100%;
 	max-width: 30em;
 }
 
-input,
-button {
+.control {
 	width: 100%;
 	margin-bottom: 2em;
-}
-
-.token {
-	width: 9rem;
-	text-align: center;
-}
-input.token {
-	font-size: 1.5em;
-	margin-bottom: 1em;
 }
 </style>

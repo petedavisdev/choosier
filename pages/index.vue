@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<h1>
-			<span class="sr-only">Choosier. </span>
+			<span class="screenReaderOnly">Choosier. </span>
 			Visual decisions made easy
 		</h1>
 

@@ -1,41 +1,3 @@
-<template>
-	<form @submit.prevent="updateProfile">
-		<slot />
-
-		<p class="field">
-			<input
-				v-model="data.username"
-				id="username"
-				maxlength="15"
-				@input="data.username = cleanUsername"
-				required
-			/>
-			<small>Up to 15 lowercase letters</small>
-		</p>
-
-		<template v-if="props.showWebsite">
-			<label for="website">My website or instagram link</label>
-			<p class="field">
-				<input
-					v-model="data.website"
-					id="website"
-					inputmode="url"
-					autocomplete="url"
-				/>
-				<small v-if="data.website?.length > 8">
-					Test your link:
-					<LinkTo :to="cleanWebsite" target="_blank">{{ cleanWebsite }}</LinkTo>
-				</small>
-				<small v-else>Optional</small>
-			</p>
-		</template>
-
-		<button type="submit" class="button" :disabled="data.loading">
-			{{ data.loading ? 'Saving...' : '✓ Save' }}
-		</button>
-	</form>
-</template>
-
 <script setup lang="ts">
 const props = defineProps<{
 	showWebsite?: boolean;
@@ -103,17 +65,54 @@ async function updateProfile() {
 }
 </script>
 
-<style scoped>
-small {
-	display: block;
-}
+<template>
+	<form @submit.prevent="updateProfile">
+		<slot></slot>
 
+		<p :class="$style.field">
+			<input
+				v-model="data.username"
+				id="username"
+				maxlength="15"
+				@input="data.username = cleanUsername"
+				required
+			/>
+			<small>Up to 15 lowercase letters</small>
+		</p>
+
+		<template v-if="props.showWebsite">
+			<label for="website">My website or instagram link</label>
+			<p :class="$style.field">
+				<input
+					v-model="data.website"
+					id="website"
+					inputmode="url"
+					autocomplete="url"
+					:class="$style.website"
+				/>
+				<div>
+					<small v-if="data.website?.length > 8">
+						Test your link:
+						<LinkTo :to="cleanWebsite" target="_blank">{{ cleanWebsite }}</LinkTo>
+					</small>
+					<small v-else>Optional</small>
+				</div>
+			</p>
+		</template>
+
+		<button type="submit" class="button" :disabled="data.loading">
+			{{ data.loading ? 'Saving...' : '✓ Save' }}
+		</button>
+	</form>
+</template>
+
+<style module>
 .field {
 	margin-top: 0;
 	margin-bottom: 2rem;
 }
 
-#website {
+.website {
 	width: 100%;
 	max-width: 30em;
 }

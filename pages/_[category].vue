@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import { categories } from '~/constants';
+const route = useRoute();
+const category = route.params.category as keyof typeof categories;
+</script>
+
 <template>
 	<div>
 		<Head>
@@ -139,9 +145,3 @@
 		<LinkTo to="/new" class="button">+ Make your own choice</LinkTo>
 	</div>
 </template>
-
-<script setup lang="ts">
-import { categories } from '~/constants';
-const route = useRoute();
-const category = route.params.category as keyof typeof categories;
-</script>

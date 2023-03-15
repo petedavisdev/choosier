@@ -1,48 +1,3 @@
-<template>
-	<Head>
-		<Title>Choosier. @{{ username }}</Title>
-	</Head>
-
-	<div>
-		<h1 v-if="data.userId">
-			@{{ props.username }}
-			<LinkTo v-if="isUser" to="/account">
-				<IconSettings class="icon" />
-			</LinkTo>
-		</h1>
-
-		<template v-else>
-			<h1>Chooser not found</h1>
-			<LinkTo to="/" class="button">Home</LinkTo>
-		</template>
-
-		<LinkTo v-if="data.website" :to="data.website" target="_blank">
-			{{ data.website.replace(/^https?:\/\//, '') }}
-			↗
-		</LinkTo>
-
-		<template v-if="data.userId && !data.choices && !data.votes">
-			<h2>No activity</h2>
-			<LinkTo to="/" class="button">Home</LinkTo>
-		</template>
-
-		<template v-if="data.userId">
-			<h2>Choices</h2>
-			<List :filter="['user_id', data.userId]" :edit="isUser">
-				<p>@{{ username }} has no active choices.</p>
-				<LinkTo v-if="isUser" to="/new" class="button"> + New choice </LinkTo>
-			</List>
-		</template>
-
-		<template v-if="data.votes?.length">
-			<h2>Votes</h2>
-			<List :filter="['id', data.votes]">
-				<p>@{{ username }} has no votes to show</p>
-			</List>
-		</template>
-	</div>
-</template>
-
 <script setup lang="ts">
 type Choices = null | { id: number }[];
 type Votes = null | { choice_id: number }[];
@@ -95,7 +50,52 @@ try {
 }
 </script>
 
-<style scoped>
+<template>
+	<Head>
+		<Title>Choosier. @{{ username }}</Title>
+	</Head>
+
+	<div>
+		<h1 v-if="data.userId">
+			@{{ props.username }}
+			<LinkTo v-if="isUser" to="/account">
+				<IconSettings :class="$style.icon" />
+			</LinkTo>
+		</h1>
+
+		<template v-else>
+			<h1>Chooser not found</h1>
+			<LinkTo to="/" class="button">Home</LinkTo>
+		</template>
+
+		<LinkTo v-if="data.website" :to="data.website" target="_blank">
+			{{ data.website.replace(/^https?:\/\//, '') }}
+			↗
+		</LinkTo>
+
+		<template v-if="data.userId && !data.choices && !data.votes">
+			<h2>No activity</h2>
+			<LinkTo to="/" class="button">Home</LinkTo>
+		</template>
+
+		<template v-if="data.userId">
+			<h2>Choices</h2>
+			<List :filter="['user_id', data.userId]" :edit="isUser">
+				<p>@{{ username }} has no active choices.</p>
+				<LinkTo v-if="isUser" to="/new" class="button"> + New choice </LinkTo>
+			</List>
+		</template>
+
+		<template v-if="data.votes?.length">
+			<h2>Votes</h2>
+			<List :filter="['id', data.votes]">
+				<p>@{{ username }} has no votes to show</p>
+			</List>
+		</template>
+	</div>
+</template>
+
+<style module>
 .icon {
 	width: 0.8em;
 	height: 0.8em;

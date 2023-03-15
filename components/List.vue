@@ -1,3 +1,12 @@
+<script setup lang="ts">
+const props = defineProps<{
+	filter: [string, string | number | number[]];
+	open?: boolean;
+	edit?: boolean;
+}>();
+const choices = await useFilteredChoices(props.filter, props.open);
+</script>
+
 <template>
 	<slot v-if="!choices.length" />
 
@@ -31,12 +40,3 @@
 		</LinkTo>
 	</section>
 </template>
-
-<script setup lang="ts">
-const props = defineProps<{
-	filter: [string, string | number | number[]];
-	open?: boolean;
-	edit?: boolean;
-}>();
-const choices = await useFilteredChoices(props.filter, props.open);
-</script>
