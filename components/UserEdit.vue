@@ -77,7 +77,7 @@ async function updateProfile() {
 				@input="data.username = cleanUsername"
 				required
 			/>
-			<small>Up to 15 lowercase letters</small>
+			<small :class="$style.help">Up to 15 lowercase letters</small>
 		</p>
 
 		<template v-if="props.showWebsite">
@@ -90,13 +90,11 @@ async function updateProfile() {
 					autocomplete="url"
 					:class="$style.website"
 				/>
-				<div>
-					<small v-if="data.website?.length > 8">
-						Test your link:
-						<LinkTo :to="cleanWebsite" target="_blank">{{ cleanWebsite }}</LinkTo>
-					</small>
-					<small v-else>Optional</small>
-				</div>
+				<small v-if="data.website?.length > 8" :class="$style.help">
+					Test your link:
+					<LinkTo :to="cleanWebsite" target="_blank">{{ cleanWebsite }}</LinkTo>
+				</small>
+				<small v-else :class="$style.help">Optional</small>
 			</p>
 		</template>
 
@@ -110,6 +108,10 @@ async function updateProfile() {
 .field {
 	margin-top: 0;
 	margin-bottom: 2rem;
+}
+
+.help {
+	display: block;
 }
 
 .website {

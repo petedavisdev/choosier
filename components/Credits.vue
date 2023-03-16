@@ -7,7 +7,7 @@
 	<p>You do not need credits to create choices, just for bonus features.</p>
 	<p>
 		Earn credits by sharing your choices with new people. You will earn 1 credit
-		for each first-time chooser on your results page.
+		for each first-time chooser on your results pages.
 	</p>
 </template>
 

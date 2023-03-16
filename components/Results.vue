@@ -80,7 +80,7 @@ try {
 	<div v-else-if="!profile.username.value && !closed">
 		<UserEdit>
 			<h1>My choosername</h1>
-			<p>You need a choosername to show on the results page</p>
+			<p>Enter a choosername to show on the results page</p>
 		</UserEdit>
 	</div>
 
