@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { shuffle } from '~/helpers/shuffle';
 import { windowHeightFix } from '~/helpers/windowHeightFix';
 
 const props = defineProps<{
@@ -7,7 +8,7 @@ const props = defineProps<{
 
 const profile = useProfile();
 const choice = await useChoice(props.id);
-const length = choice.images?.length;
+const length = choice.images.length;
 const closed = new Date(choice.closeAt as string) < new Date();
 
 const data = reactive({
@@ -18,7 +19,7 @@ const userVoted = computed(() =>
 	profile.votes.value?.find((vote) => vote.choice_id === props.id)
 );
 
-data.matches = choice.images?.map((_image, index) => [
+data.matches = shuffle(choice.images)?.map((_image, index) => [
 	choice.images[2 * index],
 	choice.images[2 * index + 1],
 ]);
