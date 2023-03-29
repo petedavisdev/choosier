@@ -1,3 +1,8 @@
+<script setup lang="ts">
+defineOgImageScreenshot();
+const profile = useProfile();
+</script>
+
 <template>
 	<main :class="$style.container">
 		<IconLogo :class="$style.logo" />
@@ -31,10 +36,6 @@
 		</p>
 	</footer>
 </template>
-
-<script setup lang="ts">
-const profile = useProfile();
-</script>
 
 <style module>
 .container {
