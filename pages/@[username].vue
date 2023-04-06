@@ -1,8 +1,3 @@
-<script setup lang="ts">
-const route = useRoute();
-const username = route.params.username.toString();
-</script>
-
 <template>
-	<UserProfile :username="username" />
+	<UserProfile :username="$route.params.username.toString()" />
 </template>
