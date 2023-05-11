@@ -1,4 +1,10 @@
 export default defineNuxtConfig({
+	css: [
+		'~/assets/modern-normalize.css',
+		'~/assets/variables.css',
+		'~/assets/base.css',
+		'~/assets/utils.css',
+	],
 	modules: ['@nuxtjs/supabase', 'nuxt-og-image'],
 	plugins: [{ src: '~/plugins/vercel.ts', mode: 'client' }],
 	runtimeConfig: {

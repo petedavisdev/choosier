@@ -1,3 +1,8 @@
+<script setup lang="ts">
+const config = useRuntimeConfig();
+useProfile().get();
+</script>
+
 <template>
 	<Head>
 		<Title>Choosier. Visual decisions made easy</Title>
@@ -24,15 +29,3 @@
 		<NuxtPage />
 	</NuxtLayout>
 </template>
-
-<script setup lang="ts">
-const config = useRuntimeConfig();
-useProfile().get();
-</script>
-
-<style>
-@import './assets/modern-normalize.css';
-@import './assets/variables.css';
-@import './assets/base.css';
-@import './assets/utils.css';
-</style>
