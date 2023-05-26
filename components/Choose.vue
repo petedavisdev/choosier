@@ -81,14 +81,14 @@ onMounted(() => {
 		</form>
 
 		<aside class="backdrop" v-if="closed">
-			<LinkTo :to="PATHS.result + idToString(props.id)" class="button">
+			<LinkTo :to="PATHS.results + idToString(props.id)" class="button">
 				Voting has closed
 				<h2>See the results &rarr;</h2>
 			</LinkTo>
 		</aside>
 
 		<aside class="backdrop" v-else-if="userVoted">
-			<LinkTo :to="PATHS.result + idToString(props.id)" class="button">
+			<LinkTo :to="PATHS.results + idToString(props.id)" class="button">
 				You have made your choice
 				<h2>See the results &rarr;</h2>
 			</LinkTo>
