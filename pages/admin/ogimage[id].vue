@@ -4,7 +4,7 @@ definePageMeta({
 });
 
 const route = useRoute();
-const id = +route.params.id;
+const id = idToNumber(route.params.id);
 const choice = await useChoice(id);
 </script>
 

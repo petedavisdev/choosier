@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { Vote } from '~/types/Vote';
+export type Vote = {
+	user_id: string;
+	image_url: string;
+	profiles: {
+		username: string;
+		first_vote: number;
+	};
+};
 
 const props = defineProps<{
 	id: number;
@@ -88,7 +95,9 @@ try {
 		<h1>
 			<small :class="$style.intro">
 				{{ isVoter ? 'You helped' : 'Help' }}
-				<LinkTo :to="'/@' + choice.username"> @{{ choice.username }} </LinkTo>
+				<LinkTo :to="PATHS.user + choice.username">
+					@{{ choice.username }}
+				</LinkTo>
 				choose
 			</small>
 			{{ choice.title }}

@@ -1,16 +1,25 @@
-export const imageLimits = {
+export const PATHS = {
+	category: '/_',
+	edit: '/edit-',
+	results: '/results-',
+	user: '/@',
+} as const;
+
+export const MIN_IMAGES = 2;
+
+export const IMAGE_LIMITS = {
 	6: 0,
 	10: 2,
 } as const;
 
-export const categories = {
+export const CATEGORIES = {
 	art: 'Art and illustration',
 	'graphic-design': 'Graphic design',
 	photography: 'Photography',
 	style: 'Style',
 } as const;
 
-export const visibility = {
+export const VISIBILITIES = {
 	public: {
 		name: 'Public',
 		description: '',
@@ -28,7 +37,7 @@ export const visibility = {
 	},
 } as const;
 
-export const duration = {
+export const DURATIONS = {
 	1: {
 		name: 'Quick decision',
 		description: 'Voting open for 24 hours',

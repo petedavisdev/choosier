@@ -53,7 +53,7 @@ async function updateProfile() {
 		profile.firstVote.value = updates.first_vote;
 
 		if (route.path === '/account' && cleanUsername.value) {
-			router.push('/@' + cleanUsername.value);
+			router.push(PATHS.user + cleanUsername.value);
 		} else {
 			location.reload();
 		}

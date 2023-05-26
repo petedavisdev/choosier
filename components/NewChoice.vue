@@ -1,16 +1,13 @@
 <script setup lang="ts">
-import { imageLimits, categories, visibility, duration } from '~/constants';
-
 const router = useRouter();
 const supabase = useSupabaseClient();
 const profile = useProfile();
-const minImages = 2;
 
 const data = reactive({
 	loading: false,
 	title: '',
 	images: [] as string[],
-	maxImages: +Object.keys(imageLimits)[0],
+	maxImages: +Object.keys(IMAGE_LIMITS)[0],
 	category: '',
 	visibility: 'public',
 	duration: 1,
@@ -19,9 +16,9 @@ const data = reactive({
 
 const credits = computed(() => {
 	const required =
-		(imageLimits[data.maxImages as keyof typeof imageLimits] || 0) +
-		(visibility[data.visibility as keyof typeof visibility]?.credits || 0) +
-		(duration[data.duration as keyof typeof duration]?.credits || 0);
+		(IMAGE_LIMITS[data.maxImages as keyof typeof IMAGE_LIMITS] || 0) +
+		(VISIBILITIES[data.visibility as keyof typeof VISIBILITIES]?.credits || 0) +
+		(DURATIONS[data.duration as keyof typeof DURATIONS]?.credits || 0);
 
 	const remaining = profile.credits.value - required;
 
@@ -56,8 +53,8 @@ const dates = computed(() => {
 });
 
 const validationMessage = computed(() => {
-	return data.images.length < minImages
-		? `You need at least ${minImages} images!`
+	return data.images.length < MIN_IMAGES
+		? `You need at least ${MIN_IMAGES} images!`
 		: data.images.length > data.maxImages
 		? `You have more than ${data.maxImages} images!`
 		: !data.title
@@ -77,7 +74,7 @@ const validationMessage = computed(() => {
 
 async function submit() {
 	if (
-		data.images.length >= minImages &&
+		data.images.length >= MIN_IMAGES &&
 		data.images.length <= data.maxImages &&
 		credits.value.remaining >= 0
 	) {
@@ -112,7 +109,7 @@ async function submit() {
 
 			profile.credits.value = credits.value.remaining;
 
-			router.push('/@' + profile.username.value);
+			router.push(PATHS.user + profile.username.value);
 		} catch (error: any) {
 			alert(error.message);
 		} finally {
@@ -142,7 +139,7 @@ function closePreview() {
 			<Credits />
 
 			<h2>Images</h2>
-			<p v-for="(credits, max) in imageLimits" :key="max">
+			<p v-for="(credits, max) in IMAGE_LIMITS" :key="max">
 				<label
 					:title="
 						profile.credits.value < credits ? `Requires ${credits} credit` : ''
@@ -194,7 +191,7 @@ function closePreview() {
 
 		<section id="categories">
 			<h2>Category</h2>
-			<p v-for="(category, key) in categories" :key="key">
+			<p v-for="(category, key) in CATEGORIES" :key="key">
 				<label>
 					<input
 						type="radio"
@@ -210,7 +207,7 @@ function closePreview() {
 
 		<section id="visibility">
 			<h2>Visibility</h2>
-			<p v-for="(value, key) in visibility" :key="key">
+			<p v-for="(value, key) in VISIBILITIES" :key="key">
 				<label
 					:title="
 						profile.credits.value < value.credits
@@ -240,7 +237,7 @@ function closePreview() {
 
 		<section id="duration">
 			<h2>Duration</h2>
-			<p v-for="(value, key) in duration" :key="key">
+			<p v-for="(value, key) in DURATIONS" :key="key">
 				<label
 					:title="
 						profile.credits.value < value.credits
@@ -267,7 +264,7 @@ function closePreview() {
 		</section>
 
 		<section id="subscriptions">
-			<h2>My subsctiptions</h2>
+			<h2>My subscriptions</h2>
 			<UserSubscriptions />
 		</section>
 
@@ -305,7 +302,7 @@ function closePreview() {
 					type="submit"
 					class="button"
 					:disabled="
-						data.images.length < minImages ||
+						data.images.length < MIN_IMAGES ||
 						data.images.length > data.maxImages ||
 						credits.required > profile.credits.value ||
 						data.loading

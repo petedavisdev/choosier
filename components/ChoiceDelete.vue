@@ -27,7 +27,7 @@ async function updateChoice(update: Record<string, string>) {
 
 		if (response.error) throw response.error;
 
-		router.push('@' + props.username);
+		router.push(PATHS.user + props.username);
 	} catch (error: any) {
 		alert(error.message);
 	}

@@ -73,7 +73,7 @@ function toggleShare() {
 }
 
 .undo:disabled {
-	color: var(--mid);
+	color: var(--light);
 }
 
 .progress {

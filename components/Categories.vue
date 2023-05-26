@@ -1,11 +1,7 @@
-<script setup lang="ts">
-import { categories } from '~/constants';
-</script>
-
 <template>
 	<nav :class="$style.categories">
-		<template v-for="(category, key) in categories" key="key">
-			<LinkTo :to="'/_' + key" :class="$style.link">{{
+		<template v-for="(category, key) in CATEGORIES" key="key">
+			<LinkTo :to="PATHS.category + key" :class="$style.link">{{
 				key.replace('-', ' ')
 			}}</LinkTo>
 		</template>

@@ -3,11 +3,13 @@ const props = defineProps<{
 	id: number;
 }>();
 
+const runtimeConfig = useRuntimeConfig();
+
 const data = reactive({
 	copied: false,
 });
 
-const shareLink = 'https://choosier.app/' + props.id;
+const shareLink = runtimeConfig.public.baseUrl + '/' + idToString(props.id);
 
 function copy() {
 	try {

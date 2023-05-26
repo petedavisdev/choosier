@@ -44,7 +44,7 @@ const props = defineProps<{
 	min-height: 0;
 	max-height: 100%;
 	line-height: 1;
-	background-color: var(--light);
+	background-color: var(--lighter);
 }
 
 .optionInput:not(:checked):valid + .optionImage {

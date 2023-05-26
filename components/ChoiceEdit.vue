@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { categories } from '~/constants';
 import { type Choice } from '~/composables/useChoice';
 
 const props = defineProps<{
@@ -19,12 +18,13 @@ async function updateChoice() {
 	try {
 		const response = await supabase
 			.from('choices')
+			// @ts-ignore unreachable code
 			.update({ title: data.title, category: data.category })
 			.eq('id', props.id);
 
 		if (response.error) throw response.error;
 
-		router.push('@' + props.choice.username);
+		router.push(PATHS.user + props.choice.username);
 	} catch (error: any) {
 		alert(error.message);
 	}
@@ -50,7 +50,7 @@ async function updateChoice() {
 
 		<section id="categories">
 			<h2>Category</h2>
-			<p v-for="(category, key) in categories" :key="key">
+			<p v-for="(category, key) in CATEGORIES" :key="key">
 				<label>
 					<input
 						type="radio"

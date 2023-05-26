@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"scripts": {
-		"build": "npx playwright install && nuxt build",
+		"build": "nuxt build",
 		"dev": "nuxt dev",
 		"generate": "nuxt generate",
 		"preview": "nuxt preview",
@@ -9,8 +9,8 @@
 	},
 	"devDependencies": {
 		"@nuxtjs/supabase": "^0.3.5",
-		"nuxt": "^3.4.3",
-		"nuxt-og-image": "^1.5.5"
+		"nuxt": "^3.5.1",
+		"nuxt-og-image": "^1.5.9"
 	},
 	"dependencies": {
 		"@vercel/analytics": "^1.0.1"

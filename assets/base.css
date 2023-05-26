@@ -10,7 +10,7 @@ body {
 	margin: 0;
 	font-weight: 300;
 	color: var(--dark);
-	background-color: var(--light);
+	background-color: var(--lighter);
 	line-height: 1.4;
 }
 
@@ -69,7 +69,7 @@ textarea {
 
 input:focus,
 textarea:focus {
-	background-color: var(--lighter);
+	background-color: var(--lightest);
 	outline: none;
 }
 

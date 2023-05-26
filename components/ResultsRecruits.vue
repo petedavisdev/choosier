@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Vote } from '~/types/Vote';
+import { type Vote } from './Results.vue';
 
 const props = defineProps<{
 	id: number;
@@ -49,13 +49,13 @@ if (props.isRecruiter && newRecruits.value.length) {
 		<h2>Welcome to {{ firstTimeVoters.length }} first-time choosers!</h2>
 		<p>
 			<template v-for="{ username } in firstTimeVoters" :key="username">
-				<LinkTo :to="'/@' + username"> @{{ username }}</LinkTo
+				<LinkTo :to="PATHS.user + username"> @{{ username }}</LinkTo
 				>{{ ' ' }}
 			</template>
 		</p>
 		<strong>
 			+{{ firstTimeVoters.length }} credits for
-			<LinkTo :to="'/@' + props.recruiterName">
+			<LinkTo :to="PATHS.user + props.recruiterName">
 				@{{ props.recruiterName }}
 			</LinkTo>
 		</strong>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Vote } from '~/types/Vote';
+import { Vote } from './Results.vue';
 
 const props = defineProps<{
 	images: string[];
@@ -57,7 +57,7 @@ const mostVotes = computed(() => results.value[0].voters.length);
 					:key="voter"
 					:class="$style.voter"
 				>
-					<LinkTo :to="'/@' + voter">
+					<LinkTo :to="PATHS.user + voter">
 						<Component :is="voter === props.username ? 'strong' : 'span'">
 							@{{ voter }}
 						</Component>
@@ -78,7 +78,9 @@ const mostVotes = computed(() => results.value[0].voters.length);
 
 .bar {
 	text-align: left;
-	background-color: var(--mid);
+	background-color: var(--light);
+	border-top-right-radius: var(--radius);
+	border-bottom-right-radius: var(--radius);
 }
 
 .count {

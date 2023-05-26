@@ -1,5 +1,5 @@
 export type Choice = {
-	id?: number;
+	id: number;
 	title: string;
 	images: string[];
 	username: string;

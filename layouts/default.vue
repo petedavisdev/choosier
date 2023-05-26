@@ -10,7 +10,9 @@ const profile = useProfile();
 		<nav :class="$style.nav">
 			<NuxtLink
 				:to="
-					profile.username.value ? '/@' + profile.username.value : '/account'
+					profile.username.value
+						? PATHS.user + profile.username.value
+						: '/account'
 				"
 				class="button"
 			>

@@ -14,7 +14,7 @@ const choices = await useFilteredChoices(props.filter, props.open);
 		<LinkTo
 			v-for="(choice, index) in choices"
 			:key="choice.id"
-			:to="`/${choice.id}`"
+			:to="idToString(choice.id)"
 			class="card"
 		>
 			<div class="cardImages">
@@ -34,9 +34,9 @@ const choices = await useFilteredChoices(props.filter, props.open);
 				<div>{{ choice.title }}</div>
 			</div>
 
-			<LinkTo v-if="props.edit" class="cardEdit" :to="'edit' + choice.id">
-				✎ Edit
-			</LinkTo>
+			<span v-if="props.edit" class="cardEdit">
+				<LinkTo :to="PATHS.edit + idToString(choice.id)"> ✎ Edit </LinkTo>
+			</span>
 		</LinkTo>
 	</section>
 </template>

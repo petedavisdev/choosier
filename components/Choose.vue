@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { shuffle } from '~/helpers/shuffle';
-import { windowHeightFix } from '~/helpers/windowHeightFix';
-
 const props = defineProps<{
 	id: number;
 }>();
@@ -65,7 +62,7 @@ onMounted(() => {
 			<ChooseConfirm
 				v-if="matchIndex === length - 1 && match[0]"
 				:image="match[0]"
-				:id="+props.id"
+				:id="props.id"
 			/>
 
 			<ChooseMatch
@@ -84,14 +81,14 @@ onMounted(() => {
 		</form>
 
 		<aside class="backdrop" v-if="closed">
-			<LinkTo :to="'/result' + props.id" class="button">
+			<LinkTo :to="PATHS.result + idToString(props.id)" class="button">
 				Voting has closed
 				<h2>See the results &rarr;</h2>
 			</LinkTo>
 		</aside>
 
 		<aside class="backdrop" v-else-if="userVoted">
-			<LinkTo :to="'/result' + props.id" class="button">
+			<LinkTo :to="PATHS.result + idToString(props.id)" class="button">
 				You have made your choice
 				<h2>See the results &rarr;</h2>
 			</LinkTo>

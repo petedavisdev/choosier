@@ -1,19 +1,18 @@
 <script setup lang="ts">
-import { categories } from '~/constants';
 const route = useRoute();
-const category = route.params.category as keyof typeof categories;
+const category = route.params.category as keyof typeof CATEGORIES;
 </script>
 
 <template>
 	<div>
 		<Head>
 			<Title
-				>Choosier. {{ categories[category] || 'Visual' }} decisions made
+				>Choosier. {{ CATEGORIES[category] || 'Visual' }} decisions made
 				easy</Title
 			>
 		</Head>
 
-		<h1>{{ categories[category] || 'Visual' }} decisions made easy</h1>
+		<h1>{{ CATEGORIES[category] || 'Visual' }} decisions made easy</h1>
 
 		<Categories />
 

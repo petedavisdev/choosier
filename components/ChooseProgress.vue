@@ -12,7 +12,7 @@
 .indicator {
 	height: 0.5em;
 	border-radius: 0.25em;
-	background-color: var(--mid);
+	background-color: var(--light);
 }
 
 .indicator {

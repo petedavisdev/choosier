@@ -46,7 +46,7 @@ async function vote() {
 
 			profile.votes.value = [...profile.votes.value, { choice_id: props.id }];
 
-			router.push('/result' + props.id);
+			router.push(PATHS.result + idToString(props.id));
 		}
 		return true;
 	} catch (error: any) {
@@ -164,7 +164,7 @@ function retry() {
 	max-width: 100%;
 	max-height: 100%;
 	line-height: 1;
-	background-color: var(--light);
+	background-color: var(--lighter);
 }
 
 .email {

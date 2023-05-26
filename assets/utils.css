@@ -12,7 +12,7 @@
 .button,
 .card {
 	padding: 2em;
-	background-color: var(--light);
+	background-color: var(--lighter);
 	box-shadow: -6px 8px 0 1px var(--dark);
 	border: 2px solid var(--dark);
 	border-radius: var(--radius);
@@ -32,13 +32,13 @@
 
 .button:hover,
 .card:hover {
-	background-color: var(--lighter);
+	background-color: var(--lightest);
 	transform: translateY(-1px);
 	box-shadow: -8px 10px 0 2px var(--dark);
 }
 
 .button:disabled {
-	background-color: var(--mid);
+	background-color: var(--light);
 }
 
 .card {
@@ -48,7 +48,7 @@
 	grid-template-areas: 'one';
 	padding: 0;
 	text-decoration: none;
-	background-color: var(--mid);
+	background-color: var(--light);
 }
 
 .cardImages {
@@ -67,7 +67,7 @@
 .cardTitle,
 .cardEdit {
 	grid-area: one;
-	background-color: var(--light);
+	background-color: var(--lighter);
 	padding: 0.5em 1em;
 	transition: background-color 0.3s;
 }
@@ -86,7 +86,7 @@
 }
 
 .card:hover .cardTitle {
-	background-color: var(--lighter);
+	background-color: var(--lightest);
 }
 
 .close {
@@ -95,7 +95,7 @@
 	right: 0.75em;
 	border: 0;
 	padding: 0.1em 0.5em;
-	background-color: var(--light);
+	background-color: var(--lighter);
 	border-radius: var(--radius);
 	cursor: pointer;
 	transition: transform 0.15s;

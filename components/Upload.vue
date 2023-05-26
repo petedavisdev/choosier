@@ -31,7 +31,7 @@ const data = reactive({
 	loading: false,
 });
 
-const uploadConfig = {
+const UPLOAD_CONFIG = {
 	cloudName: 'choosier',
 	uploadPreset: 'choices',
 	folder: props.folder,
@@ -64,7 +64,7 @@ const uploadConfig = {
 			},
 		},
 	},
-};
+} as const;
 
 function uploadHandler(error: unknown, info: UploadInfo) {
 	data.loading = false;
@@ -85,7 +85,7 @@ function uploadHandler(error: unknown, info: UploadInfo) {
 function showUploadWidget() {
 	data.loading = true;
 	// @ts-ignore
-	cloudinary.openUploadWidget(uploadConfig, uploadHandler);
+	cloudinary.openUploadWidget(UPLOAD_CONFIG, uploadHandler);
 }
 
 function deleteUpload(index: number, delete_token: string | undefined) {
