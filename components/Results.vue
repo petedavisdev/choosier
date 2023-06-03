@@ -136,7 +136,7 @@ try {
 			<h2>Latest choices...</h2>
 			<List :filter="['', '']" open>No more choices available right now</List>
 
-			<LinkTo to="/new" class="button">+ Make your own choice</LinkTo>
+			<LinkTo :to="PATHS.new" class="button">+ Make your own choice</LinkTo>
 		</footer>
 	</template>
 </template>

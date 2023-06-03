@@ -23,7 +23,7 @@ async function signOut() {
 	<form @submit.prevent="signOut">
 		<Credits />
 
-		<LinkTo to="/new" class="button">+ New choice</LinkTo>
+		<LinkTo :to="PATHS.new" class="button">+ New choice</LinkTo>
 
 		<p>
 			Logged in with <strong>{{ profile.email.value }}</strong>

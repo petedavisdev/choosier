@@ -58,7 +58,7 @@ try {
 	<div>
 		<h1 v-if="data.userId">
 			@{{ props.username }}
-			<LinkTo v-if="isUser" to="/account">
+			<LinkTo v-if="isUser" :to="PATHS.account">
 				<IconSettings :class="$style.icon" />
 			</LinkTo>
 		</h1>
@@ -82,7 +82,9 @@ try {
 			<h2>Choices</h2>
 			<List :filter="['user_id', data.userId]" :edit="isUser">
 				<p>@{{ username }} has no active choices.</p>
-				<LinkTo v-if="isUser" to="/new" class="button"> + New choice </LinkTo>
+				<LinkTo v-if="isUser" :to="PATHS.new" class="button">
+					+ New choice
+				</LinkTo>
 			</List>
 		</template>
 

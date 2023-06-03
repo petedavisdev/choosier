@@ -12,7 +12,7 @@ const profile = useProfile();
 				:to="
 					profile.username.value
 						? PATHS.user + profile.username.value
-						: '/account'
+						: PATHS.account
 				"
 				class="button"
 			>
@@ -24,7 +24,7 @@ const profile = useProfile();
 						: 'Login'
 				}}
 			</NuxtLink>
-			<NuxtLink to="/new" class="New button">+ New</NuxtLink>
+			<NuxtLink :to="PATHS.new" class="New button">+ New</NuxtLink>
 		</nav>
 	</main>
 

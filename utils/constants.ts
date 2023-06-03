@@ -1,7 +1,9 @@
 export const PATHS = {
+	account: '/@',
 	category: '/_',
-	edit: '/edit-',
-	results: '/results-',
+	edit: '/!',
+	new: '/!',
+	results: '/$',
 	user: '/@',
 } as const;
 

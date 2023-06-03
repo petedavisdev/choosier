@@ -27,6 +27,6 @@
 			</h3>
 		</article>
 
-		<LinkTo to="/new" class="button">+ Make your own choice</LinkTo>
+		<LinkTo :to="PATHS.new" class="button">+ Make your own choice</LinkTo>
 	</div>
 </template>

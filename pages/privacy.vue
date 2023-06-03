@@ -11,7 +11,7 @@
 		<p>No other personal data is required to user Choosier.</p>
 		<p>
 			Your 'choosername' is public, but it does not need to resemble your real
-			name and you can change it <LinkTo to="/account">here</LinkTo>.
+			name and you can change it <LinkTo :to="PATHS.account">here</LinkTo>.
 		</p>
 	</article>
 

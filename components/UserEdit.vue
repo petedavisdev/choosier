@@ -52,7 +52,7 @@ async function updateProfile() {
 		profile.website.value = updates.website;
 		profile.firstVote.value = updates.first_vote;
 
-		if (route.path === '/account' && cleanUsername.value) {
+		if (route.path === PATHS.account && cleanUsername.value) {
 			router.push(PATHS.user + cleanUsername.value);
 		} else {
 			location.reload();
