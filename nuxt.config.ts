@@ -5,7 +5,7 @@ export default defineNuxtConfig({
 		'~/assets/base.css',
 		'~/assets/utils.css',
 	],
-	modules: ['@nuxtjs/supabase', 'nuxt-og-image'],
+	modules: ['@nuxtjs/supabase'],
 	plugins: [{ src: '~/plugins/vercel.ts', mode: 'client' }],
 	runtimeConfig: {
 		public: {

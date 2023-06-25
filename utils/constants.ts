@@ -1,9 +1,7 @@
 export const PATHS = {
-	account: '/@',
 	category: '/_',
-	edit: '/!',
 	new: '/!',
-	results: '/$',
+	results: '/=',
 	user: '/@',
 } as const;
 
@@ -26,11 +24,6 @@ export const VISIBILITIES = {
 		name: 'Public',
 		description: '',
 		credits: 0,
-	},
-	promoted: {
-		name: 'Promoted',
-		description: 'Choosier homepage',
-		credits: 2,
 	},
 	private: {
 		name: 'Private',

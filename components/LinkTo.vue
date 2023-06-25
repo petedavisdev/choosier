@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const props = defineProps<{
-	to: string;
+	to: string | number;
 	class?: string;
 	target?: string;
 }>();
@@ -15,15 +15,15 @@ onMounted(() => {
 </script>
 
 <template>
-	<NuxtLink v-if="data.inFrame" :to="to" :class="class" target="_parent">
+	<NuxtLink v-if="data.inFrame" :to="`${to}`" :class="class" target="_parent">
 		<slot />
 	</NuxtLink>
 
-	<NuxtLink v-else-if="target" :to="to" :class="class" :target="target">
+	<NuxtLink v-else-if="target" :to="`${to}`" :class="class" :target="target">
 		<slot />
 	</NuxtLink>
 
-	<NuxtLink v-else :to="to" :class="class">
+	<NuxtLink v-else :to="`${to}`" :class="class">
 		<slot />
 	</NuxtLink>
 </template>

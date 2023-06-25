@@ -1,5 +1,4 @@
 <script setup lang="ts">
-defineOgImageScreenshot();
 const profile = useProfile();
 </script>
 
@@ -12,7 +11,7 @@ const profile = useProfile();
 				:to="
 					profile.username.value
 						? PATHS.user + profile.username.value
-						: PATHS.account
+						: PATHS.user
 				"
 				class="button"
 			>

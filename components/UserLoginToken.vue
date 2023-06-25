@@ -34,7 +34,7 @@ async function verify() {
 		}
 
 		if (props.choiceId) {
-			router.push(PATHS.results + idToString(props.choiceId));
+			router.push(PATHS.results + props.choiceId);
 		}
 	} catch (error: any) {
 		alert(error.error_description || error.message);

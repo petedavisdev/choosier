@@ -9,7 +9,7 @@ const data = reactive({
 	copied: false,
 });
 
-const shareLink = runtimeConfig.public.baseUrl + '/' + idToString(props.id);
+const shareLink = runtimeConfig.public.baseUrl + '/' + props.id;
 
 function copy() {
 	try {

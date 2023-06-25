@@ -8,13 +8,6 @@ const choice = await useChoice(props.id);
 const length = choice.images.length;
 const closed = new Date(choice.closeAt as string) < new Date();
 
-defineOgImageStatic({
-	component: 'OgImage',
-	// this will take a browser screenshot
-	provider: 'browser',
-	images: choice.images,
-});
-
 const data = reactive({
 	matches: [] as (string | undefined)[][],
 });
@@ -47,6 +40,7 @@ onMounted(() => {
 			name="description"
 			:content="`Image poll made with Choosier.app — Visual decisions made easy`"
 		/>
+		<Meta property="og:image" :content="choice.ogimage || choice.images?.[0]" />
 	</Head>
 
 	<main v-if="choice.title" :class="$style.container">
@@ -81,14 +75,14 @@ onMounted(() => {
 		</form>
 
 		<aside class="backdrop" v-if="closed">
-			<LinkTo :to="PATHS.results + idToString(props.id)" class="button">
+			<LinkTo :to="PATHS.results + props.id" class="button">
 				Voting has closed
 				<h2>See the results &rarr;</h2>
 			</LinkTo>
 		</aside>
 
 		<aside class="backdrop" v-else-if="userVoted">
-			<LinkTo :to="PATHS.results + idToString(props.id)" class="button">
+			<LinkTo :to="PATHS.results + props.id" class="button">
 				You have made your choice
 				<h2>See the results &rarr;</h2>
 			</LinkTo>

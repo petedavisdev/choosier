@@ -58,7 +58,7 @@ try {
 	<div>
 		<h1 v-if="data.userId">
 			@{{ props.username }}
-			<LinkTo v-if="isUser" :to="PATHS.account">
+			<LinkTo v-if="isUser" :to="PATHS.user">
 				<IconSettings :class="$style.icon" />
 			</LinkTo>
 		</h1>

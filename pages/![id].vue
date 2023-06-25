@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const route = useRoute();
-const id = idToNumber(route.params.id);
+const id = route.params.id;
 const choice = await useChoice(id);
 const profile = useProfile();
 

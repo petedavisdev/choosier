@@ -46,7 +46,7 @@ async function vote() {
 
 			profile.votes.value = [...profile.votes.value, { choice_id: props.id }];
 
-			router.push(PATHS.results + idToString(props.id));
+			router.push(PATHS.results + props.id);
 		}
 		return true;
 	} catch (error: any) {
