@@ -12,6 +12,11 @@ const profile = useProfile();
 				</UserEdit>
 			</section>
 
+			<!-- TODO:
+			<section class="box" :class="$style.section">
+				<UserAvatar />
+			</section>
+ -->
 			<section class="box" :class="$style.section">
 				<h2>My subscriptions</h2>
 				<UserSubscriptions />

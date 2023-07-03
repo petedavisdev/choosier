@@ -4,6 +4,7 @@ export function useProfile() {
 	const userId = useState<string>('userId');
 	const email = useState<string>('email');
 	const username = useState<string>('username');
+	const avatar = useState<string>('avatar');
 	const credits = useState<number>('credits');
 	const creditsUsed = useState<number>('creditsUsed');
 	const website = useState<string>('website');
@@ -30,6 +31,7 @@ export function useProfile() {
 						`user_id,
 						email,
 						username,
+						avatar,
 						credits,
 						credits_used,
 						website,
@@ -56,6 +58,7 @@ export function useProfile() {
 				userId.value = response.data.user_id;
 				email.value = response.data.email;
 				username.value = response.data.username || '';
+				avatar.value = response.data.avatar || '';
 				credits.value = creditBalance;
 				creditsUsed.value = response.data.credits_used || 0;
 				website.value = response.data.website || '';
@@ -68,7 +71,12 @@ export function useProfile() {
 				console.log(error.message);
 			}
 		} else {
-			userId.value = email.value = username.value = website.value = '';
+			userId.value =
+				email.value =
+				username.value =
+				avatar.value =
+				website.value =
+					'';
 			credits.value = creditsUsed.value = firstVote.value = 0;
 			recruits.value = subscriptions.value = votes.value = choices.value = [];
 		}
@@ -78,9 +86,10 @@ export function useProfile() {
 		userId,
 		email,
 		username,
+		avatar,
+		website,
 		credits,
 		creditsUsed,
-		website,
 		recruits,
 		subscriptions,
 		firstVote,

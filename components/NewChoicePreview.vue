@@ -1,4 +1,6 @@
 <script setup lang="ts">
+// import { toJpeg } from 'html-to-image';
+
 const props = defineProps<{
 	images: string[];
 	title: string;
@@ -6,6 +8,25 @@ const props = defineProps<{
 	validationMessage: string;
 	close: () => void;
 }>();
+
+// const data = reactive({
+// 	cardImage: '',
+// });
+
+const cardImagesElement = ref(null);
+
+// const IMAGE_OPTIONS = {
+// 	quality: 0.8,
+// 	pixelRatio: 5 / 3,
+// };
+
+// function save() {
+// 	if (data.cardImage) return;
+
+// 	toJpeg(cardImagesElement.value!, IMAGE_OPTIONS).then((dataUrl) => {
+// 		data.cardImage = dataUrl;
+// 	});
+// }
 </script>
 
 <template>
@@ -18,9 +39,12 @@ const props = defineProps<{
 
 			<template v-else>
 				<h2>Listing preview</h2>
-
+				<!-- TODO:
+				<button @click="save" type="button">Save</button>
+				<img :src="data.cardImage" alt="" />
+ -->
 				<div class="card" :class="$style.card">
-					<div class="cardImages">
+					<div ref="cardImagesElement" class="cardImages">
 						<img
 							class="cardImage"
 							v-for="image in props.images"
