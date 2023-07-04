@@ -46,7 +46,7 @@ const mostVotes = computed(() => results.value[0].voters.length);
 			}"
 		>
 			<strong :class="$style.count">{{ result.voters.length }}</strong>
-			<span
+			<span v-if="props.votes.length"
 				>({{
 					Math.round((100 * result.voters.length) / props.votes.length)
 				}}%)</span

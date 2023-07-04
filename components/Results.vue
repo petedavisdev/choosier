@@ -20,8 +20,6 @@ const data = reactive({
 const supabase = useSupabaseClient();
 const choice = await useChoice(props.id);
 const profile = useProfile();
-const closed = new Date(choice.closeAt as string) < new Date();
-const removed = new Date(choice.removeAt as string) < new Date();
 const removeText = new Date(choice.removeAt as string).toLocaleString(
 	undefined,
 	{
@@ -70,7 +68,7 @@ try {
 		/>
 	</Head>
 
-	<template v-if="!profile.userId.value && !closed">
+	<template v-if="!profile.userId.value && !choice.isClosed">
 		<h1>Results</h1>
 		<p>You need to vote or login to see the results so far...</p>
 		<h2>Vote</h2>
@@ -79,19 +77,19 @@ try {
 		<UserLogin />
 	</template>
 
-	<template v-else-if="!isVoter && !closed && !isCreator">
+	<template v-else-if="!isVoter && !choice.isClosed && !isCreator">
 		<h1>Choose first, then see the results</h1>
 		<List :filter="['id', props.id]" />
 	</template>
 
-	<div v-else-if="!profile.username.value && !closed">
+	<div v-else-if="!profile.username.value && !choice.isClosed">
 		<UserEdit>
 			<h1>My choosername</h1>
 			<p>Enter a choosername to show on the results page</p>
 		</UserEdit>
 	</div>
 
-	<template v-else-if="!removed">
+	<template v-else-if="!choice.isRemoved">
 		<h1>
 			<small :class="$style.intro">
 				{{ isVoter ? 'You helped' : 'Help' }}
@@ -103,7 +101,7 @@ try {
 			{{ choice.title }}
 		</h1>
 
-		<template v-if="closed">
+		<template v-if="choice.isClosed">
 			<h2>Final results</h2>
 			<p>Voting has closed. Results available until {{ removeText }}</p>
 		</template>
@@ -124,11 +122,9 @@ try {
 				:isRecruiter="isCreator"
 			/>
 
-			<aside class="box">
-				<template v-if="!closed">
-					<h2>Share to get more votes</h2>
-					<Share :id="props.id" />
-				</template>
+			<aside class="box" v-if="!choice.isClosed">
+				<h2>Share to get more votes</h2>
+				<Share :id="props.id" />
 			</aside>
 		</div>
 

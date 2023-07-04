@@ -2,16 +2,17 @@
 const props = defineProps<{
 	id: number;
 	username: string;
+	isClosed: boolean;
 }>();
 
-const date = new Date().toISOString();
+const now = new Date().toISOString();
 
 async function closeChoice() {
-	updateChoice({ close_at: date });
+	updateChoice({ close_at: now });
 }
 
 async function deleteChoice() {
-	updateChoice({ remove_at: date });
+	updateChoice({ close_at: now, remove_at: now });
 }
 
 async function updateChoice(update: Record<string, string>) {
@@ -35,7 +36,7 @@ async function updateChoice(update: Record<string, string>) {
 </script>
 
 <template>
-	<form @submit.prevent="closeChoice">
+	<form v-if="!props.isClosed" @submit.prevent="closeChoice">
 		<section>
 			<h3>Close voting for this choice</h3>
 			<p>You will still have access to the results.</p>
@@ -44,6 +45,8 @@ async function updateChoice(update: Record<string, string>) {
 			</p>
 		</section>
 	</form>
+
+	<h3 v-else>Voting has closed</h3>
 
 	<form @submit.prevent="deleteChoice">
 		<section>

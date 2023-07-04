@@ -1,3 +1,3 @@
 <template>
-	<Results :id="$route.params.id" />
+	<Results :id="+$route.params.id" />
 </template>

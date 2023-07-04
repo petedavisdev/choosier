@@ -5,5 +5,5 @@ definePageMeta({
 </script>
 
 <template>
-	<Choose :id="$route.params.id" />
+	<Choose :id="+$route.params.id" />
 </template>

@@ -7,6 +7,8 @@ export type Choice = {
 	closeAt?: string;
 	removeAt?: string;
 	ogimage?: string;
+	isClosed: boolean;
+	isRemoved: boolean;
 };
 
 export async function useChoice(id: number) {
@@ -44,6 +46,8 @@ export async function useChoice(id: number) {
 		data.choice.closeAt = choiceResponse.data.close_at;
 		data.choice.removeAt = choiceResponse.data.remove_at;
 		data.choice.ogimage = choiceResponse.data.ogimage;
+		data.choice.isClosed = isPast(choiceResponse.data.close_at);
+		data.choice.isRemoved = isPast(choiceResponse.data.remove_at);
 	} catch (error: any) {
 		console.error(error.message);
 	} finally {
@@ -51,4 +55,12 @@ export async function useChoice(id: number) {
 	}
 
 	return { ...data.choice, loading: data.loading };
+}
+
+function isPast(dateISO?: string) {
+	if (!dateISO) return false;
+
+	const date = new Date(dateISO);
+
+	return date < new Date();
 }

@@ -1,7 +1,10 @@
 <script setup lang="ts">
 const route = useRoute();
-const id = route.params.id;
+const id = +route.params.id;
 const choice = await useChoice(id);
+
+const now = new Date().toISOString();
+const isRemoved = choice.removeAt && choice.removeAt < now;
 const profile = useProfile();
 
 const data = reactive({
@@ -10,7 +13,7 @@ const data = reactive({
 </script>
 
 <template>
-	<template v-if="choice.username === profile.username.value">
+	<template v-if="choice.username === profile.username.value && !isRemoved">
 		<List :filter="['id', id]">Choice not found</List>
 
 		<div class="box" :class="$style.section">
@@ -20,10 +23,14 @@ const data = reactive({
 
 		<div class="box" :class="$style.section">
 			<h2>Danger zone!</h2>
-			<ChoiceDelete :id="id" :username="choice.username" />
+			<ChoiceDelete
+				:id="id"
+				:username="choice.username"
+				:is-closed="choice.isClosed"
+			/>
 		</div>
 	</template>
-	<p v-else>This is not your choice to edit.</p>
+	<p v-else>Not available</p>
 </template>
 
 <style module>

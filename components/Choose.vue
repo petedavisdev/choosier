@@ -6,7 +6,6 @@ const props = defineProps<{
 const profile = useProfile();
 const choice = await useChoice(props.id);
 const length = choice.images.length;
-const closed = new Date(choice.closeAt as string) < new Date();
 
 const data = reactive({
 	matches: [] as (string | undefined)[][],
@@ -16,7 +15,7 @@ const userVoted = computed(() =>
 	profile.votes.value?.find((vote) => vote.choice_id === props.id)
 );
 
-data.matches = shuffle(choice.images)?.map((_image, index) => [
+data.matches = choice.images?.map((_image, index) => [
 	choice.images[2 * index],
 	choice.images[2 * index + 1],
 ]);
@@ -43,7 +42,7 @@ onMounted(() => {
 		<Meta property="og:image" :content="choice.ogimage || choice.images?.[0]" />
 	</Head>
 
-	<main v-if="choice.title" :class="$style.container">
+	<main v-if="choice.title && !choice.isRemoved" :class="$style.container">
 		<form
 			v-for="(match, matchIndex) in data.matches"
 			@submit.prevent
@@ -74,7 +73,7 @@ onMounted(() => {
 			/>
 		</form>
 
-		<aside class="backdrop" v-if="closed">
+		<aside class="backdrop" v-if="choice.isClosed">
 			<LinkTo :to="PATHS.results + props.id" class="button">
 				Voting has closed
 				<h2>See the results &rarr;</h2>
