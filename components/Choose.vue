@@ -41,7 +41,7 @@ onMounted(() => {
 		/>
 		<Meta
 			property="og:image"
-			:content="useCover(choice.id) || choice.images?.[0]"
+			:content="useCover(props.id) || choice.images?.[0]"
 		/>
 	</Head>
 
