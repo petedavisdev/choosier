@@ -16,7 +16,7 @@ const props = defineProps<{
 const cardImagesElement = ref(null);
 
 // const IMAGE_OPTIONS = {
-// 	quality: 0.8,
+// 	quality: 0.7,
 // 	pixelRatio: 5 / 3,
 // };
 

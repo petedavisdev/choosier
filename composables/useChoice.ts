@@ -6,7 +6,6 @@ export type Choice = {
 	category?: string;
 	closeAt?: string;
 	removeAt?: string;
-	ogimage?: string;
 	isClosed: boolean;
 	isRemoved: boolean;
 };
@@ -29,8 +28,7 @@ export async function useChoice(id: number) {
 				image_urls,
 				category,
 				close_at,
-				remove_at,
-				ogimage
+				remove_at
 				`
 			)
 			.eq('id', id)
@@ -45,7 +43,6 @@ export async function useChoice(id: number) {
 		data.choice.category = choiceResponse.data.category;
 		data.choice.closeAt = choiceResponse.data.close_at;
 		data.choice.removeAt = choiceResponse.data.remove_at;
-		data.choice.ogimage = choiceResponse.data.ogimage;
 		data.choice.isClosed = isPast(choiceResponse.data.close_at);
 		data.choice.isRemoved = isPast(choiceResponse.data.remove_at);
 	} catch (error: any) {

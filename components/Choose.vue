@@ -39,7 +39,10 @@ onMounted(() => {
 			name="description"
 			:content="`Image poll made with Choosier.app — Visual decisions made easy`"
 		/>
-		<Meta property="og:image" :content="choice.ogimage || choice.images?.[0]" />
+		<Meta
+			property="og:image"
+			:content="useCover(choice.id) || choice.images?.[0]"
+		/>
 	</Head>
 
 	<main v-if="choice.title && !choice.isRemoved" :class="$style.container">

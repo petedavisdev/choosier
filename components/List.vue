@@ -20,8 +20,7 @@ const choices = await useFilteredChoices(props.filter, props.open);
 			<div class="cardImages">
 				<img
 					class="cardImage"
-					v-for="image in choice.images"
-					:src="image.replace('h_800', 'h_240')"
+					:src="useCover(choice.id)"
 					alt=""
 					:loading="index > 2 ? 'lazy' : null"
 					height="240"
