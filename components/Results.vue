@@ -66,6 +66,10 @@ try {
 			name="description"
 			:content="`Results for @${choice.username} choosing ${choice.title}`"
 		/>
+		<Meta
+			property="og:image"
+			:content="useCover(props.id) || choice.images?.[0]"
+		/>
 	</Head>
 
 	<template v-if="!profile.userId.value && !choice.isClosed">
