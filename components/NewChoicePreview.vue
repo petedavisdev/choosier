@@ -1,32 +1,10 @@
 <script setup lang="ts">
-// import { toJpeg } from 'html-to-image';
-
 const props = defineProps<{
-	images: string[];
 	title: string;
 	username: string;
 	validationMessage: string;
 	close: () => void;
 }>();
-
-// const data = reactive({
-// 	cardImage: '',
-// });
-
-const cardImagesElement = ref(null);
-
-// const IMAGE_OPTIONS = {
-// 	quality: 0.7,
-// 	pixelRatio: 5 / 3,
-// };
-
-// function save() {
-// 	if (data.cardImage) return;
-
-// 	toJpeg(cardImagesElement.value!, IMAGE_OPTIONS).then((dataUrl) => {
-// 		data.cardImage = dataUrl;
-// 	});
-// }
 </script>
 
 <template>
@@ -44,17 +22,7 @@ const cardImagesElement = ref(null);
 				<img :src="data.cardImage" alt="" />
  -->
 				<div class="card" :class="$style.card">
-					<div ref="cardImagesElement" class="cardImages">
-						<img
-							class="cardImage"
-							v-for="image in props.images"
-							:src="image.replace('h_800', 'h_320')"
-							alt=""
-							loading="lazy"
-							height="320"
-							width="320"
-						/>
-					</div>
+					<slot name="card-images" />
 
 					<div class="cardTitle">
 						<small>Help @{{ props.username }} choose</small>

@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { toJpeg } from 'html-to-image';
+import { decode } from 'base64-arraybuffer';
+
 const router = useRouter();
 const supabase = useSupabaseClient();
 const profile = useProfile();
@@ -13,6 +16,8 @@ const data = reactive({
 	duration: 1,
 	showPreview: false,
 });
+
+const cardImagesElement = ref(null);
 
 const credits = computed(() => {
 	const required =
@@ -81,19 +86,22 @@ async function submit() {
 		try {
 			data.loading = true;
 
-			const choicesResponse = await supabase.from('choices').insert([
-				// @ts-ignore: Unreachable code error
-				{
-					title: data.title,
-					image_urls: data.images,
-					user_id: profile.userId.value,
-					visibility: data.visibility,
-					category: data.category,
-					close_at: dates.value.close,
-					remove_at: dates.value.remove,
-					credits_used: credits.value.required,
-				},
-			]);
+			const choicesResponse = await supabase
+				.from('choices')
+				.insert([
+					// @ts-ignore: Unreachable code error
+					{
+						title: data.title,
+						image_urls: data.images,
+						user_id: profile.userId.value,
+						visibility: data.visibility,
+						category: data.category,
+						close_at: dates.value.close,
+						remove_at: dates.value.remove,
+						credits_used: credits.value.required,
+					},
+				])
+				.select();
 
 			if (choicesResponse.error) throw choicesResponse.error;
 
@@ -109,12 +117,49 @@ async function submit() {
 
 			profile.credits.value = credits.value.remaining;
 
+			// @ts-ignore: Unreachable code error
+			const newChoiceId = choicesResponse.data[0]?.id;
+
+			createCover(newChoiceId);
+
 			router.push(PATHS.user + profile.username.value);
 		} catch (error: any) {
 			alert(error.message);
 		} finally {
 			data.loading = false;
 		}
+	}
+}
+
+async function createCover(id: number) {
+	if (!cardImagesElement.value) return;
+
+	const IMAGE_OPTIONS = {
+		quality: 0.7,
+		pixelRatio: 5 / 3,
+	};
+
+	try {
+		const coverUrl = await toJpeg(cardImagesElement.value, IMAGE_OPTIONS);
+		uploadCover(coverUrl, id);
+	} catch (error) {
+		alert('Error creating cover image!');
+	}
+}
+
+async function uploadCover(coverUrl: string, id: number) {
+	try {
+		const coverBase64 = coverUrl.replace('data:image/jpeg;base64,', '');
+		const coverFile = decode(coverBase64);
+		const fileName = id + '.jpeg';
+
+		let { error: uploadError } = await supabase.storage
+			.from('covers')
+			.upload(fileName, coverFile, { contentType: 'image/jpeg' });
+
+		if (uploadError) throw uploadError;
+	} catch (error: any) {
+		alert(error.message);
 	}
 }
 
@@ -275,12 +320,25 @@ function closePreview() {
 
 			<NewChoicePreview
 				v-if="data.showPreview"
-				:images="data.images"
 				:title="data.title"
 				:username="profile.username.value"
 				:validationMessage="validationMessage"
 				:close="closePreview"
 			>
+				<template #card-images>
+					<div ref="cardImagesElement" class="cardImages">
+						<img
+							class="cardImage"
+							v-for="image in data.images"
+							:src="image.replace('h_800', 'h_320')"
+							alt=""
+							loading="lazy"
+							height="320"
+							width="320"
+						/>
+					</div>
+				</template>
+
 				<p>
 					Voting will close
 					{{ dates.closeText }}.
