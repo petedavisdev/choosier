@@ -1,26 +1,29 @@
+type Profile = {
+	userId: string;
+	email: string;
+	username: string;
+	avatar: string;
+	website: string;
+	credits: number;
+	creditsUsed: number;
+	recruits: string[];
+	subscriptions?: string[];
+	firstVote: number;
+	choices: { id: number }[];
+	votes: { choice_id: number }[];
+};
+
 export function useProfile() {
 	const user = useSupabaseUser();
-
-	const userId = useState<string>('userId');
-	const email = useState<string>('email');
-	const username = useState<string>('username');
-	const avatar = useState<string>('avatar');
-	const credits = useState<number>('credits');
-	const creditsUsed = useState<number>('creditsUsed');
-	const website = useState<string>('website');
-	const recruits = useState<string[]>('recruits');
-	const subscriptions = useState<string[]>('subscriptions');
-	const firstVote = useState<number>('firstVote');
-	const votes = useState<{ choice_id: number }[]>('votes');
-	const choices = useState<{ id: number }[]>('choices');
+	const profile = useState<Profile | null>('profile', () => null);
 
 	watch(user, (newUser, oldUser) => {
 		if (newUser?.id !== oldUser?.id) {
-			get();
+			getProfile();
 		}
 	});
 
-	async function get() {
+	async function getProfile() {
 		if (user.value?.id) {
 			const supabase = useSupabaseClient();
 
@@ -32,7 +35,7 @@ export function useProfile() {
 						email,
 						username,
 						avatar,
-						credits,
+						credits_added,
 						credits_used,
 						website,
 						recruits,
@@ -53,48 +56,34 @@ export function useProfile() {
 					: 0;
 
 				const creditBalance =
-					response.data.credits + earnedCredits - response.data.credits_used;
+					response.data.credits_added +
+					earnedCredits -
+					response.data.credits_used;
 
-				userId.value = response.data.user_id;
-				email.value = response.data.email;
-				username.value = response.data.username || '';
-				avatar.value = response.data.avatar || '';
-				credits.value = creditBalance;
-				creditsUsed.value = response.data.credits_used || 0;
-				website.value = response.data.website || '';
-				recruits.value = response.data.recruits || [];
-				subscriptions.value = response.data.subscriptions || [];
-				firstVote.value = response.data.first_vote || 0;
-				votes.value = response.data.votes as { choice_id: number }[];
-				choices.value = response.data.choices as { id: number }[];
+				profile.value = {
+					userId: response.data.user_id,
+					email: response.data.email,
+					username: response.data.username || '',
+					avatar: response.data.avatar || '',
+					credits: creditBalance,
+					creditsUsed: response.data.credits_used || 0,
+					website: response.data.website || '',
+					recruits: response.data.recruits || [],
+					subscriptions: response.data.subscriptions || [],
+					firstVote: response.data.first_vote || 0,
+					votes: response.data.votes as { choice_id: number }[],
+					choices: response.data.choices as { id: number }[],
+				};
 			} catch (error: any) {
 				console.log(error.message);
 			}
 		} else {
-			userId.value =
-				email.value =
-				username.value =
-				avatar.value =
-				website.value =
-					'';
-			credits.value = creditsUsed.value = firstVote.value = 0;
-			recruits.value = subscriptions.value = votes.value = choices.value = [];
+			profile.value = null;
 		}
 	}
 
 	return {
-		userId,
-		email,
-		username,
-		avatar,
-		website,
-		credits,
-		creditsUsed,
-		recruits,
-		subscriptions,
-		firstVote,
-		choices,
-		votes,
-		get,
+		profile,
+		getProfile,
 	};
 }

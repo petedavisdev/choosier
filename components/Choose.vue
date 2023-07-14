@@ -3,7 +3,7 @@ const props = defineProps<{
 	id: number;
 }>();
 
-const profile = useProfile();
+const { profile } = useProfile();
 const choice = await useChoice(props.id);
 const length = choice.images.length;
 
@@ -12,7 +12,7 @@ const data = reactive({
 });
 
 const userVoted = computed(() =>
-	profile.votes.value?.find((vote) => vote.choice_id === props.id)
+	profile.value?.votes.find((vote) => vote.choice_id === props.id)
 );
 
 data.matches = choice.images?.map((_image, index) => [

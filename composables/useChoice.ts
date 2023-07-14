@@ -6,8 +6,8 @@ export type Choice = {
 	category?: string;
 	closeAt?: string;
 	removeAt?: string;
-	isClosed: boolean;
-	isRemoved: boolean;
+	isClosed?: boolean;
+	isRemoved?: boolean;
 };
 
 export async function useChoice(id: number) {

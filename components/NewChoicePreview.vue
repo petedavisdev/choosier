@@ -17,10 +17,7 @@ const props = defineProps<{
 
 			<template v-else>
 				<h2>Listing preview</h2>
-				<!-- TODO:
-				<button @click="save" type="button">Save</button>
-				<img :src="data.cardImage" alt="" />
- -->
+
 				<div class="card" :class="$style.card">
 					<slot name="card-images" />
 

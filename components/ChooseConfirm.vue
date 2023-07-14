@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const router = useRouter();
-const profile = useProfile();
+const { profile } = useProfile();
 const supabase = useSupabaseClient();
 
 const props = defineProps<{
@@ -20,7 +20,7 @@ async function vote() {
 		data.loading = true;
 
 		const updates = {
-			user_id: data.userId || profile.userId.value,
+			user_id: data.userId || profile.value?.userId,
 			choice_id: props.id,
 			image_url: props.image,
 			updated_at: new Date(),
@@ -33,18 +33,18 @@ async function vote() {
 
 		if (response.error) throw response.error;
 
-		if (profile.userId.value) {
-			if (!profile.firstVote.value) {
+		if (profile.value) {
+			if (!profile.value?.firstVote) {
 				const profileResponse = await supabase
 					.from('profiles')
 					// @ts-ignore: Unreachable code error
 					.update({ first_vote: props.id })
-					.eq('user_id', profile.userId.value);
+					.eq('user_id', profile.value?.userId);
 
 				if (profileResponse.error) throw profileResponse.error;
 			}
 
-			profile.votes.value = [...profile.votes.value, { choice_id: props.id }];
+			profile.value.votes = [...profile.value?.votes, { choice_id: props.id }];
 
 			router.push(PATHS.results + props.id);
 		}
@@ -106,7 +106,7 @@ function retry() {
 		<img :src="props.image" alt="" :class="$style.chosenImage" />
 	</section>
 
-	<section v-if="profile.userId.value" :class="$style.confirm">
+	<section v-if="profile" :class="$style.confirm">
 		<button @click="vote()" type="button" class="button">
 			✓ Confirm my choice
 		</button>

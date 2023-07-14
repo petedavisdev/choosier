@@ -2,7 +2,7 @@
 const props = defineProps<{
 	id: number;
 	username: string;
-	isClosed: boolean;
+	isClosed?: boolean;
 }>();
 
 const now = new Date().toISOString();

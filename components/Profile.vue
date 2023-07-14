@@ -7,7 +7,7 @@ const props = defineProps<{
 }>();
 
 const supabase = useSupabaseClient();
-const profile = useProfile();
+const { profile } = useProfile();
 
 const data = reactive({
 	userId: '',
@@ -16,7 +16,7 @@ const data = reactive({
 	votes: [] as number[] | null,
 });
 
-const isUser = computed(() => profile.username.value === props.username);
+const isUser = computed(() => profile.value?.username === props.username);
 
 try {
 	const response = await supabase

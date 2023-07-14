@@ -9,7 +9,7 @@ const props = defineProps<{
 }>();
 
 const supabase = useSupabaseClient();
-const profile = useProfile();
+const { profile } = useProfile();
 
 const firstTimeVoters = computed(() => {
 	return props.votes
@@ -23,21 +23,21 @@ const firstTimeVoters = computed(() => {
 
 const newRecruits = computed(() => {
 	const recruitIds = firstTimeVoters.value.map((voter) => voter.userId);
-	return recruitIds.filter((id) => !profile.recruits.value.includes(id));
+	return recruitIds.filter((id) => !profile.value?.recruits.includes(id));
 });
 
-if (props.isRecruiter && newRecruits.value.length) {
-	const recruits = [...profile.recruits.value, ...newRecruits.value];
+if (profile.value && props.isRecruiter && newRecruits.value.length) {
+	const recruits = [...profile.value?.recruits, ...newRecruits.value];
 
 	try {
 		await supabase
 			.from('profiles')
 			// @ts-ignore
 			.update({ recruits })
-			.eq('user_id', profile.userId.value);
+			.eq('user_id', profile.value?.userId);
 
-		profile.credits.value += newRecruits.value.length;
-		profile.recruits.value = recruits;
+		profile.value.credits += newRecruits.value.length;
+		profile.value.recruits = recruits;
 	} catch (error) {
 		alert(error);
 	}

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const config = useRuntimeConfig();
-useProfile().get();
+useProfile().getProfile();
 </script>
 
 <template>

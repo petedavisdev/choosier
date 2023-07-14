@@ -3,9 +3,7 @@ const route = useRoute();
 const id = +route.params.id;
 const choice = await useChoice(id);
 
-const now = new Date().toISOString();
-const isRemoved = choice.removeAt && choice.removeAt < now;
-const profile = useProfile();
+const { profile } = useProfile();
 
 const data = reactive({
 	title: choice.title,
@@ -13,7 +11,7 @@ const data = reactive({
 </script>
 
 <template>
-	<template v-if="choice.username === profile.username.value && !isRemoved">
+	<template v-if="choice.username === profile?.username && !choice.isRemoved">
 		<List :filter="['id', id]">Choice not found</List>
 
 		<div class="box" :class="$style.section">

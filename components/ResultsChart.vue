@@ -4,8 +4,9 @@ import { Vote } from './Results.vue';
 const props = defineProps<{
 	images: string[];
 	votes: Vote[];
-	username: string;
 }>();
+
+const { profile } = useProfile();
 
 const results = computed(() => {
 	return props.images
@@ -17,7 +18,11 @@ const results = computed(() => {
 					.map((vote) => vote.profiles.username)
 					.filter((vote) => vote)
 					.sort(function (a, b) {
-						return a === props.username ? -1 : b === props.username ? 1 : 0;
+						return a === profile.value?.username
+							? -1
+							: b === profile.value?.username
+							? 1
+							: 0;
 					}),
 			};
 		})
@@ -58,7 +63,7 @@ const mostVotes = computed(() => results.value[0].voters.length);
 					:class="$style.voter"
 				>
 					<LinkTo :to="PATHS.user + voter">
-						<Component :is="voter === props.username ? 'strong' : 'span'">
+						<Component :is="voter === profile?.username ? 'strong' : 'span'">
 							@{{ voter }}
 						</Component>
 					</LinkTo>

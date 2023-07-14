@@ -19,7 +19,7 @@ const data = reactive({
 
 const supabase = useSupabaseClient();
 const choice = await useChoice(props.id);
-const profile = useProfile();
+const { profile } = useProfile();
 const removeText = new Date(choice.removeAt as string).toLocaleString(
 	undefined,
 	{
@@ -32,10 +32,10 @@ const removeText = new Date(choice.removeAt as string).toLocaleString(
 );
 
 const isVoter = computed(() =>
-	profile.votes.value?.find((vote) => vote.choice_id === props.id)
+	profile.value?.votes?.find((vote) => vote.choice_id === props.id)
 );
 
-const isCreator = computed(() => choice.username === profile.username.value);
+const isCreator = computed(() => choice.username === profile.value?.username);
 
 try {
 	const response = await supabase
@@ -72,7 +72,7 @@ try {
 		/>
 	</Head>
 
-	<template v-if="!profile.userId.value && !choice.isClosed">
+	<template v-if="!profile && !choice.isClosed">
 		<h1>Results</h1>
 		<p>You need to vote or login to see the results so far...</p>
 		<h2>Vote</h2>
@@ -86,7 +86,7 @@ try {
 		<List :filter="['id', props.id]" />
 	</template>
 
-	<div v-else-if="!profile.username.value && !choice.isClosed">
+	<div v-else-if="!profile?.username && !choice.isClosed">
 		<UserEdit>
 			<h1>My choosername</h1>
 			<p>Enter a choosername to show on the results page</p>
@@ -112,11 +112,7 @@ try {
 
 		<h2 v-else>Results so far...</h2>
 
-		<ResultsChart
-			:images="choice.images"
-			:username="profile.username.value"
-			:votes="data.votes"
-		/>
+		<ResultsChart :images="choice.images" :votes="data.votes" />
 
 		<div class="grid" :class="$style.meta">
 			<ResultsRecruits

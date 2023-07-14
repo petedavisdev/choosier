@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { auth } = useSupabaseAuthClient();
-const profile = useProfile();
+const { profile } = useProfile();
 
 const data = reactive({
 	loading: false,
@@ -26,7 +26,7 @@ async function signOut() {
 		<LinkTo :to="PATHS.new" class="button">+ New choice</LinkTo>
 
 		<p>
-			Logged in with <strong>{{ profile.email.value }}</strong>
+			Logged in with <strong>{{ profile?.email }}</strong>
 		</p>
 
 		<p>

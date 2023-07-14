@@ -1,3 +1,3 @@
 <template>
-	<UserProfile :username="`${$route.params.username}`" />
+	<Profile :username="`${$route.params.username}`" />
 </template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const supabase = useSupabaseClient();
-const profile = useProfile();
+const { profile } = useProfile();
 
 const data = reactive({
 	uploading: false,
@@ -22,7 +22,7 @@ async function uploadAvatar(fileInput: HTMLInputElement) {
 
 		const file = data.files[0];
 		file.name.split('.').pop();
-		const fileName = profile.userId.value + '/avatar.JPG';
+		const fileName = profile.value?.userId + '/avatar.JPG';
 
 		let { error: uploadError } = await supabase.storage
 			.from('avatars')
@@ -40,7 +40,7 @@ async function uploadAvatar(fileInput: HTMLInputElement) {
 function getAvatar() {
 	const avatar = supabase.storage
 		.from('avatars')
-		.getPublicUrl(profile.userId.value + '/avatar.JPG', {
+		.getPublicUrl(profile.value?.userId + '/avatar.JPG', {
 			transform: {
 				width: 120,
 				height: 120,

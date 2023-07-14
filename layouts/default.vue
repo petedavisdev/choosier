@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const profile = useProfile();
+const { profile } = useProfile();
 </script>
 
 <template>
@@ -8,17 +8,13 @@ const profile = useProfile();
 		<slot />
 		<nav :class="$style.nav">
 			<NuxtLink
-				:to="
-					profile.username.value
-						? PATHS.user + profile.username.value
-						: PATHS.user
-				"
+				:to="profile?.username ? PATHS.user + profile?.username : PATHS.user"
 				class="button"
 			>
 				{{
-					profile.username.value
-						? '@' + profile.username.value
-						: profile.userId.value
+					profile?.username
+						? '@' + profile?.username
+						: profile?.userId
 						? 'Account'
 						: 'Login'
 				}}

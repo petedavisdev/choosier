@@ -1,9 +1,9 @@
 <script setup lang="ts">
-const profile = useProfile();
+const { profile } = useProfile();
 </script>
 
 <template>
-	<template v-if="profile.userId.value">
+	<template v-if="profile">
 		<h1>Meet the choosers</h1>
 		<ProfileList />
 	</template>

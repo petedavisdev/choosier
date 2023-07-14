@@ -1,10 +1,10 @@
 <script setup lang="ts">
-const profile = useProfile();
+const { profile } = useProfile();
 </script>
 
 <template>
 	<div>
-		<template v-if="profile.userId.value" class="box">
+		<template v-if="profile" class="box">
 			<section class="box" :class="$style.section">
 				<h2>My profile</h2>
 				<UserEdit show-website>

@@ -4,7 +4,7 @@ const props = defineProps<{
 	title: string;
 }>();
 
-const profile = useProfile();
+const { profile } = useProfile();
 const data = reactive({
 	show: true,
 });
@@ -19,7 +19,7 @@ const data = reactive({
 				<div>{{ props.title }}</div>
 			</h1>
 
-			<template v-if="!profile.userId.value">
+			<template v-if="!profile">
 				<p>You will see 2 images at a time.</p>
 				<p>Keep choosing until you have a winner!</p>
 			</template>

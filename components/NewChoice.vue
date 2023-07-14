@@ -4,7 +4,7 @@ import { decode } from 'base64-arraybuffer';
 
 const router = useRouter();
 const supabase = useSupabaseClient();
-const profile = useProfile();
+const { profile } = useProfile();
 
 const data = reactive({
 	loading: false,
@@ -21,11 +21,11 @@ const cardImagesElement = ref(null);
 
 const credits = computed(() => {
 	const required =
-		(IMAGE_LIMITS[data.maxImages as keyof typeof IMAGE_LIMITS] || 0) +
-		(VISIBILITIES[data.visibility as keyof typeof VISIBILITIES]?.credits || 0) +
-		(DURATIONS[data.duration as keyof typeof DURATIONS]?.credits || 0);
+		(IMAGE_LIMITS[data.maxImages as keyof typeof IMAGE_LIMITS] ?? 0) +
+		(VISIBILITIES[data.visibility as keyof typeof VISIBILITIES]?.credits ?? 0) +
+		(DURATIONS[data.duration as keyof typeof DURATIONS]?.credits ?? 0);
 
-	const remaining = profile.credits.value - required;
+	const remaining = profile.value ? profile.value?.credits - required : 0;
 
 	return { required, remaining };
 });
@@ -70,15 +70,16 @@ const validationMessage = computed(() => {
 		? 'Choose visibility!'
 		: !data.duration
 		? 'Choose a duration!'
-		: credits.value.required > profile.credits.value
+		: profile.value && credits.value.required > profile.value.credits
 		? `You have chosen to use ${credits.value.required} credit${
 				credits.value.required === 1 ? '' : 's'
-		  }, but you have ${profile.credits.value}.`
+		  }, but you have ${profile.value?.credits}.`
 		: '';
 });
 
 async function submit() {
 	if (
+		profile.value &&
 		data.images.length >= MIN_IMAGES &&
 		data.images.length <= data.maxImages &&
 		credits.value.remaining >= 0
@@ -93,7 +94,7 @@ async function submit() {
 					{
 						title: data.title,
 						image_urls: data.images,
-						user_id: profile.userId.value,
+						user_id: profile.value?.userId,
 						visibility: data.visibility,
 						category: data.category,
 						close_at: dates.value.close,
@@ -109,20 +110,20 @@ async function submit() {
 				.from('profiles')
 				.update(
 					// @ts-ignore: Unreachable code error
-					{ credits_used: profile.creditsUsed.value + credits.value.required }
+					{ credits_used: profile.value?.creditsUsed + credits.value.required }
 				)
-				.eq('user_id', profile.userId.value);
+				.eq('user_id', profile.value?.userId);
 
 			if (profilesResponse.error) throw profilesResponse.error;
 
-			profile.credits.value = credits.value.remaining;
+			profile.value.credits = credits.value.remaining;
 
 			// @ts-ignore: Unreachable code error
 			const newChoiceId = choicesResponse.data[0]?.id;
 
 			createCover(newChoiceId);
 
-			router.push(PATHS.user + profile.username.value);
+			router.push(PATHS.user + profile.value?.username);
 		} catch (error: any) {
 			alert(error.message);
 		} finally {
@@ -169,11 +170,11 @@ function closePreview() {
 </script>
 
 <template>
-	<UserLogin v-if="!profile.userId.value">
+	<UserLogin v-if="!profile">
 		<h2>Login/register</h2>
 	</UserLogin>
 
-	<UserEdit v-else-if="!profile.username.value">
+	<UserEdit v-else-if="!profile.username">
 		<h2>
 			<label for="username">My choosername</label>
 		</h2>
@@ -186,23 +187,19 @@ function closePreview() {
 			<h2>Images</h2>
 			<p v-for="(credits, max) in IMAGE_LIMITS" :key="max">
 				<label
-					:title="
-						profile.credits.value < credits ? `Requires ${credits} credit` : ''
-					"
+					:title="profile.credits < credits ? `Requires ${credits} credit` : ''"
 				>
 					<input
 						type="radio"
 						v-model="data.maxImages"
 						:value="max"
-						:disabled="profile.credits.value < credits"
+						:disabled="profile.credits < credits"
 						required
 						@change="data.maxImages = max"
 					/>
 					up to {{ max }} images
 					<small>
-						<strong>
-							{{ credits ? `(${credits} credits)` : '(free)' }}
-						</strong>
+						<strong v-if="credits"> (+{{ credits }} credits) </strong>
 					</small>
 				</label>
 			</p>
@@ -214,7 +211,7 @@ function closePreview() {
 
 			<Upload
 				@uploaded="(urls) => (data.images = urls)"
-				:folder="profile.username.value"
+				:folder="profile?.username ?? '@'"
 				:max="data.maxImages"
 			/>
 		</section>
@@ -255,7 +252,7 @@ function closePreview() {
 			<p v-for="(value, key) in VISIBILITIES" :key="key">
 				<label
 					:title="
-						profile.credits.value < value.credits
+						profile.credits < value.credits
 							? `Requires ${value.credits} credit`
 							: ''
 					"
@@ -264,15 +261,13 @@ function closePreview() {
 						type="radio"
 						v-model="data.visibility"
 						:value="key"
-						:disabled="
-							key === 'private' || profile.credits.value < value.credits
-						"
+						:disabled="key === 'private' || profile.credits < value.credits"
 						required
 					/>
 					{{ value.name }}
 					<small>
-						<strong>
-							{{ value.credits ? `(${value.credits} credits)` : '(free)' }}
+						<strong v-if="value.credits">
+							(+{{ value.credits }} credits)
 						</strong>
 						{{ value.description }}
 					</small>
@@ -285,7 +280,7 @@ function closePreview() {
 			<p v-for="(value, key) in DURATIONS" :key="key">
 				<label
 					:title="
-						profile.credits.value < value.credits
+						profile.credits < value.credits
 							? `Requires ${value.credits} credit`
 							: ''
 					"
@@ -294,13 +289,13 @@ function closePreview() {
 						type="radio"
 						v-model="data.duration"
 						:value="key"
-						:disabled="profile.credits.value < value.credits"
+						:disabled="profile.credits < value.credits"
 						required
 					/>
 					{{ value.name }}
 					<small>
-						<strong>
-							{{ value.credits ? `(${value.credits} credits)` : '(free)' }}
+						<strong v-if="value.credits">
+							(+{{ value.credits }} credits)
 						</strong>
 						{{ value.description }}
 					</small>
@@ -321,7 +316,7 @@ function closePreview() {
 			<NewChoicePreview
 				v-if="data.showPreview"
 				:title="data.title"
-				:username="profile.username.value"
+				:username="profile.username"
 				:validationMessage="validationMessage"
 				:close="closePreview"
 			>
@@ -362,7 +357,7 @@ function closePreview() {
 					:disabled="
 						data.images.length < MIN_IMAGES ||
 						data.images.length > data.maxImages ||
-						credits.required > profile.credits.value ||
+						credits.required > profile.credits ||
 						data.loading
 					"
 				>

@@ -4,14 +4,14 @@ const props = defineProps<{
 }>();
 
 const supabase = useSupabaseClient();
-const profile = useProfile();
+const { profile } = useProfile();
 const router = useRouter();
 const route = useRoute();
 
 const data = reactive({
 	loading: false,
-	username: profile.username.value,
-	website: profile.website.value,
+	username: profile.value?.username,
+	website: profile.value?.website,
 });
 
 const cleanUsername = computed(() =>
@@ -29,38 +29,40 @@ const cleanWebsite = computed(() => {
 });
 
 async function updateProfile() {
-	try {
-		data.loading = true;
+	if (profile.value && cleanUsername.value) {
+		try {
+			data.loading = true;
 
-		const updates = {
-			user_id: profile.userId.value,
-			username: cleanUsername.value,
-			updated_at: new Date(),
-			website: cleanWebsite.value,
-			first_vote:
-				profile.firstVote.value || profile.votes.value[0]?.choice_id || 0,
-		};
+			const updates = {
+				user_id: profile.value?.userId,
+				username: cleanUsername.value,
+				updated_at: new Date(),
+				website: cleanWebsite.value,
+				first_vote:
+					profile.value?.firstVote || profile.value?.votes[0]?.choice_id || 0,
+			};
 
-		// @ts-ignore: Unreachable code error
-		const response = await supabase.from('profiles').upsert(updates, {
-			returning: 'minimal',
-		});
+			// @ts-ignore: Unreachable code error
+			const response = await supabase.from('profiles').upsert(updates, {
+				returning: 'minimal',
+			});
 
-		if (response.error) throw response.error;
+			if (response.error) throw response.error;
 
-		profile.username.value = updates.username;
-		profile.website.value = updates.website;
-		profile.firstVote.value = updates.first_vote;
+			profile.value.username = updates.username;
+			profile.value.website = updates.website;
+			profile.value.firstVote = updates.first_vote;
 
-		if (route.path === PATHS.user && cleanUsername.value) {
-			router.push(PATHS.user + cleanUsername.value);
-		} else {
-			location.reload();
+			if (route.path === PATHS.user && cleanUsername.value) {
+				router.push(PATHS.user + cleanUsername.value);
+			} else {
+				location.reload();
+			}
+		} catch (error: any) {
+			alert(error.message);
+		} finally {
+			data.loading = false;
 		}
-	} catch (error: any) {
-		alert(error.message);
-	} finally {
-		data.loading = false;
 	}
 }
 </script>
@@ -90,7 +92,10 @@ async function updateProfile() {
 					autocomplete="url"
 					:class="$style.website"
 				/>
-				<small v-if="data.website?.length > 8" :class="$style.help">
+				<small
+					v-if="data.website && data.website.length > 8"
+					:class="$style.help"
+				>
 					Test your link:
 					<LinkTo :to="cleanWebsite" target="_blank">{{ cleanWebsite }}</LinkTo>
 				</small>

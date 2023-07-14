@@ -1,9 +1,9 @@
 <script setup lang="ts">
-const profile = useProfile();
+const { profile } = useProfile();
 const supabase = useSupabaseClient();
 
 const data = reactive({
-	subscriptions: profile.subscriptions.value,
+	subscriptions: profile.value?.subscriptions,
 	loading: false,
 });
 
@@ -13,27 +13,29 @@ watch(
 );
 
 async function updateProfile() {
-	try {
-		data.loading = true;
+	if (profile.value) {
+		try {
+			data.loading = true;
 
-		const updates = {
-			user_id: profile.userId.value,
-			subscriptions: data.subscriptions,
-			updated_at: new Date(),
-		};
+			const updates = {
+				user_id: profile.value?.userId,
+				subscriptions: data.subscriptions,
+				updated_at: new Date(),
+			};
 
-		// @ts-ignore: Unreachable code error
-		const response = await supabase.from('profiles').upsert(updates, {
-			returning: 'minimal',
-		});
+			// @ts-ignore: Unreachable code error
+			const response = await supabase.from('profiles').upsert(updates, {
+				returning: 'minimal',
+			});
 
-		if (response.error) throw response.error;
+			if (response.error) throw response.error;
 
-		profile.subscriptions.value = updates.subscriptions;
-	} catch (error: any) {
-		alert(error.message);
-	} finally {
-		data.loading = false;
+			profile.value.subscriptions = updates.subscriptions;
+		} catch (error: any) {
+			alert(error.message);
+		} finally {
+			data.loading = false;
+		}
 	}
 }
 </script>
