@@ -52,26 +52,20 @@ try {
 
 <template>
 	<Head>
-		<Title>Choosier. @{{ username }}</Title>
+		<Title>Choosier. {{ username }}</Title>
 	</Head>
 
-	<div>
-		<h1 v-if="data.userId">
-			@{{ props.username }}
-			<LinkTo v-if="isUser" :to="PATHS.user">
-				<IconSettings :class="$style.icon" />
-			</LinkTo>
-		</h1>
+	<div v-if="props.username">
+		<ProfileHeader
+			v-if="data.userId"
+			:username="props.username"
+			:website="data.website"
+		/>
 
 		<template v-else>
 			<h1>Chooser not found</h1>
 			<LinkTo to="/" class="button">Home</LinkTo>
 		</template>
-
-		<LinkTo v-if="data.website" :to="data.website" target="_blank">
-			{{ data.website.replace(/^https?:\/\//, '') }}
-			↗
-		</LinkTo>
 
 		<template v-if="data.userId && !data.choices && !data.votes">
 			<h2>No activity</h2>
@@ -81,7 +75,7 @@ try {
 		<template v-if="data.userId">
 			<h2>Choices</h2>
 			<List :filter="['user_id', data.userId]" :edit="isUser">
-				<p>@{{ username }} has no active choices.</p>
+				<p>{{ username }} has no active choices.</p>
 				<LinkTo v-if="isUser" :to="PATHS.new" class="button">
 					+ New choice
 				</LinkTo>
@@ -91,16 +85,8 @@ try {
 		<template v-if="data.votes?.length">
 			<h2>Votes</h2>
 			<List :filter="['id', data.votes]">
-				<p>@{{ username }} has no votes to show</p>
+				<p>{{ username }} has no votes to show</p>
 			</List>
 		</template>
 	</div>
 </template>
-
-<style module>
-.icon {
-	width: 0.8em;
-	height: 0.8em;
-	text-decoration: none;
-}
-</style>

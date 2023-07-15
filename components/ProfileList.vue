@@ -15,7 +15,7 @@ const profiles = profilesResponse.data as { username: string }[] | null;
 	<ul>
 		<li v-for="(profile, index) in profiles" :key="index">
 			<LinkTo :to="PATHS.user + profile.username">
-				@{{ profile.username }}
+				{{ profile.username }}
 			</LinkTo>
 		</li>
 	</ul>

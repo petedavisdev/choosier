@@ -13,7 +13,7 @@ const { profile } = useProfile();
 			>
 				{{
 					profile?.username
-						? '@' + profile?.username
+						? profile?.username
 						: profile?.userId
 						? 'Account'
 						: 'Login'

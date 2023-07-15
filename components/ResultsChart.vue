@@ -62,10 +62,8 @@ const mostVotes = computed(() => results.value[0].voters.length);
 					:key="voter"
 					:class="$style.voter"
 				>
-					<LinkTo :to="PATHS.user + voter">
-						<Component :is="voter === profile?.username ? 'strong' : 'span'">
-							@{{ voter }}
-						</Component>
+					<LinkTo :to="PATHS.user + voter" :class="$style.avatar">
+						<Avatar :username="voter" />
 					</LinkTo>
 					{{ ' ' }}
 				</small>
@@ -90,16 +88,28 @@ const mostVotes = computed(() => results.value[0].voters.length);
 
 .count {
 	font-size: 2em;
-	padding: 0.1em;
+	padding: 0.25em;
 }
 
 .voters {
 	padding: 0.2em 0.5em;
-	white-space: nowrap;
 }
 
 .voter {
 	display: inline;
+}
+
+.avatar {
+	font-size: 2em;
+	height: 1em;
+	width: 1em;
+	display: inline-block;
+	border-radius: 50%;
+	overflow: hidden;
+	text-decoration: none;
+	border: 2px solid var(--dark);
+	box-sizing: content-box;
+	margin: 0 0.125em 0.125em 0;
 }
 
 .image {

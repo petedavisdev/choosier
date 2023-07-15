@@ -34,7 +34,7 @@ onMounted(() => {
 
 <template>
 	<Head>
-		<Title>Help @{{ choice.username }} choose: {{ choice.title }}</Title>
+		<Title>Help {{ choice.username }} choose: {{ choice.title }}</Title>
 		<Meta
 			name="description"
 			:content="`Image poll made with Choosier.app — Visual decisions made easy`"

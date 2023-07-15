@@ -22,7 +22,7 @@ const props = defineProps<{
 					<slot name="card-images" />
 
 					<div class="cardTitle">
-						<small>Help @{{ props.username }} choose</small>
+						<small>Help {{ props.username }} choose</small>
 						<div>{{ props.title || 'No title' }}</div>
 					</div>
 				</div>

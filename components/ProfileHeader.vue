@@ -1,47 +1,49 @@
 <script setup lang="ts">
 const props = defineProps<{
-	isUser: boolean;
 	username: string;
-	website: string;
-	avatar: string;
+	website?: string;
+	avatar?: string;
 }>();
+
+const { profile } = useProfile();
+const isUser = props.username === profile.value?.username;
 </script>
 
 <template>
 	<header :class="$style.header">
-		<h1 :class="$style.username">@{{ props.username }}</h1>
+		<div :class="$style.avatar">
+			<Avatar :username="props.username" :avatar="props.avatar" />
+		</div>
 
-		<LinkTo v-if="props.website" :to="props.website" target="_blank">
+		<h1 :class="$style.username">
+			{{ props.username }}
+
+			<LinkTo v-if="isUser" :to="PATHS.user">
+				<IconSettings :class="$style.icon" />
+			</LinkTo>
+		</h1>
+
+		<LinkTo
+			v-if="props.website"
+			:to="props.website"
+			:class="$style.website"
+			target="_blank"
+		>
 			{{ props.website.replace(/^https?:\/\//, '') }}
 			↗
 		</LinkTo>
-
-		<img
-			v-if="props.avatar"
-			:src="props.avatar"
-			:class="$style.avatar"
-			height="110"
-			width="110"
-		/>
-
-		<div v-else-if="isUser" :class="avatar"></div>
 	</header>
 </template>
 
 <style module>
 .header {
-	display: grid;
-	grid-template:
-		'avatar _' 1fr
-		'avatar username' 2fr
-		'avatar website' 1fr / auto 1fr;
-	gap: 0.5em 0;
 	margin-block: 2em;
 }
 
-.name {
-	grid-area: name;
+.username {
+	grid-area: username;
 	margin: 0;
+	align-self: end;
 }
 
 .website {
@@ -50,10 +52,28 @@ const props = defineProps<{
 
 .avatar {
 	grid-area: avatar;
-	height: 110px;
-	width: 110px;
-	border-radius: 50%;
+	font-size: 8em;
+	height: 1em;
+	width: 1em;
 	background-color: var(--light);
-	margin-right: 1em;
+	margin-right: 1rem;
+	border-radius: 50%;
+	overflow: hidden;
+}
+
+.icon {
+	width: 0.8em;
+	height: 0.8em;
+	text-decoration: none;
+}
+
+@media (min-width: 600px) {
+	.header {
+		display: grid;
+		gap: 0.5em 0;
+		grid-template:
+			'avatar username' 2fr
+			'avatar website' 1fr / auto 1fr;
+	}
 }
 </style>

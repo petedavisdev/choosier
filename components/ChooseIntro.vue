@@ -15,7 +15,7 @@ const data = reactive({
 		<article class="box" :class="$style.center">
 			<IconLogo />
 			<h1>
-				<small :class="$style.intro">Help @{{ props.username }} choose</small>
+				<small :class="$style.intro">Help {{ props.username }} choose</small>
 				<div>{{ props.title }}</div>
 			</h1>
 

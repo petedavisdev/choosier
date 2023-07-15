@@ -29,7 +29,7 @@ const choices = await useFilteredChoices(props.filter, props.open);
 			</div>
 
 			<div class="cardTitle">
-				<small>Help @{{ choice.username }} choose</small>
+				<small>Help {{ choice.username }} choose</small>
 				<div>{{ choice.title }}</div>
 			</div>
 

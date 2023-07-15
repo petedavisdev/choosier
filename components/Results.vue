@@ -61,10 +61,10 @@ try {
 
 <template>
 	<Head>
-		<Title>Results: @{{ choice.username }} {{ choice.title }}</Title>
+		<Title>Results: {{ choice.username }} {{ choice.title }}</Title>
 		<Meta
 			name="description"
-			:content="`Results for @${choice.username} choosing ${choice.title}`"
+			:content="`Results for ${choice.username} choosing ${choice.title}`"
 		/>
 		<Meta
 			property="og:image"
@@ -98,7 +98,7 @@ try {
 			<small :class="$style.intro">
 				{{ isVoter ? 'You helped' : 'Help' }}
 				<LinkTo :to="PATHS.user + choice.username">
-					@{{ choice.username }}
+					{{ choice.username }}
 				</LinkTo>
 				choose
 			</small>
