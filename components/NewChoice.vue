@@ -21,6 +21,7 @@ const cardImagesElement = ref(null);
 
 const credits = computed(() => {
 	const required =
+		1 +
 		(IMAGE_LIMITS[data.maxImages as keyof typeof IMAGE_LIMITS] ?? 0) +
 		(VISIBILITIES[data.visibility as keyof typeof VISIBILITIES]?.credits ?? 0) +
 		(DURATIONS[data.duration as keyof typeof DURATIONS]?.credits ?? 0);
