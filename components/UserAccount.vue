@@ -21,10 +21,6 @@ async function signOut() {
 
 <template>
 	<form @submit.prevent="signOut">
-		<Credits />
-
-		<LinkTo :to="PATHS.new" class="button">+ New choice</LinkTo>
-
 		<p>
 			Logged in with <strong>{{ profile?.email }}</strong>
 		</p>

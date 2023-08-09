@@ -17,13 +17,21 @@ const { profile } = useProfile();
 				<UserAvatar />
 			</section>
  -->
+
+			<section class="box" :class="$style.section">
+				<h2>My credits</h2>
+
+				<Credits />
+
+				<LinkTo :to="PATHS.new" class="button">+ New choice</LinkTo>
+			</section>
+
 			<section class="box" :class="$style.section">
 				<h2>My subscriptions</h2>
 				<UserSubscriptions />
 			</section>
 
 			<section class="box" :class="$style.section">
-				<h2>My account</h2>
 				<UserAccount />
 			</section>
 		</template>
