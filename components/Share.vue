@@ -30,4 +30,16 @@ function copy() {
 	<button @click="copy" type="button" class="button" :disabled="data.copied">
 		{{ data.copied ? 'Copied ✓' : 'Copy link' }}
 	</button>
+
+	<div>
+		<p>Embed code</p>
+		<code>
+			<iframe
+				:src="shareLink"
+				frameborder="0"
+				style="height: calc(90dvh - 2rem); width: 100%"
+			>
+			</iframe
+		></code>
+	</div>
 </template>
