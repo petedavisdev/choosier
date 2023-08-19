@@ -31,7 +31,7 @@ function copy() {
 		{{ data.copied ? 'Copied ✓' : 'Copy link' }}
 	</button>
 
-	<div>
+	<!-- <div>
 		<p>Embed code</p>
 		<code>
 			<iframe
@@ -41,5 +41,5 @@ function copy() {
 			>
 			</iframe
 		></code>
-	</div>
+	</div> -->
 </template>
