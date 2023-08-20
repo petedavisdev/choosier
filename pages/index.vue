@@ -5,8 +5,6 @@
 			Visual decisions made easy
 		</h1>
 
-		<ProductHunt />
-
 		<Categories />
 
 		<List :filter="['visibility', 'promoted']" open />
