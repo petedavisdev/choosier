@@ -15,6 +15,9 @@ export default defineNuxtConfig({
 			siteUrl: process.env.SITE_URL || 'https://choosier.app',
 		},
 	},
+	supabase: {
+		redirect: false,
+	},
 	typescript: {
 		shim: false,
 	},

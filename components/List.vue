@@ -23,8 +23,8 @@ const choices = await useFilteredChoices(props.filter, props.open);
 					:src="useCover(choice.id)"
 					alt=""
 					:loading="index > 2 ? 'lazy' : null"
-					height="240"
-					width="240"
+					height="210"
+					width="400"
 				/>
 			</div>
 

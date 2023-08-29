@@ -3,13 +3,11 @@ const props = defineProps<{
 	id: number;
 }>();
 
-const runtimeConfig = useRuntimeConfig();
-
 const data = reactive({
 	copied: false,
 });
 
-const shareLink = runtimeConfig.public.baseUrl + '/' + props.id;
+const shareLink = useRuntimeConfig().public.baseUrl + '/' + props.id;
 
 function copy() {
 	try {

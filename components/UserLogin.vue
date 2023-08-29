@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { auth } = useSupabaseAuthClient();
+const supabase = useSupabaseClient();
 
 const data = reactive({
 	loading: false,
@@ -11,7 +11,7 @@ const data = reactive({
 async function request() {
 	try {
 		data.loading = true;
-		const response = await auth.signInWithOtp({ email: data.email });
+		const response = await supabase.auth.signInWithOtp({ email: data.email });
 
 		if (response.error) throw response.error;
 

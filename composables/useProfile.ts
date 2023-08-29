@@ -2,7 +2,6 @@ type Profile = {
 	userId: string;
 	email: string;
 	username: string;
-	avatar: string;
 	website: string;
 	credits: number;
 	creditsUsed: number;
@@ -24,6 +23,8 @@ export function useProfile() {
 	});
 
 	async function getProfile() {
+		profile.value = null;
+
 		if (user.value?.id) {
 			const supabase = useSupabaseClient();
 
@@ -34,10 +35,9 @@ export function useProfile() {
 						`user_id,
 						email,
 						username,
-						avatar,
+						website,
 						credits_added,
 						credits_used,
-						website,
 						recruits,
 						subscriptions,
 						first_vote,
@@ -64,11 +64,10 @@ export function useProfile() {
 					userId: response.data.user_id,
 					email: response.data.email,
 					username: response.data.username || '',
-					avatar: response.data.avatar || '',
 					credits: creditBalance,
 					creditsUsed: response.data.credits_used || 0,
-					website: response.data.website || '',
 					recruits: response.data.recruits || [],
+					website: response.data.website || '',
 					subscriptions: response.data.subscriptions || [],
 					firstVote: response.data.first_vote || 0,
 					votes: response.data.votes as { choice_id: number }[],
@@ -77,8 +76,6 @@ export function useProfile() {
 			} catch (error: any) {
 				console.log(error.message);
 			}
-		} else {
-			profile.value = null;
 		}
 	}
 

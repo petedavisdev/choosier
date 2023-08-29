@@ -2,7 +2,6 @@
 import { toJpeg } from 'html-to-image';
 import { decode } from 'base64-arraybuffer';
 
-const router = useRouter();
 const supabase = useSupabaseClient();
 const { profile } = useProfile();
 
@@ -91,7 +90,6 @@ async function submit() {
 			const choicesResponse = await supabase
 				.from('choices')
 				.insert([
-					// @ts-ignore: Unreachable code error
 					{
 						title: data.title,
 						image_urls: data.images,
@@ -124,7 +122,7 @@ async function submit() {
 
 			createCover(newChoiceId);
 
-			router.push(PATHS.user + profile.value?.username);
+			navigateTo(PATHS.user + profile.value?.username);
 		} catch (error: any) {
 			alert(error.message);
 		} finally {

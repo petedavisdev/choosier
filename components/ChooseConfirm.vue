@@ -1,5 +1,4 @@
 <script setup lang="ts">
-const router = useRouter();
 const { profile } = useProfile();
 const supabase = useSupabaseClient();
 
@@ -46,7 +45,7 @@ async function vote() {
 
 			profile.value.votes = [...profile.value?.votes, { choice_id: props.id }];
 
-			router.push(PATHS.results + props.id);
+			navigateTo(PATHS.results + props.id);
 		}
 		return true;
 	} catch (error: any) {

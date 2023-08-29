@@ -5,7 +5,6 @@ const props = defineProps<{
 
 const supabase = useSupabaseClient();
 const { profile } = useProfile();
-const router = useRouter();
 const route = useRoute();
 
 const data = reactive({
@@ -54,7 +53,7 @@ async function updateProfile() {
 			profile.value.firstVote = updates.first_vote;
 
 			if (route.path === PATHS.user && cleanUsername.value) {
-				router.push(PATHS.user + cleanUsername.value);
+				navigateTo(PATHS.user + cleanUsername.value);
 			} else {
 				location.reload();
 			}

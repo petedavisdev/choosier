@@ -1,7 +1,6 @@
 <script setup lang="ts">
 const props = defineProps<{
 	username: string;
-	avatar?: string;
 }>();
 
 const firstLetter = props.username[0];
@@ -10,19 +9,7 @@ const hue = Math.floor(((parseInt(lastLetter, 36) - 10) * 360) / 26);
 </script>
 
 <template>
-	<img
-		v-if="props?.avatar"
-		:class="$style.avatar"
-		:src="props.avatar"
-		:alt="props.username"
-		:title="props.username"
-		height="110"
-		width="110"
-		loading="lazy"
-	/>
-
 	<div
-		v-else
 		:class="$style.avatar"
 		:style="{
 			backgroundColor: `hsl(${hue}deg, 60%, 70%)`,

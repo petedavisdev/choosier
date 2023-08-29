@@ -13,7 +13,6 @@ const data = reactive({
 
 async function updateChoice() {
 	const supabase = useSupabaseClient();
-	const router = useRouter();
 
 	try {
 		const response = await supabase
@@ -24,7 +23,7 @@ async function updateChoice() {
 
 		if (response.error) throw response.error;
 
-		router.push(PATHS.user + props.choice.username);
+		navigateTo(PATHS.user + props.choice.username);
 	} catch (error: any) {
 		alert(error.message);
 	}

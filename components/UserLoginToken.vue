@@ -1,6 +1,5 @@
 <script setup lang="ts">
-const { auth } = useSupabaseAuthClient();
-const router = useRouter();
+const supabase = useSupabaseClient();
 
 const props = defineProps<{
 	email: string;
@@ -17,14 +16,14 @@ async function verify() {
 	try {
 		data.loading = true;
 
-		const loginResponse = await auth.verifyOtp({
+		const loginResponse = await supabase.auth.verifyOtp({
 			email: props.email,
 			token: data.token,
 			type: 'magiclink',
 		});
 
 		if (loginResponse.error) {
-			const signupResponse = await auth.verifyOtp({
+			const signupResponse = await supabase.auth.verifyOtp({
 				email: props.email,
 				token: data.token,
 				type: 'signup',
@@ -34,7 +33,7 @@ async function verify() {
 		}
 
 		if (props.choiceId) {
-			router.push(PATHS.results + props.choiceId);
+			navigateTo(PATHS.results + props.choiceId);
 		}
 	} catch (error: any) {
 		alert(error.error_description || error.message);

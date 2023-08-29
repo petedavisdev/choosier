@@ -104,9 +104,7 @@ function updateUploaded() {
 </script>
 
 <template>
-	<Head>
-		<Script src="https://widget.cloudinary.com/v2.0/global/all.js"></Script>
-	</Head>
+	<Script src="https://widget.cloudinary.com/v2.0/global/all.js"></Script>
 
 	<div :class="$style.thumbnails" v-if="data.uploads.length">
 		<div v-for="({ url, delete_token }, index) in data.uploads" :key="index">

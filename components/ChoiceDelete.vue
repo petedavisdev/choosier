@@ -17,7 +17,6 @@ async function deleteChoice() {
 
 async function updateChoice(update: Record<string, string>) {
 	const supabase = useSupabaseClient();
-	const router = useRouter();
 
 	try {
 		const response = await supabase
@@ -28,7 +27,7 @@ async function updateChoice(update: Record<string, string>) {
 
 		if (response.error) throw response.error;
 
-		router.push(PATHS.user + props.username);
+		navigateTo(PATHS.user + props.username);
 	} catch (error: any) {
 		alert(error.message);
 	}

@@ -2,7 +2,6 @@
 const props = defineProps<{
 	username: string;
 	website?: string;
-	avatar?: string;
 }>();
 
 const { profile } = useProfile();
@@ -12,7 +11,7 @@ const isUser = props.username === profile.value?.username;
 <template>
 	<header :class="$style.header">
 		<div :class="$style.avatar">
-			<Avatar :username="props.username" :avatar="props.avatar" />
+			<Avatar :username="props.username" />
 		</div>
 
 		<h1 :class="$style.username">

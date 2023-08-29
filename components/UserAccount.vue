@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { auth } = useSupabaseAuthClient();
+const supabase = useSupabaseClient();
 const { profile } = useProfile();
 
 const data = reactive({
@@ -9,7 +9,7 @@ const data = reactive({
 async function signOut() {
 	try {
 		data.loading = true;
-		const response = await auth.signOut();
+		const response = await supabase.auth.signOut();
 		if (response.error) throw response.error;
 	} catch (error: any) {
 		alert(error.message);
