@@ -107,7 +107,6 @@ const mostVotes = computed(() => results.value[0].voters.length);
 	border-radius: 50%;
 	overflow: hidden;
 	text-decoration: none;
-	border: 2px solid var(--dark);
 	box-sizing: content-box;
 	margin: 0 0.125em 0.125em 0;
 }
