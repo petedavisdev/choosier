@@ -7,8 +7,8 @@ const category = route.params.category as keyof typeof CATEGORIES;
 	<div>
 		<Head>
 			<Title
-				>Choosier. {{ CATEGORIES[category] || 'Visual' }} decisions made
-				easy</Title
+				>{{ CATEGORIES[category] || 'Visual' }} decisions made easy |
+				Choosier</Title
 			>
 		</Head>
 
@@ -141,6 +141,6 @@ const category = route.params.category as keyof typeof CATEGORIES;
 			</h3>
 		</template>
 
-		<LinkTo :to="PATHS.new" class="button">+ Make your own choice</LinkTo>
+		<LinkTo :to="PATHS.new" class="button">+ Create an image poll</LinkTo>
 	</div>
 </template>

@@ -52,7 +52,7 @@ try {
 
 <template>
 	<Head>
-		<Title>Choosier. {{ username }}</Title>
+		<Title>{{ username }} | Choosier</Title>
 	</Head>
 
 	<div v-if="props.username">

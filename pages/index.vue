@@ -27,6 +27,6 @@
 			</h3>
 		</article>
 
-		<LinkTo :to="PATHS.new" class="button">+ Make your own choice</LinkTo>
+		<LinkTo :to="PATHS.new" class="button">+ Create an image poll</LinkTo>
 	</div>
 </template>

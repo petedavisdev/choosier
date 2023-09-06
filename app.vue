@@ -5,7 +5,7 @@ useProfile().getProfile();
 
 <template>
 	<Head>
-		<Title>Choosier. Visual decisions made easy</Title>
+		<Title>Choosier - image polls made easy</Title>
 		<Html lang="en" />
 		<Meta
 			name="description"

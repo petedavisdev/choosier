@@ -5,10 +5,18 @@ definePageMeta({
 </script>
 
 <template>
+	<Head>
+		<Title>Image poll creator | Choosier</Title>
+		<Meta
+			name="description"
+			content="Use Choosier to create an image poll, collect votes and make better visual decisions. Perfect for art, design, fashion and photography choices."
+		/>
+	</Head>
+
 	<main :class="$style.container">
 		<header>
 			<IconLogo />
-			<h1>New choice</h1>
+			<h1>Create an image poll</h1>
 		</header>
 		<NewChoice />
 	</main>
