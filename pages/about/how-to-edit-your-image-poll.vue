@@ -35,8 +35,12 @@
 			If you have enough votes, you can close voting on your poll early. You
 			will still be able to see the results.
 		</p>
-		<p>
-			<LinkTo to="./">&larr; About</LinkTo>
-		</p>
 	</article>
+	<p>
+		<LinkTo to="./how-to-create-an-image-poll"
+			>&larr; Create and image poll</LinkTo
+		>
+		|
+		<LinkTo to="./">About &uarr;</LinkTo>
+	</p>
 </template>
