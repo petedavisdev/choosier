@@ -9,7 +9,7 @@ useProfile().getProfile();
 		<Html lang="en" />
 		<Meta
 			name="description"
-			content="Too many options? Use Choosier to create an image poll. Collect votes from friends, colleagues and customers. Perfect for art, design, fashion and photography."
+			content="Get help with art, design, fashion, photo and color choices. Create an image poll and share it with friends, followers, colleagues and customers."
 		/>
 		<Link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 		<Link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />

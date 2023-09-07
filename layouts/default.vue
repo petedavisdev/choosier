@@ -26,6 +26,7 @@ const { profile } = useProfile();
 	<footer :class="$style.container">
 		<ProductHunt />
 		<p>
+			<NuxtLink to="/about">About</NuxtLink> |
 			<NuxtLink to="/privacy">Essential cookies only</NuxtLink> |
 			<NuxtLink to="/terms">Terms of use</NuxtLink> | Choosier &copy;
 			{{ new Date().getFullYear() }}

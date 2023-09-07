@@ -1,0 +1,54 @@
+<template>
+	<Head>
+		<Title>About Choosier image polls</Title>
+		<Meta
+			name="description"
+			content="Hi, I'm Pete. I've created Choosier to help you make visual decisions without the
+			dithering!"
+		/>
+	</Head>
+
+	<article>
+		<h1>About</h1>
+
+		<p>Hi 👋 I'm Pete.</p>
+		<p>
+			I've created Choosier to help you make visual decisions without the
+			dithering!
+		</p>
+
+		<h2>Get started</h2>
+
+		<ol>
+			<li>
+				<LinkTo to="/about/how-to-create-an-image-poll">
+					How to create an image poll
+				</LinkTo>
+			</li>
+			<li>
+				<LinkTo to="/about/how-to-edit-your-image-poll">
+					How to edit your image poll
+				</LinkTo>
+			</li>
+			<!-- <li>
+			<LinkTo to="/about/how-to-share-your-image-poll">
+				How to share your image poll
+			</LinkTo>
+		</li> -->
+		</ol>
+
+		<h2>Give me some feedback</h2>
+
+		<p>
+			Choosier is currently in open beta testing and I would love your feedback.
+		</p>
+
+		<p>
+			Please leave a review on
+			<LinkTo to="https://www.producthunt.com/products/choosier/reviews/new"
+				>Product Hunt</LinkTo
+			>
+			or drop me an <LinkTo to="/contact">email</LinkTo>.
+		</p>
+	</article>
+</template>
