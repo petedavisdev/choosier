@@ -35,6 +35,21 @@
 				How to share your image poll
 			</LinkTo>
 		</li> -->
+			<!-- <li>
+			<LinkTo to="/about/how-to-vote-on-an-image-poll">
+				How to vote on an image poll
+			</LinkTo>
+		</li> -->
+			<!-- <li>
+			<LinkTo to="/about/how-to-vote-on-an-image-poll">
+				How to add an image poll on WordPress
+			</LinkTo>
+		</li> -->
+			<!-- <li>
+			<LinkTo to="/about/how-to-vote-on-an-image-poll">
+				How to create an image to choose a YouTube thumbnail
+			</LinkTo>
+		</li> -->
 		</ol>
 
 		<h2>Give me some feedback</h2>
