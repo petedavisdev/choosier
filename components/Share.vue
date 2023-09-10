@@ -4,18 +4,19 @@ const props = defineProps<{
 }>();
 
 const data = reactive({
-	copied: false,
+	copied: '',
 });
 
 const shareLink = useRuntimeConfig().public.baseUrl + '/' + props.id;
+const embedCode = `<iframe src="${shareLink}" frameborder="0" style="height: calc(90dvh - 2rem); width: 100%"></iframe>`;
 
-function copy() {
+function copy(text: string) {
 	try {
-		navigator.clipboard.writeText(shareLink);
-		data.copied = true;
+		navigator.clipboard.writeText(text);
+		data.copied = text;
 		setTimeout(() => {
-			data.copied = false;
-		}, 5000);
+			data.copied = '';
+		}, 3000);
 	} catch (error) {
 		alert(error);
 	}
@@ -23,21 +24,35 @@ function copy() {
 </script>
 
 <template>
-	{{ shareLink }}
-	<br />
-	<button @click="copy" type="button" class="button" :disabled="data.copied">
-		{{ data.copied ? 'Copied ✓' : 'Copy link' }}
-	</button>
+	<div :class="$style.share">
+		<h3 @click="copy(shareLink)">{{ shareLink }}</h3>
+		<button
+			@click="copy(shareLink)"
+			type="button"
+			class="button"
+			:disabled="data.copied === shareLink"
+		>
+			{{ data.copied === shareLink ? 'Copied ✓' : 'Copy link' }}
+		</button>
 
-	<!-- <div>
-		<p>Embed code</p>
-		<code>
-			<iframe
-				:src="shareLink"
-				frameborder="0"
-				style="height: calc(90dvh - 2rem); width: 100%"
-			>
-			</iframe
-		></code>
-	</div> -->
+		<button
+			@click="copy(embedCode)"
+			type="button"
+			class="button"
+			:disabled="data.copied === embedCode"
+		>
+			{{
+				data.copied === embedCode ? 'Copied embed code ✓' : 'Copy embed code'
+			}}
+		</button>
+	</div>
 </template>
+
+<style module>
+.share {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1em;
+	align-items: center;
+}
+</style>

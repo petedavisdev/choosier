@@ -101,10 +101,7 @@ function toggleShare() {
 .drawer {
 	grid-area: 🎁;
 	display: grid;
-	grid-template-columns: 1fr max-content;
-	gap: 2em;
-	text-align: right;
+	justify-content: end;
 	padding-block: 0.5em;
-	align-items: center;
 }
 </style>
