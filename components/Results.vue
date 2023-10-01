@@ -1,23 +1,12 @@
 <script setup lang="ts">
-export type Vote = {
-	user_id: string;
-	image_url: string;
-	profiles: {
-		username: string;
-		first_vote: number;
-	};
-};
+import { type Choice } from '~/composables/useChoice';
+
+export type Votes = Choice['votes'];
 
 const props = defineProps<{
 	id: number;
 }>();
 
-const data = reactive({
-	loading: true,
-	votes: [] as Vote[],
-});
-
-const supabase = useSupabaseClient();
 const choice = await useChoice(props.id);
 const { profile } = useProfile();
 const removeText = new Date(choice.removeAt as string).toLocaleString(
@@ -36,27 +25,6 @@ const isVoter = computed(() =>
 );
 
 const isCreator = computed(() => choice.username === profile.value?.username);
-
-try {
-	const response = await supabase
-		.from('votes')
-		.select(
-			`
-			user_id,
-			image_url,
-			profiles(username, first_vote)
-			`
-		)
-		.eq('choice_id', props.id);
-
-	if (response.error) throw response.error;
-
-	data.votes = response.data as Vote[];
-} catch (error) {
-	console.error(error);
-} finally {
-	data.loading = false;
-}
 </script>
 
 <template>
@@ -112,12 +80,12 @@ try {
 
 		<h2 v-else>Results so far...</h2>
 
-		<ResultsChart :images="choice.images" :votes="data.votes" />
+		<ResultsChart :images="choice.images" :votes="choice.votes" />
 
 		<div class="grid" :class="$style.meta">
 			<ResultsRecruits
 				:id="id"
-				:votes="data.votes"
+				:votes="choice.votes"
 				:recruiterName="choice.username"
 				:isRecruiter="isCreator"
 			/>

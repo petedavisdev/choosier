@@ -1,3 +1,4 @@
+import { type Votes } from '~/components/Results.vue';
 import { type Choice } from './useChoice';
 
 export async function useFilteredChoices(
@@ -30,7 +31,8 @@ export async function useFilteredChoices(
 				profiles!choices_user_id_fkey(username),
 				title,
 				image_urls,
-				close_at
+				close_at,
+				votes (image_url, user_id, profiles (username, first_vote))
 				`
 			)
 			.neq('visibility', 'private')
@@ -40,13 +42,14 @@ export async function useFilteredChoices(
 			.order('created_at', { ascending: false });
 
 		if (response.error) throw response.error;
-
+		console.log(response.data);
 		data.choices = response.data.map((choice) => ({
 			id: choice.id as number,
 			title: choice.title as string,
 			images: choice.image_urls as string[],
 			// @ts-ignore: unreachable type error
 			username: choice.profiles?.username as string,
+			votes: choice.votes as Votes,
 		}));
 	} catch (error: any) {
 		console.error(error.message);

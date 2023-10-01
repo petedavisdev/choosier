@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { Vote } from './Results.vue';
+import { Votes } from './Results.vue';
 
 const props = defineProps<{
 	images: string[];
-	votes: Vote[];
+	votes: Votes;
 }>();
 
 const { profile } = useProfile();
