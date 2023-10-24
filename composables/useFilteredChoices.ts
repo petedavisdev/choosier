@@ -43,8 +43,6 @@ export async function useFilteredChoices(
 
 		if (response.error) throw response.error;
 
-		console.log(response.data);
-
 		data.choices = response.data
 			.map((choice) => ({
 				id: choice.id as number,
