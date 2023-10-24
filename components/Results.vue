@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import { type Choice } from '~/composables/useChoice';
-
-export type Votes = Choice['votes'];
-
 const props = defineProps<{
 	id: number;
 }>();

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { type Votes } from './Results.vue';
+import { type Vote } from '../composables/useChoice';
 
 const props = defineProps<{
 	id: number;
-	votes: Votes;
+	votes: Vote[];
 	recruiterName: string;
 	isRecruiter: boolean;
 }>();

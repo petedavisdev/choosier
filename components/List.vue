@@ -4,7 +4,7 @@ const props = defineProps<{
 	open?: boolean;
 	edit?: boolean;
 }>();
-const choices = await useFilteredChoices(props.filter, props.open);
+const choices = await useFilteredChoices(props.filter, props.open, 1);
 </script>
 
 <template>

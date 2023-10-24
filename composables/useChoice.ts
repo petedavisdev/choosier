@@ -1,3 +1,12 @@
+export type Vote = {
+	profiles: {
+		username: string;
+		first_vote: number;
+	};
+	image_url: string;
+	user_id: string;
+};
+
 export type Choice = {
 	id: number;
 	title: string;
@@ -8,14 +17,7 @@ export type Choice = {
 	removeAt?: string;
 	isClosed?: boolean;
 	isRemoved?: boolean;
-	votes: {
-		profiles: {
-			username: string;
-			first_vote: number;
-		};
-		image_url: string;
-		user_id: string;
-	}[];
+	votes: Vote[] | { image_url: string }[];
 };
 
 export async function useChoice(id: number) {
@@ -56,7 +58,7 @@ export async function useChoice(id: number) {
 		data.choice.removeAt = choiceResponse.data.remove_at;
 		data.choice.isClosed = isPast(choiceResponse.data.close_at);
 		data.choice.isRemoved = isPast(choiceResponse.data.remove_at);
-		data.choice.votes = choiceResponse.data.votes;
+		data.choice.votes = choiceResponse.data.votes as Vote[];
 	} catch (error: any) {
 		console.error(error.message);
 	} finally {
