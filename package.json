@@ -7,13 +7,11 @@
 		"preview": "nuxt preview",
 		"format": "prettier --write ."
 	},
-	"devDependencies": {
-		"@nuxtjs/supabase": "^1.0.2",
-		"nuxt": "^3.6.0"
-	},
 	"dependencies": {
-		"@vercel/analytics": "^1.0.1",
-		"base64-arraybuffer": "^1.0.2",
-		"html-to-image": "^1.11.11"
+		"@nuxtjs/supabase": "^1",
+		"@vercel/analytics": "^1",
+		"base64-arraybuffer": "^1",
+		"html-to-image": "^1",
+		"nuxt": "^3"
 	}
 }

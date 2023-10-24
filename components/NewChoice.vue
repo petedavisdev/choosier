@@ -302,7 +302,7 @@ function closePreview() {
 			</p>
 		</section>
 
-		<section id="subscriptions">
+		<section v-if="!profile.subscriptions" id="subscriptions">
 			<h2>My subscriptions</h2>
 			<UserSubscriptions />
 		</section>

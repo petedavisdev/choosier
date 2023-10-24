@@ -17,8 +17,8 @@ const { profile } = useProfile();
 	</h3>
 
 	<p>
-		You'll use <strong>1 credit</strong> to create a choice, plus any extras
-		that you add.
+		You'll use <strong>1 credit</strong> to create your poll, plus any extras
+		you add.
 	</p>
 	<p>
 		Earn more credits by sharing your choices with new people. You will earn 1
