@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Vote } from './Results.vue';
+import type { Vote } from '../composables/useChoice';
 
 const props = defineProps<{
 	id: number;

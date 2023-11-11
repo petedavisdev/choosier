@@ -2,9 +2,14 @@
 const props = defineProps<{
 	filter: [string, string | number | number[]];
 	open?: boolean;
+	minVotes?: number;
 	edit?: boolean;
 }>();
-const choices = await useFilteredChoices(props.filter, props.open);
+const choices = await useFilteredChoices(
+	props.filter,
+	props.open,
+	props.minVotes
+);
 </script>
 
 <template>

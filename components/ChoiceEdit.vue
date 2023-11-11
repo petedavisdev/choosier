@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Choice } from '~/composables/useChoice';
+import type { Choice } from '~/composables/useChoice';
 
 const props = defineProps<{
 	id: number;
