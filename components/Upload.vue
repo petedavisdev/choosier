@@ -70,7 +70,6 @@ function uploadHandler(error: unknown, info: UploadInfo) {
 	data.loading = false;
 
 	if (info?.event === 'success') {
-		console.log(info.info);
 		const url = info.info?.eager?.[0]?.secure_url || info.info?.secure_url;
 		data.uploads = [
 			...data.uploads,
@@ -90,7 +89,7 @@ function showUploadWidget() {
 
 function deleteUpload(index: number, delete_token: string | undefined) {
 	// TODO: Delete from cloudinary
-	console.log(delete_token);
+	console.info(delete_token);
 	data.uploads.splice(index, 1);
 	updateUploaded();
 }

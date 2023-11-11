@@ -47,8 +47,6 @@ export async function useChoice(id: number) {
 
 		if (choiceResponse.error) throw choiceResponse.error;
 
-		console.log(choiceResponse);
-
 		// @ts-ignore: unreachable type error
 		data.choice.username = choiceResponse.data.profiles?.username;
 		data.choice.title = choiceResponse.data.title;

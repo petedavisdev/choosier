@@ -74,7 +74,7 @@ export function useProfile() {
 					choices: response.data.choices as { id: number }[],
 				};
 			} catch (error: any) {
-				console.log(error.message);
+				console.error(error.message);
 			}
 		}
 	}
