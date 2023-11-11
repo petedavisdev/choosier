@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Vote } from '../composables/useChoice';
+import type { Vote } from '../composables/useChoice';
 
 const props = defineProps<{
 	images: string[];
@@ -81,7 +81,7 @@ const mostVotes = computed(() => results.value[0].voters.length);
 
 .bar {
 	text-align: left;
-	background-color: var(--light);
+	background: linear-gradient(to right, #2220 0%, var(--dark) 90dvw);
 	border-top-right-radius: var(--radius);
 	border-bottom-right-radius: var(--radius);
 }
