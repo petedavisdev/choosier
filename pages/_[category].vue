@@ -141,6 +141,8 @@ const category = route.params.category as keyof typeof CATEGORIES;
 			</h3>
 		</template>
 
-		<LinkTo :to="PATHS.new" class="button">+ Create an image poll</LinkTo>
+		<h2>
+			<LinkTo :to="PATHS.new" class="button">+ Create an image poll</LinkTo>
+		</h2>
 	</div>
 </template>

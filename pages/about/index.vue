@@ -55,15 +55,8 @@
 		<h2>Give me some feedback</h2>
 
 		<p>
-			Choosier is currently in open beta testing and I would love your feedback.
-		</p>
-
-		<p>
-			Please leave a review on
-			<LinkTo to="https://www.producthunt.com/products/choosier/reviews/new"
-				>Product Hunt</LinkTo
-			>
-			or drop me an <LinkTo to="/contact">email</LinkTo>.
+			Choosier is currently in open beta testing and
+			<LinkTo to="/contact">I would love your feedback</LinkTo>.
 		</p>
 	</article>
 </template>
