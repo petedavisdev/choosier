@@ -27,6 +27,8 @@
 			</h3>
 		</article>
 
-		<LinkTo :to="PATHS.new" class="button">+ Create an image poll</LinkTo>
+		<h2>
+			<LinkTo :to="PATHS.new" class="button">+ Create an image poll</LinkTo>
+		</h2>
 	</div>
 </template>

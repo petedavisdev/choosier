@@ -9,7 +9,6 @@
 	},
 	"dependencies": {
 		"@nuxtjs/supabase": "^1",
-		"@vercel/analytics": "^1",
 		"base64-arraybuffer": "^1",
 		"html-to-image": "^1",
 		"nuxt": "^3"

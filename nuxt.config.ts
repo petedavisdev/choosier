@@ -6,13 +6,12 @@ export default defineNuxtConfig({
 		'~/assets/utils.css',
 	],
 	modules: ['@nuxtjs/supabase'],
-	plugins: [{ src: '~/plugins/vercel.ts', mode: 'client' }],
 	runtimeConfig: {
 		public: {
 			apiBase: process.env.SUPABASE_URL,
 			baseUrl: process.env.SITE_URL,
 			prod: process.env.NODE_ENV === 'production',
-			siteUrl: process.env.SITE_URL || 'https://choosier.app',
+			siteUrl: process.env.SITE_URL || 'https://choosier.com',
 		},
 	},
 	supabase: {

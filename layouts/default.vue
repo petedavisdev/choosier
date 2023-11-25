@@ -24,7 +24,6 @@ const { profile } = useProfile();
 	</main>
 
 	<footer :class="$style.container">
-		<ProductHunt />
 		<p>
 			<NuxtLink to="/about">About</NuxtLink> |
 			<NuxtLink to="/privacy">Essential cookies only</NuxtLink> |

@@ -1,4 +1,4 @@
-Sitemap: https://choosier.app/sitemap.xml
+Sitemap: https://choosier.com/sitemap.xml
 
 User-agent: *
 User-agent: AdsBot-Google
