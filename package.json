@@ -12,5 +12,8 @@
 		"base64-arraybuffer": "^1",
 		"html-to-image": "^1",
 		"nuxt": "^3"
+	},
+	"devDependencies": {
+		"cypress": "^13.6.0"
 	}
 }
