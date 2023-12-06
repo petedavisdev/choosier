@@ -4,7 +4,7 @@ const { profile } = useProfile();
 
 <template>
 	<div>
-		<template v-if="profile" class="box">
+		<template v-if="profile">
 			<section class="box" :class="$style.section">
 				<h2>My profile</h2>
 				<UserEdit show-website>
@@ -14,7 +14,7 @@ const { profile } = useProfile();
 
 			<!-- TODO:
 			<section class="box" :class="$style.section">
-				<UserAvatar />
+				<UserAvatarUpload />
 			</section>
  -->
 

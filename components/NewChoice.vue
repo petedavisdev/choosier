@@ -31,8 +31,6 @@ const credits = computed(() => {
 });
 
 const dates = computed(() => {
-	const updateOnPreview = data.showPreview;
-
 	const date = new Date();
 
 	date.setDate(date.getDate() + +data.duration);
@@ -61,20 +59,20 @@ const validationMessage = computed(() => {
 	return data.images.length < MIN_IMAGES
 		? `You need at least ${MIN_IMAGES} images!`
 		: data.images.length > data.maxImages
-		? `You have more than ${data.maxImages} images!`
-		: !data.title
-		? 'You need a title!'
-		: !data.category
-		? 'Choose a category!'
-		: !data.visibility
-		? 'Choose visibility!'
-		: !data.duration
-		? 'Choose a duration!'
-		: profile.value && credits.value.required > profile.value.credits
-		? `You have chosen to use ${credits.value.required} credit${
-				credits.value.required === 1 ? '' : 's'
-		  }, but you have ${profile.value?.credits}.`
-		: '';
+		  ? `You have more than ${data.maxImages} images!`
+		  : !data.title
+		    ? 'You need a title!'
+		    : !data.category
+		      ? 'Choose a category!'
+		      : !data.visibility
+		        ? 'Choose visibility!'
+		        : !data.duration
+		          ? 'Choose a duration!'
+		          : profile.value && credits.value.required > profile.value.credits
+		            ? `You have chosen to use ${credits.value.required} credit${
+										credits.value.required === 1 ? '' : 's'
+		              }, but you have ${profile.value?.credits}.`
+		            : '';
 });
 
 async function submit() {
@@ -87,6 +85,7 @@ async function submit() {
 		try {
 			data.loading = true;
 
+			// @ts-ignore unreachable code
 			const choicesResponse = await supabase
 				.from('choices')
 				.insert([
@@ -153,7 +152,7 @@ async function uploadCover(coverUrl: string, id: number) {
 		const coverFile = decode(coverBase64);
 		const fileName = id + '.jpeg';
 
-		let { error: uploadError } = await supabase.storage
+		const { error: uploadError } = await supabase.storage
 			.from('covers')
 			.upload(fileName, coverFile, { contentType: 'image/jpeg' });
 
@@ -179,26 +178,26 @@ function closePreview() {
 		</h2>
 	</UserEdit>
 
-	<form v-else @submit.prevent="submit" :class="$style.form">
+	<form v-else :class="$style.form" @submit.prevent="submit">
 		<section id="images">
 			<Credits />
 
 			<h2>Images</h2>
-			<p v-for="(credits, max) in IMAGE_LIMITS" :key="max">
+			<p v-for="(cost, max) in IMAGE_LIMITS" :key="max">
 				<label
-					:title="profile.credits < credits ? `Requires ${credits} credit` : ''"
+					:title="profile.credits < cost ? `Requires ${credits} credit` : ''"
 				>
 					<input
-						type="radio"
 						v-model="data.maxImages"
+						type="radio"
 						:value="max"
-						:disabled="profile.credits < credits"
+						:disabled="profile.credits < cost"
 						required
 						@change="data.maxImages = max"
 					/>
 					up to {{ max }} images
 					<small>
-						<strong v-if="credits"> (+{{ credits }} credits) </strong>
+						<strong v-if="cost"> (+{{ cost }} credits) </strong>
 					</small>
 				</label>
 			</p>
@@ -209,9 +208,9 @@ function closePreview() {
 			</p>
 
 			<Upload
-				@uploaded="(urls) => (data.images = urls)"
 				:folder="profile?.username ?? '@'"
 				:max="data.maxImages"
+				@uploaded="(urls) => (data.images = urls)"
 			/>
 		</section>
 
@@ -235,9 +234,9 @@ function closePreview() {
 			<p v-for="(category, key) in CATEGORIES" :key="key">
 				<label>
 					<input
+						v-model="data.category"
 						type="radio"
 						name="category"
-						v-model="data.category"
 						:value="key"
 						required
 					/>
@@ -257,8 +256,8 @@ function closePreview() {
 					"
 				>
 					<input
-						type="radio"
 						v-model="data.visibility"
+						type="radio"
 						:value="key"
 						:disabled="key === 'private' || profile.credits < value.credits"
 						required
@@ -285,8 +284,8 @@ function closePreview() {
 					"
 				>
 					<input
-						type="radio"
 						v-model="data.duration"
+						type="radio"
 						:value="key"
 						:disabled="profile.credits < value.credits"
 						required
@@ -308,7 +307,7 @@ function closePreview() {
 		</section>
 
 		<footer>
-			<button @click="data.showPreview = true" type="button" class="button">
+			<button type="button" class="button" @click="data.showPreview = true">
 				Continue &rarr;
 			</button>
 
@@ -316,14 +315,15 @@ function closePreview() {
 				v-if="data.showPreview"
 				:title="data.title"
 				:username="profile.username"
-				:validationMessage="validationMessage"
+				:validation-message="validationMessage"
 				:close="closePreview"
 			>
 				<template #card-images>
 					<div ref="cardImagesElement" class="cardImages">
 						<img
+							v-for="(image, index) in data.images"
+							:key="index"
 							class="cardImage"
-							v-for="image in data.images"
 							:src="image.replace('h_800', 'h_320')"
 							alt=""
 							loading="lazy"

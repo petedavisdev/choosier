@@ -14,9 +14,9 @@ const category = route.params.category as keyof typeof CATEGORIES;
 
 		<h1>{{ CATEGORIES[category] || 'Visual' }} decisions made easy</h1>
 
-		<Categories />
+		<CategoriesNav />
 
-		<List :filter="['category', category]" open :minVotes="1" />
+		<List :filter="['category', category]" open :min-votes="1" />
 
 		<template v-if="category === 'art'">
 			<Head>
@@ -28,8 +28,8 @@ const category = route.params.category as keyof typeof CATEGORIES;
 
 			<h2>Art decisions are hard</h2>
 			<p>
-				You have endless possibilities with different colours, styles and
-				layouts to play with.
+				You have endless possibilities with different colors, styles and layouts
+				to play with.
 			</p>
 			<p>
 				Choosier helps you make quick visual decisions and involve your audience
@@ -55,7 +55,7 @@ const category = route.params.category as keyof typeof CATEGORIES;
 			<Head>
 				<Meta
 					name="description"
-					content="Get help choosing between brand colours, typography, logos designs, UI styles. Use Choosier to poll your colleagues and customers to make informed decisions."
+					content="Get help choosing between brand colors, typography, logos designs, UI styles. Use Choosier to poll your colleagues and customers to make informed decisions."
 				/>
 			</Head>
 

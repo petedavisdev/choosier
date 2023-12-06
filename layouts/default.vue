@@ -15,8 +15,8 @@ const { profile } = useProfile();
 					profile?.username
 						? profile?.username
 						: profile?.userId
-						? 'Account'
-						: 'Login'
+						  ? 'Account'
+						  : 'Login'
 				}}
 			</NuxtLink>
 			<NuxtLink :to="PATHS.new" class="New button">+ New</NuxtLink>

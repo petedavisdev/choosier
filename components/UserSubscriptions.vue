@@ -43,7 +43,7 @@ async function updateProfile() {
 <template>
 	<p>
 		<label>
-			<input type="checkbox" value="monthly" v-model="data.subscriptions" />
+			<input v-model="data.subscriptions" type="checkbox" value="monthly" />
 			Monthly choosletter
 		</label>
 
