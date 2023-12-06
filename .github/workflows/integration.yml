@@ -1,10 +1,14 @@
-name: Cypress Tests
+name: Integration tests
 
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
+
+env:
+  SITE_URL: http://[::]:3000
+  CYPRESS_BASE_URL: http://[::]:3000
 
 jobs:
   cypress-run:
