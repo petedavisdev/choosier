@@ -9,21 +9,23 @@ const data = reactive({
 	inFrame: false,
 });
 
+const classes = props.class ? [...props.class.split(' ')] : [];
+
 onMounted(() => {
 	data.inFrame = Boolean(window?.frameElement);
 });
 </script>
 
 <template>
-	<NuxtLink v-if="data.inFrame" :to="`${to}`" :class="class" target="_parent">
+	<NuxtLink v-if="data.inFrame" :to="`${to}`" :class="classes" target="_parent">
 		<slot />
 	</NuxtLink>
 
-	<NuxtLink v-else-if="target" :to="`${to}`" :class="class" :target="target">
+	<NuxtLink v-else-if="target" :to="`${to}`" :class="classes" :target="target">
 		<slot />
 	</NuxtLink>
 
-	<NuxtLink v-else :to="`${to}`" :class="class">
+	<NuxtLink v-else :to="`${to}`" :class="classes">
 		<slot />
 	</NuxtLink>
 </template>

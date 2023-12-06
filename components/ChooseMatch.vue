@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = defineProps<{
+defineProps<{
 	match: (string | undefined)[];
 	matchIndex: number;
 	updateMatches: (matchIndex: number, option?: string) => void;
@@ -15,9 +15,9 @@ const props = defineProps<{
 		<input
 			type="radio"
 			:name="'option' + matchIndex"
-			@input="updateMatches(matchIndex, option)"
 			required
 			:class="$style.optionInput"
+			@input="updateMatches(matchIndex, option)"
 		/>
 
 		<img :src="option" alt="" :class="$style.optionImage" />
@@ -50,7 +50,9 @@ const props = defineProps<{
 .optionInput:not(:checked):valid + .optionImage {
 	opacity: 0;
 	scale: 0.5;
-	transition: opacity 1s ease-out, scale 1s ease-in;
+	transition:
+		opacity 1s ease-out,
+		scale 1s ease-in;
 }
 
 .optionInput:checked:valid + .optionImage {

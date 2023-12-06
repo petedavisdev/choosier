@@ -5,15 +5,29 @@
 		"dev": "nuxt dev",
 		"generate": "nuxt generate",
 		"preview": "nuxt preview",
-		"format": "prettier --write ."
-	},
-	"dependencies": {
-		"@nuxtjs/supabase": "^1",
-		"base64-arraybuffer": "^1",
-		"html-to-image": "^1",
-		"nuxt": "^3"
+		"fix": "prettier --write .",
+		"lint": "eslint"
 	},
 	"devDependencies": {
-		"cypress": "^13.6.0"
+		"@nuxt/eslint-config": "^0.2.0",
+		"@nuxtjs/eslint-module": "^4",
+		"@nuxtjs/supabase": "^1",
+		"base64-arraybuffer": "^1",
+		"cypress": "^13",
+		"eslint": "^8.55.0",
+		"eslint-config-prettier": "^9",
+		"html-to-image": "^1",
+		"nuxt": "^3",
+		"prettier": "^3"
+	},
+	"eslintConfig": {
+		"extends": [
+			"@nuxt/eslint-config",
+			"eslint-config-prettier"
+		],
+		"rules": {
+			"vue/multi-word-component-names": 0,
+			"vue/no-multiple-template-root": 0
+		}
 	}
 }

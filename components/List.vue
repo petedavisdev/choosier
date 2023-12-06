@@ -27,7 +27,7 @@ const choices = await useFilteredChoices(
 					class="cardImage"
 					:src="useCover(choice.id)"
 					alt=""
-					:loading="index > 2 ? 'lazy' : null"
+					:loading="index > 2 ? 'lazy' : undefined"
 					height="210"
 					width="400"
 				/>

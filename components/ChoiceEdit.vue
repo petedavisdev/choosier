@@ -31,7 +31,7 @@ async function updateChoice() {
 </script>
 
 <template>
-	<form @submit.prevent="updateChoice" :class="$style.form">
+	<form :class="$style.form" @submit.prevent="updateChoice">
 		<section id="title">
 			<h2><label for="title">Title</label></h2>
 			<input
@@ -52,9 +52,9 @@ async function updateChoice() {
 			<p v-for="(category, key) in CATEGORIES" :key="key">
 				<label>
 					<input
+						v-model="data.category"
 						type="radio"
 						name="category"
-						v-model="data.category"
 						:value="key"
 						required
 					/>

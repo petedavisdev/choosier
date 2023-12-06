@@ -33,13 +33,13 @@ function retry() {
 		<UserLoginToken v-if="data.requested" :email="data.email" :retry="retry">
 			<h1>Confirmation code</h1>
 		</UserLoginToken>
-		<form v-else @submit.prevent="request" id="request" :class="$style.form">
+		<form v-else id="request" :class="$style.form" @submit.prevent="request">
 			<slot></slot>
 
 			<input
+				v-model="data.email"
 				type="email"
 				placeholder="Email"
-				v-model="data.email"
 				title="Email"
 				autocomplete="email"
 				required

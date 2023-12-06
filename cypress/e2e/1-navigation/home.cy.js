@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 describe('template spec', () => {
 	it('displays a list of choices', () => {
 		cy.visit('http://localhost:3000');

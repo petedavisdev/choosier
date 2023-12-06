@@ -27,7 +27,7 @@ const newRecruits = computed(() => {
 });
 
 if (profile.value && props.isRecruiter && newRecruits.value.length) {
-	const recruits = [...profile.value?.recruits, ...newRecruits.value];
+	const recruits = [...profile.value.recruits, ...newRecruits.value];
 
 	try {
 		await supabase
