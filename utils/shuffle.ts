@@ -1,5 +1,5 @@
 export function shuffle<T>(array: T[]): T[] {
-	let shuffledArray = array;
+	const shuffledArray = array;
 
 	array.forEach((_item, index) => {
 		const randomIndex = Math.floor(Math.random() * (index + 1));

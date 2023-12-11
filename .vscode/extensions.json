@@ -3,6 +3,7 @@
 		"esbenp.prettier-vscode",
 		"amatiasq.sort-imports",
 		"vue.vscode-typescript-vue-plugin",
-		"dbaeumer.vscode-eslint"
+		"dbaeumer.vscode-eslint",
+		"vue.volar"
 	]
 }

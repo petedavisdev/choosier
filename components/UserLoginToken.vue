@@ -44,7 +44,7 @@ async function verify() {
 </script>
 
 <template>
-	<form @submit.prevent="verify" id="verify">
+	<form id="verify" @submit.prevent="verify">
 		<slot></slot>
 		<p>
 			We sent a code to
@@ -52,16 +52,16 @@ async function verify() {
 			<strong>{{ props.email }}</strong>
 			<br />
 			If you don't get it in a few minutes,
-			<LinkTo to="#request" @click="retry" :class="$style.retry"
+			<LinkTo to="#request" :class="$style.retry" @click="retry"
 				>try again</LinkTo
 			>.
 		</p>
 
 		<p>
 			<input
+				id="token"
 				v-model="data.token"
 				type="text"
-				id="token"
 				:class="$style.token"
 				inputmode="numeric"
 				pattern="[0-9]+"

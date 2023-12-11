@@ -16,8 +16,8 @@ const removeText = new Date(choice.removeAt as string).toLocaleString(
 	}
 );
 
-const isVoter = computed(() =>
-	profile.value?.votes?.find((vote) => vote.choice_id === props.id)
+const isVoter = computed(
+	() => profile.value?.votes?.find((vote) => vote.choice_id === props.id)
 );
 
 const isCreator = computed(() => choice.username === profile.value?.username);
@@ -76,17 +76,17 @@ const isCreator = computed(() => choice.username === profile.value?.username);
 
 		<h2 v-else>Results so far...</h2>
 
-		<ResultsChart :images="choice.images" :votes="choice.votes" />
+		<ResultsChart :images="choice.images" :votes="choice.votes as Vote[]" />
 
 		<div class="grid" :class="$style.meta">
 			<ResultsRecruits
 				:id="id"
-				:votes="choice.votes"
-				:recruiterName="choice.username"
-				:isRecruiter="isCreator"
+				:votes="choice.votes as Vote[]"
+				:recruiter-name="choice.username"
+				:is-recruiter="isCreator"
 			/>
 
-			<aside class="box" v-if="!choice.isClosed">
+			<aside v-if="!choice.isClosed" class="box">
 				<h2>Share to get more votes</h2>
 				<Share :id="props.id" />
 			</aside>

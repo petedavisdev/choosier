@@ -11,8 +11,8 @@ const data = reactive({
 	matches: [] as (string | undefined)[][],
 });
 
-const userVoted = computed(() =>
-	profile.value?.votes.find((vote) => vote.choice_id === props.id)
+const userVoted = computed(
+	() => profile.value?.votes.find((vote) => vote.choice_id === props.id)
 );
 
 data.matches = choice.images?.map((_image, index) => [
@@ -48,42 +48,42 @@ onMounted(() => {
 	<main v-if="choice.title && !choice.isRemoved" :class="$style.container">
 		<form
 			v-for="(match, matchIndex) in data.matches"
-			@submit.prevent
-			@reset="updateMatches(matchIndex)"
 			:id="'match' + matchIndex"
 			:key="matchIndex"
 			ref="chooseForm"
 			:class="$style.match"
+			@submit.prevent
+			@reset="updateMatches(matchIndex)"
 		>
 			<ChooseConfirm
 				v-if="matchIndex === length - 1 && match[0]"
-				:image="match[0]"
 				:id="props.id"
+				:image="match[0]"
 			/>
 
 			<ChooseMatch
 				v-else
 				:match="match"
-				:matchIndex="matchIndex"
-				:updateMatches="updateMatches"
+				:match-index="matchIndex"
+				:update-matches="updateMatches"
 			/>
 
 			<ChooseControls
-				:class="$style.controls"
-				:matchIndex="matchIndex"
-				:length="length"
 				:id="props.id"
+				:class="$style.controls"
+				:match-index="matchIndex"
+				:length="length"
 			/>
 		</form>
 
-		<aside class="backdrop" v-if="choice.isClosed">
+		<aside v-if="choice.isClosed" class="backdrop">
 			<LinkTo :to="PATHS.results + props.id" class="button">
 				Voting has closed
 				<h2>See the results &rarr;</h2>
 			</LinkTo>
 		</aside>
 
-		<aside class="backdrop" v-else-if="userVoted">
+		<aside v-else-if="userVoted" class="backdrop">
 			<LinkTo :to="PATHS.results + props.id" class="button">
 				You have made your choice
 				<h2>See the results &rarr;</h2>

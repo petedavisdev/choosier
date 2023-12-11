@@ -11,7 +11,7 @@ const isUser = props.username === profile.value?.username;
 <template>
 	<header :class="$style.header">
 		<div :class="$style.avatar">
-			<Avatar :username="props.username" />
+			<UserAvatar :username="props.username" />
 		</div>
 
 		<h1 :class="$style.username">

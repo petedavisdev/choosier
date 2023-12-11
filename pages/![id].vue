@@ -4,10 +4,6 @@ const id = +route.params.id;
 const choice = await useChoice(id);
 
 const { profile } = useProfile();
-
-const data = reactive({
-	title: choice.title,
-});
 </script>
 
 <template>

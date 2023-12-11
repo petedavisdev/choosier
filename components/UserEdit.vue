@@ -13,8 +13,8 @@ const data = reactive({
 	website: profile.value?.website,
 });
 
-const cleanUsername = computed(() =>
-	data.username?.toLowerCase().replace(/[^a-z0-9-_]/g, '')
+const cleanUsername = computed(
+	() => data.username?.toLowerCase().replace(/[^a-z0-9-_]/g, '')
 );
 
 const cleanWebsite = computed(() => {
@@ -72,11 +72,11 @@ async function updateProfile() {
 
 		<p :class="$style.field">
 			<input
-				v-model="data.username"
 				id="username"
+				v-model="data.username"
 				maxlength="15"
-				@input="data.username = cleanUsername"
 				required
+				@input="data.username = cleanUsername"
 			/>
 			<small :class="$style.help">Up to 15 lowercase letters</small>
 		</p>
@@ -85,8 +85,8 @@ async function updateProfile() {
 			<label for="website">My website or instagram link</label>
 			<p :class="$style.field">
 				<input
-					v-model="data.website"
 					id="website"
+					v-model="data.website"
 					inputmode="url"
 					autocomplete="url"
 					:class="$style.website"

@@ -5,7 +5,7 @@ export default defineNuxtConfig({
 		'~/assets/base.css',
 		'~/assets/utils.css',
 	],
-	modules: ['@nuxtjs/supabase'],
+	modules: ['@nuxtjs/supabase', '@nuxtjs/eslint-module'],
 	runtimeConfig: {
 		public: {
 			apiBase: process.env.SUPABASE_URL,

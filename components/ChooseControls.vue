@@ -10,7 +10,7 @@ const data = reactive({
 });
 
 function undo() {
-	let previousForm: HTMLFormElement | undefined =
+	const previousForm: HTMLFormElement | undefined =
 		// @ts-ignore: form accessed by name not number
 		document.forms['match' + (props.matchIndex - 1)];
 
@@ -34,16 +34,16 @@ function toggleShare() {
 		<button
 			title="undo"
 			type="reset"
-			@click="undo()"
 			:disabled="props.matchIndex === 0"
 			:class="$style.undo"
+			@click="undo()"
 		>
 			<IconUndo :class="$style.icon" />
 		</button>
 
 		<IconLogo :class="$style.logo" />
 
-		<button @click="toggleShare" type="button" :class="$style.share">
+		<button type="button" :class="$style.share" @click="toggleShare">
 			<IconShare :class="$style.icon" />
 		</button>
 

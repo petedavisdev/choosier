@@ -24,7 +24,7 @@ const data = reactive({
 				<p>Keep choosing until you have a winner!</p>
 			</template>
 
-			<button @click="data.show = false" type="button" class="button">
+			<button type="button" class="button" @click="data.show = false">
 				Start choosing &rarr;
 			</button>
 		</article>

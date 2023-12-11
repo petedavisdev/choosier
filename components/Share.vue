@@ -27,19 +27,19 @@ function copy(text: string) {
 	<div :class="$style.share">
 		<h3 @click="copy(shareLink)">{{ shareLink }}</h3>
 		<button
-			@click="copy(shareLink)"
 			type="button"
 			class="button"
 			:disabled="data.copied === shareLink"
+			@click="copy(shareLink)"
 		>
 			{{ data.copied === shareLink ? 'Copied ✓' : 'Copy link' }}
 		</button>
 
 		<button
-			@click="copy(embedCode)"
 			type="button"
 			class="button"
 			:disabled="data.copied === embedCode"
+			@click="copy(embedCode)"
 		>
 			{{
 				data.copied === embedCode ? 'Copied embed code ✓' : 'Copy embed code'

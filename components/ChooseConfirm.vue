@@ -43,7 +43,7 @@ async function vote() {
 				if (profileResponse.error) throw profileResponse.error;
 			}
 
-			profile.value.votes = [...profile.value?.votes, { choice_id: props.id }];
+			profile.value.votes = [...profile.value.votes, { choice_id: props.id }];
 
 			navigateTo(PATHS.results + props.id);
 		}
@@ -106,7 +106,7 @@ function retry() {
 	</section>
 
 	<section v-if="profile" :class="$style.confirm">
-		<button @click="vote()" type="button" class="button">
+		<button type="button" class="button" @click="vote()">
 			✓ Confirm my choice
 		</button>
 	</section>
@@ -118,9 +118,9 @@ function retry() {
 		</header>
 
 		<input
+			v-model="data.email"
 			type="email"
 			placeholder="Email"
-			v-model="data.email"
 			title="Email"
 			autocomplete="email"
 			required
@@ -128,21 +128,22 @@ function retry() {
 		/>
 
 		<footer>
-			<button @click.prevent="request" type="button" class="button">
+			<button type="button" class="button" @click.prevent="request">
 				{{ data.loading ? 'Loading' : 'Send me a confirmation code &rarr;' }}
 			</button>
 		</footer>
 	</section>
 
-	<div class="backdrop" v-else>
+	<div v-else class="backdrop">
 		<section class="box">
 			<UserLoginToken
 				:email="data.email"
 				:retry="retry"
 				:choice-id="props.id"
 				:class="$style.confirm"
-				><h2>Confirmation code</h2></UserLoginToken
 			>
+				<h2>Confirmation code</h2>
+			</UserLoginToken>
 		</section>
 	</div>
 </template>

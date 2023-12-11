@@ -5,7 +5,7 @@
 			Visual decisions made easy
 		</h1>
 
-		<Categories />
+		<CategoriesNav />
 
 		<List :filter="['visibility', 'promoted']" open />
 

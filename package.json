@@ -1,16 +1,41 @@
 {
 	"private": true,
 	"scripts": {
+		"clean": "nuxt cleanup",
 		"build": "nuxt build",
+		"start": "nuxt start",
 		"dev": "nuxt dev",
 		"generate": "nuxt generate",
 		"preview": "nuxt preview",
-		"format": "prettier --write ."
+		"checks": "prettier --write . && npm run lint -- --fix && npm run typecheck && npm test",
+		"format": "prettier --check .",
+		"lint": "eslint . --ignore-path .gitignore --ext .ts --ext .js --ext .vue",
+		"typecheck": "nuxt typecheck",
+		"test": "cypress run"
 	},
-	"dependencies": {
+	"devDependencies": {
+		"@nuxt/eslint-config": "^0.2.0",
+		"@nuxtjs/eslint-module": "^4",
 		"@nuxtjs/supabase": "^1",
 		"base64-arraybuffer": "^1",
+		"cypress": "^13",
+		"eslint": "^8",
+		"eslint-config-prettier": "^9",
 		"html-to-image": "^1",
-		"nuxt": "^3"
+		"nuxt": "^3",
+		"prettier": "^3"
+	},
+	"eslintConfig": {
+		"extends": [
+			"@nuxt/eslint-config",
+			"eslint-config-prettier"
+		],
+		"rules": {
+			"vue/multi-word-component-names": 0,
+			"vue/no-multiple-template-root": 0
+		}
+	},
+	"dependencies": {
+		"npm": "^10.2.4"
 	}
 }

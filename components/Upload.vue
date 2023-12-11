@@ -6,7 +6,7 @@ type UploadInfo = {
 		eager?: [
 			{
 				secure_url: string;
-			}
+			},
 		];
 		secure_url: string;
 	};
@@ -105,23 +105,23 @@ function updateUploaded() {
 <template>
 	<Script src="https://widget.cloudinary.com/v2.0/global/all.js"></Script>
 
-	<div :class="$style.thumbnails" v-if="data.uploads.length">
+	<div v-if="data.uploads.length" :class="$style.thumbnails">
 		<div v-for="({ url, delete_token }, index) in data.uploads" :key="index">
 			<img :src="url" alt="" />
 			<button
-				@click.prevent="deleteUpload(index, delete_token)"
 				type="button"
 				class="close"
+				@click.prevent="deleteUpload(index, delete_token)"
 			></button>
 		</div>
 	</div>
 
 	<button
 		v-if="data.uploads.length < props.max"
-		@click="showUploadWidget"
 		type="button"
 		class="button"
 		:disabled="data.loading"
+		@click="showUploadWidget"
 	>
 		+ Add images
 	</button>
