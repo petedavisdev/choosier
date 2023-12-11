@@ -1,4 +1,4 @@
-name: Integration tests
+name: CI
 
 on:
   push:
@@ -18,11 +18,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Cypress run
-        uses: cypress-io/github-action@v6
-        with:
-          build: npm run build
-          start: npm start
+      - run: npx ci
 
       - name: Prettier
         run: npm run prettier
