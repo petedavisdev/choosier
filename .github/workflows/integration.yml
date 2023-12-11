@@ -21,7 +21,7 @@ jobs:
       - run: npx ci
 
       - name: Prettier
-        run: npm run prettier
+        run: npm run format
 
       - name: ESLint
         run: npm run lint
