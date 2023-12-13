@@ -81,9 +81,32 @@ const mostVotes = computed(() => results.value[0].voters.length);
 
 .bar {
 	text-align: left;
-	background: linear-gradient(to right, #2220 0%, var(--dark) 90dvw);
+	background: linear-gradient(
+		to right,
+		#2220 0%,
+		var(--background-color, #ccc) 20dvw
+	);
 	border-top-right-radius: var(--radius);
 	border-bottom-right-radius: var(--radius);
+}
+
+.result:nth-of-type(1) .bar {
+	--background-color: var(--green);
+}
+.result:nth-of-type(2) .bar {
+	--background-color: var(--yellow);
+}
+.result:nth-of-type(3) .bar {
+	--background-color: var(--peach);
+}
+.result:nth-of-type(4) .bar {
+	--background-color: var(--pink);
+}
+.result:nth-of-type(5) .bar {
+	--background-color: var(--purple);
+}
+.result:nth-of-type(6) .bar {
+	--background-color: var(--blue);
 }
 
 .count {
@@ -92,7 +115,7 @@ const mostVotes = computed(() => results.value[0].voters.length);
 }
 
 .voters {
-	padding: 0.2em 0.5em;
+	padding: 0.125em 0.5em 0.125em;
 }
 
 .voter {

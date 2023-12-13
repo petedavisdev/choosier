@@ -40,7 +40,7 @@ const { profile } = useProfile();
 	display: grid;
 	margin-inline: auto;
 	padding: 2em 2em 5em;
-	max-width: 1400px;
+	max-width: 1500px;
 }
 ß .logo {
 	width: clamp(12em, 50vmin, 16em);

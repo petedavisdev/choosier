@@ -92,6 +92,28 @@
 	background-color: var(--lightest);
 }
 
+.card:nth-of-type(7n + 1) {
+	background-color: var(--blue);
+}
+.card:nth-of-type(7n + 2) {
+	background-color: var(--yellow);
+}
+.card:nth-of-type(7n + 3) {
+	background-color: var(--purple);
+}
+.card:nth-of-type(7n + 4) {
+	background-color: var(--green);
+}
+.card:nth-of-type(7n + 5) {
+	background-color: var(--peach);
+}
+.card:nth-of-type(7n + 6) {
+	background-color: var(--aqua);
+}
+.card:nth-of-type(7n) {
+	background-color: var(--pink);
+}
+
 .close {
 	position: absolute;
 	top: 0.75em;
