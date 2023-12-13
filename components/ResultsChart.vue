@@ -21,8 +21,8 @@ const results = computed(() => {
 						return a === profile.value?.username
 							? -1
 							: b === profile.value?.username
-							  ? 1
-							  : 0;
+								? 1
+								: 0;
 					}),
 			};
 		})

@@ -52,7 +52,7 @@ export function useProfile() {
 
 				const earnedCredits = response.data.recruits
 					? // @ts-ignore
-					  (response.data.recruits?.length as number)
+						(response.data.recruits?.length as number)
 					: 0;
 
 				const creditBalance =
