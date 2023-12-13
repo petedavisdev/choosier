@@ -15,8 +15,8 @@ const { profile } = useProfile();
 					profile?.username
 						? profile?.username
 						: profile?.userId
-						  ? 'Account'
-						  : 'Login'
+							? 'Account'
+							: 'Login'
 				}}
 			</NuxtLink>
 			<NuxtLink :to="PATHS.new" class="New button">+ New</NuxtLink>
@@ -40,6 +40,7 @@ const { profile } = useProfile();
 	display: grid;
 	margin-inline: auto;
 	padding: 2em 2em 5em;
+	max-width: 1400px;
 }
 ß .logo {
 	width: clamp(12em, 50vmin, 16em);
@@ -57,6 +58,7 @@ const { profile } = useProfile();
 
 @media (min-width: 600px) {
 	.nav {
+		position: absolute;
 		top: 1.5em;
 		right: 1.5em;
 		bottom: auto;
