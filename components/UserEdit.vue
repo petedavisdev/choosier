@@ -3,7 +3,7 @@ const props = defineProps<{
 	showWebsite?: boolean;
 }>();
 
-const supabase = useSupabaseClient();
+const supabase = useSupabaseClient<Database>();
 const { profile } = useProfile();
 const route = useRoute();
 
@@ -41,7 +41,6 @@ async function updateProfile() {
 					profile.value?.firstVote || profile.value?.votes[0]?.choice_id || 0,
 			};
 
-			// @ts-ignore: Unreachable code error
 			const response = await supabase.from('profiles').upsert(updates, {
 				returning: 'minimal',
 			});

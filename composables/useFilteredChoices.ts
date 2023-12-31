@@ -5,7 +5,7 @@ export async function useFilteredChoices(
 	onlyOpen = false,
 	minVotes = 0
 ) {
-	const supabase = useSupabaseClient();
+	const supabase = useSupabaseClient<Database>();
 	const now = new Date().toISOString();
 	const dateLimit = onlyOpen ? 'close_at' : 'remove_at';
 
@@ -45,12 +45,11 @@ export async function useFilteredChoices(
 
 		data.choices = response.data
 			.map((choice) => ({
-				id: choice.id as number,
-				title: choice.title as string,
-				images: choice.image_urls as string[],
-				// @ts-ignore: unreachable type error
-				username: choice.profiles?.username as string,
-				votes: choice.votes as { image_url: string }[],
+				id: choice.id,
+				title: choice.title!,
+				images: choice.image_urls!,
+				username: choice.profiles?.username!,
+				votes: choice.votes,
 			}))
 			.filter((choice) => choice.votes.length >= minVotes);
 	} catch (error: any) {

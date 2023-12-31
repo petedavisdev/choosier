@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const supabase = useSupabaseClient();
+const supabase = useSupabaseClient<Database>();
 const { profile } = useProfile();
 
 const data = reactive({

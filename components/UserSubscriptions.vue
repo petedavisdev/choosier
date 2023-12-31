@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { profile } = useProfile();
-const supabase = useSupabaseClient();
+const supabase = useSupabaseClient<Database>();
 
 const data = reactive({
 	subscriptions: profile.value?.subscriptions,

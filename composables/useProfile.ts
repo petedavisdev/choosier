@@ -26,7 +26,7 @@ export function useProfile() {
 		profile.value = null;
 
 		if (user.value?.id) {
-			const supabase = useSupabaseClient();
+			const supabase = useSupabaseClient<Database>();
 
 			try {
 				const response = await supabase
@@ -41,7 +41,7 @@ export function useProfile() {
 						recruits,
 						subscriptions,
 						first_vote,
-						choices:choices_user_id_fkey(id),
+						choices!choices_user_id_fkey(id),
 						votes(choice_id)
 					`
 					)
@@ -50,28 +50,25 @@ export function useProfile() {
 
 				if (response.error) throw response.error;
 
-				const earnedCredits = response.data.recruits
-					? // @ts-ignore
-						(response.data.recruits?.length as number)
-					: 0;
+				const earnedCredits = response.data.recruits?.length ?? 0;
 
 				const creditBalance =
 					response.data.credits_added +
 					earnedCredits -
-					response.data.credits_used;
+					(response.data.credits_used ?? 0);
 
 				profile.value = {
 					userId: response.data.user_id,
-					email: response.data.email,
-					username: response.data.username || '',
+					email: response.data.email!,
+					username: response.data.username ?? '',
 					credits: creditBalance,
-					creditsUsed: response.data.credits_used || 0,
-					recruits: response.data.recruits || [],
-					website: response.data.website || '',
-					subscriptions: response.data.subscriptions || [],
-					firstVote: response.data.first_vote || 0,
-					votes: response.data.votes as { choice_id: number }[],
-					choices: response.data.choices as { id: number }[],
+					creditsUsed: response.data.credits_used ?? 0,
+					recruits: response.data.recruits ?? [],
+					website: response.data.website ?? '',
+					subscriptions: response.data.subscriptions ?? [],
+					firstVote: response.data.first_vote ?? 0,
+					votes: response.data.votes,
+					choices: response.data.choices,
 				};
 			} catch (error: any) {
 				console.error(error.message);

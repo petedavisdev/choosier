@@ -1,5 +1,5 @@
 export function useCover(id: number) {
-	const supabase = useSupabaseClient();
+	const supabase = useSupabaseClient<Database>();
 
 	const COVER_OPTIONS = {
 		// transform: {

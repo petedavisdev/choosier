@@ -16,12 +16,9 @@ async function deleteChoice() {
 }
 
 async function updateChoice(update: Record<string, string>) {
-	const supabase = useSupabaseClient();
-
 	try {
 		const response = await supabase
 			.from('choices')
-			// @ts-ignore unreachable code
 			.update(update)
 			.eq('id', props.id);
 
