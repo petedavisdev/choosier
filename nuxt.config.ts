@@ -6,6 +6,11 @@ export default defineNuxtConfig({
 		'~/assets/utils.css',
 	],
 	modules: ['@nuxtjs/supabase', '@nuxtjs/eslint-module'],
+	nitro: {
+		prerender: {
+			routes: ['/'],
+		},
+	},
 	runtimeConfig: {
 		public: {
 			apiBase: process.env.SUPABASE_URL,

@@ -4,7 +4,7 @@ const { profile } = useProfile();
 
 <template>
 	<main :class="$style.container">
-		<IconLogo :class="$style.logo" />
+		<IconLogo :class="$style.home" />
 		<slot />
 		<nav :class="$style.nav">
 			<NuxtLink
