@@ -11,7 +11,7 @@ const hue = Math.floor(((parseInt(lastLetter, 36) - 10) * 360) / 26);
 <template>
 	<div
 		:class="$style.avatar"
-		:style="{ backgroundColor: `hsl(${hue}deg, 70%, 60%)` }"
+		:style="{ backgroundColor: `hsl(${hue}deg, 70%, 75%)` }"
 		:title="props.username"
 	>
 		{{ firstLetter }}

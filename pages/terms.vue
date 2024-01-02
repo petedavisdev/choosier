@@ -1,12 +1,15 @@
 <template>
 	<article>
 		<h1>Terms of use</h1>
-
-		<p>You must have the right to use the images that you share on Choosier.</p>
+		<p>You agree to take full legal responsibility for the content you add.</p>
+		<p>You must have the right to use all images that you upload.</p>
 		<p>
-			You take full responsibility for content that you add to Choosier, which
-			must be legal and appropriate for all audiences.
+			You will ensure that any content you make public is appropriate for all
+			audiences.
 		</p>
-		<p>Content may be removed at any time without warning or explanation.</p>
+		<p>
+			You accept that content added to Choosier may be deleted at any time
+			without warning, explanation or compensation.
+		</p>
 	</article>
 </template>

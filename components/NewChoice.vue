@@ -2,7 +2,7 @@
 import { toJpeg } from 'html-to-image';
 import { decode } from 'base64-arraybuffer';
 
-const supabase = useSupabaseClient();
+const supabase = useSupabaseClient<Database>();
 const { profile } = useProfile();
 
 const data = reactive({
@@ -59,20 +59,20 @@ const validationMessage = computed(() => {
 	return data.images.length < MIN_IMAGES
 		? `You need at least ${MIN_IMAGES} images!`
 		: data.images.length > data.maxImages
-			? `You have more than ${data.maxImages} images!`
-			: !data.title
-				? 'You need a title!'
-				: !data.category
-					? 'Choose a category!'
-					: !data.visibility
-						? 'Choose visibility!'
-						: !data.duration
-							? 'Choose a duration!'
-							: profile.value && credits.value.required > profile.value.credits
-								? `You have chosen to use ${credits.value.required} credit${
+		  ? `You have more than ${data.maxImages} images!`
+		  : !data.title
+		    ? 'You need a title!'
+		    : !data.category
+		      ? 'Choose a category!'
+		      : !data.visibility
+		        ? 'Choose visibility!'
+		        : !data.duration
+		          ? 'Choose a duration!'
+		          : profile.value && credits.value.required > profile.value.credits
+		            ? `You have chosen to use ${credits.value.required} credit${
 										credits.value.required === 1 ? '' : 's'
-									}, but you have ${profile.value?.credits}.`
-								: '';
+		              }, but you have ${profile.value?.credits}.`
+		            : '';
 });
 
 async function submit() {
@@ -85,7 +85,6 @@ async function submit() {
 		try {
 			data.loading = true;
 
-			// @ts-ignore unreachable code
 			const choicesResponse = await supabase
 				.from('choices')
 				.insert([
@@ -106,17 +105,15 @@ async function submit() {
 
 			const profilesResponse = await supabase
 				.from('profiles')
-				.update(
-					// @ts-ignore: Unreachable code error
-					{ credits_used: profile.value?.creditsUsed + credits.value.required }
-				)
+				.update({
+					credits_used: profile.value?.creditsUsed + credits.value.required,
+				})
 				.eq('user_id', profile.value?.userId);
 
 			if (profilesResponse.error) throw profilesResponse.error;
 
 			profile.value.credits = credits.value.remaining;
 
-			// @ts-ignore: Unreachable code error
 			const newChoiceId = choicesResponse.data[0]?.id;
 
 			createCover(newChoiceId);

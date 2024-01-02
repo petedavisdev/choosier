@@ -12,12 +12,11 @@ const data = reactive({
 });
 
 async function updateChoice() {
-	const supabase = useSupabaseClient();
+	const supabase = useSupabaseClient<Database>();
 
 	try {
 		const response = await supabase
 			.from('choices')
-			// @ts-ignore unreachable code
 			.update({ title: data.title, category: data.category })
 			.eq('id', props.id);
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { profile } = useProfile();
-const supabase = useSupabaseClient();
+const supabase = useSupabaseClient<Database>();
 
 const props = defineProps<{
 	id: number;
@@ -22,6 +22,7 @@ async function vote() {
 			user_id: data.userId || profile.value?.userId,
 			choice_id: props.id,
 			image_url: props.image,
+			image_urls: [props.image],
 			updated_at: new Date(),
 		};
 
@@ -36,7 +37,6 @@ async function vote() {
 			if (!profile.value?.firstVote) {
 				const profileResponse = await supabase
 					.from('profiles')
-					// @ts-ignore: Unreachable code error
 					.update({ first_vote: props.id })
 					.eq('user_id', profile.value?.userId);
 

@@ -6,7 +6,7 @@ const props = defineProps<{
 	username: string;
 }>();
 
-const supabase = useSupabaseClient();
+const supabase = useSupabaseClient<Database>();
 const { profile } = useProfile();
 
 const data = reactive({
@@ -33,7 +33,7 @@ try {
 	if (response.error) throw response.error;
 
 	data.userId = response.data.user_id;
-	data.website = response.data.website;
+	data.website = response.data.website ?? '';
 	data.choices = response.data.choices as Choices;
 
 	const allVotes = response.data.votes as Votes;

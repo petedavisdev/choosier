@@ -121,8 +121,7 @@ onMounted(() => {
 		'2️⃣' 1fr
 		'🦶' max-content
 		/ 1fr;
-	height: 100vh;
-	height: var(--windowHeight, 100dvh);
+	height: var(--windowHeight, 100svh);
 	padding: 1.5em 1.5em 0.5em;
 	opacity: 1;
 	transition: opacity 1.5s;

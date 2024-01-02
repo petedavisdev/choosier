@@ -35,9 +35,12 @@
 
 .button:hover,
 .card:hover {
-	background-color: var(--lightest);
 	transform: translateY(-1px);
 	box-shadow: -8px 10px 0 2px var(--dark);
+}
+
+.button:hover {
+	background-color: var(--lightest);
 }
 
 .button:disabled {
@@ -45,7 +48,9 @@
 }
 
 .card {
-	aspect-ratio: 16 / 9;
+	aspect-ratio: 40 / 21;
+	width: 100%;
+	max-width: 400px;
 	display: grid;
 	grid-template: 1fr / 1fr;
 	grid-template-areas: 'one';
@@ -78,6 +83,8 @@
 .cardTitle {
 	justify-self: start;
 	align-self: end;
+	min-width: 240px;
+	min-height: 60px;
 	border-top-right-radius: var(--radius);
 }
 
@@ -90,6 +97,28 @@
 
 .card:hover .cardTitle {
 	background-color: var(--lightest);
+}
+
+.card:nth-of-type(7n + 1) {
+	background-color: var(--blue);
+}
+.card:nth-of-type(7n + 2) {
+	background-color: var(--yellow);
+}
+.card:nth-of-type(7n + 3) {
+	background-color: var(--purple);
+}
+.card:nth-of-type(7n + 4) {
+	background-color: var(--green);
+}
+.card:nth-of-type(7n + 5) {
+	background-color: var(--peach);
+}
+.card:nth-of-type(7n + 6) {
+	background-color: var(--aqua);
+}
+.card:nth-of-type(7n) {
+	background-color: var(--pink);
 }
 
 .close {
@@ -126,7 +155,7 @@
 	}
 }
 
-@media (min-width: 1000px) {
+@media (min-width: 900px) {
 	.grid {
 		grid-template-columns: 1fr 1fr 1fr;
 	}

@@ -8,7 +8,7 @@ const props = defineProps<{
 	isRecruiter: boolean;
 }>();
 
-const supabase = useSupabaseClient();
+const supabase = useSupabaseClient<Database>();
 const { profile } = useProfile();
 
 const firstTimeVoters = computed(() => {

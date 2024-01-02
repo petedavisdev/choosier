@@ -3,7 +3,7 @@ const props = defineProps<{
 	showWebsite?: boolean;
 }>();
 
-const supabase = useSupabaseClient();
+const supabase = useSupabaseClient<Database>();
 const { profile } = useProfile();
 const route = useRoute();
 
@@ -35,7 +35,7 @@ async function updateProfile() {
 			const updates = {
 				user_id: profile.value?.userId,
 				username: cleanUsername.value,
-				updated_at: new Date(),
+				updated_at: new Date().toISOString(),
 				website: cleanWebsite.value,
 				first_vote:
 					profile.value?.firstVote || profile.value?.votes[0]?.choice_id || 0,

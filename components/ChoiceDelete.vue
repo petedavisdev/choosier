@@ -5,6 +5,8 @@ const props = defineProps<{
 	isClosed?: boolean;
 }>();
 
+const supabase = useSupabaseClient<Database>();
+
 const now = new Date().toISOString();
 
 async function closeChoice() {
@@ -16,12 +18,9 @@ async function deleteChoice() {
 }
 
 async function updateChoice(update: Record<string, string>) {
-	const supabase = useSupabaseClient();
-
 	try {
 		const response = await supabase
 			.from('choices')
-			// @ts-ignore unreachable code
 			.update(update)
 			.eq('id', props.id);
 

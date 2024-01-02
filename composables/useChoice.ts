@@ -3,7 +3,7 @@ export type Vote = {
 		username: string;
 		first_vote: number;
 	};
-	image_url: string;
+	image_urls: string[];
 	user_id: string;
 };
 
@@ -17,11 +17,11 @@ export type Choice = {
 	removeAt?: string;
 	isClosed?: boolean;
 	isRemoved?: boolean;
-	votes: Vote[] | { image_url: string }[];
+	votes: Partial<Vote>[];
 };
 
 export async function useChoice(id: number) {
-	const supabase = useSupabaseClient();
+	const supabase = useSupabaseClient<Database>();
 
 	const data = reactive({
 		loading: true,
@@ -39,7 +39,7 @@ export async function useChoice(id: number) {
 				category,
 				close_at,
 				remove_at,
-				votes (image_url, user_id, profiles (username, first_vote))
+				votes (image_urls, user_id, profiles (username, first_vote))
 				`
 			)
 			.eq('id', id)
@@ -47,13 +47,12 @@ export async function useChoice(id: number) {
 
 		if (choiceResponse.error) throw choiceResponse.error;
 
-		// @ts-ignore: unreachable type error
-		data.choice.username = choiceResponse.data.profiles?.username;
-		data.choice.title = choiceResponse.data.title;
-		data.choice.images = choiceResponse.data.image_urls;
-		data.choice.category = choiceResponse.data.category;
-		data.choice.closeAt = choiceResponse.data.close_at;
-		data.choice.removeAt = choiceResponse.data.remove_at;
+		data.choice.username = choiceResponse.data.profiles?.username ?? '';
+		data.choice.title = choiceResponse.data.title!;
+		data.choice.images = choiceResponse.data.image_urls!;
+		data.choice.category = choiceResponse.data.category ?? undefined;
+		data.choice.closeAt = choiceResponse.data.close_at ?? undefined;
+		data.choice.removeAt = choiceResponse.data.remove_at ?? undefined;
 		data.choice.isClosed = isPast(choiceResponse.data.close_at);
 		data.choice.isRemoved = isPast(choiceResponse.data.remove_at);
 		data.choice.votes = choiceResponse.data.votes as Vote[];
@@ -66,7 +65,7 @@ export async function useChoice(id: number) {
 	return { ...data.choice, loading: data.loading };
 }
 
-function isPast(dateISO?: string) {
+function isPast(dateISO?: string | null) {
 	if (!dateISO) return false;
 
 	const date = new Date(dateISO);

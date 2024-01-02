@@ -5,4 +5,12 @@ body {
 	--lightest: #fff;
 	--radius: 0.4rem;
 	--bold: 500;
+
+	--green: #beb;
+	--yellow: #dda;
+	--peach: #ecb;
+	--pink: #ebc;
+	--purple: #dcd;
+	--blue: #ace;
+	--aqua: #aed;
 }
