@@ -8,7 +8,7 @@ const data = reactive({
 });
 
 const shareLink = useRuntimeConfig().public.baseUrl + '/' + props.id;
-const embedCode = `<iframe src="${shareLink}" frameborder="0" style="height: calc(90dvh - 2rem); width: 100%"></iframe>`;
+const embedCode = `<iframe src="${shareLink}" frameborder="0" style="height: calc(90svh - 2rem); width: 100%"></iframe>`;
 
 function copy(text: string) {
 	try {

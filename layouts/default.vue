@@ -15,8 +15,8 @@ const { profile } = useProfile();
 					profile?.username
 						? profile?.username
 						: profile?.userId
-							? 'Account'
-							: 'Login'
+						  ? 'Account'
+						  : 'Login'
 				}}
 			</NuxtLink>
 			<NuxtLink :to="PATHS.new" class="New button">+ New</NuxtLink>
@@ -38,29 +38,30 @@ const { profile } = useProfile();
 <style module>
 .container {
 	display: grid;
-	margin-inline: auto;
 	padding: 2em 2em 5em;
-	max-width: 1500px;
+	margin-inline: auto;
+	max-width: 1328px;
 }
-ß .logo {
-	width: clamp(12em, 50vmin, 16em);
+
+.home {
+	width: clamp(12rem, 50vmin, 16rem);
 }
 
 .nav {
 	position: fixed;
-	bottom: 1.5em;
-	right: 1em;
+	bottom: 1.5rem;
+	right: 1rem;
 	z-index: 1;
 	display: grid;
 	grid-auto-flow: column;
-	gap: 1.5em;
+	gap: 1.5rem;
 }
 
 @media (min-width: 600px) {
 	.nav {
 		position: absolute;
-		top: 1.5em;
-		right: 1.5em;
+		top: 1.5rem;
+		right: 2rem;
 		bottom: auto;
 	}
 }

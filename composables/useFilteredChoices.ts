@@ -32,7 +32,7 @@ export async function useFilteredChoices(
 				title,
 				image_urls,
 				close_at,
-				votes (image_url)
+				votes (image_urls)
 				`
 			)
 			.neq('visibility', 'private')
@@ -49,7 +49,7 @@ export async function useFilteredChoices(
 				title: choice.title!,
 				images: choice.image_urls!,
 				username: choice.profiles?.username!,
-				votes: choice.votes,
+				votes: choice.votes as { image_urls: string[] }[],
 			}))
 			.filter((choice) => choice.votes.length >= minVotes);
 	} catch (error: any) {

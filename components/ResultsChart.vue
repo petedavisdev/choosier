@@ -14,15 +14,15 @@ const results = computed(() => {
 			return {
 				image,
 				voters: props.votes
-					.filter((vote) => image === vote.image_url)
+					.filter((vote) => image === vote.image_urls[0])
 					.map((vote) => vote.profiles.username)
 					.filter((vote) => vote)
 					.sort(function (a, b) {
 						return a === profile.value?.username
 							? -1
 							: b === profile.value?.username
-								? 1
-								: 0;
+							  ? 1
+							  : 0;
 					}),
 			};
 		})

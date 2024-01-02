@@ -5,6 +5,8 @@ const props = defineProps<{
 	isClosed?: boolean;
 }>();
 
+const supabase = useSupabaseClient<Database>();
+
 const now = new Date().toISOString();
 
 async function closeChoice() {

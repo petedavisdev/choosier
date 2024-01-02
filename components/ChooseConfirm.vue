@@ -22,6 +22,7 @@ async function vote() {
 			user_id: data.userId || profile.value?.userId,
 			choice_id: props.id,
 			image_url: props.image,
+			image_urls: [props.image],
 			updated_at: new Date(),
 		};
 

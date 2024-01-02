@@ -114,18 +114,21 @@ export interface Database {
         Row: {
           choice_id: number
           image_url: string
+          image_urls: string[] | null
           updated_at: string | null
           user_id: string
         }
         Insert: {
           choice_id: number
           image_url: string
+          image_urls?: string[] | null
           updated_at?: string | null
           user_id: string
         }
         Update: {
           choice_id?: number
           image_url?: string
+          image_urls?: string[] | null
           updated_at?: string | null
           user_id?: string
         }
