@@ -15,6 +15,7 @@
 	},
 	"devDependencies": {
 		"@nuxt/eslint-config": "^0.2.0",
+		"@nuxt/image": "^1",
 		"@nuxtjs/eslint-module": "^4",
 		"@nuxtjs/supabase": "^1",
 		"base64-arraybuffer": "^1",
