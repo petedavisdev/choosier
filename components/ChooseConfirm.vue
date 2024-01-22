@@ -11,24 +11,17 @@ const data = reactive({
 	loading: false,
 	requested: false,
 	email: '',
-	userId: '',
 });
 
-async function vote() {
+async function vote(userId: string) {
 	try {
 		data.loading = true;
 
-		const updates = {
-			user_id: data.userId || profile.value?.userId,
+		const response = await supabase.from('votes').upsert({
+			user_id: userId,
 			choice_id: props.id,
-			image_url: props.image,
 			image_urls: [props.image],
-			updated_at: new Date(),
-		};
-
-		// @ts-ignore: Unreachable code error
-		const response = await supabase.from('votes').upsert(updates, {
-			returning: 'minimal',
+			updated_at: new Date().toISOString(),
 		});
 
 		if (response.error) throw response.error;
@@ -38,7 +31,7 @@ async function vote() {
 				const profileResponse = await supabase
 					.from('profiles')
 					.update({ first_vote: props.id })
-					.eq('user_id', profile.value?.userId);
+					.eq('user_id', profile.value.userId);
 
 				if (profileResponse.error) throw profileResponse.error;
 			}
@@ -47,10 +40,8 @@ async function vote() {
 
 			navigateTo(PATHS.results + props.id);
 		}
-		return true;
 	} catch (error: any) {
 		console.warn(error.message);
-		return false;
 	} finally {
 		data.loading = false;
 	}
@@ -66,11 +57,9 @@ async function getUserId() {
 
 		if (response.error) throw response.error;
 
-		data.userId = response.data.user_id;
-		return true;
+		return response.data.user_id;
 	} catch (error: any) {
 		alert(error.message);
-		return false;
 	}
 }
 
@@ -81,11 +70,11 @@ async function request() {
 
 		if (response.error) throw response.error;
 
-		const hasId = await getUserId();
+		const userId = await getUserId();
 
-		if (!hasId) throw 'Unable to get user id';
+		if (!userId) throw 'Unable to get user id';
 
-		await vote();
+		await vote(userId);
 
 		data.requested = true;
 	} catch (error: any) {
@@ -106,7 +95,7 @@ function retry() {
 	</section>
 
 	<section v-if="profile" :class="$style.confirm">
-		<button type="button" class="button" @click="vote()">
+		<button type="button" class="button" @click="vote(profile.userId)">
 			✓ Confirm my choice
 		</button>
 	</section>
