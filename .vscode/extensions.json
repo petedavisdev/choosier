@@ -2,7 +2,6 @@
 	"recommendations": [
 		"esbenp.prettier-vscode",
 		"amatiasq.sort-imports",
-		"vue.vscode-typescript-vue-plugin",
 		"dbaeumer.vscode-eslint",
 		"vue.volar"
 	]
