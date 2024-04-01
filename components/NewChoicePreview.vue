@@ -48,5 +48,6 @@ const props = defineProps<{
 .card {
 	cursor: unset;
 	margin-bottom: 2em;
+	width: 360px;
 }
 </style>

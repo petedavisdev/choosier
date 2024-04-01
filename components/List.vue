@@ -23,13 +23,15 @@ const choices = await useFilteredChoices(
 			class="card"
 		>
 			<div class="cardImages">
-				<img
+				<NuxtImg
 					class="cardImage"
 					:src="useCover(choice.id)"
 					alt=""
 					:loading="index > 2 ? 'lazy' : undefined"
 					height="210"
 					width="400"
+					format="webp"
+					quality="80"
 				/>
 			</div>
 

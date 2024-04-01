@@ -9,12 +9,13 @@ export async function useFilteredChoices(
 	const now = new Date().toISOString();
 	const dateLimit = onlyOpen ? 'close_at' : 'remove_at';
 
-	let filterEq = ['', ''] as [string, string];
-	let filterIn = ['', []] as [string, number[]];
-	if (typeof filter[1] === 'string' || typeof filter[1] === 'number') {
-		filterEq = filter as [string, string];
+	let filterInclude: [string, number[]] = ['', []];
+	let filterEqual: [string, string | number] = ['', ''];
+
+	if (Array.isArray(filter[1])) {
+		filterInclude = filter as [string, number[]];
 	} else {
-		filterIn = filter as [string, number[]];
+		filterEqual = filter as [string, string | number];
 	}
 
 	const data = reactive({
@@ -36,8 +37,8 @@ export async function useFilteredChoices(
 				`
 			)
 			.neq('visibility', 'private')
-			.eq(...filterEq)
-			.in(...filterIn)
+			.eq(...filterEqual)
+			.in(...filterInclude)
 			.gt(dateLimit, now)
 			.order('created_at', { ascending: false });
 

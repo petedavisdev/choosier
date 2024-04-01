@@ -59,20 +59,20 @@ const validationMessage = computed(() => {
 	return data.images.length < MIN_IMAGES
 		? `You need at least ${MIN_IMAGES} images!`
 		: data.images.length > data.maxImages
-		  ? `You have more than ${data.maxImages} images!`
-		  : !data.title
-		    ? 'You need a title!'
-		    : !data.category
-		      ? 'Choose a category!'
-		      : !data.visibility
-		        ? 'Choose visibility!'
-		        : !data.duration
-		          ? 'Choose a duration!'
-		          : profile.value && credits.value.required > profile.value.credits
-		            ? `You have chosen to use ${credits.value.required} credit${
+			? `You have more than ${data.maxImages} images!`
+			: !data.title
+				? 'You need a title!'
+				: !data.category
+					? 'Choose a category!'
+					: !data.visibility
+						? 'Choose visibility!'
+						: !data.duration
+							? 'Choose a duration!'
+							: profile.value && credits.value.required > profile.value.credits
+								? `You have chosen to use ${credits.value.required} credit${
 										credits.value.required === 1 ? '' : 's'
-		              }, but you have ${profile.value?.credits}.`
-		            : '';
+									}, but you have ${profile.value?.credits}.`
+								: '';
 });
 
 async function submit() {
@@ -321,11 +321,11 @@ function closePreview() {
 							v-for="(image, index) in data.images"
 							:key="index"
 							class="cardImage"
-							:src="image.replace('h_800', 'h_320')"
+							:src="image.replace('h_800', 'h_210')"
 							alt=""
 							loading="lazy"
-							height="320"
-							width="320"
+							height="315"
+							width="315"
 						/>
 					</div>
 				</template>

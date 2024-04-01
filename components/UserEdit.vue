@@ -13,8 +13,8 @@ const data = reactive({
 	website: profile.value?.website,
 });
 
-const cleanUsername = computed(
-	() => data.username?.toLowerCase().replace(/[^a-z0-9-_]/g, '')
+const cleanUsername = computed(() =>
+	data.username?.toLowerCase().replace(/[^a-z0-9-_]/g, '')
 );
 
 const cleanWebsite = computed(() => {
@@ -41,10 +41,10 @@ async function updateProfile() {
 					profile.value?.firstVote || profile.value?.votes[0]?.choice_id || 0,
 			};
 
-			// @ts-ignore: Unreachable code error
-			const response = await supabase.from('profiles').upsert(updates, {
-				returning: 'minimal',
-			});
+			const response = await supabase
+				.from('profiles')
+				.update(updates)
+				.eq('user_id', profile.value.userId);
 
 			if (response.error) throw response.error;
 

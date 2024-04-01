@@ -18,15 +18,14 @@ async function updateProfile() {
 			data.loading = true;
 
 			const updates = {
-				user_id: profile.value?.userId,
+				updated_at: new Date().toISOString(),
 				subscriptions: data.subscriptions,
-				updated_at: new Date(),
 			};
 
-			// @ts-ignore: Unreachable code error
-			const response = await supabase.from('profiles').upsert(updates, {
-				returning: 'minimal',
-			});
+			const response = await supabase
+				.from('profiles')
+				.update(updates)
+				.eq('user_id', profile.value.userId);
 
 			if (response.error) throw response.error;
 
