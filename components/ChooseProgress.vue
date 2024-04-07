@@ -10,7 +10,7 @@
 <style module>
 .bar,
 .indicator {
-	height: 0.5em;
+	height: 0.375em;
 	border-radius: 0.25em;
 	background-color: var(--light);
 }

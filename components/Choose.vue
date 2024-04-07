@@ -5,14 +5,16 @@ const props = defineProps<{
 
 const { profile } = useProfile();
 const choice = await useChoice(props.id);
-const length = choice.images.length;
+const length = choice.images?.length;
+
+if (!length && !choice.isRemoved) navigateTo(PATHS.home);
 
 const data = reactive({
 	matches: [] as (string | undefined)[][],
 });
 
-const userVoted = computed(
-	() => profile.value?.votes.find((vote) => vote.choice_id === props.id)
+const userVoted = computed(() =>
+	profile.value?.votes.find((vote) => vote.choice_id === props.id)
 );
 
 data.matches = choice.images?.map((_image, index) => [
@@ -45,7 +47,7 @@ onMounted(() => {
 		/>
 	</Head>
 
-	<main v-if="choice.title && !choice.isRemoved" :class="$style.container">
+	<main :class="$style.container">
 		<form
 			v-for="(match, matchIndex) in data.matches"
 			:id="'match' + matchIndex"
@@ -73,6 +75,7 @@ onMounted(() => {
 				:class="$style.controls"
 				:match-index="matchIndex"
 				:length="length"
+				:allow-share="choice.visibility !== 'private'"
 			/>
 		</form>
 
@@ -91,16 +94,6 @@ onMounted(() => {
 		</aside>
 
 		<ChooseIntro v-else :username="choice.username" :title="choice.title" />
-	</main>
-
-	<main v-else>
-		<form>
-			<div>
-				<IconLogo />
-				<h1>Choice not found.</h1>
-				<LinkTo to="/">&larr; Go back home</LinkTo>
-			</div>
-		</form>
 	</main>
 </template>
 

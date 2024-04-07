@@ -3,6 +3,7 @@ const props = defineProps<{
 	matchIndex: number;
 	length: number;
 	id: number;
+	allowShare: boolean;
 }>();
 
 const data = reactive({
@@ -43,8 +44,17 @@ function toggleShare() {
 
 		<IconLogo :class="$style.logo" />
 
-		<button type="button" :class="$style.share" @click="toggleShare">
+		<button
+			v-if="allowShare"
+			type="button"
+			:class="$style.share"
+			@click="toggleShare"
+		>
 			<IconShare :class="$style.icon" />
+		</button>
+
+		<button v-else type="button" :class="$style.share" disabled>
+			<IconLock :class="$style.icon" />
 		</button>
 
 		<aside v-if="data.shareOpen" :class="$style.drawer">
@@ -70,10 +80,6 @@ function toggleShare() {
 	border: none;
 	background-color: transparent;
 	padding: 0;
-}
-
-.undo:disabled {
-	color: var(--light);
 }
 
 .progress {

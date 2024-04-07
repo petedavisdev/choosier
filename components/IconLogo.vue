@@ -1,5 +1,5 @@
 <template>
-	<LinkTo to="/" aria-label="Home">
+	<LinkTo :to="PATHS.home" aria-label="Home">
 		<svg
 			:class="$style.logo"
 			viewBox="0 0 279 49"

@@ -64,12 +64,12 @@ try {
 
 		<template v-else>
 			<h1>Chooser not found</h1>
-			<LinkTo to="/" class="button">Home</LinkTo>
+			<LinkTo :to="PATHS.home" class="button">Home</LinkTo>
 		</template>
 
 		<template v-if="data.userId && !data.choices && !data.votes">
 			<h2>No activity</h2>
-			<LinkTo to="/" class="button">Home</LinkTo>
+			<LinkTo :to="PATHS.home" class="button">Home</LinkTo>
 		</template>
 
 		<template v-if="data.userId">

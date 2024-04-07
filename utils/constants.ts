@@ -1,4 +1,5 @@
 export const PATHS = {
+	home: '/',
 	category: '/_',
 	new: '/!',
 	results: '/=',

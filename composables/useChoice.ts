@@ -18,6 +18,8 @@ export type Choice = {
 	isClosed?: boolean;
 	isRemoved?: boolean;
 	votes: Partial<Vote>[];
+	uuid: string;
+	visibility?: 'public' | 'private' | 'promoted';
 };
 
 export async function useChoice(id: number) {
@@ -39,7 +41,9 @@ export async function useChoice(id: number) {
 				category,
 				close_at,
 				remove_at,
-				votes (image_urls, user_id, profiles (username, first_vote))
+				votes (image_urls, user_id, profiles (username, first_vote)),
+				uuid,
+				visibility
 				`
 			)
 			.eq('id', id)
@@ -56,6 +60,8 @@ export async function useChoice(id: number) {
 		data.choice.isClosed = isPast(choiceResponse.data.close_at);
 		data.choice.isRemoved = isPast(choiceResponse.data.remove_at);
 		data.choice.votes = choiceResponse.data.votes as Vote[];
+		data.choice.uuid = choiceResponse.data.uuid;
+		data.choice.visibility = choiceResponse.data.visibility;
 	} catch (error: any) {
 		console.error(error.message);
 	} finally {

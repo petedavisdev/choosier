@@ -95,3 +95,7 @@ small {
 strong {
 	font-weight: bold;
 }
+
+:disabled {
+	color: var(--light);
+}
