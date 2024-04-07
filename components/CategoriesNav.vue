@@ -1,5 +1,7 @@
 <template>
 	<nav :class="$style.categories">
+		<LinkTo :to="PATHS.home" :class="$style.link">Featured</LinkTo>
+
 		<template v-for="(category, key) in CATEGORIES" :key="key">
 			<LinkTo :to="PATHS.category + key" :class="$style.link">{{
 				key.replace('-', ' ')

@@ -19,7 +19,7 @@ export async function useFilteredChoices(
 	}
 
 	const data = reactive({
-		choices: [] as Choice[],
+		choices: [] as Pick<Choice, 'id' | 'username' | 'title' | 'votes'>[],
 		loading: true,
 	});
 
@@ -31,8 +31,6 @@ export async function useFilteredChoices(
                 id,
 				profiles!choices_user_id_fkey(username),
 				title,
-				image_urls,
-				close_at,
 				votes (image_urls)
 				`
 			)
@@ -47,9 +45,8 @@ export async function useFilteredChoices(
 		data.choices = response.data
 			.map((choice) => ({
 				id: choice.id,
-				title: choice.title!,
-				images: choice.image_urls!,
-				username: choice.profiles?.username!,
+				title: choice.title ?? '',
+				username: choice.profiles?.username ?? '',
 				votes: choice.votes as { image_urls: string[] }[],
 			}))
 			.filter((choice) => choice.votes.length >= minVotes);
