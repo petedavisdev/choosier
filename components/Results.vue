@@ -1,6 +1,9 @@
 <script setup lang="ts">
 const props = defineProps<{
 	id: number;
+	isPublic: boolean;
+	isCreator: boolean;
+	isVoter: boolean;
 }>();
 
 const choice = await useChoice(props.id);
@@ -15,12 +18,6 @@ const removeText = new Date(choice.removeAt as string).toLocaleString(
 		minute: 'numeric',
 	}
 );
-
-const isVoter = computed(() =>
-	profile.value?.votes?.find((vote) => vote.choice_id === props.id)
-);
-
-const isCreator = computed(() => choice.username === profile.value?.username);
 </script>
 
 <template>
@@ -50,7 +47,7 @@ const isCreator = computed(() => choice.username === profile.value?.username);
 		<UserLogin />
 	</template>
 
-	<template v-else-if="!isVoter && !choice.isClosed && !isCreator">
+	<template v-else-if="!props.isCreator && !props.isVoter && !choice.isClosed">
 		<h1>Choose first, then see the results</h1>
 		<List :filter="['id', props.id]" />
 	</template>
@@ -65,7 +62,7 @@ const isCreator = computed(() => choice.username === profile.value?.username);
 	<template v-else-if="!choice.isRemoved">
 		<h1>
 			<small :class="$style.intro">
-				{{ isVoter ? 'You helped' : 'Help' }}
+				{{ props.isVoter ? 'You helped' : 'Help' }}
 				<LinkTo :to="PATHS.user + choice.username">
 					{{ choice.username }}
 				</LinkTo>
@@ -87,14 +84,11 @@ const isCreator = computed(() => choice.username === profile.value?.username);
 			<ResultsRecruits
 				:id="id"
 				:recruiter-name="choice.username"
-				:is-recruiter="isCreator"
+				:is-recruiter="props.isCreator"
 				:votes="choice.votes as Vote[]"
 			/>
 
-			<aside
-				v-if="!choice.isClosed && choice.visibility !== 'private'"
-				class="box"
-			>
+			<aside v-if="!choice.isClosed && props.isPublic" class="box">
 				<h2>Share to get more votes</h2>
 				<Share :id="props.id" />
 			</aside>

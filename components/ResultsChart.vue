@@ -16,14 +16,7 @@ const results = computed(() => {
 				voters: props.votes
 					.filter((vote) => image === vote.image_urls[0])
 					.map((vote) => vote.profiles.username)
-					.filter((vote) => vote)
-					.sort(function (a, b) {
-						return a === profile.value?.username
-							? -1
-							: b === profile.value?.username
-								? 1
-								: 0;
-					}),
+					.filter((username) => username),
 			};
 		})
 		.sort((a, b) => b.voters.length - a.voters.length);
@@ -62,7 +55,10 @@ const mostVotes = computed(() => results.value[0].voters.length);
 					:key="voter"
 					:class="$style.voter"
 				>
-					<LinkTo :to="PATHS.user + voter" :class="$style.avatar">
+					<LinkTo
+						:to="PATHS.user + voter"
+						:class="`${$style.avatar} ${profile?.username === voter ? $style.myAvatar : ''}`"
+					>
 						<UserAvatar :username="voter" />
 					</LinkTo>
 					{{ ' ' }}
@@ -128,10 +124,15 @@ const mostVotes = computed(() => results.value[0].voters.length);
 	width: 1em;
 	display: inline-block;
 	border-radius: 50%;
+	border: 1px solid var(--lighter);
 	overflow: hidden;
 	text-decoration: none;
 	box-sizing: content-box;
 	margin: 0 0.125em 0.125em 0;
+}
+
+.myAvatar {
+	border-color: var(--dark);
 }
 
 .image {
