@@ -10,15 +10,34 @@ if (choice.username !== profile.value?.username || choice.isRemoved) {
 </script>
 
 <template>
+	<Head
+		><Meta
+			v-if="choice.visibility === 'private'"
+			name="robots"
+			content="noindex"
+		/>
+	</Head>
+
 	<List :filter="['id', id]" allow-private>Choice not found</List>
 
 	<div class="box" :class="$style.section">
-		<h1>Edit choice</h1>
+		<h1>Share</h1>
+		<p v-if="choice.visibility === 'private'">
+			Here is your private link. Share it with people you trust.
+		</p>
+		<Share
+			:id="id"
+			:uuid="choice.visibility === 'private' ? choice.uuid : undefined"
+		/>
+	</div>
+
+	<div class="box" :class="$style.section">
+		<h1>Edit</h1>
 		<ChoiceEdit :id="id" :choice="choice" />
 	</div>
 
 	<div class="box" :class="$style.section">
-		<h2>Danger zone!</h2>
+		<h1>Danger zone!</h1>
 		<ChoiceDelete
 			:id="id"
 			:username="choice.username"
@@ -30,7 +49,7 @@ if (choice.username !== profile.value?.username || choice.isRemoved) {
 <style module>
 .section {
 	margin-bottom: 3em;
-	display: grid;
-	gap: 1em;
+	padding-top: 0;
+	padding-bottom: 1rem;
 }
 </style>

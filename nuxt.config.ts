@@ -5,7 +5,7 @@ export default defineNuxtConfig({
 		'~/assets/base.css',
 		'~/assets/utils.css',
 	],
-	modules: ['@nuxtjs/supabase', '@nuxtjs/eslint-module', "@nuxt/image"],
+	modules: ['@nuxtjs/supabase', '@nuxtjs/eslint-module', '@nuxt/image'],
 	nitro: {
 		prerender: {
 			routes: ['/'],

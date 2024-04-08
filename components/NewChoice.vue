@@ -11,7 +11,7 @@ const data = reactive({
 	images: [] as string[],
 	maxImages: +Object.keys(IMAGE_LIMITS)[0],
 	category: '',
-	visibility: 'public',
+	visibility: 'public' as 'public' | 'private' | 'promoted',
 	duration: 1,
 	showPreview: false,
 });

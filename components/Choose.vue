@@ -45,6 +45,11 @@ onMounted(() => {
 			property="og:image"
 			:content="useCover(props.id) || choice.images?.[0]"
 		/>
+		<Meta
+			v-if="choice.visibility === 'private'"
+			name="robots"
+			content="noindex"
+		/>
 	</Head>
 
 	<main :class="$style.container">
