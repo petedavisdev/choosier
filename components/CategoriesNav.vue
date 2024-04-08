@@ -17,5 +17,6 @@
 	flex-wrap: wrap;
 	margin-bottom: 2em;
 	text-transform: capitalize;
+	line-height: 1;
 }
 </style>

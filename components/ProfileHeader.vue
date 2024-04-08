@@ -2,10 +2,8 @@
 const props = defineProps<{
 	username: string;
 	website?: string;
+	isUser?: boolean;
 }>();
-
-const { profile } = useProfile();
-const isUser = props.username === profile.value?.username;
 </script>
 
 <template>

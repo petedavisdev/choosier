@@ -52,41 +52,44 @@ try {
 
 <template>
 	<Head>
-		<Title>{{ username }} | Choosier</Title>
+		<Title>{{ props.username }} | Choosier</Title>
 	</Head>
 
-	<div v-if="props.username">
-		<ProfileHeader
-			v-if="data.userId"
-			:username="props.username"
-			:website="data.website"
-		/>
+	<ProfileHeader
+		v-if="data.userId"
+		:username="props.username"
+		:website="data.website"
+		:is-user="isUser"
+	/>
 
-		<template v-else>
-			<h1>Chooser not found</h1>
-			<LinkTo :to="PATHS.home" class="button">Home</LinkTo>
-		</template>
+	<template v-else>
+		<h1>Chooser not found</h1>
+		<LinkTo :to="PATHS.home" class="button">Home</LinkTo>
+	</template>
 
-		<template v-if="data.userId && !data.choices && !data.votes">
-			<h2>No activity</h2>
-			<LinkTo :to="PATHS.home" class="button">Home</LinkTo>
-		</template>
+	<template v-if="data.userId && !data.choices && !data.votes">
+		<h2>No activity</h2>
+		<LinkTo :to="PATHS.home" class="button">Home</LinkTo>
+	</template>
 
-		<template v-if="data.userId">
-			<h2>Choices</h2>
-			<List :filter="['user_id', data.userId]" :edit="isUser">
-				<p>{{ username }} has no active choices.</p>
-				<LinkTo v-if="isUser" :to="PATHS.new" class="button">
-					+ New choice
-				</LinkTo>
-			</List>
-		</template>
+	<template v-if="data.userId">
+		<h2>{{ isUser ? 'My choices' : 'Choices' }}</h2>
+		<List
+			:filter="['user_id', data.userId]"
+			:edit="isUser"
+			:allow-private="isUser"
+		>
+			<p>{{ username }} has no active choices.</p>
+			<LinkTo v-if="isUser" :to="PATHS.new" class="button">
+				+ New choice
+			</LinkTo>
+		</List>
+	</template>
 
-		<template v-if="data.votes?.length">
-			<h2>Votes</h2>
-			<List :filter="['id', data.votes]">
-				<p>{{ username }} has no votes to show</p>
-			</List>
-		</template>
-	</div>
+	<template v-if="data.votes?.length">
+		<h2>{{ isUser ? 'My votes' : 'Votes' }}</h2>
+		<List :filter="['id', data.votes]" :allow-private="isUser">
+			<p>{{ username }} has no votes to show</p>
+		</List>
+	</template>
 </template>

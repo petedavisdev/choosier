@@ -16,7 +16,7 @@ const category = route.params.category as keyof typeof CATEGORIES;
 
 		<CategoriesNav />
 
-		<List :filter="['category', category]" open :min-votes="1" />
+		<List :filter="['category', category]" open />
 
 		<template v-if="category === 'art'">
 			<Head>

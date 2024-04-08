@@ -19,7 +19,7 @@ export type Choice = {
 	isRemoved?: boolean;
 	votes: Partial<Vote>[];
 	uuid: string;
-	visibility?: 'public' | 'private' | 'promoted';
+	visibility: 'public' | 'private' | 'promoted' | 'removed';
 };
 
 export async function useChoice(id: number) {

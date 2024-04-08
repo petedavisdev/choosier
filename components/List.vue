@@ -4,11 +4,12 @@ const props = defineProps<{
 	open?: boolean;
 	minVotes?: number;
 	edit?: boolean;
+	allowPrivate?: boolean;
 }>();
 const choices = await useFilteredChoices(
 	props.filter,
 	props.open,
-	props.minVotes
+	props.allowPrivate
 );
 </script>
 
@@ -19,7 +20,11 @@ const choices = await useFilteredChoices(
 		<LinkTo
 			v-for="(choice, index) in choices"
 			:key="choice.id"
-			:to="choice.id"
+			:to="
+				choice.visibility === 'private'
+					? choice.id + '?uuid=' + choice.uuid
+					: choice.id
+			"
 			class="card"
 		>
 			<div class="cardImages">
@@ -35,14 +40,37 @@ const choices = await useFilteredChoices(
 				/>
 			</div>
 
+			<div
+				v-if="choice.visibility === 'private'"
+				class="cardImages"
+				:class="$style.lockBackdrop"
+			>
+				<IconLock :class="$style.lockIcon" />
+			</div>
+
 			<div class="cardTitle">
 				<small>Help {{ choice.username }} choose</small>
 				<div>{{ choice.title }}</div>
 			</div>
 
-			<span v-if="props.edit" class="cardEdit">
-				<LinkTo :to="PATHS.new + choice.id"> ✎ Edit </LinkTo>
-			</span>
+			<LinkTo v-if="props.edit" class="cardEdit" :to="PATHS.new + choice.id">
+				<IconSettings class="cardEditIcon" />
+			</LinkTo>
 		</LinkTo>
 	</section>
 </template>
+
+<style module>
+.lockBackdrop {
+	display: grid;
+	place-items: center;
+	background-color: var(--dark);
+	opacity: 0.5;
+}
+.lockIcon {
+	height: 8rem;
+	width: 6rem;
+	padding-bottom: 3rem;
+	color: var(--lightest);
+}
+</style>

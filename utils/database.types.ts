@@ -34,7 +34,7 @@ export type Database = {
           title?: string | null
           user_id?: string | null
           uuid?: string
-          visibility: Database["public"]["Enums"]["Visibility"]
+          visibility?: Database["public"]["Enums"]["Visibility"]
         }
         Update: {
           category?: string | null
@@ -157,7 +157,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      Visibility: "private" | "promoted" | "public"
+      Visibility: "private" | "promoted" | "public" | "removed"
     }
     CompositeTypes: {
       [_ in never]: never

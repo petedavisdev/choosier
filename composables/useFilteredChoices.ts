@@ -3,7 +3,7 @@ import type { Choice } from './useChoice';
 export async function useFilteredChoices(
 	filter: [string, string | number | number[]],
 	onlyOpen = false,
-	minVotes = 0
+	allowPrivate = false
 ) {
 	const supabase = useSupabaseClient<Database>();
 	const now = new Date().toISOString();
@@ -19,7 +19,10 @@ export async function useFilteredChoices(
 	}
 
 	const data = reactive({
-		choices: [] as Pick<Choice, 'id' | 'username' | 'title' | 'votes'>[],
+		choices: [] as Pick<
+			Choice,
+			'id' | 'username' | 'title' | 'votes' | 'visibility' | 'uuid'
+		>[],
 		loading: true,
 	});
 
@@ -31,10 +34,13 @@ export async function useFilteredChoices(
                 id,
 				profiles!choices_user_id_fkey(username),
 				title,
-				votes (image_urls)
+				votes (image_urls), 
+				visibility, 
+				uuid
 				`
 			)
-			.neq('visibility', 'private')
+			.neq('visibility', allowPrivate ? 'removed' : 'private')
+			.neq('visibility', 'removed')
 			.eq(...filterEqual)
 			.in(...filterInclude)
 			.gt(dateLimit, now)
@@ -48,8 +54,10 @@ export async function useFilteredChoices(
 				title: choice.title ?? '',
 				username: choice.profiles?.username ?? '',
 				votes: choice.votes as { image_urls: string[] }[],
+				visibility: choice.visibility,
+				uuid: choice.uuid,
 			}))
-			.filter((choice) => choice.votes.length >= minVotes);
+			.sort((a, b) => b.votes.length - a.votes.length);
 	} catch (error: any) {
 		console.error(error.message);
 	} finally {
