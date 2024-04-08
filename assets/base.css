@@ -19,6 +19,12 @@ img {
 	max-width: 100%;
 }
 
+a {
+	text-decoration-color: var(--light);
+	text-underline-offset: 0.375em;
+	text-decoration-skip-ink: none;
+}
+
 a,
 button {
 	color: var(--dark);
@@ -33,8 +39,7 @@ button {
 }
 
 [aria-current='page'] {
-	font-weight: var(--bold);
-	text-decoration: none;
+	text-decoration-color: currentColor;
 }
 
 h1,
