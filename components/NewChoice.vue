@@ -62,10 +62,10 @@ const validationMessage = computed(() => {
 			? `You have more than ${data.maxImages} images!`
 			: !data.title
 				? 'You need a title!'
-				: !data.category
-					? 'Choose a category!'
-					: !data.visibility
-						? 'Choose visibility!'
+				: !data.visibility
+					? 'Choose visibility!'
+					: !data.category && data.visibility !== 'private'
+						? 'Choose a category!'
 						: !data.duration
 							? 'Choose a duration!'
 							: profile.value && credits.value.required > profile.value.credits
@@ -226,22 +226,6 @@ function closePreview() {
 			}}</small>
 		</section>
 
-		<section id="categories">
-			<h2>Category</h2>
-			<p v-for="(category, key) in CATEGORIES" :key="key">
-				<label>
-					<input
-						v-model="data.category"
-						type="radio"
-						name="category"
-						:value="key"
-						required
-					/>
-					{{ category }}
-				</label>
-			</p>
-		</section>
-
 		<section id="visibility">
 			<h2>Visibility</h2>
 			<p v-for="(value, key) in VISIBILITIES" :key="key">
@@ -256,7 +240,7 @@ function closePreview() {
 						v-model="data.visibility"
 						type="radio"
 						:value="key"
-						:disabled="key === 'private' || profile.credits < value.credits"
+						:disabled="profile.credits < value.credits"
 						required
 					/>
 					{{ value.name }}
@@ -266,6 +250,22 @@ function closePreview() {
 						</strong>
 						{{ value.description }}
 					</small>
+				</label>
+			</p>
+		</section>
+
+		<section v-if="data.visibility !== 'private'" id="categories">
+			<h2>Category</h2>
+			<p v-for="(category, key) in CATEGORIES" :key="key">
+				<label>
+					<input
+						v-model="data.category"
+						type="radio"
+						name="category"
+						:value="key"
+						required
+					/>
+					{{ category }}
 				</label>
 			</p>
 		</section>
@@ -329,6 +329,10 @@ function closePreview() {
 						/>
 					</div>
 				</template>
+
+				<p v-if="data.visibility === 'private'">
+					You will get a private link to share with trusted voters.
+				</p>
 
 				<p>
 					Voting will close

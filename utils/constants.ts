@@ -28,7 +28,7 @@ export const VISIBILITIES = {
 	},
 	private: {
 		name: 'Private',
-		description: 'Coming soon...',
+		description: 'Get a private link to share with trusted voters',
 		credits: 5,
 	},
 } as const;
