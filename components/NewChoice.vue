@@ -116,9 +116,9 @@ async function submit() {
 
 			const newChoiceId = choicesResponse.data[0]?.id;
 
-			createCover(newChoiceId);
+			await createCover(newChoiceId);
 
-			navigateTo(PATHS.user + profile.value?.username);
+			navigateTo(PATHS.new + newChoiceId);
 		} catch (error: any) {
 			alert(error.message);
 		} finally {

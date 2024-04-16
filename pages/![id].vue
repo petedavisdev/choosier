@@ -4,8 +4,13 @@ const id = +route.params.id;
 const choice = await useChoice(id);
 
 const { profile } = useProfile();
-if (choice.username !== profile.value?.username || choice.isRemoved) {
+
+if (choice.isRemoved) {
 	navigateTo(PATHS.home);
+}
+
+if (choice.username !== profile.value?.username) {
+	navigateTo('/' + id);
 }
 </script>
 
@@ -18,7 +23,8 @@ if (choice.username !== profile.value?.username || choice.isRemoved) {
 		/>
 	</Head>
 
-	<List :filter="['id', id]" allow-private>Choice not found</List>
+	<h1>Voting is now {{ choice.isClosed ? 'closed' : 'open' }}</h1>
+	<List :filter="['id', id]" allow-private />
 
 	<div class="box" :class="$style.section">
 		<h1>Share</h1>
