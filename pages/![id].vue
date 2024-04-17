@@ -15,8 +15,8 @@ if (choice.username !== profile.value?.username) {
 </script>
 
 <template>
-	<Head
-		><Meta
+	<Head>
+		<Meta
 			v-if="choice.visibility === 'private'"
 			name="robots"
 			content="noindex"

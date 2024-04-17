@@ -116,9 +116,14 @@ async function submit() {
 
 			const newChoiceId = choicesResponse.data[0]?.id;
 
-			await createCover(newChoiceId);
+			const coverPath = await createCover(newChoiceId);
 
-			navigateTo(PATHS.new + newChoiceId);
+			console.log('coverPath', coverPath);
+
+			if (coverPath) {
+				console.log('coverUrl', useCover(newChoiceId));
+				navigateTo(PATHS.new + newChoiceId);
+			}
 		} catch (error: any) {
 			alert(error.message);
 		} finally {
@@ -137,7 +142,7 @@ async function createCover(id: number) {
 
 	try {
 		const coverUrl = await toJpeg(cardImagesElement.value, IMAGE_OPTIONS);
-		uploadCover(coverUrl, id);
+		return await uploadCover(coverUrl, id);
 	} catch (error) {
 		alert('Error creating cover image!');
 	}
@@ -149,11 +154,13 @@ async function uploadCover(coverUrl: string, id: number) {
 		const coverFile = decode(coverBase64);
 		const fileName = id + '.jpeg';
 
-		const { error: uploadError } = await supabase.storage
+		const { error: uploadError, data } = await supabase.storage
 			.from('covers')
 			.upload(fileName, coverFile, { contentType: 'image/jpeg' });
 
 		if (uploadError) throw uploadError;
+
+		return data.path;
 	} catch (error: any) {
 		alert(error.message);
 	}
