@@ -9,7 +9,6 @@ const data = reactive({
 	loading: false,
 	title: '',
 	images: [] as string[],
-	maxImages: +Object.keys(IMAGE_LIMITS)[0],
 	category: '',
 	visibility: 'public' as 'public' | 'private' | 'promoted',
 	duration: 1,
@@ -20,8 +19,6 @@ const cardImagesElement = ref(null);
 
 const credits = computed(() => {
 	const required =
-		1 +
-		(IMAGE_LIMITS[data.maxImages as keyof typeof IMAGE_LIMITS] ?? 0) +
 		(VISIBILITIES[data.visibility as keyof typeof VISIBILITIES]?.credits ?? 0) +
 		(DURATIONS[data.duration as keyof typeof DURATIONS]?.credits ?? 0);
 
@@ -58,8 +55,8 @@ const dates = computed(() => {
 const validationMessage = computed(() => {
 	return data.images.length < MIN_IMAGES
 		? `You need at least ${MIN_IMAGES} images!`
-		: data.images.length > data.maxImages
-			? `You have more than ${data.maxImages} images!`
+		: data.images.length > MAX_IMAGES
+			? `You have more than ${MAX_IMAGES} images!`
 			: !data.title
 				? 'You need a title!'
 				: !data.visibility
@@ -79,7 +76,7 @@ async function submit() {
 	if (
 		profile.value &&
 		data.images.length >= MIN_IMAGES &&
-		data.images.length <= data.maxImages &&
+		data.images.length <= MAX_IMAGES &&
 		credits.value.remaining >= 0
 	) {
 		try {
@@ -183,57 +180,9 @@ function closePreview() {
 	</UserEdit>
 
 	<form v-else :class="$style.form" @submit.prevent="submit">
-		<section id="images">
+		<section id="visibility">
 			<Credits />
 
-			<h2>Images</h2>
-			<p v-for="(cost, max) in IMAGE_LIMITS" :key="max">
-				<label
-					:title="profile.credits < cost ? `Requires ${credits} credit` : ''"
-				>
-					<input
-						v-model="data.maxImages"
-						type="radio"
-						:value="max"
-						:disabled="profile.credits < cost"
-						required
-						@change="data.maxImages = max"
-					/>
-					up to {{ max }} images
-					<small>
-						<strong v-if="cost"> (+{{ cost }} credits) </strong>
-					</small>
-				</label>
-			</p>
-
-			<p v-if="data.images.length > data.maxImages">
-				You have added more that {{ data.maxImages }} images! Please remove
-				{{ data.images.length - data.maxImages }}.
-			</p>
-
-			<Upload
-				:folder="profile?.username ?? '@'"
-				:max="data.maxImages"
-				@uploaded="(urls) => (data.images = urls)"
-			/>
-		</section>
-
-		<section id="title">
-			<h2><label for="title">Title</label></h2>
-			<input
-				v-model="data.title"
-				maxlength="25"
-				required
-				:class="$style.titleInput"
-			/>
-			<small>{{
-				data.title.length > 15
-					? `${25 - data.title.length} characters remaining`
-					: '&nbsp;'
-			}}</small>
-		</section>
-
-		<section id="visibility">
 			<h2>Visibility</h2>
 			<p v-for="(value, key) in VISIBILITIES" :key="key">
 				<label
@@ -251,14 +200,37 @@ function closePreview() {
 						required
 					/>
 					{{ value.name }}
+					<span v-if="value.credits">
+						({{ value.credits }} credit{{ value.credits === 1 ? '' : 's' }})
+					</span>
 					<small>
-						<strong v-if="value.credits">
-							(+{{ value.credits }} credits)
-						</strong>
 						{{ value.description }}
 					</small>
 				</label>
 			</p>
+		</section>
+
+		<section id="images">
+			<Upload
+				:folder="profile?.username ?? '@'"
+				:max="MAX_IMAGES"
+				@uploaded="(urls) => (data.images = urls)"
+			/>
+		</section>
+
+		<section id="title">
+			<h2><label for="title">Title</label></h2>
+			<input
+				v-model="data.title"
+				maxlength="25"
+				required
+				:class="$style.titleInput"
+			/>
+			<small>{{
+				data.title.length > 15
+					? `${25 - data.title.length} characters remaining`
+					: '&nbsp;'
+			}}</small>
 		</section>
 
 		<section v-if="data.visibility !== 'private'" id="categories">
@@ -295,10 +267,8 @@ function closePreview() {
 						required
 					/>
 					{{ value.name }}
+					<span v-if="value.credits">({{ value.credits }} credits) </span>
 					<small>
-						<strong v-if="value.credits">
-							(+{{ value.credits }} credits)
-						</strong>
 						{{ value.description }}
 					</small>
 				</label>
@@ -338,7 +308,7 @@ function closePreview() {
 				</template>
 
 				<p v-if="data.visibility === 'private'">
-					You will get a private link to share with trusted voters.
+					You will get a private link to share with people you trust.
 				</p>
 
 				<p>
@@ -363,7 +333,7 @@ function closePreview() {
 					class="button"
 					:disabled="
 						data.images.length < MIN_IMAGES ||
-						data.images.length > data.maxImages ||
+						data.images.length > MAX_IMAGES ||
 						credits.required > profile.credits ||
 						data.loading
 					"

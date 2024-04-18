@@ -7,11 +7,7 @@ export const PATHS = {
 } as const;
 
 export const MIN_IMAGES = 2;
-
-export const IMAGE_LIMITS = {
-	6: 0,
-	10: 2,
-} as const;
+export const MAX_IMAGES = 16;
 
 export const CATEGORIES = {
 	art: 'Art and illustration',
@@ -23,12 +19,12 @@ export const CATEGORIES = {
 export const VISIBILITIES = {
 	public: {
 		name: 'Public',
-		description: '',
-		credits: 0,
+		description: 'Listed on the website',
+		credits: 1,
 	},
 	private: {
 		name: 'Private',
-		description: 'Get a private link to share with trusted voters',
+		description: 'Only accessed via a private link',
 		credits: 5,
 	},
 } as const;
