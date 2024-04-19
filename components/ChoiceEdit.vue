@@ -46,7 +46,7 @@ async function updateChoice() {
 			}}</small>
 		</section>
 
-		<section id="categories">
+		<section id="categories" v-if="isPrivate">
 			<h2>Category</h2>
 			<p v-for="(category, key) in CATEGORIES" :key="key">
 				<label>
