@@ -12,15 +12,13 @@ if (choice.isRemoved) {
 if (choice.username !== profile.value?.username) {
 	navigateTo('/' + id);
 }
+
+const isPrivate = choice.visibility === 'private';
 </script>
 
 <template>
-	<Head
-		><Meta
-			v-if="choice.visibility === 'private'"
-			name="robots"
-			content="noindex"
-		/>
+	<Head>
+		<Meta name="robots" content="noindex" />
 	</Head>
 
 	<h1>Voting is now {{ choice.isClosed ? 'closed' : 'open' }}</h1>
@@ -28,18 +26,15 @@ if (choice.username !== profile.value?.username) {
 
 	<div class="box" :class="$style.section">
 		<h1>Share</h1>
-		<p v-if="choice.visibility === 'private'">
+		<p v-if="isPrivate">
 			Here is your private link. Share it with people you trust.
 		</p>
-		<Share
-			:id="id"
-			:uuid="choice.visibility === 'private' ? choice.uuid : undefined"
-		/>
+		<Share :id="id" :uuid="isPrivate ? choice.uuid : undefined" />
 	</div>
 
 	<div class="box" :class="$style.section">
 		<h1>Edit</h1>
-		<ChoiceEdit :id="id" :choice="choice" />
+		<ChoiceEdit :id="id" :choice="choice" :is-private="isPrivate" />
 	</div>
 
 	<div class="box" :class="$style.section">

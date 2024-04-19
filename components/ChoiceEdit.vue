@@ -4,6 +4,7 @@ import type { Choice } from '~/composables/useChoice';
 const props = defineProps<{
 	id: number;
 	choice: Choice;
+	isPrivate: boolean;
 }>();
 
 const data = reactive({
@@ -46,7 +47,7 @@ async function updateChoice() {
 			}}</small>
 		</section>
 
-		<section id="categories">
+		<section v-if="!props.isPrivate" id="categories">
 			<h2>Category</h2>
 			<p v-for="(category, key) in CATEGORIES" :key="key">
 				<label>
