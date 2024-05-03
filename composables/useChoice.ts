@@ -20,6 +20,7 @@ export type Choice = {
 	votes: Partial<Vote>[];
 	uuid: string;
 	visibility: 'public' | 'private' | 'promoted' | 'removed';
+	votingSystem: '1' | '2';
 };
 
 export async function useChoice(id: number) {
@@ -43,7 +44,8 @@ export async function useChoice(id: number) {
 				remove_at,
 				votes (image_urls, user_id, profiles (username, first_vote)),
 				uuid,
-				visibility
+				visibility,
+				voting_system
 				`
 			)
 			.eq('id', id)
@@ -62,6 +64,7 @@ export async function useChoice(id: number) {
 		data.choice.votes = choiceResponse.data.votes as Vote[];
 		data.choice.uuid = choiceResponse.data.uuid;
 		data.choice.visibility = choiceResponse.data.visibility;
+		data.choice.votingSystem = choiceResponse.data.voting_system;
 	} catch (error: any) {
 		console.error(error.message);
 	} finally {

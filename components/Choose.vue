@@ -9,24 +9,56 @@ const length = choice.images?.length;
 
 if (!length && !choice.isRemoved) navigateTo(PATHS.home);
 
+type Vote = string | undefined;
+type Options = Vote[];
+type Matches = Options[];
+
 const data = reactive({
-	matches: [] as (string | undefined)[][],
+	options1: [] as Options,
+	options2: [] as Options,
+	matches1: [] as Matches,
+	matches2: [] as Matches,
+	vote1: undefined as Vote,
+	vote2: undefined as Vote,
 });
+
+data.options1 = choice.images;
+data.matches1 = createMatches(data.options1);
 
 const userVoted = computed(() =>
 	profile.value?.votes.find((vote) => vote.choice_id === props.id)
 );
 
-data.matches = choice.images?.map((_image, index) => [
-	choice.images[2 * index],
-	choice.images[2 * index + 1],
-]);
+function createMatches(images: Options) {
+	return images
+		.map((_image, index) => [images[2 * index], images[2 * index + 1]])
+		.slice(0, -1);
+}
 
-function updateMatches(matchIndex: number, option?: string) {
-	const match = Math.floor((length + matchIndex) / 2);
-	const position = (length + matchIndex) % 2;
+function updateMatches1(matchIndex: number, chosenOption?: string) {
+	const newMatchIndex = Math.floor((data.options1.length + matchIndex) / 2);
 
-	data.matches[match][position] = option;
+	if (newMatchIndex < data.matches1.length) {
+		const position = (data.options1.length + matchIndex) % 2;
+
+		data.matches1[newMatchIndex][position] = chosenOption;
+	} else {
+		if (chosenOption) {
+			data.vote1 = chosenOption;
+
+			if (choice.votingSystem === '2') {
+				data.options2 = data.matches1
+					.filter((match) => match.includes(chosenOption))
+					.map((match) => (match[0] === chosenOption ? match[1] : match[0]));
+
+				if (data.options2.length > 1) {
+					data.matches2 = createMatches(data.options2);
+				} else {
+					data.vote2 = data.options2[0];
+				}
+			}
+		}
+	}
 }
 
 onMounted(() => {
@@ -43,7 +75,7 @@ onMounted(() => {
 		/>
 		<Meta
 			property="og:image"
-			:content="useCover(props.id) || choice.images?.[0]"
+			:content="useCover(props.id) || data.options1?.[0]"
 		/>
 		<Meta
 			v-if="choice.visibility === 'private'"
@@ -54,13 +86,13 @@ onMounted(() => {
 
 	<main :class="$style.container">
 		<form
-			v-for="(match, matchIndex) in data.matches"
+			v-for="(match, matchIndex) in data.matches1"
 			:id="'match' + matchIndex"
 			:key="matchIndex"
 			ref="chooseForm"
 			:class="$style.match"
 			@submit.prevent
-			@reset="updateMatches(matchIndex)"
+			@reset="updateMatches1(matchIndex)"
 		>
 			<ChooseConfirm
 				v-if="matchIndex === length - 1 && match[0]"
@@ -72,7 +104,7 @@ onMounted(() => {
 				v-else
 				:match="match"
 				:match-index="matchIndex"
-				:update-matches="updateMatches"
+				:update-matches="updateMatches1"
 			/>
 
 			<ChooseControls
