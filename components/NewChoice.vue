@@ -11,7 +11,6 @@ const data = reactive({
 	images: [] as string[],
 	category: '',
 	visibility: 'public' as 'public' | 'private' | 'promoted',
-	duration: 1,
 	showPreview: false,
 });
 
@@ -19,8 +18,7 @@ const cardImagesElement = ref(null);
 
 const credits = computed(() => {
 	const required =
-		(VISIBILITIES[data.visibility as keyof typeof VISIBILITIES]?.credits ?? 0) +
-		(DURATIONS[data.duration as keyof typeof DURATIONS]?.credits ?? 0);
+		VISIBILITIES[data.visibility as keyof typeof VISIBILITIES]?.credits ?? 0;
 
 	const remaining = profile.value ? profile.value?.credits - required : 0;
 
@@ -29,8 +27,9 @@ const credits = computed(() => {
 
 const dates = computed(() => {
 	const date = new Date();
+	const duration = data.visibility === 'public' ? 1 : 7;
 
-	date.setDate(date.getDate() + +data.duration);
+	date.setDate(date.getDate() + duration);
 	date.setSeconds(0, 0);
 	const close = date.toISOString();
 	const closeText = date.toLocaleString(undefined, {
@@ -41,7 +40,7 @@ const dates = computed(() => {
 		minute: 'numeric',
 	});
 
-	date.setDate(date.getDate() + +data.duration + 0.007);
+	date.setDate(date.getDate() + duration + 0.007);
 	const remove = date.toISOString();
 	const removeText = date.toLocaleString(undefined, {
 		weekday: 'long',
@@ -63,13 +62,11 @@ const validationMessage = computed(() => {
 					? 'Choose visibility!'
 					: !data.category && data.visibility !== 'private'
 						? 'Choose a category!'
-						: !data.duration
-							? 'Choose a duration!'
-							: profile.value && credits.value.required > profile.value.credits
-								? `You have chosen to use ${credits.value.required} credit${
-										credits.value.required === 1 ? '' : 's'
-									}, but you have ${profile.value?.credits}.`
-								: '';
+						: profile.value && credits.value.required > profile.value.credits
+							? `You have chosen to use ${credits.value.required} credit${
+									credits.value.required === 1 ? '' : 's'
+								}, but you have ${profile.value?.credits}.`
+							: '';
 });
 
 async function submit() {
@@ -183,7 +180,7 @@ function closePreview() {
 		<section id="visibility">
 			<Credits />
 
-			<h2>Visibility</h2>
+			<h2>Type of poll</h2>
 			<p v-for="(value, key) in VISIBILITIES" :key="key">
 				<label
 					:title="
@@ -211,6 +208,7 @@ function closePreview() {
 		</section>
 
 		<section id="images">
+			<h2>Images</h2>
 			<Upload
 				:folder="profile?.username ?? '@'"
 				:max="MAX_IMAGES"
@@ -221,6 +219,7 @@ function closePreview() {
 		<section id="title">
 			<h2><label for="title">Title</label></h2>
 			<input
+				id="title"
 				v-model="data.title"
 				maxlength="25"
 				required
@@ -245,32 +244,6 @@ function closePreview() {
 						required
 					/>
 					{{ category }}
-				</label>
-			</p>
-		</section>
-
-		<section id="duration">
-			<h2>Duration</h2>
-			<p v-for="(value, key) in DURATIONS" :key="key">
-				<label
-					:title="
-						profile.credits < value.credits
-							? `Requires ${value.credits} credit`
-							: ''
-					"
-				>
-					<input
-						v-model="data.duration"
-						type="radio"
-						:value="key"
-						:disabled="profile.credits < value.credits"
-						required
-					/>
-					{{ value.name }}
-					<span v-if="value.credits">({{ value.credits }} credits) </span>
-					<small>
-						{{ value.description }}
-					</small>
 				</label>
 			</p>
 		</section>
