@@ -5,9 +5,12 @@ const props = defineProps<{
 
 const { profile } = useProfile();
 const choice = await useChoice(props.id);
-const length = choice.images?.length;
 
-if (!length && !choice.isRemoved) navigateTo(PATHS.home);
+if (!choice.images?.length || choice.isRemoved) navigateTo(PATHS.home);
+
+const userVoted = computed(() =>
+	profile.value?.votes.find((vote) => vote.choice_id === props.id)
+);
 
 type Vote = string | undefined;
 type Options = Vote[];
@@ -25,9 +28,12 @@ const data = reactive({
 data.options1 = choice.images;
 data.matches1 = createMatches(data.options1);
 
-const userVoted = computed(() =>
-	profile.value?.votes.find((vote) => vote.choice_id === props.id)
-);
+const matchCount = computed(() => {
+	if (choice.votingSystem === '1') return data.options1.length - 1;
+	const estimatedMatches = data.options1.length + 1;
+	const totalMatches = data.matches1.length + data.matches2.length;
+	return Math.max(estimatedMatches, totalMatches);
+});
 
 function createMatches(images: Options) {
 	return images
@@ -58,6 +64,17 @@ function updateMatches1(matchIndex: number, chosenOption?: string) {
 				}
 			}
 		}
+	}
+}
+
+function updateMatches2(matchIndex: number, chosenOption?: string) {
+	const newMatchIndex = Math.floor((data.options2.length + matchIndex) / 2);
+
+	if (newMatchIndex < data.matches2.length) {
+		const position = (data.options2.length + matchIndex) % 2;
+		data.matches2[newMatchIndex][position] = chosenOption;
+	} else {
+		data.vote2 = chosenOption;
 	}
 }
 
@@ -95,9 +112,11 @@ onMounted(() => {
 			@reset="updateMatches1(matchIndex)"
 		>
 			<ChooseConfirm
-				v-if="matchIndex === length - 1 && match[0]"
+				v-if="
+					choice.votingSystem === '1' && matchIndex === matchCount && data.vote1
+				"
 				:id="props.id"
-				:image="match[0]"
+				:vote1="data.vote1"
 			/>
 
 			<ChooseMatch
@@ -111,7 +130,39 @@ onMounted(() => {
 				:id="props.id"
 				:class="$style.controls"
 				:match-index="matchIndex"
-				:length="length"
+				:length="matchCount"
+				:allow-share="choice.visibility !== 'private'"
+			/>
+		</form>
+
+		<form
+			v-for="(match, matchIndex) in data.matches2"
+			:id="'match' + (data.matches1.length + matchIndex)"
+			:key="matchIndex"
+			ref="chooseForm"
+			:class="$style.match"
+			@submit.prevent
+			@reset="updateMatches1(matchIndex)"
+		>
+			<ChooseConfirm
+				v-if="matchIndex === matchCount && data.vote1 && data.vote2"
+				:id="props.id"
+				:vote1="data.vote1"
+				:vote2="data.vote2"
+			/>
+
+			<ChooseMatch
+				v-else
+				:match="match"
+				:match-index="matchIndex"
+				:update-matches="updateMatches2"
+			/>
+
+			<ChooseControls
+				:id="props.id"
+				:class="$style.controls"
+				:match-index="data.matches1.length + matchIndex"
+				:length="matchCount"
 				:allow-share="choice.visibility !== 'private'"
 			/>
 		</form>

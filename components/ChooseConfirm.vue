@@ -4,7 +4,8 @@ const supabase = useSupabaseClient<Database>();
 
 const props = defineProps<{
 	id: number;
-	image: string;
+	vote1: string;
+	vote2?: string;
 }>();
 
 const data = reactive({
@@ -20,7 +21,7 @@ async function vote(userId: string) {
 		const response = await supabase.from('votes').upsert({
 			user_id: userId,
 			choice_id: props.id,
-			image_urls: [props.image],
+			image_urls: props.vote2 ? [props.vote1, props.vote2] : [props.vote1],
 			updated_at: new Date().toISOString(),
 		});
 
@@ -91,7 +92,8 @@ function retry() {
 
 <template>
 	<section :class="$style.chosen">
-		<img :src="props.image" alt="" :class="$style.chosenImage" />
+		<img :src="props.vote1" alt="" :class="$style.chosenImage" />
+		<img :src="props.vote2" alt="" :class="$style.chosenImage" />
 	</section>
 
 	<section v-if="profile" :class="$style.confirm">
