@@ -1,13 +1,6 @@
 export function shuffle<T>(array: T[]): T[] {
-	const shuffledArray = array;
-
-	array.forEach((_item, index) => {
-		const randomIndex = Math.floor(Math.random() * (index + 1));
-		[shuffledArray[index], shuffledArray[randomIndex]] = [
-			shuffledArray[randomIndex],
-			shuffledArray[index],
-		];
-	});
-
-	return shuffledArray;
+	return array
+		.map((x) => [Math.random(), x] as [number, T])
+		.sort()
+		.map((y) => y[1]);
 }
