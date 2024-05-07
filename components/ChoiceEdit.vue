@@ -2,7 +2,6 @@
 import type { Choice } from '~/composables/useChoice';
 
 const props = defineProps<{
-	id: number;
 	choice: Choice;
 	isPrivate: boolean;
 }>();
@@ -19,7 +18,7 @@ async function updateChoice() {
 		const response = await supabase
 			.from('choices')
 			.update({ title: data.title, category: data.category })
-			.eq('id', props.id);
+			.eq('id', props.choice.id);
 
 		if (response.error) throw response.error;
 

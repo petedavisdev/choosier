@@ -32,23 +32,11 @@ const dates = computed(() => {
 	date.setDate(date.getDate() + duration);
 	date.setSeconds(0, 0);
 	const close = date.toISOString();
-	const closeText = date.toLocaleString(undefined, {
-		weekday: 'long',
-		day: 'numeric',
-		month: 'long',
-		hour: 'numeric',
-		minute: 'numeric',
-	});
 
 	date.setDate(date.getDate() + duration + 0.007);
 	const remove = date.toISOString();
-	const removeText = date.toLocaleString(undefined, {
-		weekday: 'long',
-		day: 'numeric',
-		month: 'long',
-	});
 
-	return { close, closeText, remove, removeText };
+	return { close, remove };
 });
 
 const validationMessage = computed(() => {
@@ -286,12 +274,12 @@ function closePreview() {
 
 				<p>
 					Voting will close
-					{{ dates.closeText }}.
+					{{ longDateText(dates.close) }}.
 				</p>
 
 				<p>
 					Your results will be available until
-					{{ dates.removeText }}.
+					{{ shortDateText(dates.remove) }}.
 				</p>
 
 				<p v-if="credits.required">

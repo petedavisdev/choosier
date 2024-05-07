@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import ChoicePromote from '~/components/ChoicePromote.vue';
+
 const route = useRoute();
 const id = +route.params.id;
 const choice = await useChoice(id);
@@ -6,11 +8,11 @@ const choice = await useChoice(id);
 const { profile } = useProfile();
 
 if (choice.isRemoved) {
-	navigateTo(PATHS.home);
+	navigateTo(PATHS.user + profile.value?.username);
 }
 
-if (choice.username !== profile.value?.username) {
-	navigateTo('/' + id);
+if (profile.value && choice.username !== profile.value?.username) {
+	navigateTo(PATHS.home + id);
 }
 
 const isPrivate = choice.visibility === 'private';
@@ -21,36 +23,54 @@ const isPrivate = choice.visibility === 'private';
 		<Meta name="robots" content="noindex" />
 	</Head>
 
-	<h1>Voting is now {{ choice.isClosed ? 'closed' : 'open' }}</h1>
-	<List :filter="['id', id]" allow-private />
-
-	<div class="box" :class="$style.section">
-		<h1>Share</h1>
-		<p v-if="isPrivate">
-			Here is your private link. Share it with people you trust.
+	<template v-if="profile?.username === choice.username">
+		<h1>Voting is now {{ choice.isClosed ? 'closed' : 'open' }}</h1>
+		<List :filter="['id', id]" allow-private />
+		<p>
+			<span v-if="!choice.isClosed">
+				Voting closes {{ longDateText(choice.closeAt) }} <br
+			/></span>
+			Results will be available until {{ shortDateText(choice.removeAt) }}
 		</p>
-		<Share :id="id" :uuid="isPrivate ? choice.uuid : undefined" />
-	</div>
+		<div class="grid">
+			<section v-if="!choice.isClosed" class="box" :class="$style.wideSection">
+				<h2>Share</h2>
+				<p v-if="isPrivate">
+					Here is your private link. Share it with people you trust.
+				</p>
+				<Share :id="id" :uuid="isPrivate ? choice.uuid : undefined" />
+			</section>
 
-	<div class="box" :class="$style.section">
-		<h1>Edit</h1>
-		<ChoiceEdit :id="id" :choice="choice" :is-private="isPrivate" />
-	</div>
+			<ChoicePromote :choice="choice" />
+		</div>
 
-	<div class="box" :class="$style.section">
-		<h1>Danger zone!</h1>
-		<ChoiceDelete
-			:id="id"
-			:username="choice.username"
-			:is-closed="choice.isClosed"
-		/>
-	</div>
+		<div class="grid">
+			<section class="box" :class="$style.wideSection">
+				<h2>Edit</h2>
+				<ChoiceEdit :choice="choice" :is-private="isPrivate" />
+			</section>
+
+			<section class="box">
+				<h2>Danger zone!</h2>
+				<ChoiceDelete
+					:id="id"
+					:username="choice.username"
+					:is-closed="choice.isClosed"
+				/>
+			</section>
+		</div>
+	</template>
+
+	<template v-else>
+		<h1>Login</h1>
+		<UserLogin />
+	</template>
 </template>
 
 <style module>
-.section {
-	margin-bottom: 3em;
-	padding-top: 0;
-	padding-bottom: 1rem;
+@media (min-width: 1000px) {
+	.wideSection {
+		grid-column: span 2;
+	}
 }
 </style>

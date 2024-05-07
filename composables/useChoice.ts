@@ -1,9 +1,9 @@
 export type Vote = {
 	profiles: {
-		username: string;
-		first_vote: number;
-	};
-	image_urls: string[];
+		username: string | null;
+		first_vote: number | null;
+	} | null;
+	image_urls: string[] | null;
 	user_id: string;
 };
 
@@ -13,11 +13,12 @@ export type Choice = {
 	images: string[];
 	username: string;
 	category?: string;
+	createdAt?: string;
 	closeAt?: string;
 	removeAt?: string;
 	isClosed?: boolean;
 	isRemoved?: boolean;
-	votes: Partial<Vote>[];
+	votes: Vote[];
 	uuid: string;
 	visibility: 'public' | 'private' | 'promoted' | 'removed';
 };
@@ -39,6 +40,7 @@ export async function useChoice(id: number) {
 				title,
 				image_urls,
 				category,
+				created_at,
 				close_at,
 				remove_at,
 				votes (image_urls, user_id, profiles (username, first_vote)),
@@ -51,15 +53,17 @@ export async function useChoice(id: number) {
 
 		if (choiceResponse.error) throw choiceResponse.error;
 
+		data.choice.id = id;
 		data.choice.username = choiceResponse.data.profiles?.username ?? '';
 		data.choice.title = choiceResponse.data.title!;
 		data.choice.images = choiceResponse.data.image_urls!;
 		data.choice.category = choiceResponse.data.category ?? undefined;
+		data.choice.createdAt = choiceResponse.data.created_at ?? undefined;
 		data.choice.closeAt = choiceResponse.data.close_at ?? undefined;
 		data.choice.removeAt = choiceResponse.data.remove_at ?? undefined;
 		data.choice.isClosed = isPast(choiceResponse.data.close_at);
 		data.choice.isRemoved = isPast(choiceResponse.data.remove_at);
-		data.choice.votes = choiceResponse.data.votes as Vote[];
+		data.choice.votes = choiceResponse.data.votes;
 		data.choice.uuid = choiceResponse.data.uuid;
 		data.choice.visibility = choiceResponse.data.visibility;
 	} catch (error: any) {
