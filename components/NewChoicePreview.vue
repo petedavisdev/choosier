@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const props = defineProps<{
+	heading: string;
 	title: string;
 	username: string;
 	validationMessage: string;
@@ -16,7 +17,7 @@ const props = defineProps<{
 			<h2 v-if="props.validationMessage">{{ props.validationMessage }}</h2>
 
 			<template v-else>
-				<h2>Listing preview</h2>
+				<h2>{{ props.heading }} poll</h2>
 
 				<div class="card" :class="$style.card">
 					<slot name="card-images" />

@@ -14,10 +14,11 @@ const results = computed(() => {
 			return {
 				image,
 				voters: props.votes
-					.filter((vote) => image === vote.image_urls[0])
-					.map((vote) => vote.profiles.username)
-					.filter((username) => username),
-			};
+					.filter(
+						(vote) => image === vote.image_urls?.[0] && vote.profiles?.username
+					)
+					.map((vote) => vote.profiles?.username),
+			} as { image: string; voters: string[] };
 		})
 		.sort((a, b) => b.voters.length - a.voters.length);
 });
@@ -61,7 +62,6 @@ const mostVotes = computed(() => results.value[0].voters.length);
 					>
 						<UserAvatar :username="voter" />
 					</LinkTo>
-					{{ ' ' }}
 				</small>
 			</div>
 		</div>

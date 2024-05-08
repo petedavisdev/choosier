@@ -23,7 +23,9 @@ const { profile } = useProfile();
 
 				<Credits />
 
-				<LinkTo :to="PATHS.new" class="button">+ New choice</LinkTo>
+				<div>
+					<LinkTo :to="PATHS.new" class="button">+ New choice</LinkTo>
+				</div>
 			</section>
 
 			<section class="box" :class="$style.section">

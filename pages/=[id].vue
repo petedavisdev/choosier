@@ -7,7 +7,7 @@ const id = +route.params.id;
 const data = reactive({
 	isCreator: false,
 	isVoter: false,
-	isPublic: true,
+	isPrivate: false,
 });
 
 try {
@@ -25,13 +25,13 @@ try {
 
 	if (response.error) throw new Error('Invalid choice id');
 
-	data.isPublic = response.data.visibility !== 'private';
+	data.isPrivate = response.data.visibility === 'private';
 	data.isCreator = response.data.user_id === profile.value?.userId;
 	data.isVoter = !!response.data.votes.find(
 		(vote) => vote.user_id === profile.value?.userId
 	);
 
-	if (!data.isPublic && !data.isCreator && !data.isVoter)
+	if (data.isPrivate && !data.isCreator && !data.isVoter)
 		throw new Error('Access denied');
 } catch {
 	navigateTo(PATHS.home);
@@ -41,7 +41,7 @@ try {
 <template>
 	<Results
 		:id="id"
-		:is-public="data.isPublic"
+		:is-private="data.isPrivate"
 		:is-creator="data.isCreator"
 		:is-voter="data.isVoter"
 	/>
