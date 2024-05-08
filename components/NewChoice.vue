@@ -155,6 +155,12 @@ function closePreview() {
 
 <template>
 	<UserLogin v-if="!profile">
+		<p>You can create public or private image polls for free.</p>
+		<p>
+			We'll give you 10 credits to get you started and you can earn more credits
+			by sharing your polls.
+		</p>
+
 		<h2>Login/register</h2>
 	</UserLogin>
 
