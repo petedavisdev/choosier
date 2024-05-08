@@ -32,8 +32,9 @@ async function updateChoice() {
 <template>
 	<form :class="$style.form" @submit.prevent="updateChoice">
 		<section id="title">
-			<h2><label for="title">Title</label></h2>
+			<h3><label for="title">Title</label></h3>
 			<input
+				id="title"
 				v-model="data.title"
 				:class="$style.titleInput"
 				maxlength="25"
@@ -47,7 +48,7 @@ async function updateChoice() {
 		</section>
 
 		<section v-if="!props.isPrivate" id="categories">
-			<h2>Category</h2>
+			<h3>Category</h3>
 			<p v-for="(category, key) in CATEGORIES" :key="key">
 				<label>
 					<input

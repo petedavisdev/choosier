@@ -252,6 +252,7 @@ function closePreview() {
 				:username="profile.username"
 				:validation-message="validationMessage"
 				:close="closePreview"
+				:heading="VISIBILITIES[data.visibility]?.name"
 			>
 				<template #card-images>
 					<div ref="cardImagesElement" class="cardImages">

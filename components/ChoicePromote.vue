@@ -36,7 +36,7 @@ async function promoteChoice() {
 
 		if (profileResponse.error) throw profileResponse.error;
 
-		navigateTo(PATHS.new + props.choice.id);
+		navigateTo(PATHS.user + profile.value.username);
 	} catch (error: any) {
 		alert(error.message);
 	}
@@ -65,7 +65,10 @@ async function promoteChoice() {
 		</button>
 	</section>
 
-	<section v-else-if="choice.visibility === 'promoted'" class="box">
+	<section
+		v-else-if="choice.visibility === 'promoted' && !choice.isClosed"
+		class="box"
+	>
 		<h2>This poll has been boosted</h2>
 		<p>
 			Featured on the <LinkTo :to="PATHS.home">homepage</LinkTo> and open for a
@@ -73,7 +76,7 @@ async function promoteChoice() {
 		</p>
 	</section>
 
-	<section v-else class="box">
+	<section v-else-if="!choice.isClosed" class="box">
 		<Credits />
 	</section>
 </template>

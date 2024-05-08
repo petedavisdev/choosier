@@ -32,6 +32,7 @@ const isPrivate = choice.visibility === 'private';
 			/></span>
 			Results will be available until {{ shortDateText(choice.removeAt) }}
 		</p>
+
 		<div class="grid">
 			<section v-if="!choice.isClosed" class="box" :class="$style.wideSection">
 				<h2>Share</h2>
