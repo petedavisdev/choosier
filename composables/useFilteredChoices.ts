@@ -19,10 +19,10 @@ export async function useFilteredChoices(
 	}
 
 	const data = reactive({
-		choices: [] as Pick<
+		choices: [] as (Pick<
 			Choice,
-			'id' | 'username' | 'title' | 'votes' | 'visibility' | 'uuid'
-		>[],
+			'id' | 'username' | 'title' | 'visibility' | 'uuid'
+		> & { votes: { image_urls: string[] }[] })[],
 		loading: true,
 	});
 
