@@ -17,6 +17,7 @@ type Options = Vote[];
 type Matches = Options[];
 
 const data = reactive({
+	currentMatchIndex: 0,
 	options1: [] as Options,
 	options2: [] as Options,
 	matches1: [] as Matches,
@@ -28,11 +29,13 @@ const data = reactive({
 data.options1 = choice.images;
 data.matches1 = createMatches(data.options1);
 
+const allMatches = computed(() => [...data.matches1, ...data.matches2]);
+
 const matchCount = computed(() => {
-	if (choice.votingSystem === '1') return data.options1.length - 1;
-	const estimatedMatches = data.options1.length + 1;
-	const totalMatches = data.matches1.length + data.matches2.length;
-	return Math.max(estimatedMatches, totalMatches);
+	if (choice.votingSystem === '2' && !data.matches2.length) {
+		return data.options1.length + 1;
+	}
+	return allMatches.value.length;
 });
 
 function createMatches(images: Options) {
@@ -41,40 +44,56 @@ function createMatches(images: Options) {
 		.slice(0, -1);
 }
 
-function updateMatches1(matchIndex: number, chosenOption?: string) {
-	const newMatchIndex = Math.floor((data.options1.length + matchIndex) / 2);
+function updateMatches(matchIndex: number, chosenOption?: string) {
+	const newMatchIndex1 = Math.floor((data.options1.length + matchIndex) / 2);
+	const matchIndex2 = matchIndex - data.matches1.length;
+	const newMatchIndex2 = Math.floor((data.options2.length + matchIndex2) / 2);
+	data.currentMatchIndex += 1;
 
-	if (newMatchIndex < data.matches1.length) {
+	if (newMatchIndex1 < data.matches1.length) {
 		const position = (data.options1.length + matchIndex) % 2;
+		data.matches1[newMatchIndex1][position] = chosenOption;
+	} else if (newMatchIndex1 === data.matches1.length && newMatchIndex2 < 1) {
+		data.vote1 = chosenOption;
 
-		data.matches1[newMatchIndex][position] = chosenOption;
-	} else {
-		if (chosenOption) {
-			data.vote1 = chosenOption;
+		if (choice.votingSystem === '2') {
+			data.options2 = data.matches1
+				.filter((match) => match.includes(chosenOption))
+				.map((match) => (match[0] === chosenOption ? match[1] : match[0]));
 
-			if (choice.votingSystem === '2') {
-				data.options2 = data.matches1
-					.filter((match) => match.includes(chosenOption))
-					.map((match) => (match[0] === chosenOption ? match[1] : match[0]));
-
-				if (data.options2.length > 1) {
-					data.matches2 = createMatches(data.options2);
-				} else {
-					data.vote2 = data.options2[0];
-				}
+			if (data.options2.length > 1) {
+				data.matches2 = createMatches(data.options2);
+			} else {
+				data.vote2 = data.options2[0];
 			}
 		}
+	} else if (matchIndex2 > 0 && newMatchIndex2 < data.matches2.length) {
+		const position = (data.options2.length + matchIndex2) % 2;
+		data.matches2[newMatchIndex2][position] = chosenOption;
+	} else {
+		data.vote2 = chosenOption;
 	}
 }
 
-function updateMatches2(matchIndex: number, chosenOption?: string) {
-	const newMatchIndex = Math.floor((data.options2.length + matchIndex) / 2);
+function undo() {
+	console.log('undo', data.currentMatchIndex);
+	if (data.currentMatchIndex === data.matches1.length) {
+		data.options2 = [];
+		data.matches2 = [];
+		data.vote1 = '';
+	}
 
-	if (newMatchIndex < data.matches2.length) {
-		const position = (data.options2.length + matchIndex) % 2;
-		data.matches2[newMatchIndex][position] = chosenOption;
-	} else {
-		data.vote2 = chosenOption;
+	if (data.currentMatchIndex === allMatches.value.length) {
+		data.vote2 = '';
+	}
+
+	data.currentMatchIndex -= 1;
+
+	// @ts-ignore: form accessed by name not number
+	let previousForm = document.forms['match' + data.currentMatchIndex];
+
+	if (previousForm) {
+		previousForm.reset();
 	}
 }
 
@@ -104,68 +123,45 @@ onMounted(() => {
 	<main :class="$style.container">
 		<form
 			v-for="(match, matchIndex) in data.matches1"
+			v-show="data.currentMatchIndex < matchCount"
 			:id="'match' + matchIndex"
 			:key="matchIndex"
 			ref="chooseForm"
 			:class="$style.match"
 			@submit.prevent
-			@reset="updateMatches1(matchIndex)"
 		>
-			<ChooseConfirm
-				v-if="
-					choice.votingSystem === '1' && matchIndex === matchCount && data.vote1
-				"
-				:id="props.id"
-				:vote1="data.vote1"
-			/>
+			<label
+				v-for="(option, optionIndex) in match"
+				:key="optionIndex"
+				:class="$style.option"
+			>
+				<input
+					type="radio"
+					:name="'option' + matchIndex"
+					required
+					:class="$style.optionInput"
+					@input="updateMatches(matchIndex, option)"
+				/>
 
-			<ChooseMatch
-				v-else
-				:match="match"
-				:match-index="matchIndex"
-				:update-matches="updateMatches1"
-			/>
-
-			<ChooseControls
-				:id="props.id"
-				:class="$style.controls"
-				:match-index="matchIndex"
-				:length="matchCount"
-				:allow-share="choice.visibility !== 'private'"
-			/>
+				<img :src="option" alt="" :class="$style.optionImage" />
+			</label>
 		</form>
 
-		<form
-			v-for="(match, matchIndex) in data.matches2"
-			:id="'match' + (data.matches1.length + matchIndex)"
-			:key="matchIndex"
-			ref="chooseForm"
-			:class="$style.match"
-			@submit.prevent
-			@reset="updateMatches1(matchIndex)"
-		>
-			<ChooseConfirm
-				v-if="matchIndex === matchCount && data.vote1 && data.vote2"
-				:id="props.id"
-				:vote1="data.vote1"
-				:vote2="data.vote2"
-			/>
+		<ChooseConfirm
+			v-if="data.currentMatchIndex === matchCount && data.vote1 && data.vote2"
+			:id="props.id"
+			:vote1="data.vote1"
+			:vote2="data.vote2"
+		/>
 
-			<ChooseMatch
-				v-else
-				:match="match"
-				:match-index="matchIndex"
-				:update-matches="updateMatches2"
-			/>
-
-			<ChooseControls
-				:id="props.id"
-				:class="$style.controls"
-				:match-index="data.matches1.length + matchIndex"
-				:length="matchCount"
-				:allow-share="choice.visibility !== 'private'"
-			/>
-		</form>
+		<ChooseControls
+			@undo="undo"
+			:id="props.id"
+			:class="$style.controls"
+			:match-index="data.matches1.length + data.currentMatchIndex"
+			:match-count="matchCount"
+			:allow-share="choice.visibility !== 'private'"
+		/>
 
 		<aside v-if="choice.isClosed" class="backdrop">
 			<LinkTo :to="PATHS.results + props.id" class="button">
@@ -229,5 +225,40 @@ onMounted(() => {
 	.controls {
 		grid-area: 🦶;
 	}
+}
+
+.option {
+	display: grid;
+	place-content: center;
+	min-height: 0;
+	cursor: pointer;
+}
+
+.optionInput {
+	display: block;
+	position: fixed;
+	opacity: 0;
+}
+
+.optionImage {
+	object-fit: contain;
+	width: 100%;
+	min-height: 0;
+	max-height: 100%;
+	line-height: 1;
+	background-color: var(--lighter);
+}
+
+.optionInput:not(:checked):valid + .optionImage {
+	opacity: 0;
+	scale: 0.5;
+	transition:
+		opacity 1s ease-out,
+		scale 1s ease-in;
+}
+
+.optionInput:checked:valid + .optionImage {
+	scale: 1.05;
+	transition: scale 1s ease-out;
 }
 </style>

@@ -1,24 +1,16 @@
 <script setup lang="ts">
 const props = defineProps<{
 	matchIndex: number;
-	length: number;
+	matchCount: number;
 	id: number;
 	allowShare: boolean;
 }>();
 
+const emit = defineEmits(['undo']);
+
 const data = reactive({
 	shareOpen: false,
 });
-
-function undo() {
-	const previousForm: HTMLFormElement | undefined =
-		// @ts-ignore: form accessed by name not number
-		document.forms['match' + (props.matchIndex - 1)];
-
-	if (previousForm) {
-		previousForm.reset();
-	}
-}
 
 function toggleShare() {
 	data.shareOpen = !data.shareOpen;
@@ -28,16 +20,16 @@ function toggleShare() {
 <template>
 	<footer :class="$style.controls">
 		<ChooseProgress
-			:percent="(100 * props.matchIndex) / (props.length - 1)"
+			:percent="(100 * props.matchIndex) / (props.matchCount - 1)"
 			:class="$style.progress"
 		/>
 
 		<button
 			title="undo"
 			type="reset"
-			:disabled="props.matchIndex === 0"
+			:disabled="props.matchIndex < 1"
 			:class="$style.undo"
-			@click="undo()"
+			@click="emit('undo')"
 		>
 			<IconUndo :class="$style.icon" />
 		</button>
