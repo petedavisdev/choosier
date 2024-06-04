@@ -1,23 +1,13 @@
 <script setup lang="ts">
 const props = defineProps<{
 	id: number;
-	isPublic: boolean;
+	isPrivate: boolean;
 	isCreator: boolean;
 	isVoter: boolean;
 }>();
 
 const choice = await useChoice(props.id);
 const { profile } = useProfile();
-const removeText = new Date(choice.removeAt as string).toLocaleString(
-	undefined,
-	{
-		weekday: 'long',
-		day: 'numeric',
-		month: 'long',
-		hour: 'numeric',
-		minute: 'numeric',
-	}
-);
 </script>
 
 <template>
@@ -31,11 +21,7 @@ const removeText = new Date(choice.removeAt as string).toLocaleString(
 			property="og:image"
 			:content="useCover(props.id) || choice.images?.[0]"
 		/>
-		<Meta
-			v-if="choice.visibility === 'private'"
-			name="robots"
-			content="noindex"
-		/>
+		<Meta v-if="props.isPrivate" name="robots" content="noindex" />
 	</Head>
 
 	<template v-if="!profile && !choice.isClosed">
@@ -48,7 +34,7 @@ const removeText = new Date(choice.removeAt as string).toLocaleString(
 	</template>
 
 	<template v-else-if="!props.isCreator && !props.isVoter && !choice.isClosed">
-		<h1>Choose first, then see the results</h1>
+		<h1>Vote first, then see the results</h1>
 		<List :filter="['id', props.id]" />
 	</template>
 
@@ -73,25 +59,32 @@ const removeText = new Date(choice.removeAt as string).toLocaleString(
 
 		<template v-if="choice.isClosed">
 			<h2>Final results</h2>
-			<p>Voting has closed. Results available until {{ removeText }}</p>
+			<p>
+				Voting has closed. Results available until
+				{{ longDateText(choice.removeAt) }}
+			</p>
 		</template>
 
 		<h2 v-else>Results so far...</h2>
 
-		<ResultsChart :images="choice.images" :votes="choice.votes as Vote[]" />
+		<ResultsChart :images="choice.images" :votes="choice.votes" />
 
 		<div class="grid" :class="$style.meta">
 			<ResultsRecruits
 				:id="id"
 				:recruiter-name="choice.username"
 				:is-recruiter="props.isCreator"
-				:votes="choice.votes as Vote[]"
+				:votes="choice.votes"
 			/>
 
-			<aside v-if="!choice.isClosed && props.isPublic" class="box">
+			<aside v-if="!choice.isClosed && !props.isPrivate" class="box">
 				<h2>Share to get more votes</h2>
 				<Share :id="props.id" />
 			</aside>
+
+			<template v-if="props.isCreator">
+				<ChoicePromote :choice="choice" />
+			</template>
 		</div>
 
 		<footer>

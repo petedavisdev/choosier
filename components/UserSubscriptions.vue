@@ -42,8 +42,8 @@ async function updateProfile() {
 <template>
 	<p>
 		<label>
-			<input v-model="data.subscriptions" type="checkbox" value="monthly" />
-			Monthly choosletter
+			<input v-model="data.subscriptions" type="checkbox" value="weekly" />
+			Weekly choosletter
 		</label>
 
 		{{ data.loading ? 'Saving...' : '' }}
