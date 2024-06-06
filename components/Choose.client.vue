@@ -90,7 +90,7 @@ function undo() {
 	data.currentMatchIndex -= 1;
 
 	// @ts-ignore: form accessed by name not number
-	let previousForm = document.forms['match' + data.currentMatchIndex];
+	const previousForm = document.forms['match' + data.currentMatchIndex];
 
 	if (previousForm) {
 		previousForm.reset();
@@ -123,7 +123,7 @@ onMounted(() => {
 	<main :class="$style.container">
 		<form
 			v-for="(match, matchIndex) in data.matches1"
-			v-show="data.currentMatchIndex < matchCount"
+			v-show="!data.vote1 || (choice.votingSystem === '2' && !data.vote2)"
 			:id="'match' + matchIndex"
 			:key="matchIndex"
 			ref="chooseForm"
@@ -145,23 +145,23 @@ onMounted(() => {
 
 				<img :src="option" alt="" :class="$style.optionImage" />
 			</label>
+
+			<ChooseConfirm
+				v-if="data.vote1 && (!data.vote2 || choice.votingSystem === '1')"
+				:id="props.id"
+				:vote1="data.vote1"
+				:vote2="data.vote2"
+			/>
+
+			<ChooseControls
+				:id="props.id"
+				:class="$style.controls"
+				:match-index="data.currentMatchIndex"
+				:match-count="matchCount + 1"
+				:allow-share="choice.visibility !== 'private'"
+				@undo="undo"
+			/>
 		</form>
-
-		<ChooseConfirm
-			v-if="data.currentMatchIndex === matchCount && data.vote1 && data.vote2"
-			:id="props.id"
-			:vote1="data.vote1"
-			:vote2="data.vote2"
-		/>
-
-		<ChooseControls
-			@undo="undo"
-			:id="props.id"
-			:class="$style.controls"
-			:match-index="data.matches1.length + data.currentMatchIndex"
-			:match-count="matchCount"
-			:allow-share="choice.visibility !== 'private'"
-		/>
 
 		<aside v-if="choice.isClosed" class="backdrop">
 			<LinkTo :to="PATHS.results + props.id" class="button">
