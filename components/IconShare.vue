@@ -17,7 +17,7 @@
 		<line x1="8.7" y1="13.3" x2="15.3" y2="16.7" />
 		<text
 			x="50%"
-			y="100%"
+			y="96%"
 			font-size="0.5em"
 			stroke="none"
 			fill="currentColor"

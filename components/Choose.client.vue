@@ -145,23 +145,23 @@ onMounted(() => {
 
 				<img :src="option" alt="" :class="$style.optionImage" />
 			</label>
-
-			<ChooseConfirm
-				v-if="data.vote1 && (!data.vote2 || choice.votingSystem === '1')"
-				:id="props.id"
-				:vote1="data.vote1"
-				:vote2="data.vote2"
-			/>
-
-			<ChooseControls
-				:id="props.id"
-				:class="$style.controls"
-				:match-index="data.currentMatchIndex"
-				:match-count="matchCount + 1"
-				:allow-share="choice.visibility !== 'private'"
-				@undo="undo"
-			/>
 		</form>
+
+		<ChooseConfirm
+			v-if="data.vote1 && (!data.vote2 || choice.votingSystem === '1')"
+			:id="props.id"
+			:vote1="data.vote1"
+			:vote2="data.vote2"
+		/>
+
+		<ChooseControls
+			:id="props.id"
+			:class="$style.controls"
+			:match-index="data.currentMatchIndex"
+			:match-count="matchCount + 1"
+			:allow-share="choice.visibility !== 'private'"
+			@undo="undo"
+		/>
 
 		<aside v-if="choice.isClosed" class="backdrop">
 			<LinkTo :to="PATHS.results + props.id" class="button">
@@ -198,7 +198,7 @@ onMounted(() => {
 		'2️⃣' 1fr
 		'🦶' max-content
 		/ 1fr;
-	height: var(--windowHeight, 100svh);
+	height: calc(var(--windowHeight, 100svh) - 75px);
 	padding: 1.5em 1.5em 0.5em;
 	opacity: 1;
 	transition: opacity 1.5s;
