@@ -9,13 +9,20 @@ export async function useFilteredChoices(
 	const now = new Date().toISOString();
 	const dateLimit = onlyOpen ? 'close_at' : 'remove_at';
 
-	let filterInclude: [string, number[]] = ['', []];
-	let filterEqual: [string, string | number] = ['', ''];
+	let query = supabase
+		.from('choices')
+		.select(
+			'id, profiles!choices_user_id_fkey(username), title, votes(image_urls), visibility, uuid'
+		)
+		.neq('visibility', allowPrivate ? 'removed' : 'private')
+		.neq('visibility', 'removed')
+		.gt(dateLimit, now)
+		.order('created_at', { ascending: false });
 
 	if (Array.isArray(filter[1])) {
-		filterInclude = filter as [string, number[]];
-	} else {
-		filterEqual = filter as [string, string | number];
+		query = query.in(...(filter as [string, number[]]));
+	} else if (filter[1]) {
+		query = query.eq(...(filter as [string, number]));
 	}
 
 	const data = reactive({
@@ -27,24 +34,7 @@ export async function useFilteredChoices(
 	});
 
 	try {
-		const response = await supabase
-			.from('choices')
-			.select(
-				`
-                id,
-				profiles!choices_user_id_fkey(username),
-				title,
-				votes (image_urls), 
-				visibility, 
-				uuid
-				`
-			)
-			.neq('visibility', allowPrivate ? 'removed' : 'private')
-			.neq('visibility', 'removed')
-			.eq(...filterEqual)
-			.in(...filterInclude)
-			.gt(dateLimit, now)
-			.order('created_at', { ascending: false });
+		const response = await query;
 
 		if (response.error) throw response.error;
 
