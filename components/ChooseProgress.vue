@@ -3,7 +3,7 @@
 		<div
 			:class="$style.indicator"
 			:style="{ width: String($attrs.percent) + '%' }"
-		></div>
+		/>
 	</div>
 </template>
 

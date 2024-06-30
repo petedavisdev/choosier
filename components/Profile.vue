@@ -44,9 +44,8 @@ try {
 				(vote) => !data.choices?.find((choice) => choice.id === vote.choice_id)
 			)
 			.map((vote) => vote.choice_id) || null;
-} catch (error: any) {
-	console.error(error.message);
-	console.warn(error.hint);
+} catch (error: unknown) {
+	if (error instanceof Error) console.error(error.message);
 }
 </script>
 

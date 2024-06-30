@@ -48,8 +48,8 @@ export async function useFilteredChoices(
 				uuid: choice.uuid,
 			}))
 			.sort((a, b) => b.votes.length - a.votes.length);
-	} catch (error: any) {
-		console.error(error.message);
+	} catch (error: unknown) {
+		if (error instanceof Error) console.error(error.message);
 	} finally {
 		data.loading = false;
 	}

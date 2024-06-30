@@ -30,8 +30,8 @@ async function uploadAvatar(fileInput: HTMLInputElement) {
 
 		if (uploadError) throw uploadError;
 		getAvatar();
-	} catch (error: any) {
-		alert(error.message);
+	} catch (error: unknown) {
+		if (error instanceof Error) alert(error.message);
 	} finally {
 		data.uploading = false;
 	}

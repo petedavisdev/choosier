@@ -16,8 +16,8 @@ async function request() {
 		if (response.error) throw response.error;
 
 		data.requested = true;
-	} catch (error: any) {
-		alert(error.error_description || error.message);
+	} catch (error: unknown) {
+		if (error instanceof Error) alert(error.message);
 	} finally {
 		data.loading = false;
 	}
@@ -34,7 +34,7 @@ function retry() {
 			<h1>Confirmation code</h1>
 		</UserLoginToken>
 		<form v-else id="request" :class="$style.form" @submit.prevent="request">
-			<slot></slot>
+			<slot />
 
 			<input
 				v-model="data.email"

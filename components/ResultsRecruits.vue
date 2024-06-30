@@ -39,7 +39,6 @@ if (profile.value && props.isRecruiter && newRecruits.value.length) {
 	try {
 		await supabase
 			.from('profiles')
-			// @ts-ignore
 			.update({ recruits })
 			.eq('user_id', profile.value?.userId);
 

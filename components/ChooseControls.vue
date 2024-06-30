@@ -12,7 +12,7 @@ const data = reactive({
 
 function undo() {
 	const previousForm: HTMLFormElement | undefined =
-		// @ts-ignore: form accessed by name not number
+		// @ts-expect-error Form accessed by name not number
 		document.forms['match' + (props.matchIndex - 1)];
 
 	if (previousForm) {
