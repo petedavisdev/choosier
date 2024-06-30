@@ -7,3 +7,6 @@ node_modules
 .env
 .DS_Store
 dist
+
+# Exceptions
+!.nuxt/eslint.config.mjs
