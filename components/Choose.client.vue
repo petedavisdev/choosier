@@ -67,7 +67,7 @@ function updateMatches(matchIndex: number, chosenOption?: string) {
 				data.vote2 = data.options2[0];
 			}
 		}
-	} else if (matchIndex2 > 0 && newMatchIndex2 < data.matches2.length) {
+	} else if (newMatchIndex2 < data.matches2.length) {
 		const position = (data.options2.length + matchIndex2) % 2;
 		data.matches2[newMatchIndex2][position] = chosenOption;
 	} else {
@@ -107,7 +107,7 @@ onMounted(() => {
 		<Title>Help {{ choice.username }} choose: {{ choice.title }}</Title>
 		<Meta
 			name="description"
-			:content="`Image poll made with Choosier.app — Visual decisions made easy`"
+			:content="`Image poll made with Choosier.com — Visual decisions made easy`"
 		/>
 		<Meta
 			property="og:image"
@@ -122,7 +122,7 @@ onMounted(() => {
 
 	<main :class="$style.container">
 		<form
-			v-for="(match, matchIndex) in data.matches1"
+			v-for="(match, matchIndex) in allMatches"
 			v-show="!data.vote1 || (choice.votingSystem === '2' && !data.vote2)"
 			:id="'match' + matchIndex"
 			:key="matchIndex"
@@ -143,13 +143,14 @@ onMounted(() => {
 					@input="updateMatches(matchIndex, option)"
 				/>
 
-				<img :src="option" alt="" :class="$style.optionImage" />
+				<img :src="option" alt="" :class="`$style.optionImage`" />
 			</label>
 		</form>
 
 		<ChooseConfirm
-			v-if="data.vote1 && (!data.vote2 || choice.votingSystem === '1')"
+			v-if="data.vote1 && (data.vote2 || choice.votingSystem === '1')"
 			:id="props.id"
+			:class="$style.confirm"
 			:vote1="data.vote1"
 			:vote2="data.vote2"
 		/>
@@ -189,6 +190,7 @@ onMounted(() => {
 	grid-template: '📋' 1fr / 1fr;
 }
 
+.confirm,
 .match {
 	grid-area: 📋;
 	display: grid;
@@ -196,10 +198,12 @@ onMounted(() => {
 	grid-template:
 		'1️⃣' 1fr
 		'2️⃣' 1fr
-		'🦶' max-content
 		/ 1fr;
 	height: calc(var(--windowHeight, 100svh) - 75px);
 	padding: 1.5em 1.5em 0.5em;
+}
+
+.match {
 	opacity: 1;
 	transition: opacity 1.5s;
 }
@@ -215,19 +219,16 @@ onMounted(() => {
 }
 
 @media (orientation: landscape) {
+	.confirm,
 	.match {
 		grid-template:
 			'1️⃣ 2️⃣' 1fr
-			'🦶 🦶' max-content
 			/ 1fr 1fr;
-	}
-
-	.controls {
-		grid-area: 🦶;
 	}
 }
 
 .option {
+	position: relative;
 	display: grid;
 	place-content: center;
 	min-height: 0;

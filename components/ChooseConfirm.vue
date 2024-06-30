@@ -91,51 +91,53 @@ function retry() {
 </script>
 
 <template>
-	<section :class="$style.chosen">
-		<img :src="props.vote1" alt="" :class="$style.chosenImage" />
-		<img :src="props.vote2" alt="" :class="$style.chosenImage" />
-	</section>
-
-	<section v-if="profile" :class="$style.confirm">
-		<button type="button" class="button" @click="vote(profile.userId)">
-			✓ Confirm my choice
-		</button>
-	</section>
-
-	<section v-else-if="!data.requested" :class="$style.confirm">
-		<header>
-			<h1>Confirm your choice</h1>
-			<p>To vote, please confirm you are human:</p>
-		</header>
-
-		<input
-			v-model="data.email"
-			type="email"
-			placeholder="Email"
-			title="Email"
-			autocomplete="email"
-			required
-			:class="$style.email"
-		/>
-
-		<footer>
-			<button type="button" class="button" @click.prevent="request">
-				{{ data.loading ? 'Loading' : 'Send me a confirmation code &rarr;' }}
-			</button>
-		</footer>
-	</section>
-
-	<div v-else class="backdrop">
-		<section class="box">
-			<UserLoginToken
-				:email="data.email"
-				:retry="retry"
-				:choice-id="props.id"
-				:class="$style.confirm"
-			>
-				<h2>Confirmation code</h2>
-			</UserLoginToken>
+	<div>
+		<section :class="$style.chosen">
+			<img :src="props.vote1" alt="" :class="$style.chosenImage" />
+			<img :src="props.vote2" alt="" :class="$style.chosenImage" />
 		</section>
+
+		<section v-if="profile" :class="$style.confirm">
+			<button type="button" class="button" @click="vote(profile.userId)">
+				✓ Confirm my choice
+			</button>
+		</section>
+
+		<section v-else-if="!data.requested" :class="$style.confirm">
+			<header>
+				<h1>Confirm your choice</h1>
+				<p>To vote, please confirm you are human:</p>
+			</header>
+
+			<input
+				v-model="data.email"
+				type="email"
+				placeholder="Email"
+				title="Email"
+				autocomplete="email"
+				required
+				:class="$style.email"
+			/>
+
+			<footer>
+				<button type="button" class="button" @click.prevent="request">
+					{{ data.loading ? 'Loading' : 'Send me a confirmation code &rarr;' }}
+				</button>
+			</footer>
+		</section>
+
+		<aside v-else class="backdrop">
+			<section class="box">
+				<UserLoginToken
+					:email="data.email"
+					:retry="retry"
+					:choice-id="props.id"
+					:class="$style.confirm"
+				>
+					<h2>Confirmation code</h2>
+				</UserLoginToken>
+			</section>
+		</aside>
 	</div>
 </template>
 
@@ -143,6 +145,7 @@ function retry() {
 .chosen,
 .confirm {
 	display: grid;
+	gap: 0.5em;
 	place-content: center;
 	min-height: 0;
 	text-align: center;
