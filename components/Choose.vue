@@ -39,7 +39,7 @@ onMounted(() => {
 		<Title>Help {{ choice.username }} choose: {{ choice.title }}</Title>
 		<Meta
 			name="description"
-			:content="`Image poll made with Choosier.app — Visual decisions made easy`"
+			:content="`Image poll made with Choosier.com — Visual decisions made easy`"
 		/>
 		<Meta
 			property="og:image"
