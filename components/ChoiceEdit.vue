@@ -23,8 +23,8 @@ async function updateChoice() {
 		if (response.error) throw response.error;
 
 		navigateTo(PATHS.user + props.choice.username);
-	} catch (error: any) {
-		alert(error.message);
+	} catch (error: unknown) {
+		if (error instanceof Error) alert(error.message!);
 	}
 }
 </script>

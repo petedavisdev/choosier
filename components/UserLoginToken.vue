@@ -35,8 +35,8 @@ async function verify() {
 		if (props.choiceId) {
 			navigateTo(PATHS.results + props.choiceId);
 		}
-	} catch (error: any) {
-		alert(error.error_description || error.message);
+	} catch (error: unknown) {
+		if (error instanceof Error) alert(error.message);
 	} finally {
 		data.loading = false;
 	}
@@ -45,7 +45,7 @@ async function verify() {
 
 <template>
 	<form id="verify" @submit.prevent="verify">
-		<slot></slot>
+		<slot />
 		<p>
 			We sent a code to
 			<br />

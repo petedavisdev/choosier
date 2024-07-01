@@ -89,7 +89,7 @@ function undo() {
 
 	data.currentMatchIndex -= 1;
 
-	// @ts-ignore: form accessed by name not number
+	// @ts-expect-error - TS doesn't know about the form names
 	const previousForm = document.forms['match' + data.currentMatchIndex];
 
 	if (previousForm) {

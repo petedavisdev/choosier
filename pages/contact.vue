@@ -21,12 +21,7 @@
 		</label>
 		<label>
 			Your message:
-			<textarea
-				name="message"
-				required
-				rows="6"
-				:class="$style.input"
-			></textarea>
+			<textarea name="message" required rows="6" :class="$style.input" />
 		</label>
 		<p>
 			<button type="submit" class="button">Send</button>

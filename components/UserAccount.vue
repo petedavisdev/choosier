@@ -11,8 +11,8 @@ async function signOut() {
 		data.loading = true;
 		const response = await supabase.auth.signOut();
 		if (response.error) throw response.error;
-	} catch (error: any) {
-		alert(error.message);
+	} catch (error: unknown) {
+		if (error instanceof Error) alert(error.message);
 	} finally {
 		data.loading = false;
 	}

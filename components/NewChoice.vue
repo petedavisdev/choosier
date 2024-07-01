@@ -106,8 +106,8 @@ async function submit() {
 				console.log('coverUrl', useCover(newChoiceId));
 				navigateTo(PATHS.new + newChoiceId);
 			}
-		} catch (error: any) {
-			alert(error.message);
+		} catch (error: unknown) {
+			if (error instanceof Error) alert(error.message);
 		} finally {
 			data.loading = false;
 		}
@@ -143,8 +143,8 @@ async function uploadCover(coverUrl: string, id: number) {
 		if (uploadError) throw uploadError;
 
 		return data.path;
-	} catch (error: any) {
-		alert(error.message);
+	} catch (error: unknown) {
+		if (error instanceof Error) alert(error.message);
 	}
 }
 

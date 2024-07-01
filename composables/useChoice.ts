@@ -69,8 +69,8 @@ export async function useChoice(id: number) {
 		data.choice.uuid = choiceResponse.data.uuid;
 		data.choice.visibility = choiceResponse.data.visibility;
 		data.choice.votingSystem = choiceResponse.data.voting_system;
-	} catch (error: any) {
-		console.error(error.message);
+	} catch (error: unknown) {
+		if (error instanceof Error) console.error(error.message);
 	} finally {
 		data.loading = false;
 	}

@@ -83,7 +83,7 @@ function uploadHandler(error: unknown, info: UploadInfo) {
 
 function showUploadWidget() {
 	data.loading = true;
-	// @ts-ignore
+	// @ts-expect-error Cloudinary types are not included
 	cloudinary.openUploadWidget(UPLOAD_CONFIG, uploadHandler);
 }
 
@@ -103,7 +103,7 @@ function updateUploaded() {
 </script>
 
 <template>
-	<Script src="https://widget.cloudinary.com/v2.0/global/all.js"></Script>
+	<Script src="https://widget.cloudinary.com/v2.0/global/all.js" />
 
 	<div v-if="data.uploads.length" :class="$style.thumbnails">
 		<div v-for="({ url, delete_token }, index) in data.uploads" :key="index">
@@ -112,7 +112,7 @@ function updateUploaded() {
 				type="button"
 				class="close"
 				@click.prevent="deleteUpload(index, delete_token)"
-			></button>
+			/>
 		</div>
 	</div>
 

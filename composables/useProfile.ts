@@ -70,8 +70,8 @@ export function useProfile() {
 					votes: response.data.votes,
 					choices: response.data.choices,
 				};
-			} catch (error: any) {
-				console.error(error.message);
+			} catch (error: unknown) {
+				if (error instanceof Error) console.error(error.message);
 			}
 		}
 	}
