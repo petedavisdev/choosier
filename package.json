@@ -9,33 +9,22 @@
 		"preview": "nuxt preview",
 		"checks": "prettier --write . && npm run lint -- --fix && npm run typecheck && npm test",
 		"format": "prettier --check .",
-		"lint": "eslint . --ignore-path .gitignore --ext .ts --ext .js --ext .vue",
+		"lint": "eslint",
 		"typecheck": "nuxt typecheck",
 		"test": "cypress run",
 		"supabase:login": "npx supabase login",
 		"supabase:types": "npx supabase gen types typescript --project-id 'fbyhdhmmctwoorirepai' --schema public > utils/database.types.ts"
 	},
 	"devDependencies": {
-		"@nuxt/eslint-config": "^0.2.0",
+		"@nuxt/eslint": "^0.3.13",
 		"@nuxt/image": "^1",
-		"@nuxtjs/eslint-module": "^4",
 		"@nuxtjs/supabase": "^1",
 		"base64-arraybuffer": "^1",
 		"cypress": "^13",
-		"eslint": "^8",
+		"eslint": "^9",
 		"eslint-config-prettier": "^9",
 		"html-to-image": "^1",
 		"nuxt": "^3",
 		"prettier": "^3"
-	},
-	"eslintConfig": {
-		"extends": [
-			"@nuxt/eslint-config",
-			"eslint-config-prettier"
-		],
-		"rules": {
-			"vue/multi-word-component-names": 0,
-			"vue/no-multiple-template-root": 0
-		}
 	}
 }

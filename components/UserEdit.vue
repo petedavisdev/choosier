@@ -57,8 +57,8 @@ async function updateProfile() {
 			} else {
 				location.reload();
 			}
-		} catch (error: any) {
-			alert(error.message);
+		} catch (error: unknown) {
+			if (error instanceof Error) alert(error.message);
 		} finally {
 			data.loading = false;
 		}
@@ -68,7 +68,7 @@ async function updateProfile() {
 
 <template>
 	<form @submit.prevent="updateProfile">
-		<slot></slot>
+		<slot />
 
 		<p :class="$style.field">
 			<input

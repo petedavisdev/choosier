@@ -1,9 +1,12 @@
 node_modules
 *.log*
-.nuxt
+.nuxt/*
 .nitro
 .cache
 .output
 .env
 .DS_Store
 dist
+
+# Exceptions
+!.nuxt/eslint.config.mjs

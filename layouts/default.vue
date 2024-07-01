@@ -1,5 +1,15 @@
 <script setup lang="ts">
 const { profile } = useProfile();
+const route = useRoute();
+
+useHead(() => ({
+	link: [
+		{
+			rel: 'canonical',
+			href: 'https://choosier.com' + route.path,
+		},
+	],
+}));
 </script>
 
 <template>

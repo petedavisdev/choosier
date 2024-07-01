@@ -40,8 +40,8 @@ async function vote(userId: string) {
 
 			navigateTo(PATHS.results + props.id);
 		}
-	} catch (error: any) {
-		console.warn(error.message);
+	} catch (error: unknown) {
+		if (error instanceof Error) alert(error.message!);
 	} finally {
 		data.loading = false;
 	}
@@ -58,8 +58,8 @@ async function getUserId() {
 		if (response.error) throw response.error;
 
 		return response.data.user_id;
-	} catch (error: any) {
-		alert(error.message);
+	} catch (error: unknown) {
+		if (error instanceof Error) alert(error.message!);
 	}
 }
 
@@ -77,8 +77,8 @@ async function request() {
 		await vote(userId);
 
 		data.requested = true;
-	} catch (error: any) {
-		alert(error);
+	} catch (error: unknown) {
+		if (error instanceof Error) alert(error.message!);
 	} finally {
 		data.loading = false;
 	}

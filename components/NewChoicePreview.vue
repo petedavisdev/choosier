@@ -10,9 +10,9 @@ const props = defineProps<{
 
 <template>
 	<div :class="$style.container">
-		<div id="preview" class="backdrop" @click="props.close"></div>
+		<div id="preview" class="backdrop" @click="props.close" />
 		<section class="box" :class="$style.box">
-			<button type="button" class="close" @click="props.close"></button>
+			<button type="button" class="close" @click="props.close" />
 
 			<h2 v-if="props.validationMessage">{{ props.validationMessage }}</h2>
 

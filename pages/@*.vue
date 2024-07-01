@@ -3,13 +3,13 @@ const { profile } = useProfile();
 </script>
 
 <template>
-	<template v-if="profile">
+	<div v-if="profile">
 		<h1>Meet the choosers</h1>
 		<ProfileList />
-	</template>
+	</div>
 
-	<template v-else>
+	<div v-else>
 		<h1>Login to meet the choosers</h1>
 		<UserLogin />
-	</template>
+	</div>
 </template>
