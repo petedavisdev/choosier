@@ -2,7 +2,7 @@
 const supabase = useSupabaseClient<Database>();
 const { profile } = useProfile();
 const route = useRoute();
-const id = +route.params.id;
+const id = +route.params.id!;
 
 const data = reactive({
 	isCreator: false,

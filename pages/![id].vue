@@ -2,7 +2,7 @@
 import ChoicePromote from '~/components/ChoicePromote.vue';
 
 const route = useRoute();
-const id = +route.params.id;
+const id = +route.params.id!;
 const choice = await useChoice(id);
 
 const { profile } = useProfile();
@@ -45,7 +45,8 @@ const isPrivate = choice.visibility === 'private';
 			<ChoicePromote :choice="choice" />
 		</div>
 
-		<div class="grid">
+		<!-- TODO: reinstate delete when fixed in Supabase -->
+		<div v-if="!choice.isClosed" class="grid">
 			<section class="box" :class="$style.wideSection">
 				<h2>Edit</h2>
 				<ChoiceEdit :choice="choice" :is-private="isPrivate" />

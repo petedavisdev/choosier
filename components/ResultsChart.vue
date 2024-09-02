@@ -23,7 +23,7 @@ const results = computed(() => {
 		.sort((a, b) => b.voters.length - a.voters.length);
 });
 
-const mostVotes = computed(() => results.value[0].voters.length);
+const mostVotes = computed(() => results.value[0]?.voters.length ?? 0);
 </script>
 
 <template>

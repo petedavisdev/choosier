@@ -1,16 +1,23 @@
 export default defineNuxtConfig({
+	future: {
+		compatibilityVersion: 4,
+	},
+
 	css: [
 		'~/assets/modern-normalize.css',
 		'~/assets/variables.css',
 		'~/assets/base.css',
 		'~/assets/utils.css',
 	],
+
 	modules: ['@nuxtjs/supabase', '@nuxt/image', '@nuxt/eslint'],
+
 	nitro: {
 		prerender: {
 			routes: ['/'],
 		},
 	},
+
 	runtimeConfig: {
 		public: {
 			apiBase: process.env.SUPABASE_URL,
@@ -19,10 +26,14 @@ export default defineNuxtConfig({
 			siteUrl: process.env.SITE_URL || 'https://choosier.com',
 		},
 	},
+
 	supabase: {
 		redirect: false,
 	},
+
 	typescript: {
 		shim: false,
 	},
+
+	compatibilityDate: '2024-08-27',
 });
