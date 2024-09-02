@@ -4,7 +4,7 @@ definePageMeta({
 });
 
 const route = useRoute();
-const id = +route.params.id;
+const id = +route.params.id!;
 const uuid = route.query.uuid as string | undefined;
 
 const supabase = useSupabaseClient<Database>();

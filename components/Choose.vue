@@ -10,7 +10,7 @@ const length = choice.images?.length;
 if (!length && !choice.isRemoved) navigateTo(PATHS.home);
 
 const data = reactive({
-	matches: [] as (string | undefined)[][],
+	matches: [] as [string | undefined, string | undefined][],
 });
 
 const userVoted = computed(() =>
@@ -23,10 +23,11 @@ data.matches = choice.images?.map((_image, index) => [
 ]);
 
 function updateMatches(matchIndex: number, option?: string) {
-	const match = Math.floor((length + matchIndex) / 2);
+	const targetMatchIndex = Math.floor((length + matchIndex) / 2);
 	const position = (length + matchIndex) % 2;
+	const match = data.matches[targetMatchIndex];
 
-	data.matches[match][position] = option;
+	if (match) match[position] = option;
 }
 
 onMounted(() => {

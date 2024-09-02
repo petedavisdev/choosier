@@ -83,7 +83,8 @@ async function submit() {
 				])
 				.select();
 
-			if (choicesResponse.error) throw choicesResponse.error;
+			if (choicesResponse.error || !choicesResponse.data[0])
+				throw choicesResponse.error;
 
 			const profilesResponse = await supabase
 				.from('profiles')
@@ -96,7 +97,7 @@ async function submit() {
 
 			profile.value.credits = credits.value.remaining;
 
-			const newChoiceId = choicesResponse.data[0]?.id;
+			const newChoiceId = choicesResponse.data[0].id;
 
 			const coverPath = await createCover(newChoiceId);
 
@@ -126,6 +127,7 @@ async function createCover(id: number) {
 		const coverUrl = await toJpeg(cardImagesElement.value, IMAGE_OPTIONS);
 		return await uploadCover(coverUrl, id);
 	} catch (error) {
+		console.error(error);
 		alert('Error creating cover image!');
 	}
 }

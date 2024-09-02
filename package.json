@@ -9,7 +9,7 @@
 		"preview": "nuxt preview",
 		"checks": "prettier --write . && npm run lint -- --fix && npm run typecheck && npm test",
 		"format": "prettier --check .",
-		"lint": "eslint",
+		"lint": "eslint .",
 		"typecheck": "nuxt typecheck",
 		"test": "cypress run",
 		"supabase:login": "npx supabase login",
