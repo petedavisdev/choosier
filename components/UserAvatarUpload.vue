@@ -16,7 +16,7 @@ async function uploadAvatar(fileInput: HTMLInputElement) {
 	try {
 		data.uploading = true;
 
-		if (!data.files?.length) {
+		if (!data.files?.[0]) {
 			throw new Error('You must select an image to upload.');
 		}
 

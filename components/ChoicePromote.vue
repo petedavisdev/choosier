@@ -52,7 +52,7 @@ async function promoteChoice() {
 	>
 		<template v-if="!choice.isClosed">
 			<h2>Boost</h2>
-			<p>Feature on the homepage with 6 more days to collect votes</p>
+			<p>Featured on the homepage with 6 more days to collect votes</p>
 		</template>
 
 		<template v-else>
