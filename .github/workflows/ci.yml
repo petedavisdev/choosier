@@ -20,8 +20,8 @@ jobs:
 
       - run: npx ci
 
-      - name: ESLint
-        run: npm run lint
+      - run: npm run prepare
 
-      - name: TypeCheck
-        run: npm run typecheck
+      - run: npm run lint
+
+      - run: npm run typecheck
