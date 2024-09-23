@@ -6,6 +6,7 @@
 		"start": "nuxt start",
 		"dev": "nuxt dev",
 		"generate": "nuxt generate",
+		"prepare": "nuxt prepare",
 		"preview": "nuxt preview",
 		"checks": "prettier --write . && npm run lint -- --fix && npm run typecheck && npm test",
 		"format": "prettier --check .",
@@ -16,7 +17,7 @@
 		"supabase:types": "npx supabase gen types typescript --project-id 'fbyhdhmmctwoorirepai' --schema public > utils/database.types.ts"
 	},
 	"devDependencies": {
-		"@nuxt/eslint": "^0.5.3",
+		"@nuxt/eslint": "^0.5.7",
 		"@nuxt/image": "^1",
 		"@nuxtjs/supabase": "^1",
 		"@typescript-eslint/eslint-plugin": "^7.8.0",
