@@ -52,7 +52,8 @@ function updateMatches(matchIndex: number, chosenOption?: string) {
 
 	if (newMatchIndex1 < data.matches1.length) {
 		const position = (data.options1.length + matchIndex) % 2;
-		data.matches1[newMatchIndex1][position] = chosenOption;
+		const match = data.matches1[newMatchIndex1];
+		if (match) match[position] = chosenOption;
 	} else if (newMatchIndex1 === data.matches1.length && newMatchIndex2 < 1) {
 		data.vote1 = chosenOption;
 
@@ -69,7 +70,8 @@ function updateMatches(matchIndex: number, chosenOption?: string) {
 		}
 	} else if (newMatchIndex2 < data.matches2.length) {
 		const position = (data.options2.length + matchIndex2) % 2;
-		data.matches2[newMatchIndex2][position] = chosenOption;
+		const match = data.matches2[newMatchIndex2];
+		if (match) match[position] = chosenOption;
 	} else {
 		data.vote2 = chosenOption;
 	}
