@@ -79,6 +79,7 @@ async function submit() {
 						close_at: dates.value.close,
 						remove_at: dates.value.remove,
 						credits_used: credits.value.required,
+						voting_system: data.images.length < 3 ? '1' : '2',
 					},
 				])
 				.select();

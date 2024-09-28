@@ -13,7 +13,7 @@ const data = reactive({
 
 <template>
 	<div v-if="data.show" class="backdrop">
-		<article class="box center" :class="$style.center">
+		<article class="box center">
 			<IconLogo />
 			<h1>
 				<small :class="$style.intro">Help {{ props.username }} choose</small>

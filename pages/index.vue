@@ -18,7 +18,7 @@
 			</p>
 			<p>
 				Share your choice with friends, followers, colleagues or customers to
-				instantly see their favorites and choose with confidence.
+				immediately see their preferences and choose with confidence.
 			</p>
 			<h3>
 				No more dithering.

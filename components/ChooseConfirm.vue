@@ -163,7 +163,7 @@ function retry() {
 
 .chosen {
 	display: grid;
-	grid-template-columns: 4fr 3fr;
+	grid-auto-flow: column;
 	grid-gap: 0.5em;
 }
 
