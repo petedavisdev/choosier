@@ -180,7 +180,12 @@ onMounted(() => {
 			</LinkTo>
 		</aside>
 
-		<ChooseIntro v-else :username="choice.username" :title="choice.title" />
+		<ChooseIntro
+			v-else
+			:username="choice.username"
+			:title="choice.title"
+			:voting-system="choice.votingSystem"
+		/>
 	</main>
 </template>
 

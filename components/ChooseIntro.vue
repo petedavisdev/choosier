@@ -2,6 +2,7 @@
 const props = defineProps<{
 	username: string;
 	title: string;
+	votingSystem: string;
 }>();
 
 const { profile } = useProfile();
@@ -12,7 +13,7 @@ const data = reactive({
 
 <template>
 	<div v-if="data.show" class="backdrop">
-		<article class="box" :class="$style.center">
+		<article class="box center" :class="$style.center">
 			<IconLogo />
 			<h1>
 				<small :class="$style.intro">Help {{ props.username }} choose</small>
@@ -21,7 +22,10 @@ const data = reactive({
 
 			<template v-if="!profile">
 				<p>You will see 2 images at a time.</p>
-				<p>Keep choosing until you have a winner!</p>
+				<p>
+					Just keep choosing to find your
+					{{ props.votingSystem === '1' ? 'winner' : 'top 2' }}!
+				</p>
 			</template>
 
 			<button type="button" class="button" @click="data.show = false">

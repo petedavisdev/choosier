@@ -92,21 +92,30 @@ function retry() {
 
 <template>
 	<div>
-		<section :class="$style.chosen">
-			<img :src="props.vote1" alt="" :class="$style.chosenImage" />
-			<img :src="props.vote2" alt="" :class="$style.chosenImage" />
+		<section :class="$style.confirm">
+			<div :class="$style.chosen">
+				<span :class="$style.chosen1">
+					<img :src="props.vote1" alt="" :class="$style.chosenImage" />
+					<strong v-if="props.vote2" :class="$style.chosenNumber">1</strong>
+				</span>
+
+				<span v-if="props.vote2" :class="$style.chosen2">
+					<img :src="props.vote2" alt="" :class="$style.chosenImage" />
+					<strong :class="$style.chosenNumber">2</strong>
+				</span>
+			</div>
 		</section>
 
 		<section v-if="profile" :class="$style.confirm">
 			<button type="button" class="button" @click="vote(profile.userId)">
-				✓ Confirm my choice
+				✓ Confirm my {{ props.vote2 ? 'top 2' : 'choice' }} &rarr;
 			</button>
 		</section>
 
 		<section v-else-if="!data.requested" :class="$style.confirm">
 			<header>
-				<h1>Confirm your choice</h1>
-				<p>To vote, please confirm you are human:</p>
+				<h1>Vote for your {{ props.vote2 ? 'top 2' : 'choice' }}</h1>
+				<p>Please confirm you are human</p>
 			</header>
 
 			<input
@@ -124,6 +133,8 @@ function retry() {
 					{{ data.loading ? 'Loading' : 'Send me a confirmation code &rarr;' }}
 				</button>
 			</footer>
+
+			<p><small>Your email will not be shared with anyone</small></p>
 		</section>
 
 		<aside v-else class="backdrop">
@@ -142,23 +153,35 @@ function retry() {
 </template>
 
 <style module>
-.chosen,
-.confirm {
+.confirm,
+.chosen {
 	display: grid;
-	gap: 0.5em;
 	place-content: center;
 	min-height: 0;
 	text-align: center;
 }
 
-.chosenImage {
+.chosen {
+	display: grid;
+	grid-template-columns: 4fr 3fr;
+	grid-gap: 0.5em;
+}
+
+.chosen1,
+.chosen2 {
 	object-fit: contain;
 	place-self: center;
 	min-height: 0;
-	max-width: 100%;
-	max-height: 100%;
 	line-height: 1;
-	background-color: var(--lighter);
+}
+
+.chosenNumber {
+	position: absolute;
+	top: -0.6rem;
+	right: -0.8rem;
+	font-size: 4em;
+	color: var(--lightest);
+	-webkit-text-stroke: 2px var(--dark);
 }
 
 .email {
