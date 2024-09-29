@@ -96,12 +96,12 @@ function retry() {
 			<div :class="$style.chosen">
 				<span :class="$style.chosen1">
 					<img :src="props.vote1" alt="" :class="$style.chosenImage" />
-					<strong v-if="props.vote2" :class="$style.chosenNumber">1</strong>
+					<strong v-if="props.vote2" :class="$style.chosenNumber">#1</strong>
 				</span>
 
 				<span v-if="props.vote2" :class="$style.chosen2">
 					<img :src="props.vote2" alt="" :class="$style.chosenImage" />
-					<strong :class="$style.chosenNumber">2</strong>
+					<strong :class="$style.chosenNumber">#2</strong>
 				</span>
 			</div>
 		</section>
