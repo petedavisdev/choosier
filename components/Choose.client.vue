@@ -130,6 +130,7 @@ onMounted(() => {
 			:key="matchIndex"
 			ref="chooseForm"
 			:class="$style.match"
+			:data-cy="`match-${matchIndex < data.matches1.length ? 1 : 2}`"
 			@submit.prevent
 		>
 			<label
@@ -145,7 +146,12 @@ onMounted(() => {
 					@input="updateMatches(matchIndex, option)"
 				/>
 
-				<img :src="option" alt="" :class="`$style.optionImage`" />
+				<img
+					:src="option"
+					alt=""
+					:class="$style.optionImage"
+					data-cy="option-image"
+				/>
 			</label>
 		</form>
 
@@ -249,10 +255,9 @@ onMounted(() => {
 }
 
 .optionImage {
-	object-fit: contain;
 	width: 100%;
 	min-height: 0;
-	max-height: 100%;
+	height: 100%;
 	line-height: 1;
 	background-color: var(--lighter);
 }

@@ -25,6 +25,7 @@ const data = reactive({
 			type="reset"
 			:disabled="props.matchIndex < 1"
 			:class="$style.undo"
+			data-cy="undo"
 			@click="emit('undo')"
 		>
 			<IconUndo :class="$style.icon" />

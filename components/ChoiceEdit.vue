@@ -33,6 +33,8 @@ async function updateChoice() {
 	<form :class="$style.form" @submit.prevent="updateChoice">
 		<section id="title">
 			<h3><label for="title">Title</label></h3>
+
+			<p :class="$style.help">Help {{ choice.username }} choose:</p>
 			<input
 				id="title"
 				v-model="data.title"
@@ -79,5 +81,9 @@ async function updateChoice() {
 	width: 100%;
 	max-width: 25em;
 	display: block;
+}
+
+.help {
+	margin: -1em 0 0.25em;
 }
 </style>

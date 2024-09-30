@@ -87,6 +87,7 @@ async function request() {
 
 function retry() {
 	data.requested = false;
+	data.email = '';
 }
 </script>
 
@@ -95,12 +96,22 @@ function retry() {
 		<section :class="$style.confirm">
 			<div :class="$style.chosen">
 				<span :class="$style.chosen1">
-					<img :src="props.vote1" alt="" :class="$style.chosenImage" />
+					<img
+						:src="props.vote1"
+						alt=""
+						:class="$style.chosenImage"
+						data-cy="chosen-image"
+					/>
 					<strong v-if="props.vote2" :class="$style.chosenNumber">#1</strong>
 				</span>
 
 				<span v-if="props.vote2" :class="$style.chosen2">
-					<img :src="props.vote2" alt="" :class="$style.chosenImage" />
+					<img
+						:src="props.vote2"
+						alt=""
+						:class="$style.chosenImage"
+						data-cy="chosen-image"
+					/>
 					<strong :class="$style.chosenNumber">#2</strong>
 				</span>
 			</div>
@@ -112,7 +123,11 @@ function retry() {
 			</button>
 		</section>
 
-		<section v-else-if="!data.requested" :class="$style.confirm">
+		<form
+			v-else-if="!data.requested"
+			:class="$style.confirm"
+			@submit.prevent="request"
+		>
 			<header>
 				<h1>Vote for your {{ props.vote2 ? 'top 2' : 'choice' }}</h1>
 				<p>Please confirm you are human</p>
@@ -126,16 +141,24 @@ function retry() {
 				autocomplete="email"
 				required
 				:class="$style.email"
+				data-cy="email"
 			/>
 
 			<footer>
-				<button type="button" class="button" @click.prevent="request">
-					{{ data.loading ? 'Loading' : 'Send me a confirmation code &rarr;' }}
+				<button
+					type="submit"
+					class="button"
+					:disabled="data.loading"
+					data-cy="submit-email"
+				>
+					{{
+						data.loading ? 'Loading...' : 'Send me a confirmation code &rarr;'
+					}}
 				</button>
 			</footer>
 
 			<p><small>Your email will not be shared with anyone</small></p>
-		</section>
+		</form>
 
 		<aside v-else class="backdrop">
 			<section class="box">

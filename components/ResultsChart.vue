@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import type { Vote } from '../composables/useChoice';
+import type { Choice, Vote } from '../composables/useChoice';
 
 const props = defineProps<{
 	images: string[];
 	votes: Vote[];
+	votingSystem: Choice['votingSystem'];
 }>();
 
 const { profile } = useProfile();
@@ -67,7 +68,7 @@ const mostVotes = computed(() =>
 				}"
 			>
 				<strong :class="$style.count">{{ result.firsts.length }}</strong>
-				<sup :class="$style.preference">#1</sup>
+				<sup v-if="votingSystem === '2'" :class="$style.preference">#1</sup>
 				<span v-for="voter in result.firsts" :key="voter" :class="$style.voter">
 					<LinkTo
 						:to="PATHS.user + voter"
@@ -80,7 +81,7 @@ const mostVotes = computed(() =>
 			<section v-else>&nbsp;</section>
 
 			<section
-				v-if="result.seconds.length"
+				v-if="votingSystem === '2' && result.seconds.length"
 				:class="$style.seconds"
 				:style="{
 					width: (100 * result.seconds.length) / mostVotes + '%',
@@ -105,7 +106,7 @@ const mostVotes = computed(() =>
 		</div>
 	</article>
 
-	<p>First choices are weighted double second choices</p>
+	<p><small>Ranking: 1 first choice is worth 2 second choices</small></p>
 </template>
 
 <style module>
@@ -114,7 +115,7 @@ const mostVotes = computed(() =>
 	margin-top: 1em;
 }
 
-@media (min-width: 500px) {
+@media (min-width: 600px) {
 	.result {
 		grid-template-columns: max-content 1fr;
 	}

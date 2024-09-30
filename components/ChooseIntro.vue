@@ -28,7 +28,12 @@ const data = reactive({
 				</p>
 			</template>
 
-			<button type="button" class="button" @click="data.show = false">
+			<button
+				type="button"
+				class="button"
+				data-cy="start"
+				@click="data.show = false"
+			>
 				Start choosing &rarr;
 			</button>
 		</article>

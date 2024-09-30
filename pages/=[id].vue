@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { Choice } from '../composables/useChoice';
+
 const supabase = useSupabaseClient<Database>();
 const { profile } = useProfile();
 const route = useRoute();
@@ -8,6 +10,7 @@ const data = reactive({
 	isCreator: false,
 	isVoter: false,
 	isPrivate: false,
+	votingSystem: '2' as Choice['votingSystem'],
 });
 
 try {
@@ -17,6 +20,7 @@ try {
 			`
 			visibility,
 			user_id,
+			voting_system,
 			votes (user_id)
 			`
 		)
@@ -30,6 +34,7 @@ try {
 	data.isVoter = !!response.data.votes.find(
 		(vote) => vote.user_id === profile.value?.userId
 	);
+	data.votingSystem = response.data.voting_system;
 
 	if (data.isPrivate && !data.isCreator && !data.isVoter)
 		throw new Error('Access denied');
@@ -44,5 +49,6 @@ try {
 		:is-private="data.isPrivate"
 		:is-creator="data.isCreator"
 		:is-voter="data.isVoter"
+		:voting-system="data.votingSystem"
 	/>
 </template>
