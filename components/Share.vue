@@ -27,10 +27,11 @@ function copy(text: string) {
 
 <template>
 	<div :class="$style.share">
-		<h3 @click="copy(shareLink)">{{ shareLink }}</h3>
+		<h3 :class="$style.copy" @click="copy(shareLink)">{{ shareLink }}</h3>
 		<button
 			type="button"
 			class="button"
+			:class="$style.copy"
 			:disabled="data.copied === shareLink"
 			@click="copy(shareLink)"
 		>
@@ -41,6 +42,7 @@ function copy(text: string) {
 			v-if="!props.uuid"
 			type="button"
 			class="button"
+			:class="$style.copy"
 			:disabled="data.copied === embedCode"
 			@click="copy(embedCode)"
 		>
@@ -57,5 +59,9 @@ function copy(text: string) {
 	flex-wrap: wrap;
 	gap: 1em;
 	align-items: center;
+}
+
+.copy {
+	cursor: copy;
 }
 </style>

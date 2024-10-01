@@ -52,8 +52,13 @@ async function verify() {
 			<strong>{{ props.email }}</strong>
 			<br />
 			If you don't get it in a few minutes,
-			<LinkTo to="#request" :class="$style.retry" @click="retry"
-				>try again</LinkTo
+			<LinkTo
+				to="#request"
+				:class="$style.retry"
+				data-cy="retry"
+				@click="retry"
+			>
+				try again</LinkTo
 			>.
 		</p>
 
@@ -69,10 +74,16 @@ async function verify() {
 				max-length="6"
 				title="6 digit code"
 				required
+				data-cy="token"
 			/>
 		</p>
 		<p>
-			<button type="submit" class="button token" :disabled="data.loading">
+			<button
+				type="submit"
+				class="button token"
+				:disabled="data.loading"
+				data-cy="submit-token"
+			>
 				{{ data.loading ? 'Loading' : 'Enter &rarr;' }}
 			</button>
 		</p>

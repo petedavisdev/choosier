@@ -13,7 +13,7 @@
 		<path d="M9 13l-4 -4l4 -4m-4 4h11a4 4 0 0 1 0 8h-1" />
 		<text
 			x="50%"
-			y="100%"
+			y="96%"
 			font-size="0.5em"
 			stroke="none"
 			fill="currentColor"

@@ -36,13 +36,12 @@ const category = route.params.category as keyof typeof CATEGORIES;
 				in the process.
 			</p>
 			<p>
-				Choosier shows your images two at a time, like a knock-out tournament,
-				to help you pick a favorite.
+				Choosier polls show your images two at a time, like a knock-out
+				tournament, to help you pick a favorite.
 			</p>
 			<p>
 				You can share a link with your friends, clients or followers to
-				instantly see their favorites and know which artwork is most likely to
-				sell.
+				immediately see which artwork is most likely to sell.
 			</p>
 			<h3>
 				No more dithering.
@@ -74,7 +73,7 @@ const category = route.params.category as keyof typeof CATEGORIES;
 			</p>
 			<p>
 				Share with colleagues, stakeholders or customers to instantly see their
-				favorites and choose with confidence.
+				preferences and choose with confidence.
 			</p>
 			<h3>
 				No more dithering.
@@ -104,8 +103,8 @@ const category = route.params.category as keyof typeof CATEGORIES;
 				so you can quickly find your favorite.
 			</p>
 			<p>
-				Share with your friends, family or followers to instantly see their
-				favorites and choose with confidence.
+				Share with your friends, family or followers to immediately see their
+				preferences and choose with confidence.
 			</p>
 			<h3>
 				No more dithering.
@@ -131,8 +130,8 @@ const category = route.params.category as keyof typeof CATEGORIES;
 				so you can quickly find your favorite.
 			</p>
 			<p>
-				Share with friends, colleagues and followers to instantly see their
-				favorites and choose with confidence.
+				Share with friends, colleagues and followers to immediately see their
+				preferences and choose with confidence.
 			</p>
 			<h3>
 				No more dithering.

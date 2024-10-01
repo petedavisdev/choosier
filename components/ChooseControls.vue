@@ -1,43 +1,32 @@
 <script setup lang="ts">
 const props = defineProps<{
 	matchIndex: number;
-	length: number;
+	matchCount: number;
 	id: number;
 	allowShare: boolean;
 }>();
 
+const emit = defineEmits(['undo']);
+
 const data = reactive({
 	shareOpen: false,
 });
-
-function undo() {
-	const previousForm: HTMLFormElement | undefined =
-		// @ts-expect-error Form accessed by name not number
-		document.forms['match' + (props.matchIndex - 1)];
-
-	if (previousForm) {
-		previousForm.reset();
-	}
-}
-
-function toggleShare() {
-	data.shareOpen = !data.shareOpen;
-}
 </script>
 
 <template>
 	<footer :class="$style.controls">
 		<ChooseProgress
-			:percent="(100 * props.matchIndex) / (props.length - 1)"
+			:percent="(100 * props.matchIndex) / (props.matchCount - 1)"
 			:class="$style.progress"
 		/>
 
 		<button
 			title="undo"
 			type="reset"
-			:disabled="props.matchIndex === 0"
+			:disabled="props.matchIndex < 1"
 			:class="$style.undo"
-			@click="undo()"
+			data-cy="undo"
+			@click="emit('undo')"
 		>
 			<IconUndo :class="$style.icon" />
 		</button>
@@ -48,7 +37,7 @@ function toggleShare() {
 			v-if="allowShare"
 			type="button"
 			:class="$style.share"
-			@click="toggleShare"
+			@click="data.shareOpen = true"
 		>
 			<IconShare :class="$style.icon" />
 		</button>
@@ -56,11 +45,22 @@ function toggleShare() {
 		<button v-else type="button" :class="$style.share" disabled>
 			<IconLock :class="$style.icon" />
 		</button>
-
-		<aside v-if="data.shareOpen" :class="$style.drawer">
-			<Share :id="props.id" />
-		</aside>
 	</footer>
+	<aside
+		v-if="data.shareOpen"
+		class="backdrop"
+		@click.self="data.shareOpen = false"
+	>
+		<div class="box">
+			<button
+				type="button"
+				class="close"
+				@click="data.shareOpen = false"
+			></button>
+			<h2>Share</h2>
+			<Share :id="props.id" />
+		</div>
+	</aside>
 </template>
 
 <style module>
@@ -72,7 +72,7 @@ function toggleShare() {
 		'🎁 🎁 🎁' max-content
 		/ max-content 1fr max-content;
 	gap: 0.5em;
-	padding: 0;
+	padding: 0 1.5em;
 }
 
 .share,
@@ -102,12 +102,5 @@ function toggleShare() {
 	grid-area: 🪵;
 	width: 12em;
 	place-self: center;
-}
-
-.drawer {
-	grid-area: 🎁;
-	display: grid;
-	justify-content: end;
-	padding-block: 0.5em;
 }
 </style>

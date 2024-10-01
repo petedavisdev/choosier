@@ -131,6 +131,12 @@
 	background-color: var(--pink);
 }
 
+.center {
+	place-content: center;
+	place-self: center;
+	text-align: center;
+}
+
 .close {
 	position: absolute;
 	top: 0.75em;

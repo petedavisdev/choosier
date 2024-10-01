@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import type { Choice } from '../composables/useChoice';
+
 const props = defineProps<{
-	id: number;
+	id: Choice['id'];
 	isPrivate: boolean;
 	isCreator: boolean;
 	isVoter: boolean;
+	votingSystem: Choice['votingSystem'];
 }>();
 
 const choice = await useChoice(props.id);
@@ -67,7 +70,11 @@ const { profile } = useProfile();
 
 		<h2 v-else>Results so far...</h2>
 
-		<ResultsChart :images="choice.images" :votes="choice.votes" />
+		<ResultsChart
+			:images="choice.images"
+			:votes="choice.votes"
+			:voting-system="props.votingSystem"
+		/>
 
 		<div class="grid" :class="$style.meta">
 			<ResultsRecruits

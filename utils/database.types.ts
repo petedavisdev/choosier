@@ -22,6 +22,7 @@ export type Database = {
 					user_id: string | null;
 					uuid: string;
 					visibility: Database['public']['Enums']['Visibility'];
+					voting_system: Database['public']['Enums']['VotingSystem'];
 				};
 				Insert: {
 					category?: string | null;
@@ -35,6 +36,7 @@ export type Database = {
 					user_id?: string | null;
 					uuid?: string;
 					visibility?: Database['public']['Enums']['Visibility'];
+					voting_system?: Database['public']['Enums']['VotingSystem'];
 				};
 				Update: {
 					category?: string | null;
@@ -48,6 +50,7 @@ export type Database = {
 					user_id?: string | null;
 					uuid?: string;
 					visibility?: Database['public']['Enums']['Visibility'];
+					voting_system?: Database['public']['Enums']['VotingSystem'];
 				};
 				Relationships: [
 					{
@@ -65,8 +68,10 @@ export type Database = {
 					credits_used: number | null;
 					email: string | null;
 					first_vote: number | null;
+					language: string | null;
 					recruits: string[] | null;
 					subscriptions: string[] | null;
+					timezone: string | null;
 					updated_at: string | null;
 					user_id: string;
 					username: string | null;
@@ -77,8 +82,10 @@ export type Database = {
 					credits_used?: number | null;
 					email?: string | null;
 					first_vote?: number | null;
+					language?: string | null;
 					recruits?: string[] | null;
 					subscriptions?: string[] | null;
+					timezone?: string | null;
 					updated_at?: string | null;
 					user_id: string;
 					username?: string | null;
@@ -89,8 +96,10 @@ export type Database = {
 					credits_used?: number | null;
 					email?: string | null;
 					first_vote?: number | null;
+					language?: string | null;
 					recruits?: string[] | null;
 					subscriptions?: string[] | null;
+					timezone?: string | null;
 					updated_at?: string | null;
 					user_id?: string;
 					username?: string | null;
@@ -158,6 +167,7 @@ export type Database = {
 		};
 		Enums: {
 			Visibility: 'private' | 'promoted' | 'public' | 'removed';
+			VotingSystem: '1' | '2';
 		};
 		CompositeTypes: {
 			[_ in never]: never;

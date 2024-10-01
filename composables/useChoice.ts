@@ -21,6 +21,7 @@ export type Choice = {
 	votes: Vote[];
 	uuid: string;
 	visibility: 'public' | 'private' | 'promoted' | 'removed';
+	votingSystem: '1' | '2';
 };
 
 export async function useChoice(id: number) {
@@ -45,7 +46,8 @@ export async function useChoice(id: number) {
 				remove_at,
 				votes (image_urls, user_id, profiles (username, first_vote)),
 				uuid,
-				visibility
+				visibility,
+				voting_system
 				`
 			)
 			.eq('id', id)
@@ -66,6 +68,7 @@ export async function useChoice(id: number) {
 		data.choice.votes = choiceResponse.data.votes;
 		data.choice.uuid = choiceResponse.data.uuid;
 		data.choice.visibility = choiceResponse.data.visibility;
+		data.choice.votingSystem = choiceResponse.data.voting_system;
 	} catch (error: unknown) {
 		if (error instanceof Error) console.error(error.message);
 	} finally {

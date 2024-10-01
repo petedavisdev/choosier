@@ -79,6 +79,7 @@ async function submit() {
 						close_at: dates.value.close,
 						remove_at: dates.value.remove,
 						credits_used: credits.value.required,
+						voting_system: data.images.length < 3 ? '1' : '2',
 					},
 				])
 				.select();
@@ -214,6 +215,7 @@ function closePreview() {
 
 		<section id="title">
 			<h2><label for="title">Title</label></h2>
+			<p :class="$style.help">Help {{ profile.username }} choose:</p>
 			<input
 				id="title"
 				v-model="data.title"
@@ -323,5 +325,9 @@ function closePreview() {
 
 .titleInput {
 	width: 100%;
+}
+
+.help {
+	margin: -1em 0 0.25em;
 }
 </style>

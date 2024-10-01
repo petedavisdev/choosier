@@ -1,29 +1,49 @@
 <script setup lang="ts">
-import type { Vote } from '../composables/useChoice';
+import type { Choice, Vote } from '../composables/useChoice';
 
 const props = defineProps<{
 	images: string[];
 	votes: Vote[];
+	votingSystem: Choice['votingSystem'];
 }>();
 
 const { profile } = useProfile();
 
+const SECOND_DIVIDER = 1.9999;
+
 const results = computed(() => {
 	return props.images
 		.map((image: string) => {
-			return {
-				image,
-				voters: props.votes
-					.filter(
-						(vote) => image === vote.image_urls?.[0] && vote.profiles?.username
-					)
-					.map((vote) => vote.profiles?.username),
-			} as { image: string; voters: string[] };
+			const firsts = props.votes
+				.filter(
+					(vote) => image === vote.image_urls?.[0] && vote.profiles?.username
+				)
+				.map((vote) => vote.profiles?.username);
+
+			const seconds = props.votes
+				.filter(
+					(vote) => image === vote.image_urls?.[1] && vote.profiles?.username
+				)
+				.map((vote) => vote.profiles?.username);
+
+			const points = firsts.length + seconds.length / SECOND_DIVIDER;
+
+			const maxPoints = Math.max(firsts.length, seconds.length);
+
+			return { image, firsts, seconds, points, maxPoints } as {
+				image: string;
+				firsts: string[];
+				seconds: string[];
+				points: number;
+				maxPoints: number;
+			};
 		})
-		.sort((a, b) => b.voters.length - a.voters.length);
+		.sort((a, b) => b.points - a.points);
 });
 
-const mostVotes = computed(() => results.value[0]?.voters.length ?? 0);
+const mostVotes = computed(() =>
+	results.value.reduce((max, result) => Math.max(max, result.maxPoints), 0)
+);
 </script>
 
 <template>
@@ -38,21 +58,39 @@ const mostVotes = computed(() => results.value[0]?.voters.length ?? 0);
 			:title="result.image.split('/').pop()?.replace('.webp', '')"
 			:class="$style.image"
 		/>
-		<div
-			:class="$style.bar"
-			:style="{
-				width: (100 * result.voters.length) / mostVotes + '%',
-			}"
-		>
-			<strong :class="$style.count">{{ result.voters.length }}</strong>
-			<span v-if="props.votes.length"
-				>({{
-					Math.round((100 * result.voters.length) / props.votes.length)
-				}}%)</span
+
+		<div :class="$style.bars">
+			<section
+				v-if="result.firsts.length"
+				:class="$style.firsts"
+				:style="{
+					width: (100 * result.firsts.length) / mostVotes + '%',
+				}"
 			>
-			<div :class="$style.voters">
-				<small
-					v-for="voter in result.voters"
+				<strong :class="$style.count">{{ result.firsts.length }}</strong>
+				<sup v-if="votingSystem === '2'" :class="$style.preference">#1</sup>
+				<span v-for="voter in result.firsts" :key="voter" :class="$style.voter">
+					<LinkTo
+						:to="PATHS.user + voter"
+						:class="`${$style.avatar} ${profile?.username === voter ? $style.myAvatar : ''}`"
+					>
+						<UserAvatar :username="voter" />
+					</LinkTo>
+				</span>
+			</section>
+			<section v-else>&nbsp;</section>
+
+			<section
+				v-if="votingSystem === '2' && result.seconds.length"
+				:class="$style.seconds"
+				:style="{
+					width: (100 * result.seconds.length) / mostVotes + '%',
+				}"
+			>
+				<span :class="$style.count">{{ result.seconds.length }}</span>
+				<sup :class="$style.preference">#2</sup>
+				<span
+					v-for="voter in result.seconds"
 					:key="voter"
 					:class="$style.voter"
 				>
@@ -62,73 +100,99 @@ const mostVotes = computed(() => results.value[0]?.voters.length ?? 0);
 					>
 						<UserAvatar :username="voter" />
 					</LinkTo>
-				</small>
-			</div>
+				</span>
+			</section>
+			<section v-else>&nbsp;</section>
 		</div>
 	</article>
+
+	<p><small>Ranking: 1 first choice is worth 2 second choices</small></p>
 </template>
 
 <style module>
 .result {
 	display: grid;
-	grid-template-columns: max-content 1fr;
-	margin-top: 0.5em;
+	margin-top: 1em;
 }
 
-.bar {
+@media (min-width: 600px) {
+	.result {
+		grid-template-columns: max-content 1fr;
+	}
+}
+
+.bars {
+	height: 100%;
+	display: grid;
+	grid-template-rows: 2fr 1fr;
+	gap: 1px;
+}
+
+.result:nth-of-type(1) .firsts,
+.result:nth-of-type(1) {
+	--background-color: var(--green);
+}
+.result:nth-of-type(2) .firsts,
+.result:nth-of-type(2) {
+	--background-color: var(--yellow);
+}
+.result:nth-of-type(3) .firsts,
+.result:nth-of-type(3) {
+	--background-color: var(--peach);
+}
+.result:nth-of-type(4) .firsts,
+.result:nth-of-type(4) {
+	--background-color: var(--pink);
+}
+.result:nth-of-type(5) .firsts,
+.result:nth-of-type(5) {
+	--background-color: var(--purple);
+}
+.result:nth-of-type(6) .firsts,
+.result:nth-of-type(6) {
+	--background-color: var(--blue);
+}
+
+.firsts,
+.seconds {
 	text-align: left;
 	background: linear-gradient(
 		to right,
 		#2220 0%,
 		var(--background-color, #ccc) 20dvw
 	);
+	padding: 0.5em;
 	border-top-right-radius: var(--radius);
 	border-bottom-right-radius: var(--radius);
 }
 
-.result:nth-of-type(1) .bar {
-	--background-color: var(--green);
-}
-.result:nth-of-type(2) .bar {
-	--background-color: var(--yellow);
-}
-.result:nth-of-type(3) .bar {
-	--background-color: var(--peach);
-}
-.result:nth-of-type(4) .bar {
-	--background-color: var(--pink);
-}
-.result:nth-of-type(5) .bar {
-	--background-color: var(--purple);
-}
-.result:nth-of-type(6) .bar {
-	--background-color: var(--blue);
-}
-
 .count {
-	font-size: 2em;
-	padding: 0.25em;
+	float: right;
+	font-size: 1.5em;
+	margin-top: -0.25em;
+	margin-left: 0.25em;
 }
 
-.voters {
-	padding: 0.125em 0.5em 0.125em;
-}
-
-.voter {
-	display: inline;
+.preference {
+	font-size: 1em;
+	margin-right: 0.25em;
 }
 
 .avatar {
-	font-size: 2em;
+	font-size: 1.33em;
 	height: 1em;
 	width: 1em;
 	display: inline-block;
 	border-radius: 50%;
-	border: 1px solid var(--lighter);
+	border: 2px solid transparent;
 	overflow: hidden;
 	text-decoration: none;
 	box-sizing: content-box;
-	margin: 0 0.125em 0.125em 0;
+}
+
+.voter {
+	display: inline-block;
+	padding: 0;
 }
 
 .myAvatar {
@@ -136,8 +200,8 @@ const mostVotes = computed(() => results.value[0]?.voters.length ?? 0);
 }
 
 .image {
-	width: 100%;
-	max-width: min(20vw, 15vh);
+	max-width: min(20svw, 20svh);
 	height: auto;
+	object-fit: contain;
 }
 </style>
