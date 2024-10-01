@@ -44,6 +44,7 @@ function retry() {
 				autocomplete="email"
 				required
 				:class="$style.control"
+				data-cy="email"
 			/>
 
 			<footer>
@@ -52,6 +53,7 @@ function retry() {
 					class="button"
 					:disabled="data.loading"
 					:class="$style.control"
+					data-cy="submit-email"
 				>
 					{{ data.loading ? 'Loading' : 'Send me a confirmation code &rarr;' }}
 				</button>
