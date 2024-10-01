@@ -1,6 +1,5 @@
 type Profile = {
 	userId: string;
-	email: string;
 	username: string;
 	website: string;
 	credits: number;
@@ -33,7 +32,6 @@ export function useProfile() {
 					.from('profiles')
 					.select(
 						`user_id,
-						email,
 						username,
 						website,
 						credits_added,
@@ -59,7 +57,6 @@ export function useProfile() {
 
 				profile.value = {
 					userId: response.data.user_id,
-					email: response.data.email!,
 					username: response.data.username ?? '',
 					credits: creditBalance,
 					creditsUsed: response.data.credits_used ?? 0,

@@ -25,15 +25,16 @@ async function request() {
 
 function retry() {
 	data.requested = false;
+	data.email = '';
 }
 </script>
 
 <template>
-	<section>
-		<UserLoginToken v-if="data.requested" :email="data.email" :retry="retry">
+	<section id="request">
+		<UserLoginToken v-if="data.requested" :email="data.email" @retry="retry">
 			<h1>Confirmation code</h1>
 		</UserLoginToken>
-		<form v-else id="request" :class="$style.form" @submit.prevent="request">
+		<form v-else :class="$style.form" @submit.prevent="request">
 			<slot />
 
 			<input

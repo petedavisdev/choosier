@@ -106,7 +106,11 @@ const mostVotes = computed(() =>
 		</div>
 	</article>
 
-	<p><small>Ranking: 1 first choice is worth 2 second choices</small></p>
+	<p>
+		<small>
+			Sort order based on 1 for choice #1 and &frac12; for choice #2
+		</small>
+	</p>
 </template>
 
 <style module>

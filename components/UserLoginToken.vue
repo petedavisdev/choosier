@@ -1,9 +1,10 @@
 <script setup lang="ts">
 const supabase = useSupabaseClient<Database>();
 
+const emit = defineEmits<{ retry: [] }>();
+
 const props = defineProps<{
 	email: string;
-	retry: () => void;
 	choiceId?: number;
 }>();
 
@@ -56,7 +57,7 @@ async function verify() {
 				to="#request"
 				:class="$style.retry"
 				data-cy="retry"
-				@click="retry"
+				@click="emit('retry')"
 			>
 				try again</LinkTo
 			>.

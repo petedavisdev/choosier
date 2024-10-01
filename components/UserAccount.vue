@@ -1,6 +1,5 @@
 <script setup lang="ts">
 const supabase = useSupabaseClient<Database>();
-const { profile } = useProfile();
 
 const data = reactive({
 	loading: false,
@@ -21,10 +20,6 @@ async function signOut() {
 
 <template>
 	<form @submit.prevent="signOut">
-		<p>
-			Logged in with <strong>{{ profile?.email }}</strong>
-		</p>
-
 		<p>
 			<button type="submit" class="button" :disabled="data.loading">
 				&rarr; Log Out

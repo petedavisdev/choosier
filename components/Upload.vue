@@ -22,9 +22,7 @@ const props = defineProps<{
 	max: number;
 }>();
 
-const emit = defineEmits<{
-	(e: 'uploaded', value: string[]): void;
-}>();
+const emit = defineEmits<{ uploaded: [string[]] }>();
 
 const data = reactive({
 	uploads: [] as Upload[],

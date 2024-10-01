@@ -1,18 +1,19 @@
 <script setup lang="ts">
+const emit = defineEmits<{ close: [] }>();
+
 const props = defineProps<{
 	heading: string;
 	title: string;
 	username: string;
 	validationMessage: string;
-	close: () => void;
 }>();
 </script>
 
 <template>
 	<div :class="$style.container">
-		<div id="preview" class="backdrop" @click="props.close" />
+		<div id="preview" class="backdrop" @click="emit('close')"></div>
 		<section class="box" :class="$style.box">
-			<button type="button" class="close" @click="props.close" />
+			<button type="button" class="close" @click="emit('close')"></button>
 
 			<h2 v-if="props.validationMessage">{{ props.validationMessage }}</h2>
 

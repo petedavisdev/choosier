@@ -6,7 +6,7 @@ const props = defineProps<{
 	allowShare: boolean;
 }>();
 
-const emit = defineEmits(['undo']);
+const emit = defineEmits<{ undo: [] }>();
 
 const data = reactive({
 	shareOpen: false,

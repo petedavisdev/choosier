@@ -150,10 +150,6 @@ async function uploadCover(coverUrl: string, id: number) {
 		if (error instanceof Error) alert(error.message);
 	}
 }
-
-function closePreview() {
-	data.showPreview = false;
-}
 </script>
 
 <template>
@@ -261,8 +257,8 @@ function closePreview() {
 				:title="data.title"
 				:username="profile.username"
 				:validation-message="validationMessage"
-				:close="closePreview"
 				:heading="VISIBILITIES[data.visibility]?.name"
+				@close="data.showPreview = false"
 			>
 				<template #card-images>
 					<div ref="cardImagesElement" class="cardImages">

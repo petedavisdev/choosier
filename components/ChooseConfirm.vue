@@ -164,9 +164,9 @@ function retry() {
 			<section class="box">
 				<UserLoginToken
 					:email="data.email"
-					:retry="retry"
 					:choice-id="props.id"
 					:class="$style.confirm"
+					@retry="retry"
 				>
 					<h2>Confirmation code</h2>
 				</UserLoginToken>
