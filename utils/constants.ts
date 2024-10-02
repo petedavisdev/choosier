@@ -19,17 +19,17 @@ export const CATEGORIES = {
 export const VISIBILITIES = {
 	public: {
 		name: 'Basic',
-		description: 'Voting open to all for 24 hours',
+		description: 'Voting open to all for 24 hours*',
 		credits: 1,
 	},
 	promoted: {
 		name: 'Boosted',
-		description: 'Featured on the homepage. Open for a week',
+		description: 'Featured on the homepage for one week*',
 		credits: 5,
 	},
 	private: {
 		name: 'Private',
-		description: 'Available only via a private link for a week',
+		description: 'Access via a private link for one week*',
 		credits: 5,
 	},
 } as const;

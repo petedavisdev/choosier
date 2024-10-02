@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const supabase = useSupabaseClient<Database>();
+const user = useSupabaseUser();
 
 const data = reactive({
 	loading: false,
@@ -20,6 +21,12 @@ async function signOut() {
 
 <template>
 	<form @submit.prevent="signOut">
+		<p>
+			Logged in with <strong>{{ user?.email }}</strong>
+		</p>
+
+		<small>Your email address is never shared with anyone.</small>
+
 		<p>
 			<button type="submit" class="button" :disabled="data.loading">
 				&rarr; Log Out

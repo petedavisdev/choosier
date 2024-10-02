@@ -9,16 +9,13 @@
 
 	<article>
 		<h1>How to edit your image poll</h1>
-		<p>
-			To edit your image poll, visit your profile page by clicking the button
-			with your choosername on it and then click the edit link in the corner of
-			the poll you want to edit.
-		</p>
 		<ol>
 			<li>
 				Go to your profile page by clicking the button with your name on it.
 			</li>
-			<li>Click the edit button in the corner of the poll you want to edit.</li>
+			<li>
+				Click the settings icon in the corner of the poll you want to edit.
+			</li>
 		</ol>
 
 		<h2>What you can edit</h2>

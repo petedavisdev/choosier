@@ -22,12 +22,9 @@ const { profile } = useProfile();
 
 			<Credits />
 
-			<br />
-			<br />
-
-			<div>
+			<p>
 				<LinkTo :to="PATHS.new" class="button">+ New choice</LinkTo>
-			</div>
+			</p>
 		</section>
 
 		<section class="box">
@@ -35,7 +32,10 @@ const { profile } = useProfile();
 			<UserSubscriptions />
 		</section>
 
-		<UserAccount />
+		<section class="box">
+			<h2>My account</h2>
+			<UserAccount />
+		</section>
 	</div>
 
 	<UserLogin v-else>

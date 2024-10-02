@@ -40,17 +40,8 @@ Sections
 
 body {
 	margin: 0; /* 1 */
-	font-family:
-		'Avenir',
-		system-ui,
-		-apple-system,
-		/* Firefox supports this but not yet `system-ui` */ 'Segoe UI',
-		Roboto,
-		Helvetica,
-		Arial,
-		sans-serif,
-		'Apple Color Emoji',
-		'Segoe UI Emoji'; /* 2 */
+	font-family: Avenir, Montserrat, Corbel, 'URW Gothic', source-sans-pro,
+		sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji'; /* 2 */
 }
 
 /*

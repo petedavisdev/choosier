@@ -198,6 +198,8 @@ async function uploadCover(coverUrl: string, id: number) {
 					</small>
 				</label>
 			</p>
+
+			<small>* You can close voting early if you like.</small>
 		</section>
 
 		<section id="images">
