@@ -48,34 +48,12 @@ async function vote(userId: string) {
 	}
 }
 
-async function getUserId() {
-	try {
-		const response = await supabase
-			.from('profiles')
-			.select('user_id')
-			.eq('email', data.email)
-			.single();
-
-		if (response.error) throw response.error;
-
-		return response.data.user_id;
-	} catch (error: unknown) {
-		if (error instanceof Error) alert(error.message!);
-	}
-}
-
 async function request() {
 	try {
 		data.loading = true;
 		const response = await supabase.auth.signInWithOtp({ email: data.email });
 
 		if (response.error) throw response.error;
-
-		const userId = await getUserId();
-
-		if (!userId) throw 'Unable to get user id';
-
-		await vote(userId);
 
 		data.requested = true;
 	} catch (error: unknown) {

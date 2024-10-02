@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const supabase = useSupabaseClient<Database>();
 
-const emit = defineEmits<{ retry: [] }>();
+const emit = defineEmits<{ retry: []; verified: [userId: string] }>();
 
 const props = defineProps<{
 	email: string;
@@ -16,6 +16,7 @@ const data = reactive({
 async function verify() {
 	try {
 		data.loading = true;
+		let userId: string;
 
 		const loginResponse = await supabase.auth.verifyOtp({
 			email: props.email,
@@ -23,19 +24,26 @@ async function verify() {
 			type: 'magiclink',
 		});
 
-		if (loginResponse.error) {
+		userId = loginResponse.data.user?.id ?? '';
+
+		if (!userId) {
 			const signupResponse = await supabase.auth.verifyOtp({
 				email: props.email,
 				token: data.token,
 				type: 'signup',
 			});
 
+			if (signupResponse.data.user?.id) {
+				emit('verified', signupResponse.data.user?.id);
+				return;
+			}
+
+			userId = signupResponse.data.user?.id ?? '';
+
 			if (signupResponse.error) throw signupResponse.error;
 		}
 
-		if (props.choiceId) {
-			navigateTo(PATHS.results + props.choiceId);
-		}
+		emit('verified', userId);
 	} catch (error: unknown) {
 		if (error instanceof Error) alert(error.message);
 	} finally {

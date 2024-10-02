@@ -22,6 +22,9 @@ const { profile } = useProfile();
 
 			<Credits />
 
+			<br />
+			<br />
+
 			<div>
 				<LinkTo :to="PATHS.new" class="button">+ New choice</LinkTo>
 			</div>
