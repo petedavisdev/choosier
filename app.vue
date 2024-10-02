@@ -17,6 +17,7 @@ useProfile().getProfile();
 		<Link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
 		<Meta name="msapplication-TileColor" content="#2b5797" />
 		<Meta name="theme-color" content="#000000" />
+		<Meta property="og:site_title" content="Choosier" />
 	</Head>
 
 	<NuxtLayout>
