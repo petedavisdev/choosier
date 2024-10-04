@@ -25,7 +25,7 @@ export const VISIBILITIES = {
 	promoted: {
 		name: 'Boosted',
 		description: 'Featured on the homepage for one week*',
-		credits: 5,
+		credits: 10,
 	},
 	private: {
 		name: 'Private',
