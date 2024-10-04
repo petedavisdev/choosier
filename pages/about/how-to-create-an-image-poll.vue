@@ -11,7 +11,7 @@
 		<h1>How to create an image poll</h1>
 		<p>Creating an image poll with Choosier is quick, easy and free!</p>
 		<ol>
-			<l1>Choose to create either a public or private image poll.</l1>
+			<li>Choose to create either a public or private image poll.</li>
 			<li>Upload between 2 and 12 images.</li>
 			<li>Add a short title to tell voters what your poll is about.</li>
 			<li>
