@@ -7,6 +7,9 @@ const props = defineProps<{
 
 const { profile } = useProfile();
 
+const boostCredits =
+	VISIBILITIES.promoted.credits - VISIBILITIES.public.credits;
+
 async function promoteChoice() {
 	console.log('choice', props.choice);
 	if (!profile.value) return;
@@ -31,7 +34,7 @@ async function promoteChoice() {
 
 		const profileResponse = await supabase
 			.from('profiles')
-			.update({ credits_used: profile.value.creditsUsed + 4 })
+			.update({ credits_used: profile.value.creditsUsed + boostCredits })
 			.eq('user_id', profile.value.userId);
 
 		if (profileResponse.error) throw profileResponse.error;
@@ -61,7 +64,7 @@ async function promoteChoice() {
 		</template>
 
 		<button type="button" class="button" @click="promoteChoice">
-			Boost now (4 credits)
+			Boost now ({{ boostCredits }} credits)
 		</button>
 	</section>
 
