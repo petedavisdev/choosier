@@ -6,6 +6,7 @@ const props = defineProps<{
 
 const data = reactive({
 	copied: '',
+	isInstagramOpen: false,
 });
 
 let shareLink = useRuntimeConfig().public.baseUrl + '/' + props.id;
@@ -50,7 +51,31 @@ function copy(text: string) {
 				data.copied === embedCode ? 'Copied embed code ✓' : 'Copy embed code'
 			}}
 		</button>
+
+		<button
+			v-if="!props.uuid"
+			type="button"
+			class="button"
+			@click="data.isInstagramOpen = true"
+		>
+			Share on Instagram
+		</button>
 	</div>
+
+	<aside
+		v-if="data.isInstagramOpen"
+		class="backdrop"
+		@click.self="data.isInstagramOpen = false"
+	>
+		<div class="box" :class="$style.instagram">
+			<button
+				type="button"
+				class="close"
+				@click="data.isInstagramOpen = false"
+			></button>
+			<LazyShareInstagram :id="props.id" :share-link="shareLink" />
+		</div>
+	</aside>
 </template>
 
 <style module>
@@ -63,5 +88,12 @@ function copy(text: string) {
 
 .copy {
 	cursor: copy;
+}
+
+.instagram {
+	min-width: 368px;
+	height: calc(100svh - 2rem);
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 </style>

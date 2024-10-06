@@ -9,7 +9,7 @@ const props = defineProps<{
 const emit = defineEmits<{ undo: [] }>();
 
 const data = reactive({
-	shareOpen: false,
+	isShareOpen: false,
 });
 </script>
 
@@ -37,7 +37,7 @@ const data = reactive({
 			v-if="allowShare"
 			type="button"
 			:class="$style.share"
-			@click="data.shareOpen = true"
+			@click="data.isShareOpen = true"
 		>
 			<IconShare :class="$style.icon" />
 		</button>
@@ -47,15 +47,15 @@ const data = reactive({
 		</button>
 	</footer>
 	<aside
-		v-if="data.shareOpen"
+		v-if="data.isShareOpen"
 		class="backdrop"
-		@click.self="data.shareOpen = false"
+		@click.self="data.isShareOpen = false"
 	>
 		<div class="box">
 			<button
 				type="button"
 				class="close"
-				@click="data.shareOpen = false"
+				@click="data.isShareOpen = false"
 			></button>
 			<h2>Share</h2>
 			<Share :id="props.id" />

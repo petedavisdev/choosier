@@ -27,7 +27,7 @@ const props = defineProps<{
 			target="_blank"
 		>
 			{{ props.website.replace(/^https?:\/\//, '') }}
-			↗
+			➚
 		</LinkTo>
 	</header>
 </template>

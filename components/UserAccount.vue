@@ -29,7 +29,7 @@ async function signOut() {
 
 		<p>
 			<button type="submit" class="button" :disabled="data.loading">
-				&rarr; Log Out
+				&larr; Log Out
 			</button>
 		</p>
 	</form>

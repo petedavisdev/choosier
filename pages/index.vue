@@ -31,4 +31,9 @@
 			<LinkTo :to="PATHS.new" class="button">+ Create an image poll</LinkTo>
 		</h2>
 	</div>
+
+	<div itemscope itemtype="https://schema.org/WebSite">
+		<link itemprop="url" href="https://choosier.com" />
+		<meta itemprop="name" content="Choosier" />
+	</div>
 </template>

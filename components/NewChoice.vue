@@ -119,13 +119,11 @@ async function submit() {
 async function createCover(id: number) {
 	if (!cardImagesElement.value) return;
 
-	const IMAGE_OPTIONS = {
-		quality: 0.7,
-		pixelRatio: 5 / 3,
-	};
-
 	try {
-		const coverUrl = await toJpeg(cardImagesElement.value, IMAGE_OPTIONS);
+		const coverUrl = await toJpeg(cardImagesElement.value, {
+			quality: 0.7,
+			pixelRatio: 5 / 3,
+		});
 		return await uploadCover(coverUrl, id);
 	} catch (error) {
 		console.error(error);
