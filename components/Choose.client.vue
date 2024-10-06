@@ -257,7 +257,7 @@ onMounted(() => {
 .optionImage {
 	width: 100%;
 	min-height: 0;
-	height: 100%;
+	max-height: 100%;
 	object-fit: contain;
 	line-height: 1;
 	background-color: var(--lighter);
