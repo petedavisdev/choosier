@@ -20,6 +20,7 @@ useHead(() => ({
 			<NuxtLink
 				:to="profile?.username ? PATHS.user + profile?.username : PATHS.user"
 				class="button"
+				:class="$style.navButton"
 			>
 				{{
 					profile?.username
@@ -29,7 +30,10 @@ useHead(() => ({
 							: 'Login'
 				}}
 			</NuxtLink>
-			<NuxtLink :to="PATHS.new" class="New button">+ New</NuxtLink>
+
+			<NuxtLink :to="PATHS.new" class="button" :class="$style.navButton">
+				+ New
+			</NuxtLink>
 		</nav>
 	</main>
 
@@ -40,7 +44,7 @@ useHead(() => ({
 			<NuxtLink to="/terms">Terms of use</NuxtLink> | Choosier &copy;
 			{{ new Date().getFullYear() }}
 			<LinkTo to="https://petedavis.dev">Pete Davis</LinkTo> |
-			<LinkTo to="/contact">Say hello 👋</LinkTo>
+			<LinkTo :to="PATHS.contact">Say hello 👋</LinkTo>
 		</p>
 	</footer>
 </template>
@@ -65,6 +69,10 @@ useHead(() => ({
 	display: grid;
 	grid-auto-flow: column;
 	gap: 1.5rem;
+}
+
+.navButton {
+	background-color: var(--lighter);
 }
 
 @media (min-width: 600px) {

@@ -56,7 +56,7 @@
 
 		<p>
 			Choosier is currently in open beta testing and
-			<LinkTo to="/contact">I would love your feedback</LinkTo>.
+			<LinkTo :to="PATHS.contact">I would love your feedback</LinkTo>.
 		</p>
 	</article>
 </template>

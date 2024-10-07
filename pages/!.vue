@@ -18,7 +18,7 @@ definePageMeta({
 			<IconLogo />
 			<h1>Create an image poll</h1>
 		</header>
-		<NewChoice />
+		<New />
 	</main>
 </template>
 

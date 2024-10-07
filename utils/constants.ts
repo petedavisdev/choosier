@@ -1,6 +1,8 @@
 export const PATHS = {
 	home: '/',
 	category: '/_',
+	contact: '/hello',
+	credits: '/$',
 	new: '/!',
 	results: '/=',
 	user: '/@',
@@ -33,3 +35,20 @@ export const VISIBILITIES = {
 		credits: 5,
 	},
 } as const;
+
+export const CREDIT_VALUE = 2;
+
+export const CREDIT_PACKS = [
+	{
+		quantity: 10,
+		discount: 0,
+	},
+	{
+		quantity: 40,
+		discount: 0.2,
+	},
+	{
+		quantity: 100,
+		discount: 0.55,
+	},
+] as const;

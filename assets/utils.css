@@ -12,10 +12,13 @@
 .button,
 .card {
 	padding: 2em;
-	background-color: var(--lighter);
 	box-shadow: -6px 8px 0 1px var(--dark);
 	border: 2px solid var(--dark);
 	border-radius: var(--radius);
+}
+
+.box {
+	background-color: var(--lighter);
 }
 
 .button,
@@ -133,7 +136,6 @@
 
 .center {
 	place-content: center;
-	place-self: center;
 	text-align: center;
 }
 

@@ -172,6 +172,10 @@ function retry() {
 	min-height: 0;
 }
 
+.chosen2 {
+	transform: scale(0.75);
+}
+
 .chosenImage {
 	width: 100%;
 	min-height: 0;

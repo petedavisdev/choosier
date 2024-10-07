@@ -252,7 +252,7 @@ async function uploadCover(coverUrl: string, id: number) {
 				Continue &rarr;
 			</button>
 
-			<NewChoicePreview
+			<NewPreview
 				v-if="data.showPreview"
 				:title="data.title"
 				:username="profile.username"
@@ -308,7 +308,7 @@ async function uploadCover(coverUrl: string, id: number) {
 				>
 					✓ Save and publish
 				</button>
-			</NewChoicePreview>
+			</NewPreview>
 		</footer>
 	</form>
 </template>

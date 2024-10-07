@@ -38,6 +38,7 @@ const UPLOAD_CONFIG = {
 	cropping: false,
 	multiple: true,
 	defaultSource: 'local',
+	maxFiles: props.max,
 	styles: {
 		palette: {
 			window: '#ffffff',
