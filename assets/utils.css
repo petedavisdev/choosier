@@ -71,7 +71,7 @@
 	height: 100%;
 	width: 100%;
 	object-fit: cover;
-	border-right: 1px solid var(--dark);
+	border-right: 1px solid var(--mid);
 }
 
 .cardImage:last-child {

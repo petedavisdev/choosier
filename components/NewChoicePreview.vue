@@ -48,8 +48,10 @@ const props = defineProps<{
 	max-width: 30em;
 }
 .card {
+	pointer-events: none;
 	cursor: unset;
 	margin-bottom: 2em;
 	width: 360px;
+	background-color: var(--mid) !important;
 }
 </style>

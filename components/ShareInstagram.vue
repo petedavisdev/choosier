@@ -59,7 +59,7 @@ async function saveImage(name: string, element?: HTMLElement) {
 						<img
 							v-for="image in images1"
 							:key="image"
-							class="cardImage"
+							:class="$style.image"
 							:src="image"
 							alt=""
 						/>
@@ -69,7 +69,7 @@ async function saveImage(name: string, element?: HTMLElement) {
 						<img
 							v-for="image in images2"
 							:key="image"
-							class="cardImage"
+							:class="$style.image"
 							:src="image"
 							alt=""
 						/>
@@ -108,7 +108,7 @@ async function saveImage(name: string, element?: HTMLElement) {
 					<img
 						v-for="image in images"
 						:key="image"
-						class="cardImage"
+						:class="$style.image"
 						:src="image"
 					/>
 				</div>
@@ -133,7 +133,7 @@ async function saveImage(name: string, element?: HTMLElement) {
 	cursor: pointer;
 	width: 270px;
 	aspect-ratio: 1;
-	background-color: var(--dark);
+	background-color: var(--lighter);
 	pointer-events: none;
 }
 
@@ -152,6 +152,7 @@ async function saveImage(name: string, element?: HTMLElement) {
 .storyImages {
 	display: grid;
 	grid-auto-flow: column;
+	gap: 1px;
 	overflow: hidden;
 }
 
@@ -160,6 +161,12 @@ async function saveImage(name: string, element?: HTMLElement) {
 	display: grid;
 	gap: 1px;
 	grid-area: main;
+}
+
+.image {
+	height: 100%;
+	width: 100%;
+	object-fit: cover;
 }
 
 .text {
