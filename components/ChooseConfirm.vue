@@ -71,28 +71,26 @@ function retry() {
 
 <template>
 	<div>
-		<section :class="$style.confirm">
-			<div :class="$style.chosen">
-				<span :class="$style.chosen1">
-					<img
-						:src="props.vote1"
-						alt=""
-						:class="$style.chosenImage"
-						data-cy="chosen-image"
-					/>
-					<strong v-if="props.vote2" :class="$style.chosenNumber">#1</strong>
-				</span>
-
-				<span v-if="props.vote2" :class="$style.chosen2">
-					<img
-						:src="props.vote2"
-						alt=""
-						:class="$style.chosenImage"
-						data-cy="chosen-image"
-					/>
-					<strong :class="$style.chosenNumber">#2</strong>
-				</span>
+		<section :class="$style.chosen">
+			<div :class="$style.chosen1">
+				<img
+					:src="props.vote1"
+					alt=""
+					:class="$style.chosenImage"
+					data-cy="chosen-image"
+				/>
+				<strong v-if="props.vote2" :class="$style.chosenNumber">#1</strong>
 			</div>
+
+			<span v-if="props.vote2" :class="$style.chosen2">
+				<img
+					:src="props.vote2"
+					alt=""
+					:class="$style.chosenImage"
+					data-cy="chosen-image"
+				/>
+				<strong :class="$style.chosenNumber">#2</strong>
+			</span>
 		</section>
 
 		<section v-if="profile" :class="$style.confirm">
@@ -163,16 +161,22 @@ function retry() {
 }
 
 .chosen {
-	display: grid;
 	grid-auto-flow: column;
 	grid-gap: 0.5em;
 }
 
 .chosen1,
 .chosen2 {
-	object-fit: contain;
-	place-self: center;
+	display: grid;
+	place-content: center;
 	min-height: 0;
+}
+
+.chosenImage {
+	width: 100%;
+	min-height: 0;
+	max-height: 100%;
+	object-fit: contain;
 	line-height: 1;
 }
 
