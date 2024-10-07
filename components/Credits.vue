@@ -15,8 +15,8 @@ const { profile } = useProfile();
 	</h3>
 
 	<small>
-		You can <LinkTo :to="PATHS.credits">buy more credits</LinkTo> or earn them
-		by sharing your polls with new people. You will earn 1 credit for each
+		You can <LinkTo :to="PATHS.credits">buy top-ups</LinkTo> or earn credits by
+		sharing your polls with new people. You will earn 1 credit for each
 		first-time voter on your results page.
 	</small>
 </template>

@@ -22,7 +22,9 @@ const { profile } = useProfile();
 
 			<Credits />
 			<p>
-				<LinkTo :to="PATHS.credits" class="button">⊕ Buy more credits</LinkTo>
+				<LinkTo :to="PATHS.credits" class="button">
+					&uarr; Top up credits
+				</LinkTo>
 			</p>
 		</section>
 
