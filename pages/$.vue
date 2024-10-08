@@ -1,20 +1,15 @@
 <script setup lang="ts">
+const user = useSupabaseUser();
 const { profile } = useProfile();
 
 const data = reactive({
 	quantity: false,
 });
-
-function buyCredits(quantity: number) {
-	data.quantity = !!quantity;
-}
-
-function price(quantity: number, discount: number) {
-	return Math.round(quantity * CREDIT_VALUE * (1 - discount));
-}
 </script>
 
 <template>
+	<Script async src="https://js.stripe.com/v3/buy-button.js"> </Script>
+
 	<div v-if="profile">
 		<h1>Credits top-ups</h1>
 
@@ -42,24 +37,36 @@ function price(quantity: number, discount: number) {
 					{{ pack.quantity }} credits
 					<br />
 					<small>
-						<s v-if="pack.discount" :class="$style.strike"
+						<s
+							v-if="pack.price < pack.quantity * CREDIT_VALUE"
+							:class="$style.strike"
 							>&nbsp;${{ pack.quantity * CREDIT_VALUE }}&nbsp;</s
 						>
 					</small>
-					${{ price(pack.quantity, pack.discount) }}
+					${{ pack.price }}
 				</h2>
 
-				<p>${{ (CREDIT_VALUE * (1 - pack.discount)).toFixed(2) }} per credit</p>
+				<p>${{ (pack.price / pack.quantity).toFixed(2) }} per credit</p>
 
 				<h2>
 					&nbsp;
-					{{ pack.discount ? `Save ${Math.round(pack.discount * 100)}%` : ' ' }}
+					{{
+						pack.price < pack.quantity * CREDIT_VALUE
+							? `Save ${Math.round((1 - pack.price / pack.quantity) * 100)}%`
+							: ' '
+					}}
 					&nbsp;
 				</h2>
 
-				<button class="button" @click="buyCredits(pack.quantity)">
-					Buy {{ pack.quantity }} credits
-				</button>
+				<button class="button">Buy {{ pack.quantity }} credits</button>
+
+				<stripe-buy-button
+					v-if="pack.quantity === 10"
+					buy-button-id="buy_btn_1Q7fmCP0tza5oUsas3nobhjO"
+					publishable-key="pk_test_51Q7bkeP0tza5oUsa47y41xxdu7hf5XnheXJW3RxecIdZ6c9j9texFVaec0L4aCtzeI8vdoRqUYWN25ozowSuAIoq00MOJjlYoE"
+					:client-reference-id="user?.id"
+					:customer-email="user?.email"
+				></stripe-buy-button>
 			</article>
 		</section>
 

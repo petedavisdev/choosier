@@ -41,14 +41,14 @@ export const CREDIT_VALUE = 2;
 export const CREDIT_PACKS = [
 	{
 		quantity: 10,
-		discount: 0,
+		price: 20,
 	},
 	{
 		quantity: 40,
-		discount: 0.2,
+		price: 64,
 	},
 	{
 		quantity: 100,
-		discount: 0.55,
+		price: 90,
 	},
 ] as const;
