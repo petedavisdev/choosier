@@ -173,14 +173,22 @@ onMounted(() => {
 		/>
 
 		<aside v-if="choice.isClosed" class="backdrop">
-			<LinkTo :to="PATHS.results + props.id" class="button">
+			<LinkTo
+				:to="PATHS.results + props.id"
+				class="button"
+				:class="$style.modalButton"
+			>
 				Voting has closed
 				<h2>See the results &rarr;</h2>
 			</LinkTo>
 		</aside>
 
 		<aside v-else-if="userVoted" class="backdrop">
-			<LinkTo :to="PATHS.results + props.id" class="button">
+			<LinkTo
+				:to="PATHS.results + props.id"
+				class="button"
+				:class="$style.modalButton"
+			>
 				You have made your choice
 				<h2>See the results &rarr;</h2>
 			</LinkTo>
@@ -274,5 +282,9 @@ onMounted(() => {
 .optionInput:checked:valid + .optionImage {
 	scale: 1.05;
 	transition: scale 1s ease-out;
+}
+
+.modalButton {
+	background-color: var(--lighter);
 }
 </style>

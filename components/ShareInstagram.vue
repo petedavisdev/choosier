@@ -173,6 +173,7 @@ async function saveImage(name: string, element?: HTMLElement) {
 	place-self: center;
 	grid-area: main;
 	text-align: center;
+	background-color: var(--lighter);
 }
 
 @media (min-width: 600px) {
