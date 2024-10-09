@@ -143,6 +143,7 @@ function retry() {
 					:choice-id="props.id"
 					:class="$style.confirm"
 					@retry="retry"
+					@verified="(userId) => vote(userId)"
 				>
 					<h2>Confirmation code</h2>
 				</UserLoginToken>

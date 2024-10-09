@@ -56,11 +56,13 @@ async function verify() {
 	<form id="verify" @submit.prevent="verify">
 		<slot />
 		<p>
-			We sent a code to
+			Code sent to
 			<br />
 			<strong>{{ props.email }}</strong>
 			<br />
-			If you don't get it in a few minutes,
+			Check your inbox. Check your spam.
+			<br />
+			If you don't have it, wait a minute and
 			<LinkTo
 				to="#request"
 				:class="$style.retry"
