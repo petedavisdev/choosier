@@ -6,7 +6,7 @@ const props = defineProps<{
 
 const data = reactive({
 	copied: '',
-	isInstagramOpen: false,
+	shareImages: '',
 });
 
 let shareLink = useRuntimeConfig().public.baseUrl + '/' + props.id;
@@ -56,24 +56,41 @@ function copy(text: string) {
 			v-if="!props.uuid"
 			type="button"
 			class="button"
-			@click="data.isInstagramOpen = true"
+			@click="data.shareImages = 'instagram'"
 		>
-			Share on Instagram
+			Instagram
+		</button>
+		<button
+			v-if="!props.uuid"
+			type="button"
+			class="button"
+			@click="data.shareImages = 'reddit'"
+		>
+			Reddit
 		</button>
 	</div>
 
 	<aside
-		v-if="data.isInstagramOpen"
+		v-if="data.shareImages"
 		class="backdrop"
-		@click.self="data.isInstagramOpen = false"
+		@click.self="data.shareImages = ''"
 	>
 		<div class="box" :class="$style.instagram">
 			<button
 				type="button"
 				class="close"
-				@click="data.isInstagramOpen = false"
+				@click="data.shareImages = ''"
 			></button>
-			<LazyShareInstagram :id="props.id" :share-link="shareLink" />
+			<LazyShareInstagram
+				v-if="data.shareImages === 'instagram'"
+				:id="props.id"
+				:share-link="shareLink"
+			/>
+			<LazyShareReddit
+				v-if="data.shareImages === 'reddit'"
+				:id="props.id"
+				:share-link="shareLink"
+			/>
 		</div>
 	</aside>
 </template>

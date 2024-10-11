@@ -17,19 +17,18 @@ const halfLength = Math.ceil(images.length / 2);
 const images1 = images.slice(0, halfLength);
 const images2 = images.slice(halfLength, images.length);
 
-const square = ref<HTMLElement>();
-const story = ref<HTMLElement>();
+const imageEl = ref<HTMLElement>();
 
-async function saveImage(name: string, element?: HTMLElement) {
-	if (!element) return;
+async function saveImage() {
+	if (!imageEl.value) return;
 
 	try {
-		const imageUrl = await toJpeg(element, { pixelRatio: 4 });
+		const imageUrl = await toJpeg(imageEl.value, { pixelRatio: 4 });
 
 		if (imageUrl) {
 			const link = document.createElement('a');
 			link.href = imageUrl;
-			link.download = `choosier-${props.id}-${name}.jpeg`;
+			link.download = `choosier-${props.id}-reddit.jpeg`;
 			link.click();
 		}
 	} catch (error) {
@@ -41,21 +40,17 @@ async function saveImage(name: string, element?: HTMLElement) {
 <template>
 	<section :class="$style.container">
 		<article>
-			<h2>Instagram post</h2>
+			<h2>Reddit post</h2>
 
 			<p>
-				<button
-					type="button"
-					class="button"
-					@click="saveImage('square', square)"
-				>
-					Save full-size square image
+				<button type="button" class="button" @click="saveImage">
+					Save full-size reddit image
 				</button>
 			</p>
 
-			<figure ref="square" :class="$style.square">
-				<div :class="$style.squareRows">
-					<div :class="$style.squareImages">
+			<figure ref="imageEl" :class="$style.reddit">
+				<div :class="$style.redditRows">
+					<div :class="$style.redditImages">
 						<img
 							v-for="image in images1"
 							:key="image"
@@ -65,7 +60,7 @@ async function saveImage(name: string, element?: HTMLElement) {
 						/>
 					</div>
 
-					<div :class="$style.squareImages">
+					<div :class="$style.redditImages">
 						<img
 							v-for="image in images2"
 							:key="image"
@@ -81,48 +76,12 @@ async function saveImage(name: string, element?: HTMLElement) {
 					<div>{{ displayLink }}</div>
 				</div>
 			</figure>
-
-			<p>#choosier #poll #helpmechoose</p>
-		</article>
-
-		<article>
-			<h2>Story</h2>
-
-			<p>
-				<button type="button" class="button" @click="saveImage('story', story)">
-					Save full-size story image
-				</button>
-			</p>
-			<p>
-				Don't forget to add a
-				<a
-					href="https://www.google.com/search?q=how+to+add+a+link+sticker+to+an+instagram+story"
-					target="_blank"
-				>
-					link sticker</a
-				>!
-			</p>
-
-			<figure ref="story" :class="$style.story">
-				<div :class="$style.storyImages">
-					<img
-						v-for="image in images"
-						:key="image"
-						:class="$style.image"
-						:src="image"
-					/>
-				</div>
-			</figure>
-
-			<p>Link to:</p>
-			<h3>{{ displayLink }}</h3>
 		</article>
 	</section>
 </template>
 
 <style module>
-.square,
-.story {
+.reddit {
 	display: grid;
 	grid-template: 1fr/1fr;
 	grid-template-areas: 'main';
@@ -131,46 +90,30 @@ async function saveImage(name: string, element?: HTMLElement) {
 	margin: 0;
 	padding: 0;
 	cursor: pointer;
-	width: 270px;
-	aspect-ratio: 1;
+	width: 362px;
+	height: 270px;
 	background-color: var(--lighter);
 	pointer-events: none;
 }
 
-.story {
-	aspect-ratio: 9/16;
-}
-
-.squareRows {
+.redditRows {
 	display: grid;
 	gap: 2px;
 	grid-area: main;
 	grid-template-rows: 134px 134px;
 }
 
-.squareImages,
-.storyImages {
+.redditImages {
 	display: grid;
 	grid-auto-flow: column;
 	gap: 2px;
 	overflow: hidden;
 }
 
-.storyImages {
-	writing-mode: vertical-rl;
-	display: grid;
-	gap: 1px;
-	grid-area: main;
-}
-
 .image {
-	height: 100%;
+	height: 134px;
 	width: 100%;
 	object-fit: cover;
-}
-
-.squareImages .image {
-	height: 134px;
 }
 
 .text {
@@ -178,13 +121,5 @@ async function saveImage(name: string, element?: HTMLElement) {
 	grid-area: main;
 	text-align: center;
 	background-color: var(--lighter);
-}
-
-@media (min-width: 600px) {
-	.container {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 3em;
-	}
 }
 </style>
