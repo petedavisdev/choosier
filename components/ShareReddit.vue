@@ -4,6 +4,10 @@ const props = defineProps<{
 	shareLink: string;
 }>();
 
+const data = reactive({
+	isDownloading: false,
+});
+
 const displayLink = props.shareLink.replace(/(^\w+:|^)\/\//, '');
 
 const { images, username } = await useChoice(props.id);
@@ -16,6 +20,12 @@ const images1 = images.slice(0, halfLength);
 const images2 = images.slice(halfLength, images.length);
 
 const imageEl = ref<HTMLElement>();
+
+async function download() {
+	data.isDownloading = true;
+	await downloadImage(`choosier-${props.id}-reddit`, 4, 1, imageEl.value);
+	data.isDownloading = false;
+}
 </script>
 
 <template>
@@ -24,13 +34,7 @@ const imageEl = ref<HTMLElement>();
 			<h2>Reddit post</h2>
 
 			<p>
-				<button
-					type="button"
-					class="button"
-					@click="
-						downloadImage(`choosier-${props.id}-reddit.jpeg`, 4, 1, imageEl)
-					"
-				>
+				<button type="button" class="button" @click="download">
 					Save full-size reddit image
 				</button>
 			</p>

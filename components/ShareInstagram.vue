@@ -4,6 +4,10 @@ const props = defineProps<{
 	shareLink: string;
 }>();
 
+const data = reactive({
+	isDownloading: false,
+});
+
 const displayLink = props.shareLink.replace(/(^\w+:|^)\/\//, '');
 
 const { images, username } = await useChoice(props.id);
@@ -17,6 +21,12 @@ const images2 = images.slice(halfLength, images.length);
 
 const square = ref<HTMLElement>();
 const story = ref<HTMLElement>();
+
+async function download(name: string, element?: HTMLElement) {
+	data.isDownloading = true;
+	await downloadImage(`choosier-${props.id}-${name}`, 4, 1, element);
+	data.isDownloading = false;
+}
 </script>
 
 <template>
@@ -28,9 +38,8 @@ const story = ref<HTMLElement>();
 				<button
 					type="button"
 					class="button"
-					@click="
-						downloadImage(`choosier-${props.id}-square.jpeg`, 4, 1, square)
-					"
+					:disabled="data.isDownloading"
+					@click="download('square', square)"
 				>
 					Save full-size square image
 				</button>
@@ -75,7 +84,8 @@ const story = ref<HTMLElement>();
 				<button
 					type="button"
 					class="button"
-					@click="downloadImage(`choosier-${props.id}-story.jpeg`, 4, 1, story)"
+					:disabled="data.isDownloading"
+					@click="download('story', story)"
 				>
 					Save full-size story image
 				</button>
