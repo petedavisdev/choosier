@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { toJpeg } from 'html-to-image';
-
 const props = defineProps<{
 	id: number;
 	shareLink: string;
@@ -18,23 +16,6 @@ const images1 = images.slice(0, halfLength);
 const images2 = images.slice(halfLength, images.length);
 
 const imageEl = ref<HTMLElement>();
-
-async function saveImage() {
-	if (!imageEl.value) return;
-
-	try {
-		const imageUrl = await toJpeg(imageEl.value, { pixelRatio: 4 });
-
-		if (imageUrl) {
-			const link = document.createElement('a');
-			link.href = imageUrl;
-			link.download = `choosier-${props.id}-reddit.jpeg`;
-			link.click();
-		}
-	} catch (error) {
-		console.error(error);
-	}
-}
 </script>
 
 <template>
@@ -43,7 +24,13 @@ async function saveImage() {
 			<h2>Reddit post</h2>
 
 			<p>
-				<button type="button" class="button" @click="saveImage">
+				<button
+					type="button"
+					class="button"
+					@click="
+						downloadImage(`choosier-${props.id}-reddit.jpeg`, 4, 1, imageEl)
+					"
+				>
 					Save full-size reddit image
 				</button>
 			</p>

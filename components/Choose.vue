@@ -165,7 +165,6 @@ onMounted(() => {
 
 		<ChooseControls
 			:id="props.id"
-			:class="$style.controls"
 			:match-index="data.currentMatchIndex"
 			:match-count="matchCount + 1"
 			:allow-share="choice.visibility !== 'private'"

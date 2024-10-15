@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { toJpeg } from 'html-to-image';
-
 const props = defineProps<{
 	id: number;
 	shareLink: string;
@@ -19,23 +17,6 @@ const images2 = images.slice(halfLength, images.length);
 
 const square = ref<HTMLElement>();
 const story = ref<HTMLElement>();
-
-async function saveImage(name: string, element?: HTMLElement) {
-	if (!element) return;
-
-	try {
-		const imageUrl = await toJpeg(element, { pixelRatio: 4 });
-
-		if (imageUrl) {
-			const link = document.createElement('a');
-			link.href = imageUrl;
-			link.download = `choosier-${props.id}-${name}.jpeg`;
-			link.click();
-		}
-	} catch (error) {
-		console.error(error);
-	}
-}
 </script>
 
 <template>
@@ -47,7 +28,9 @@ async function saveImage(name: string, element?: HTMLElement) {
 				<button
 					type="button"
 					class="button"
-					@click="saveImage('square', square)"
+					@click="
+						downloadImage(`choosier-${props.id}-square.jpeg`, 4, 1, square)
+					"
 				>
 					Save full-size square image
 				</button>
@@ -89,7 +72,11 @@ async function saveImage(name: string, element?: HTMLElement) {
 			<h2>Story</h2>
 
 			<p>
-				<button type="button" class="button" @click="saveImage('story', story)">
+				<button
+					type="button"
+					class="button"
+					@click="downloadImage(`choosier-${props.id}-story.jpeg`, 4, 1, story)"
+				>
 					Save full-size story image
 				</button>
 			</p>

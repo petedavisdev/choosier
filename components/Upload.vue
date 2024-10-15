@@ -17,6 +17,15 @@ type Upload = {
 	delete_token: string | undefined;
 };
 
+useHead({
+	script: [
+		{
+			src: 'https://widget.cloudinary.com/v2.0/global/all.js',
+			async: true,
+		},
+	],
+});
+
 const props = defineProps<{
 	folder: string;
 	max: number;
@@ -102,8 +111,6 @@ function updateUploaded() {
 </script>
 
 <template>
-	<Script src="https://widget.cloudinary.com/v2.0/global/all.js" />
-
 	<div v-if="data.uploads.length" :class="$style.thumbnails">
 		<div v-for="({ url, delete_token }, index) in data.uploads" :key="index">
 			<img :src="url" alt="" />

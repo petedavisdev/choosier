@@ -25,11 +25,13 @@ describe('vote on a choice', () => {
 			{ body: { data: 'intercepted verify request' } }
 		).as('login-verify');
 
+		cy.visit('/');
 		// cy.visit('/0');
 		cy.visit('/1');
 	});
 
 	it('shows 2 options at a time and allows top 2 to be submitted', () => {
+		cy.wait(1000);
 		cy.get('[data-cy=start]').click();
 
 		cy.get('[data-cy=match-1]').should('have.length.at.least', 1);

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { toJpeg } from 'html-to-image';
 import { decode } from 'base64-arraybuffer';
 
 const supabase = useSupabaseClient<Database>();
@@ -14,7 +13,7 @@ const data = reactive({
 	showPreview: false,
 });
 
-const cardImagesElement = ref(null);
+const cardImagesElement = ref<HTMLElement>();
 
 const credits = computed(() => {
 	const required =
@@ -100,7 +99,7 @@ async function submit() {
 
 			const newChoiceId = choicesResponse.data[0].id;
 
-			const coverPath = await createCover(newChoiceId);
+			const coverPath = await uploadCover(newChoiceId);
 
 			console.log('coverPath', coverPath);
 
@@ -116,23 +115,12 @@ async function submit() {
 	}
 }
 
-async function createCover(id: number) {
-	if (!cardImagesElement.value) return;
-
+async function uploadCover(id: number) {
 	try {
-		const coverUrl = await toJpeg(cardImagesElement.value, {
-			quality: 0.7,
-			pixelRatio: 5 / 3,
-		});
-		return await uploadCover(coverUrl, id);
-	} catch (error) {
-		console.error(error);
-		alert('Error creating cover image!');
-	}
-}
+		const coverUrl = await toImage(5 / 3, 0.7, cardImagesElement.value);
 
-async function uploadCover(coverUrl: string, id: number) {
-	try {
+		if (!coverUrl) return;
+
 		const coverBase64 = coverUrl.replace('data:image/jpeg;base64,', '');
 		const coverFile = decode(coverBase64);
 		const fileName = id + '.jpeg';
