@@ -18,7 +18,7 @@
 		"supabase:types": "npx supabase gen types typescript --project-id 'fbyhdhmmctwoorirepai' --schema public > utils/database.types.ts"
 	},
 	"devDependencies": {
-		"@nuxt/eslint": "^0.5.7",
+		"@nuxt/eslint": "^0.6.0",
 		"@nuxt/image": "^1",
 		"@nuxtjs/supabase": "^1",
 		"base64-arraybuffer": "^1",

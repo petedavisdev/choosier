@@ -27,7 +27,7 @@ describe('vote on a choice', () => {
 
 		cy.visit('/');
 		// cy.visit('/0');
-		cy.visit('/1');
+		cy.visit('/4');
 	});
 
 	it('shows 2 options at a time and allows top 2 to be submitted', () => {
