@@ -68,7 +68,7 @@ export function useProfile() {
 					choices: response.data.choices,
 				};
 			} catch (error: unknown) {
-				if (error instanceof Error) console.error(error.message);
+				console.error((error as Error)?.message);
 			}
 		}
 	}

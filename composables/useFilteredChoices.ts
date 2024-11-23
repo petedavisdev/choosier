@@ -49,7 +49,7 @@ export async function useFilteredChoices(
 			}))
 			.sort((a, b) => b.votes.length - a.votes.length);
 	} catch (error: unknown) {
-		if (error instanceof Error) console.error(error.message);
+		console.error((error as Error)?.message);
 	} finally {
 		data.loading = false;
 	}

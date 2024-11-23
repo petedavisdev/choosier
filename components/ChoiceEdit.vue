@@ -24,7 +24,7 @@ async function updateChoice() {
 
 		navigateTo(PATHS.user + props.choice.username);
 	} catch (error: unknown) {
-		if (error instanceof Error) alert(error.message!);
+		alert((error as Error)?.message);
 	}
 }
 </script>

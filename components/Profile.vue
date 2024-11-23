@@ -45,7 +45,7 @@ try {
 			)
 			.map((vote) => vote.choice_id) || null;
 } catch (error: unknown) {
-	if (error instanceof Error) console.error(error.message);
+	alert((error as Error)?.message);
 }
 </script>
 

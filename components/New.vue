@@ -108,7 +108,7 @@ async function submit() {
 				navigateTo(PATHS.new + newChoiceId);
 			}
 		} catch (error: unknown) {
-			if (error instanceof Error) alert(error.message);
+			alert((error as Error)?.message);
 		} finally {
 			data.loading = false;
 		}
@@ -133,7 +133,7 @@ async function uploadCover(id: number) {
 
 		return data.path;
 	} catch (error: unknown) {
-		if (error instanceof Error) alert(error.message);
+		alert((error as Error)?.message);
 	}
 }
 </script>

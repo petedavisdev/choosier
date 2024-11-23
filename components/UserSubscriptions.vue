@@ -31,7 +31,7 @@ async function updateProfile() {
 
 			profile.value.subscriptions = updates.subscriptions;
 		} catch (error: unknown) {
-			if (error instanceof Error) alert(error.message);
+			alert((error as Error)?.message);
 		} finally {
 			data.loading = false;
 		}

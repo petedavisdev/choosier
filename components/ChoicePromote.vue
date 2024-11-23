@@ -41,7 +41,7 @@ async function promoteChoice() {
 
 		navigateTo(PATHS.user + profile.value.username);
 	} catch (error: unknown) {
-		if (error instanceof Error) alert(error.message!);
+		alert((error as Error)?.message);
 	}
 }
 </script>

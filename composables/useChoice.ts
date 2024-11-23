@@ -70,7 +70,7 @@ export async function useChoice(id: number) {
 		data.choice.visibility = choiceResponse.data.visibility;
 		data.choice.votingSystem = choiceResponse.data.voting_system;
 	} catch (error: unknown) {
-		if (error instanceof Error) console.error(error.message);
+		console.error((error as Error)?.message);
 	} finally {
 		data.loading = false;
 	}
