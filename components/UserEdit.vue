@@ -6,11 +6,14 @@ const props = defineProps<{
 const supabase = useSupabaseClient<Database>();
 const { profile } = useProfile();
 const route = useRoute();
+const usernameInput = ref<HTMLInputElement | null>(null);
 
 const data = reactive({
 	loading: false,
 	username: profile.value?.username,
 	website: profile.value?.website,
+	usernameTaken: false,
+	saved: false,
 });
 
 const cleanUsername = computed(() =>
@@ -26,6 +29,11 @@ const cleanWebsite = computed(() => {
 
 	return url;
 });
+
+function handleTakenUsername() {
+	data.usernameTaken = false;
+	usernameInput.value?.focus();
+}
 
 async function updateProfile() {
 	if (profile.value && cleanUsername.value) {
@@ -53,11 +61,15 @@ async function updateProfile() {
 			profile.value.firstVote = updates.first_vote;
 
 			if (route.path === PATHS.user && cleanUsername.value) {
-				navigateTo(PATHS.user + cleanUsername.value);
+				data.saved = true;
 			} else {
 				location.reload();
 			}
 		} catch (error: unknown) {
+			if ((error as { code: string }).code === '23505') {
+				return (data.usernameTaken = true);
+			}
+
 			alert((error as Error)?.message);
 		} finally {
 			data.loading = false;
@@ -73,6 +85,7 @@ async function updateProfile() {
 		<p :class="$style.field">
 			<input
 				id="username"
+				ref="usernameInput"
 				v-model="data.username"
 				maxlength="15"
 				required
@@ -106,6 +119,27 @@ async function updateProfile() {
 			{{ data.loading ? 'Saving...' : '✓ Save' }}
 		</button>
 	</form>
+
+	<aside v-if="data.usernameTaken" class="backdrop">
+		<div class="box center">
+			<p>
+				Sorry, <strong>{{ cleanUsername }}</strong> is taken
+			</p>
+			<button type="button" class="button" @click="handleTakenUsername">
+				Try another choosername
+			</button>
+		</div>
+	</aside>
+
+	<aside v-if="data.saved" class="backdrop" @click.self="data.saved = false">
+		<div class="box center">
+			<button class="close" @click="data.saved = false"></button>
+			<p>Changes saved</p>
+			<LinkTo :to="`${PATHS.user}${cleanUsername}`" class="button">
+				View profile &rarr;
+			</LinkTo>
+		</div>
+	</aside>
 </template>
 
 <style module>
