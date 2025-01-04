@@ -11,6 +11,7 @@ const props = defineProps<{
 const data = reactive({
 	loading: false,
 	token: '',
+	isTokenBad: false,
 });
 
 async function verify() {
@@ -45,10 +46,19 @@ async function verify() {
 
 		emit('verified', userId);
 	} catch (error: unknown) {
+		if ((error as { code: string }).code === 'otp_expired') {
+			return (data.isTokenBad = true);
+		}
+
 		alert((error as Error)?.message);
 	} finally {
 		data.loading = false;
 	}
+}
+
+function handleEnterCode() {
+	data.isTokenBad = false;
+	data.token = '';
 }
 </script>
 
@@ -99,6 +109,32 @@ async function verify() {
 			</button>
 		</p>
 	</form>
+
+	<aside v-if="data.isTokenBad" class="backdrop">
+		<div class="box center">
+			<p>
+				Code <strong>{{ data.token }}</strong> is incorrect or has expired.
+			</p>
+			<p>
+				<button
+					type="button"
+					class="button"
+					data-cy="enter-correct-code"
+					@click="handleEnterCode"
+				>
+					Enter correct code
+				</button>
+			</p>
+			<LinkTo
+				to="#request"
+				class="button"
+				data-cy="request-new-code"
+				@click="emit('retry')"
+			>
+				Request a new code</LinkTo
+			>
+		</div>
+	</aside>
 </template>
 
 <style module>

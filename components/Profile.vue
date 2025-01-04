@@ -78,10 +78,12 @@ try {
 			:edit="isUser"
 			:allow-private="isUser"
 		>
-			<p>{{ username }} has no active choices.</p>
-			<LinkTo v-if="isUser" :to="PATHS.new" class="button">
-				+ New choice
-			</LinkTo>
+			<div>
+				<p>{{ username }} has no active choices.</p>
+				<LinkTo v-if="isUser" :to="PATHS.new" class="button">
+					+ New choice
+				</LinkTo>
+			</div>
 		</List>
 	</template>
 
