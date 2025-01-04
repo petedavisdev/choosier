@@ -28,15 +28,6 @@ async function vote(userId: string) {
 		if (response.error) throw response.error;
 
 		if (profile.value) {
-			if (!profile.value?.firstVote) {
-				const profileResponse = await supabase
-					.from('profiles')
-					.update({ first_vote: props.id })
-					.eq('user_id', profile.value.userId);
-
-				if (profileResponse.error) throw profileResponse.error;
-			}
-
 			profile.value.votes = [...profile.value.votes, { choice_id: props.id }];
 
 			navigateTo(PATHS.results + props.id);

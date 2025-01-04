@@ -77,13 +77,6 @@ const { profile } = useProfile();
 		/>
 
 		<div class="grid" :class="$style.meta">
-			<ResultsRecruits
-				:id="id"
-				:recruiter-name="choice.username"
-				:is-recruiter="props.isCreator"
-				:votes="choice.votes"
-			/>
-
 			<aside v-if="!choice.isClosed && !props.isPrivate" class="box">
 				<h2>Share to get more votes</h2>
 				<Share :id="props.id" />

@@ -10,9 +10,13 @@ const props = defineProps<{
 </script>
 
 <template>
-	<div :class="$style.container">
-		<div id="preview" class="backdrop" @click="emit('close')"></div>
-		<section class="box" :class="$style.box">
+	<div
+		id="preview"
+		:class="$style.container"
+		class="backdrop"
+		@click="emit('close')"
+	>
+		<aside class="box" :class="$style.box">
 			<button type="button" class="close" @click="emit('close')"></button>
 
 			<h2 v-if="props.validationMessage">{{ props.validationMessage }}</h2>
@@ -30,7 +34,7 @@ const props = defineProps<{
 				</div>
 				<slot />
 			</template>
-		</section>
+		</aside>
 	</div>
 </template>
 
@@ -43,7 +47,6 @@ const props = defineProps<{
 }
 .box {
 	position: relative;
-	z-index: 1;
 	width: 100%;
 	max-width: 30em;
 }

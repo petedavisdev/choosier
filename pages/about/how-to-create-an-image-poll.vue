@@ -12,7 +12,7 @@
 		<p>Creating an image poll with Choosier is quick, easy and free!</p>
 		<ol>
 			<li>Choose to create either a public or private image poll.</li>
-			<li>Upload between 2 and 12 images.</li>
+			<li>Upload between 2 and 16 images.</li>
 			<li>Add a short title to tell voters what your poll is about.</li>
 			<li>
 				If your poll is public, select a category - your poll will appear on a
@@ -22,15 +22,7 @@
 				Click 'Continue' to check the details and then click 'Save and publish'.
 			</li>
 		</ol>
-		<p>
-			You get 10 credits when you register on Choosier, so you can start
-			experimenting with polls straight away.
-		</p>
-		<p>Creating a poll requires 1 credit, plus any extras you choose.</p>
-		<p>
-			You will earn more credits just by inviting new people to vote on your
-			polls.
-		</p>
+
 		<h2>What are you waiting for?</h2>
 		<p>
 			<LinkTo :to="PATHS.new" class="button">+ Create an image poll</LinkTo>

@@ -9,7 +9,7 @@ describe('vote on a choice', () => {
 
 		// cy.intercept(
 		// 	'GET',
-		// 	'https://fbyhdhmmctwoorirepai.supabase.co/rest/v1/choices?select=profiles%21choices_user_id_fkey%28username%29%2Ctitle%2Cimage_urls%2Ccategory%2Ccreated_at%2Cclose_at%2Cremove_at%2Cvotes%28image_urls%2Cuser_id%2Cprofiles%28username%2Cfirst_vote%29%29%2Cuuid%2Cvisibility%2Cvoting_system&id=eq.0',
+		// 	'https://fbyhdhmmctwoorirepai.supabase.co/rest/v1/choices?select=profiles%21choices_user_id_fkey%28username%29%2Ctitle%2Cimage_urls%2Ccategory%2Ccreated_at%2Cclose_at%2Cremove_at%2Cvotes%28image_urls%2Cuser_id%2Cprofiles%28username%2Cuuid%2Cvisibility%2Cvoting_system&id=eq.0',
 		// 	{ fixture: 'choice_0.json' }
 		// ).as('get-choice');
 

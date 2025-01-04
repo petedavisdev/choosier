@@ -7,9 +7,6 @@ const props = defineProps<{
 
 const { profile } = useProfile();
 
-const boostCredits =
-	VISIBILITIES.promoted.credits - VISIBILITIES.public.credits;
-
 async function promoteChoice() {
 	console.log('choice', props.choice);
 	if (!profile.value) return;
@@ -25,19 +22,11 @@ async function promoteChoice() {
 			.update({
 				close_at,
 				remove_at,
-				credits_used: 5,
 				visibility: 'promoted',
 			})
 			.eq('id', props.choice.id);
 
 		if (choiceResponse.error) throw choiceResponse.error;
-
-		const profileResponse = await supabase
-			.from('profiles')
-			.update({ credits_used: profile.value.creditsUsed + boostCredits })
-			.eq('user_id', profile.value.userId);
-
-		if (profileResponse.error) throw profileResponse.error;
 
 		navigateTo(PATHS.user + profile.value.username);
 	} catch (error: unknown) {
@@ -47,12 +36,7 @@ async function promoteChoice() {
 </script>
 
 <template>
-	<section
-		v-if="
-			choice.visibility === 'public' && profile?.credits && profile.credits >= 4
-		"
-		class="box"
-	>
+	<section v-if="choice.visibility === 'public'" class="box">
 		<template v-if="!choice.isClosed">
 			<h2>Boost</h2>
 			<p>Featured on the homepage with 6 more days to collect votes</p>
@@ -60,11 +44,17 @@ async function promoteChoice() {
 
 		<template v-else>
 			<h2>Need more votes?</h2>
-			<p>Reopen for 6 more days and feature on the homepage</p>
+			<p>Reopen for 6 more days, featured on the homepage</p>
 		</template>
 
 		<button type="button" class="button" @click="promoteChoice">
-			Boost now ({{ boostCredits }} credits)
+			Boost now for
+
+			<s v-if="'inactivePrice' in VISIBILITIES.promoted">
+				{{ VISIBILITIES.promoted.inactivePrice }}
+			</s>
+
+			<strong>{{ VISIBILITIES.promoted.price }}</strong>
 		</button>
 	</section>
 
@@ -77,9 +67,5 @@ async function promoteChoice() {
 			Featured on the <LinkTo :to="PATHS.home">homepage</LinkTo> and open for a
 			week
 		</p>
-	</section>
-
-	<section v-else-if="!choice.isClosed" class="box">
-		<Credits />
 	</section>
 </template>

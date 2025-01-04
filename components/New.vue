@@ -15,15 +15,6 @@ const data = reactive({
 
 const cardImagesElement = ref<HTMLElement>();
 
-const credits = computed(() => {
-	const required =
-		VISIBILITIES[data.visibility as keyof typeof VISIBILITIES]?.credits ?? 0;
-
-	const remaining = profile.value ? profile.value?.credits - required : 0;
-
-	return { required, remaining };
-});
-
 const dates = computed(() => {
 	const date = new Date();
 	const duration = data.visibility === 'public' ? 1 : 7;
@@ -42,26 +33,21 @@ const validationMessage = computed(() => {
 	return data.images.length < MIN_IMAGES
 		? `You need at least ${MIN_IMAGES} images!`
 		: data.images.length > MAX_IMAGES
-			? `You have more than ${MAX_IMAGES} images!`
+			? `You have more than the allowed ${MAX_IMAGES} images!`
 			: !data.title
 				? 'You need a title!'
 				: !data.visibility
 					? 'Choose visibility!'
 					: !data.category && data.visibility !== 'private'
 						? 'Choose a category!'
-						: profile.value && credits.value.required > profile.value.credits
-							? `You have chosen to use ${credits.value.required} credit${
-									credits.value.required === 1 ? '' : 's'
-								}, but you have ${profile.value?.credits}.`
-							: '';
+						: '';
 });
 
 async function submit() {
 	if (
 		profile.value &&
 		data.images.length >= MIN_IMAGES &&
-		data.images.length <= MAX_IMAGES &&
-		credits.value.remaining >= 0
+		data.images.length <= MAX_IMAGES
 	) {
 		try {
 			data.loading = true;
@@ -77,25 +63,14 @@ async function submit() {
 						category: data.category,
 						close_at: dates.value.close,
 						remove_at: dates.value.remove,
-						credits_used: credits.value.required,
-						voting_system: data.images.length < 3 ? '1' : '2',
+						voting_system: data.images.length > 2 ? '2' : '1',
 					},
 				])
 				.select();
 
-			if (choicesResponse.error || !choicesResponse.data[0])
+			if (choicesResponse.error || !choicesResponse.data[0]) {
 				throw choicesResponse.error;
-
-			const profilesResponse = await supabase
-				.from('profiles')
-				.update({
-					credits_used: profile.value?.creditsUsed + credits.value.required,
-				})
-				.eq('user_id', profile.value?.userId);
-
-			if (profilesResponse.error) throw profilesResponse.error;
-
-			profile.value.credits = credits.value.remaining;
+			}
 
 			const newChoiceId = choicesResponse.data[0].id;
 
@@ -139,111 +114,101 @@ async function uploadCover(id: number) {
 </script>
 
 <template>
-	<UserLogin v-if="!profile">
-		<p>You can create public or private image polls for free.</p>
-		<p>
-			We'll give you 10 credits to get you started and you can earn more credits
-			by sharing your polls.
-		</p>
-
-		<h2>Login/register</h2>
-	</UserLogin>
-
-	<UserEdit v-else-if="!profile.username">
-		<h2>
-			<label for="username">My choosername</label>
-		</h2>
-	</UserEdit>
-
-	<form v-else :class="$style.form" @submit.prevent="submit">
+	<form :class="$style.form" @submit.prevent="submit">
 		<section id="visibility">
-			<Credits />
-
-			<h2>Type of poll</h2>
-			<p v-for="(value, key) in VISIBILITIES" :key="key">
-				<label
-					:title="
-						profile.credits < value.credits
-							? `Requires ${value.credits} credit`
-							: ''
-					"
-				>
+			<p
+				v-for="(visibility, visibilityKey) in VISIBILITIES"
+				:key="visibilityKey"
+			>
+				<label>
 					<input
 						v-model="data.visibility"
 						type="radio"
-						:value="key"
-						:disabled="profile.credits < value.credits"
+						:value="visibilityKey"
 						required
 					/>
-					{{ value.name }}
-					<span v-if="value.credits">
-						({{ value.credits }} credit{{ value.credits === 1 ? '' : 's' }})
+
+					<span>{{ visibility.name }}</span>
+
+					<span>
+						(<strong> {{ visibility.price }} </strong>)
 					</span>
-					<small>
-						{{ value.description }}
-					</small>
+
+					<small>{{ visibility.description }}</small>
 				</label>
 			</p>
 
-			<small>* You can close voting early if you like.</small>
+			<small>(You can close voting early if you like)</small>
 		</section>
 
-		<section id="images">
-			<h2>Images</h2>
-			<Upload
-				:folder="profile?.username ?? '@'"
-				:max="MAX_IMAGES"
-				@uploaded="(urls) => (data.images = urls)"
-			/>
-		</section>
+		<UserLogin v-if="!profile">
+			<h2>Login/register</h2>
+		</UserLogin>
 
-		<section id="title">
-			<h2><label for="title">Title</label></h2>
-			<p :class="$style.help">Help {{ profile.username }} choose:</p>
-			<input
-				id="title"
-				v-model="data.title"
-				maxlength="25"
-				required
-				:class="$style.titleInput"
-			/>
-			<small>{{
-				data.title.length > 15
-					? `${25 - data.title.length} characters remaining`
-					: '&nbsp;'
-			}}</small>
-		</section>
+		<UserEdit v-else-if="!profile.username">
+			<h2>
+				<label for="username">My choosername</label>
+			</h2>
+		</UserEdit>
 
-		<section v-if="data.visibility !== 'private'" id="categories">
-			<h2>Category</h2>
-			<p v-for="(category, key) in CATEGORIES" :key="key">
-				<label>
-					<input
-						v-model="data.category"
-						type="radio"
-						name="category"
-						:value="key"
-						required
-					/>
-					{{ category }}
-				</label>
-			</p>
-		</section>
+		<template v-else>
+			<section id="images">
+				<h2>Images</h2>
+				<Upload
+					:folder="profile?.username ?? '@'"
+					:max="MAX_IMAGES"
+					@uploaded="(urls) => (data.images = urls)"
+				/>
+			</section>
 
-		<section v-if="!profile.subscriptions" id="subscriptions">
-			<h2>My subscriptions</h2>
-			<UserSubscriptions />
-		</section>
+			<section id="title">
+				<h2><label for="title">Title</label></h2>
+				<p :class="$style.help">Help {{ profile.username }} choose:</p>
+				<input
+					id="title"
+					v-model="data.title"
+					maxlength="25"
+					required
+					:class="$style.titleInput"
+				/>
+				<small>{{
+					data.title.length > 15
+						? `${25 - data.title.length} characters remaining`
+						: ''
+				}}</small>
+			</section>
 
-		<footer>
-			<button type="button" class="button" @click="data.showPreview = true">
-				Continue &rarr;
-			</button>
+			<section v-if="data.visibility !== 'private'" id="categories">
+				<h2>Category</h2>
+				<p v-for="(category, key) in CATEGORIES" :key="key">
+					<label>
+						<input
+							v-model="data.category"
+							type="radio"
+							name="category"
+							:value="key"
+							required
+						/>
+						{{ category }}
+					</label>
+				</p>
+			</section>
+
+			<section v-if="!profile?.subscriptions" id="subscriptions">
+				<h2>My subscriptions</h2>
+				<UserSubscriptions />
+			</section>
+
+			<footer>
+				<button type="button" class="button" @click="data.showPreview = true">
+					Continue &rarr;
+				</button>
+			</footer>
 
 			<NewPreview
 				v-if="data.showPreview"
 				:title="data.title"
-				:username="profile.username"
+				:username="profile?.username"
 				:validation-message="validationMessage"
 				:heading="VISIBILITIES[data.visibility]?.name"
 				@close="data.showPreview = false"
@@ -277,27 +242,19 @@ async function uploadCover(id: number) {
 					{{ shortDateText(dates.remove) }}.
 				</p>
 
-				<p v-if="credits.required">
-					You are using {{ credits.required }} credit{{
-						credits.required === 1 ? '' : 's'
-					}}
-					and you will have {{ credits.remaining }} remaining.
-				</p>
-
 				<button
 					type="submit"
 					class="button"
 					:disabled="
 						data.images.length < MIN_IMAGES ||
 						data.images.length > MAX_IMAGES ||
-						credits.required > profile.credits ||
 						data.loading
 					"
 				>
 					✓ Save and publish
 				</button>
 			</NewPreview>
-		</footer>
+		</template>
 	</form>
 </template>
 
