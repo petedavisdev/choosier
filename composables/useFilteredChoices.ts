@@ -14,8 +14,8 @@ export async function useFilteredChoices(
 		.select(
 			'id, profiles!choices_user_id_fkey(username), title, votes(image_urls), visibility, uuid'
 		)
-		.neq('visibility', allowPrivate ? 'removed' : 'private')
-		.neq('visibility', 'removed')
+		.neq('visibility', allowPrivate ? 'draft' : 'private')
+		.neq('visibility', 'draft')
 		.gt(dateLimit, now)
 		.order('created_at', { ascending: false });
 

@@ -151,7 +151,7 @@ export type Database = {
 			[_ in never]: never;
 		};
 		Enums: {
-			Visibility: 'private' | 'promoted' | 'public' | 'removed';
+			Visibility: 'private' | 'promoted' | 'public' | 'draft';
 			VotingSystem: '1' | '2';
 		};
 		CompositeTypes: {
