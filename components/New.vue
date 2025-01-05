@@ -141,17 +141,7 @@ async function uploadCover(id: number) {
 			<small>(You can close voting early if you like)</small>
 		</section>
 
-		<UserLogin v-if="!profile">
-			<h2>Login/register</h2>
-		</UserLogin>
-
-		<UserEdit v-else-if="!profile.username">
-			<h2>
-				<label for="username">My choosername</label>
-			</h2>
-		</UserEdit>
-
-		<template v-else>
+		<template v-if="profile?.username">
 			<section id="images">
 				<h2>Images</h2>
 				<Upload
@@ -256,6 +246,16 @@ async function uploadCover(id: number) {
 			</NewPreview>
 		</template>
 	</form>
+
+	<UserLogin v-if="!profile">
+		<h2>Login/register</h2>
+	</UserLogin>
+
+	<UserEdit v-else-if="!profile.username">
+		<h2>
+			<label for="username">My choosername</label>
+		</h2>
+	</UserEdit>
 </template>
 
 <style module>

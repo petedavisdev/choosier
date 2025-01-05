@@ -20,17 +20,17 @@ export const CATEGORIES = {
 export const VISIBILITIES = {
 	public: {
 		name: 'Basic',
-		description: '24-hour public poll',
+		description: '24-hour public vote',
 		price: 'FREE',
 	},
 	promoted: {
 		name: 'Boosted',
-		description: '7-day poll featured on the homepage',
+		description: '7-days featured on the homepage',
 		price: '$9',
 	},
 	private: {
 		name: 'Private',
-		description: '7-day poll you can share by secret link',
+		description: '7-days voting by secret link',
 		price: '$3',
 	},
 } as const;
