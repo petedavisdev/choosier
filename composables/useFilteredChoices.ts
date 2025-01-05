@@ -14,8 +14,6 @@ export async function useFilteredChoices(
 		.select(
 			'id, profiles!choices_user_id_fkey(username), title, votes(image_urls), visibility, uuid'
 		)
-		.neq('visibility', allowPrivate ? 'draft' : 'private')
-		.neq('visibility', 'draft')
 		.gt(dateLimit, now)
 		.order('created_at', { ascending: false });
 
@@ -23,6 +21,10 @@ export async function useFilteredChoices(
 		query = query.in(...(filter as [string, number[]]));
 	} else if (filter[1]) {
 		query = query.eq(...(filter as [string, number]));
+	}
+
+	if (!allowPrivate) {
+		query = query.neq('visibility', 'private');
 	}
 
 	const data = reactive({

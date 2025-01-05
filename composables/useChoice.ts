@@ -20,7 +20,7 @@ export type Choice = {
 	isRemoved?: boolean;
 	votes: Vote[];
 	uuid: string;
-	visibility: 'public' | 'private' | 'promoted' | 'draft';
+	visibility: 'public' | 'private' | 'promoted' | 'featured';
 	votingSystem: '1' | '2';
 };
 
