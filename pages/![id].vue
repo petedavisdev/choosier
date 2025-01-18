@@ -26,19 +26,10 @@ const isPrivate = choice.visibility === 'private';
 	<template v-if="profile?.username === choice.username">
 		<h1>Voting is now {{ choice.isClosed ? 'closed' : 'open' }}</h1>
 		<List :filter="['id', id]" allow-private />
-		<p>
-			<span v-if="!choice.isClosed">
-				Voting closes {{ longDateText(choice.closeAt) }} <br
-			/></span>
-			Results will be available until {{ shortDateText(choice.removeAt) }}
-		</p>
 
 		<div class="grid">
 			<section v-if="!choice.isClosed" class="box" :class="$style.wideSection">
 				<h2>Share</h2>
-				<p v-if="isPrivate">
-					Here is your private link. Share it with people you trust.
-				</p>
 				<Share :id="id" :uuid="isPrivate ? choice.uuid : undefined" />
 			</section>
 

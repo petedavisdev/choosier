@@ -5,81 +5,62 @@ const props = defineProps<{
 	choice: Choice;
 }>();
 
-const { profile } = useProfile();
+// const { profile } = useProfile();
 
-const boostCredits =
-	VISIBILITIES.promoted.credits - VISIBILITIES.public.credits;
+// async function promoteChoice() {
+// 	console.log('choice', props.choice);
+// 	if (!profile.value) return;
 
-async function promoteChoice() {
-	console.log('choice', props.choice);
-	if (!profile.value) return;
+// 	const supabase = useSupabaseClient<Database>();
 
-	const supabase = useSupabaseClient<Database>();
+// 	const close_at = addDaysToISODate(7, props.choice.createdAt);
+// 	const remove_at = addDaysToISODate(7, close_at);
 
-	const close_at = addDaysToISODate(7, props.choice.createdAt);
-	const remove_at = addDaysToISODate(7, close_at);
+// 	try {
+// 		const choiceResponse = await supabase
+// 			.from('choices')
+// 			.update({
+// 				close_at,
+// 				remove_at,
+// 			})
+// 			.eq('id', props.choice.id);
 
-	try {
-		const choiceResponse = await supabase
-			.from('choices')
-			.update({
-				close_at,
-				remove_at,
-				credits_used: 5,
-				visibility: 'promoted',
-			})
-			.eq('id', props.choice.id);
+// 		if (choiceResponse.error) throw choiceResponse.error;
 
-		if (choiceResponse.error) throw choiceResponse.error;
-
-		const profileResponse = await supabase
-			.from('profiles')
-			.update({ credits_used: profile.value.creditsUsed + boostCredits })
-			.eq('user_id', profile.value.userId);
-
-		if (profileResponse.error) throw profileResponse.error;
-
-		navigateTo(PATHS.user + profile.value.username);
-	} catch (error: unknown) {
-		alert((error as Error)?.message);
-	}
-}
+// 		navigateTo(PATHS.user + profile.value.username);
+// 	} catch (error: unknown) {
+// 		alert((error as Error)?.message);
+// 	}
+// }
 </script>
 
 <template>
-	<section
-		v-if="
-			choice.visibility === 'public' && profile?.credits && profile.credits >= 4
-		"
-		class="box"
-	>
+	<section class="box">
+		<h4 v-if="!props.choice.isClosed">
+			Voting closes {{ longDateText(props.choice.closeAt) }}
+		</h4>
+
+		<p>
+			Results will be available until {{ shortDateText(props.choice.removeAt) }}
+		</p>
+
 		<template v-if="!choice.isClosed">
-			<h2>Boost</h2>
-			<p>Featured on the homepage with 6 more days to collect votes</p>
+			<h2>Need more time?</h2>
+			<p>You can keep voting open for up to a week</p>
 		</template>
 
 		<template v-else>
 			<h2>Need more votes?</h2>
-			<p>Reopen for 6 more days and feature on the homepage</p>
+			<p>Reopen voting for 6 more days</p>
 		</template>
 
-		<button type="button" class="button" @click="promoteChoice">
-			Boost now ({{ boostCredits }} credits)
-		</button>
-	</section>
-
-	<section
-		v-else-if="choice.visibility === 'promoted' && !choice.isClosed"
-		class="box"
-	>
-		<h2>This poll has been boosted</h2>
 		<p>
-			Featured on the <LinkTo :to="PATHS.home">homepage</LinkTo> and open for a
-			week
+			You will soon be able to pay online for more time, but for now, please
+			send me a message quoting
+			<strong>poll number {{ props.choice.id }}</strong> and I will extend it
+			for you.
 		</p>
-	</section>
 
-	<section v-else-if="!choice.isClosed" class="box">
-		<Credits />
+		<LinkTo class="button" to="/hello">Request an extension</LinkTo>
 	</section>
 </template>

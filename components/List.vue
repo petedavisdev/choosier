@@ -66,7 +66,7 @@ const choices = await useFilteredChoices(
 	display: grid;
 	place-items: center;
 	background-color: var(--dark);
-	opacity: 0.5;
+	opacity: 0.8;
 }
 .lockIcon {
 	height: 8rem;

@@ -1,7 +1,6 @@
 export type Vote = {
 	profiles: {
 		username: string | null;
-		first_vote: number | null;
 	} | null;
 	image_urls: string[] | null;
 	user_id: string;
@@ -44,7 +43,7 @@ export async function useChoice(id: number) {
 				created_at,
 				close_at,
 				remove_at,
-				votes (image_urls, user_id, profiles (username, first_vote)),
+				votes (image_urls, user_id, profiles (username)),
 				uuid,
 				visibility,
 				voting_system

@@ -28,7 +28,12 @@ function copy(text: string) {
 
 <template>
 	<div :class="$style.share">
+		<p v-if="props.uuid">
+			Here is your private link. Share it with people you trust.
+		</p>
+
 		<h3 :class="$style.copy" @click="copy(shareLink)">{{ shareLink }}</h3>
+
 		<button
 			type="button"
 			class="button"
@@ -60,14 +65,14 @@ function copy(text: string) {
 		>
 			Instagram
 		</button>
-		<button
+		<!-- <button
 			v-if="!props.uuid"
 			type="button"
 			class="button"
 			@click="data.shareImages = 'reddit'"
 		>
 			Reddit
-		</button>
+		</button> -->
 	</div>
 
 	<aside
@@ -86,11 +91,11 @@ function copy(text: string) {
 				:id="props.id"
 				:share-link="shareLink"
 			/>
-			<LazyShareReddit
+			<!-- <LazyShareReddit
 				v-if="data.shareImages === 'reddit'"
 				:id="props.id"
 				:share-link="shareLink"
-			/>
+			/> -->
 		</div>
 	</aside>
 </template>

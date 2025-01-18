@@ -45,8 +45,6 @@ async function updateProfile() {
 				username: cleanUsername.value,
 				updated_at: new Date().toISOString(),
 				website: cleanWebsite.value,
-				first_vote:
-					profile.value?.firstVote || profile.value?.votes[0]?.choice_id || 0,
 			};
 
 			const response = await supabase
@@ -58,7 +56,6 @@ async function updateProfile() {
 
 			profile.value.username = updates.username;
 			profile.value.website = updates.website;
-			profile.value.firstVote = updates.first_vote;
 
 			if (route.path === PATHS.user && cleanUsername.value) {
 				data.saved = true;
