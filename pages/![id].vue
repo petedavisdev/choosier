@@ -30,9 +30,6 @@ const isPrivate = choice.visibility === 'private';
 		<div class="grid">
 			<section v-if="!choice.isClosed" class="box" :class="$style.wideSection">
 				<h2>Share</h2>
-				<p v-if="isPrivate">
-					Here is your private link. Share it with people you trust.
-				</p>
 				<Share :id="id" :uuid="isPrivate ? choice.uuid : undefined" />
 			</section>
 

@@ -44,8 +44,6 @@ const validationMessage = computed(() => {
 });
 
 async function submit() {
-	console.log('submit', data);
-
 	if (
 		profile.value &&
 		data.images.length >= MIN_IMAGES &&

@@ -11,6 +11,7 @@ const data = reactive({
 	isVoter: false,
 	isPrivate: false,
 	votingSystem: '2' as Choice['votingSystem'],
+	uuid: '',
 });
 
 try {
@@ -20,6 +21,7 @@ try {
 			`
 			visibility,
 			user_id,
+			uuid,
 			voting_system,
 			votes (user_id)
 			`
@@ -35,6 +37,7 @@ try {
 		(vote) => vote.user_id === profile.value?.userId
 	);
 	data.votingSystem = response.data.voting_system;
+	data.uuid = response.data.uuid;
 
 	if (data.isPrivate && !data.isCreator && !data.isVoter)
 		throw new Error('Access denied');
@@ -50,5 +53,6 @@ try {
 		:is-creator="data.isCreator"
 		:is-voter="data.isVoter"
 		:voting-system="data.votingSystem"
+		:uuid="data.uuid"
 	/>
 </template>

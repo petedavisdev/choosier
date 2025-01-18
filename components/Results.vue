@@ -7,6 +7,7 @@ const props = defineProps<{
 	isCreator: boolean;
 	isVoter: boolean;
 	votingSystem: Choice['votingSystem'];
+	uuid: Choice['uuid'];
 }>();
 
 const choice = await useChoice(props.id);
@@ -77,9 +78,15 @@ const { profile } = useProfile();
 		/>
 
 		<div class="grid" :class="$style.meta">
-			<aside v-if="!choice.isClosed && !props.isPrivate" class="box">
+			<aside
+				v-if="!choice.isClosed && (!props.isPrivate || props.isCreator)"
+				class="box"
+			>
 				<h2>Share to get more votes</h2>
-				<Share :id="props.id" />
+				<Share
+					:id="props.id"
+					:uuid="props.isPrivate ? props.uuid : undefined"
+				/>
 			</aside>
 
 			<template v-if="props.isCreator">
@@ -88,7 +95,7 @@ const { profile } = useProfile();
 		</div>
 
 		<footer>
-			<h2>Latest choices...</h2>
+			<h2>Help more people choose...</h2>
 			<List :filter="['', '']" open>No more choices available right now</List>
 
 			<LinkTo :to="PATHS.new" class="button">+ Make your own choice</LinkTo>

@@ -106,7 +106,7 @@ const mostVotes = computed(() =>
 		</div>
 	</article>
 
-	<p>
+	<p v-if="props.votingSystem === '2'">
 		<small>
 			Sort order based on 1 for choice #1 and &frac12; for choice #2
 		</small>
