@@ -6,6 +6,7 @@ const props = defineProps<{
 	title: string;
 	username: string;
 	validationMessage: string;
+	visibility: 'public' | 'private';
 }>();
 </script>
 
@@ -14,7 +15,7 @@ const props = defineProps<{
 		id="preview"
 		:class="$style.container"
 		class="backdrop"
-		@click="emit('close')"
+		@click.self="emit('close')"
 	>
 		<aside class="box" :class="$style.box">
 			<button type="button" class="close" @click="emit('close')"></button>
@@ -26,6 +27,14 @@ const props = defineProps<{
 
 				<div class="card" :class="$style.card">
 					<slot name="card-images" />
+
+					<div
+						v-if="props.visibility === 'private'"
+						class="cardImages"
+						:class="$style.lockBackdrop"
+					>
+						<IconLock :class="$style.lockIcon" />
+					</div>
 
 					<div class="cardTitle">
 						<small>Help {{ props.username }} choose</small>
@@ -56,5 +65,18 @@ const props = defineProps<{
 	margin-bottom: 2em;
 	width: 360px;
 	background-color: var(--mid) !important;
+}
+
+.lockBackdrop {
+	display: grid;
+	place-items: center;
+	background-color: var(--dark);
+	opacity: 0.5;
+}
+.lockIcon {
+	height: 8rem;
+	width: 6rem;
+	padding-bottom: 3rem;
+	color: var(--lightest);
 }
 </style>

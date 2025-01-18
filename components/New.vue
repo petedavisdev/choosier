@@ -9,7 +9,7 @@ const data = reactive({
 	title: '',
 	images: [] as string[],
 	category: '',
-	visibility: 'public' as 'public' | 'private' | 'promoted',
+	visibility: 'public' as 'public' | 'private',
 	showPreview: false,
 });
 
@@ -44,6 +44,8 @@ const validationMessage = computed(() => {
 });
 
 async function submit() {
+	console.log('submit', data);
+
 	if (
 		profile.value &&
 		data.images.length >= MIN_IMAGES &&
@@ -127,18 +129,12 @@ async function uploadCover(id: number) {
 						:value="visibilityKey"
 						required
 					/>
-
 					<span>{{ visibility.name }}</span>
 
-					<span>
-						(<strong> {{ visibility.price }} </strong>)
-					</span>
-
-					<small>{{ visibility.description }}</small>
+					&mdash;
+					<span>{{ visibility.description }}</span>
 				</label>
 			</p>
-
-			<small>(You can close voting early if you like)</small>
 		</section>
 
 		<template v-if="profile?.username">
@@ -201,6 +197,7 @@ async function uploadCover(id: number) {
 				:username="profile?.username"
 				:validation-message="validationMessage"
 				:heading="VISIBILITIES[data.visibility]?.name"
+				:visibility="data.visibility"
 				@close="data.showPreview = false"
 			>
 				<template #card-images>
@@ -222,15 +219,9 @@ async function uploadCover(id: number) {
 					You will get a private link to share with people you trust.
 				</p>
 
-				<p>
-					Voting will close
-					{{ longDateText(dates.close) }}.
-				</p>
+				<p>Your first 24 hours of voting are free!</p>
 
-				<p>
-					Your results will be available until
-					{{ shortDateText(dates.remove) }}.
-				</p>
+				<p>Need more time? It's cheap and easy to extend.</p>
 
 				<button
 					type="submit"

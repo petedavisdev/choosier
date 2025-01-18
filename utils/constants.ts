@@ -19,18 +19,11 @@ export const CATEGORIES = {
 
 export const VISIBILITIES = {
 	public: {
-		name: 'Basic',
-		description: '24-hour public vote',
-		price: 'FREE',
-	},
-	promoted: {
-		name: 'Boosted',
-		description: '7-days featured on the homepage',
-		price: '$9',
+		name: 'Public',
+		description: 'Listed on the website',
 	},
 	private: {
 		name: 'Private',
-		description: '7-days voting by secret link',
-		price: '$3',
+		description: 'Only people with the link can vote',
 	},
 } as const;
