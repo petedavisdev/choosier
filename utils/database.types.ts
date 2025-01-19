@@ -14,10 +14,8 @@ export type Database = {
 					category: string | null;
 					close_at: string | null;
 					created_at: string | null;
-					credits_used: number | null;
 					id: number;
 					image_urls: string[] | null;
-					open_at: string | null;
 					remove_at: string | null;
 					title: string | null;
 					user_id: string | null;
@@ -29,10 +27,8 @@ export type Database = {
 					category?: string | null;
 					close_at?: string | null;
 					created_at?: string | null;
-					credits_used?: number | null;
 					id?: number;
 					image_urls?: string[] | null;
-					open_at?: string | null;
 					remove_at?: string | null;
 					title?: string | null;
 					user_id?: string | null;
@@ -44,10 +40,8 @@ export type Database = {
 					category?: string | null;
 					close_at?: string | null;
 					created_at?: string | null;
-					credits_used?: number | null;
 					id?: number;
 					image_urls?: string[] | null;
-					open_at?: string | null;
 					remove_at?: string | null;
 					title?: string | null;
 					user_id?: string | null;
@@ -67,42 +61,21 @@ export type Database = {
 			};
 			profiles: {
 				Row: {
-					choosername: string | null;
-					credits_added: number;
-					credits_used: number | null;
-					first_vote: number | null;
-					language: string | null;
-					recruits: string[] | null;
 					subscriptions: string[] | null;
-					timezone: string | null;
 					updated_at: string | null;
 					user_id: string;
 					username: string | null;
 					website: string | null;
 				};
 				Insert: {
-					choosername?: string | null;
-					credits_added?: number;
-					credits_used?: number | null;
-					first_vote?: number | null;
-					language?: string | null;
-					recruits?: string[] | null;
 					subscriptions?: string[] | null;
-					timezone?: string | null;
 					updated_at?: string | null;
 					user_id: string;
 					username?: string | null;
 					website?: string | null;
 				};
 				Update: {
-					choosername?: string | null;
-					credits_added?: number;
-					credits_used?: number | null;
-					first_vote?: number | null;
-					language?: string | null;
-					recruits?: string[] | null;
 					subscriptions?: string[] | null;
-					timezone?: string | null;
 					updated_at?: string | null;
 					user_id?: string;
 					username?: string | null;
@@ -154,7 +127,7 @@ export type Database = {
 			[_ in never]: never;
 		};
 		Enums: {
-			Visibility: 'private' | 'promoted' | 'public' | 'featured';
+			Visibility: 'private' | 'promoted' | 'public' | 'draft';
 			VotingSystem: '1' | '2';
 		};
 		CompositeTypes: {
