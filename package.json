@@ -15,7 +15,7 @@
 		"e2e": "cypress run",
 		"cy": "cypress open",
 		"supabase:login": "npx supabase login",
-		"supabase:types": "npx supabase gen types typescript --project-id 'fbyhdhmmctwoorirepai' --schema public > utils/database.types.ts",
+		"supabase:types": "npx supabase gen types typescript --project-id 'fbyhdhmmctwoorirepai' --schema public > app/utils/database.types.ts",
 		"upgrade": "npx nuxi@latest upgrade --force"
 	},
 	"devDependencies": {
