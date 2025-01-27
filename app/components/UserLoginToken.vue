@@ -8,20 +8,18 @@ const props = defineProps<{
 	choiceId?: number;
 }>();
 
-const data = reactive({
-	loading: false,
-	token: '',
-	isTokenBad: false,
-});
+const loading = ref(false);
+const token = ref('');
+const isTokenBad = ref(false);
 
 async function verify() {
 	try {
-		data.loading = true;
+		loading.value = true;
 		let userId: string;
 
 		const loginResponse = await supabase.auth.verifyOtp({
 			email: props.email,
-			token: data.token,
+			token: token.value,
 			type: 'magiclink',
 		});
 
@@ -30,7 +28,7 @@ async function verify() {
 		if (!userId) {
 			const signupResponse = await supabase.auth.verifyOtp({
 				email: props.email,
-				token: data.token,
+				token: token.value,
 				type: 'signup',
 			});
 
@@ -47,18 +45,18 @@ async function verify() {
 		emit('verified', userId);
 	} catch (error: unknown) {
 		if ((error as { code: string }).code === 'otp_expired') {
-			return (data.isTokenBad = true);
+			return (isTokenBad.value = true);
 		}
 
 		alert((error as Error)?.message);
 	} finally {
-		data.loading = false;
+		loading.value = false;
 	}
 }
 
 function handleEnterCode() {
-	data.isTokenBad = false;
-	data.token = '';
+	isTokenBad.value = false;
+	token.value = '';
 }
 </script>
 
@@ -86,7 +84,7 @@ function handleEnterCode() {
 		<p>
 			<input
 				id="token"
-				v-model="data.token"
+				v-model="token"
 				type="text"
 				:class="$style.token"
 				inputmode="numeric"
@@ -102,18 +100,18 @@ function handleEnterCode() {
 			<button
 				type="submit"
 				class="button token"
-				:disabled="data.loading"
+				:disabled="loading"
 				data-cy="submit-token"
 			>
-				{{ data.loading ? 'Loading' : 'Enter &rarr;' }}
+				{{ loading ? 'Loading' : 'Enter &rarr;' }}
 			</button>
 		</p>
 	</form>
 
-	<aside v-if="data.isTokenBad" class="backdrop">
+	<aside v-if="isTokenBad" class="backdrop">
 		<div class="box center">
 			<p>
-				Code <strong>{{ data.token }}</strong> is incorrect or has expired.
+				Code <strong>{{ token }}</strong> is incorrect or has expired.
 			</p>
 			<p>
 				<button

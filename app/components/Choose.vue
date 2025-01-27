@@ -16,24 +16,22 @@ type Vote = string | undefined;
 type Options = Vote[];
 type Matches = Options[];
 
-const data = reactive({
-	currentMatchIndex: 0,
-	options1: [] as Options,
-	options2: [] as Options,
-	matches1: [] as Matches,
-	matches2: [] as Matches,
-	vote1: undefined as Vote,
-	vote2: undefined as Vote,
-});
+const currentMatchIndex = ref(0);
+const options1 = ref<Options>([]);
+const options2 = ref<Options>([]);
+const matches1 = ref<Matches>([]);
+const matches2 = ref<Matches>([]);
+const vote1 = ref<Vote>(undefined);
+const vote2 = ref<Vote>(undefined);
 
-data.options1 = choice.images;
-data.matches1 = createMatches(data.options1);
+options1.value = choice.images;
+matches1.value = createMatches(options1.value);
 
-const allMatches = computed(() => [...data.matches1, ...data.matches2]);
+const allMatches = computed(() => [...matches1.value, ...matches2.value]);
 
 const matchCount = computed(() => {
-	if (choice.votingSystem === '2' && !data.matches2.length) {
-		return data.options1.length + 1;
+	if (choice.votingSystem === '2' && !matches2.value.length) {
+		return options1.value.length + 1;
 	}
 	return allMatches.value.length;
 });
@@ -45,54 +43,54 @@ function createMatches(images: Options) {
 }
 
 function updateMatches(matchIndex: number, chosenOption?: string) {
-	const newMatchIndex1 = Math.floor((data.options1.length + matchIndex) / 2);
-	const matchIndex2 = matchIndex - data.matches1.length;
-	const newMatchIndex2 = Math.floor((data.options2.length + matchIndex2) / 2);
-	data.currentMatchIndex += 1;
+	const newMatchIndex1 = Math.floor((options1.value.length + matchIndex) / 2);
+	const matchIndex2 = matchIndex - matches1.value.length;
+	const newMatchIndex2 = Math.floor((options2.value.length + matchIndex2) / 2);
+	currentMatchIndex.value += 1;
 
-	if (newMatchIndex1 < data.matches1.length) {
-		const position = (data.options1.length + matchIndex) % 2;
-		const match = data.matches1[newMatchIndex1];
+	if (newMatchIndex1 < matches1.value.length) {
+		const position = (options1.value.length + matchIndex) % 2;
+		const match = matches1.value[newMatchIndex1];
 		if (match) match[position] = chosenOption;
-	} else if (newMatchIndex1 === data.matches1.length && newMatchIndex2 < 1) {
-		data.vote1 = chosenOption;
+	} else if (newMatchIndex1 === matches1.value.length && newMatchIndex2 < 1) {
+		vote1.value = chosenOption;
 
 		if (choice.votingSystem === '2') {
-			data.options2 = data.matches1
+			options2.value = matches1.value
 				.filter((match) => match.includes(chosenOption))
 				.map((match) => (match[0] === chosenOption ? match[1] : match[0]));
 
-			if (data.options2.length > 1) {
-				data.matches2 = createMatches(data.options2);
+			if (options2.value.length > 1) {
+				matches2.value = createMatches(options2.value);
 			} else {
-				data.vote2 = data.options2[0];
+				vote2.value = options2.value[0];
 			}
 		}
-	} else if (newMatchIndex2 < data.matches2.length) {
-		const position = (data.options2.length + matchIndex2) % 2;
-		const match = data.matches2[newMatchIndex2];
+	} else if (newMatchIndex2 < matches2.value.length) {
+		const position = (options2.value.length + matchIndex2) % 2;
+		const match = matches2.value[newMatchIndex2];
 		if (match) match[position] = chosenOption;
 	} else {
-		data.vote2 = chosenOption;
+		vote2.value = chosenOption;
 	}
 }
 
 function undo() {
-	console.log('undo', data.currentMatchIndex);
-	if (data.currentMatchIndex === data.matches1.length) {
-		data.options2 = [];
-		data.matches2 = [];
-		data.vote1 = '';
+	console.log('undo', currentMatchIndex.value);
+	if (currentMatchIndex.value === matches1.value.length) {
+		options2.value = [];
+		matches2.value = [];
+		vote1.value = '';
 	}
 
-	if (data.currentMatchIndex === allMatches.value.length) {
-		data.vote2 = '';
+	if (currentMatchIndex.value === allMatches.value.length) {
+		vote2.value = '';
 	}
 
-	data.currentMatchIndex -= 1;
+	currentMatchIndex.value -= 1;
 
 	// @ts-expect-error - TS doesn't know about the form names
-	const previousForm = document.forms['match' + data.currentMatchIndex];
+	const previousForm = document.forms['match' + currentMatchIndex.value];
 
 	if (previousForm) {
 		previousForm.reset();
@@ -111,10 +109,7 @@ onMounted(() => {
 			name="description"
 			:content="`Image poll made with Choosier.com — Visual decisions made easy`"
 		/>
-		<Meta
-			property="og:image"
-			:content="useCover(props.id) || data.options1?.[0]"
-		/>
+		<Meta property="og:image" :content="useCover(props.id) || options1[0]" />
 		<Meta
 			v-if="choice.visibility === 'private'"
 			name="robots"
@@ -125,12 +120,12 @@ onMounted(() => {
 	<main :class="$style.container">
 		<form
 			v-for="(match, matchIndex) in allMatches"
-			v-show="!data.vote1 || (choice.votingSystem === '2' && !data.vote2)"
+			v-show="!vote1 || (choice.votingSystem === '2' && !vote2)"
 			:id="'match' + matchIndex"
 			:key="matchIndex"
 			ref="chooseForm"
 			:class="$style.match"
-			:data-cy="`match-${matchIndex < data.matches1.length ? 1 : 2}`"
+			:data-cy="`match-${matchIndex < matches1.length ? 1 : 2}`"
 			@submit.prevent
 		>
 			<label
@@ -143,7 +138,7 @@ onMounted(() => {
 					:name="'option' + matchIndex"
 					required
 					:class="$style.optionInput"
-					@input="updateMatches(matchIndex, option)"
+					@change="updateMatches(matchIndex, option)"
 				/>
 
 				<img
@@ -156,17 +151,17 @@ onMounted(() => {
 		</form>
 
 		<ChooseConfirm
-			v-if="data.vote1 && (data.vote2 || choice.votingSystem === '1')"
+			v-if="vote1 && (vote2 || choice.votingSystem === '1')"
 			:id="props.id"
 			:class="$style.confirm"
-			:vote1="data.vote1"
-			:vote2="data.vote2"
+			:vote1="vote1"
+			:vote2="vote2"
 		/>
 
 		<ChooseControls
 			:id="props.id"
-			:match-index="data.currentMatchIndex"
-			:match-count="matchCount + 1"
+			:match-index="currentMatchIndex"
+			:match-count="vote2 ? currentMatchIndex : matchCount + 1"
 			:allow-share="choice.visibility !== 'private'"
 			@undo="undo"
 		/>

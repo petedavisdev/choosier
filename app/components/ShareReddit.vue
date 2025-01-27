@@ -4,9 +4,7 @@ const props = defineProps<{
 	shareLink: string;
 }>();
 
-const data = reactive({
-	isDownloading: false,
-});
+const isDownloading = ref(false);
 
 const displayLink = props.shareLink.replace(/(^\w+:|^)\/\//, '');
 
@@ -22,9 +20,9 @@ const images2 = images.slice(halfLength, images.length);
 const imageEl = ref<HTMLElement>();
 
 async function download() {
-	data.isDownloading = true;
+	isDownloading.value = true;
 	await downloadImage(`choosier-${props.id}-reddit`, 4, 1, imageEl.value);
-	data.isDownloading = false;
+	isDownloading.value = false;
 }
 </script>
 

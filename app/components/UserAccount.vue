@@ -2,19 +2,17 @@
 const supabase = useSupabaseClient<Database>();
 const user = useSupabaseUser();
 
-const data = reactive({
-	loading: false,
-});
+const loading = ref(false);
 
 async function signOut() {
 	try {
-		data.loading = true;
+		loading.value = true;
 		const response = await supabase.auth.signOut();
 		if (response.error) throw response.error;
 	} catch (error: unknown) {
 		alert((error as Error)?.message);
 	} finally {
-		data.loading = false;
+		loading.value = false;
 	}
 }
 </script>
@@ -28,7 +26,7 @@ async function signOut() {
 		<small>Your email address is never shared with anyone.</small>
 
 		<p>
-			<button type="submit" class="button" :disabled="data.loading">
+			<button type="submit" class="button" :disabled="loading">
 				&larr; Log Out
 			</button>
 		</p>
