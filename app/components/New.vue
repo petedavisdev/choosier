@@ -15,13 +15,14 @@ const cardImagesElement = ref<HTMLElement>();
 
 const dates = computed(() => {
 	const date = new Date();
-	const duration = visibility.value === 'public' ? 1 : 7;
+	const VOTE_DAYS = 1;
+	const RESULTS_DAYS = 7;
 
-	date.setDate(date.getDate() + duration);
+	date.setDate(date.getDate() + VOTE_DAYS);
 	date.setSeconds(0, 0);
 	const close = date.toISOString();
 
-	date.setDate(date.getDate() + duration + 0.007);
+	date.setDate(date.getDate() + RESULTS_DAYS + 0.007);
 	const remove = date.toISOString();
 
 	return { close, remove };

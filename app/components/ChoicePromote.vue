@@ -51,13 +51,12 @@ const props = defineProps<{
 
 		<template v-else>
 			<h2>Need more votes?</h2>
-			<p>Reopen voting for 6 more days</p>
 		</template>
 
 		<p>
 			You will soon be able to pay online for more time, but for now, please
 			send me a message quoting
-			<strong>poll number {{ props.choice.id }}</strong> and I will extend it
+			<strong>"Poll number {{ props.choice.id }}"</strong> and I will extend it
 			for you.
 		</p>
 
