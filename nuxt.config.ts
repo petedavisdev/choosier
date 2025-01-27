@@ -1,8 +1,4 @@
 export default defineNuxtConfig({
-	future: {
-		compatibilityVersion: 4,
-	},
-
 	css: [
 		'~/assets/modern-normalize.css',
 		'~/assets/variables.css',
@@ -10,11 +6,15 @@ export default defineNuxtConfig({
 		'~/assets/utils.css',
 	],
 
+	future: {
+		compatibilityVersion: 4,
+	},
+
 	modules: ['@nuxtjs/supabase', '@nuxt/image', '@nuxt/eslint'],
 
 	nitro: {
 		prerender: {
-			routes: ['/', '/about', '/privacy', '/terms'],
+			routes: ['/', '/about', '/privacy', '/terms', '/hello'],
 		},
 	},
 
@@ -29,10 +29,6 @@ export default defineNuxtConfig({
 
 	supabase: {
 		redirect: false,
-	},
-
-	typescript: {
-		shim: false,
 	},
 
 	compatibilityDate: '2024-08-27',
