@@ -16,7 +16,7 @@ definePageMeta({
 	<main :class="$style.container">
 		<header>
 			<IconLogo />
-			<h1>Create an image poll</h1>
+			<h1>Make an image poll</h1>
 		</header>
 		<New />
 	</main>

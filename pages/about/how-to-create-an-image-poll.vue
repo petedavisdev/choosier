@@ -25,7 +25,7 @@
 
 		<h2>What are you waiting for?</h2>
 		<p>
-			<LinkTo :to="PATHS.new" class="button">+ Create an image poll</LinkTo>
+			<LinkTo :to="PATHS.new" class="button">+ Make an image poll</LinkTo>
 		</p>
 	</article>
 

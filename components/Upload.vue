@@ -33,10 +33,8 @@ const props = defineProps<{
 
 const emit = defineEmits<{ uploaded: [string[]] }>();
 
-const data = reactive({
-	uploads: [] as Upload[],
-	loading: false,
-});
+const uploads = ref<Upload[]>([]);
+const loading = ref(false);
 
 const UPLOAD_CONFIG = {
 	cloudName: 'choosier',
@@ -75,12 +73,12 @@ const UPLOAD_CONFIG = {
 } as const;
 
 function uploadHandler(error: unknown, info: UploadInfo) {
-	data.loading = false;
+	loading.value = false;
 
 	if (info?.event === 'success') {
 		const url = info.info?.eager?.[0]?.secure_url || info.info?.secure_url;
-		data.uploads = [
-			...data.uploads,
+		uploads.value = [
+			...uploads.value,
 			{ url, delete_token: info.info?.delete_token },
 		];
 		updateUploaded();
@@ -90,7 +88,7 @@ function uploadHandler(error: unknown, info: UploadInfo) {
 }
 
 function showUploadWidget() {
-	data.loading = true;
+	loading.value = true;
 	// @ts-expect-error Cloudinary types are not included
 	cloudinary.openUploadWidget(UPLOAD_CONFIG, uploadHandler);
 }
@@ -98,21 +96,21 @@ function showUploadWidget() {
 function deleteUpload(index: number, delete_token: string | undefined) {
 	// TODO: Delete from cloudinary
 	console.info(delete_token);
-	data.uploads.splice(index, 1);
+	uploads.value.splice(index, 1);
 	updateUploaded();
 }
 
 function updateUploaded() {
 	emit(
 		'uploaded',
-		data.uploads.map((upload) => upload.url)
+		uploads.value.map((upload) => upload.url)
 	);
 }
 </script>
 
 <template>
-	<div v-if="data.uploads.length" :class="$style.thumbnails">
-		<div v-for="({ url, delete_token }, index) in data.uploads" :key="index">
+	<div v-if="uploads.length" :class="$style.thumbnails">
+		<div v-for="({ url, delete_token }, index) in uploads" :key="index">
 			<img :src="url" alt="" />
 			<button
 				type="button"
@@ -123,10 +121,10 @@ function updateUploaded() {
 	</div>
 
 	<button
-		v-if="data.uploads.length < props.max"
+		v-if="uploads.length < props.max"
 		type="button"
 		class="button"
-		:disabled="data.loading"
+		:disabled="loading"
 		@click="showUploadWidget"
 	>
 		+ Add images

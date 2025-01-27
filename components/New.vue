@@ -4,20 +4,18 @@ import { decode } from 'base64-arraybuffer';
 const supabase = useSupabaseClient<Database>();
 const { profile } = useProfile();
 
-const data = reactive({
-	loading: false,
-	title: '',
-	images: [] as string[],
-	category: '',
-	visibility: 'public' as 'public' | 'private',
-	showPreview: false,
-});
+const loading = ref(false);
+const title = ref('');
+const images = ref<string[]>([]);
+const category = ref('');
+const visibility = ref<'public' | 'private'>('public');
+const showPreview = ref(false);
 
 const cardImagesElement = ref<HTMLElement>();
 
 const dates = computed(() => {
 	const date = new Date();
-	const duration = data.visibility === 'public' ? 1 : 7;
+	const duration = visibility.value === 'public' ? 1 : 7;
 
 	date.setDate(date.getDate() + duration);
 	date.setSeconds(0, 0);
@@ -30,15 +28,15 @@ const dates = computed(() => {
 });
 
 const validationMessage = computed(() => {
-	return data.images.length < MIN_IMAGES
+	return images.value.length < MIN_IMAGES
 		? `You need at least ${MIN_IMAGES} images!`
-		: data.images.length > MAX_IMAGES
+		: images.value.length > MAX_IMAGES
 			? `You have more than the allowed ${MAX_IMAGES} images!`
-			: !data.title
+			: !title.value
 				? 'You need a title!'
-				: !data.visibility
+				: !visibility.value
 					? 'Choose visibility!'
-					: !data.category && data.visibility !== 'private'
+					: !category.value && visibility.value !== 'private'
 						? 'Choose a category!'
 						: '';
 });
@@ -46,24 +44,24 @@ const validationMessage = computed(() => {
 async function submit() {
 	if (
 		profile.value &&
-		data.images.length >= MIN_IMAGES &&
-		data.images.length <= MAX_IMAGES
+		images.value.length >= MIN_IMAGES &&
+		images.value.length <= MAX_IMAGES
 	) {
 		try {
-			data.loading = true;
+			loading.value = true;
 
 			const choicesResponse = await supabase
 				.from('choices')
 				.insert([
 					{
-						title: data.title,
-						image_urls: data.images,
+						title: title.value,
+						image_urls: images.value,
 						user_id: profile.value?.userId,
-						visibility: data.visibility,
-						category: data.category,
+						visibility: visibility.value,
+						category: category.value,
 						close_at: dates.value.close,
 						remove_at: dates.value.remove,
-						voting_system: data.images.length > 2 ? '2' : '1',
+						voting_system: images.value.length > 2 ? '2' : '1',
 					},
 				])
 				.select();
@@ -85,7 +83,7 @@ async function submit() {
 		} catch (error: unknown) {
 			alert((error as Error)?.message);
 		} finally {
-			data.loading = false;
+			loading.value = false;
 		}
 	}
 }
@@ -117,20 +115,21 @@ async function uploadCover(id: number) {
 	<form :class="$style.form" @submit.prevent="submit">
 		<section id="visibility">
 			<p
-				v-for="(visibility, visibilityKey) in VISIBILITIES"
+				v-for="(visibilityInfo, visibilityKey) in VISIBILITIES"
 				:key="visibilityKey"
 			>
 				<label>
 					<input
-						v-model="data.visibility"
+						v-model="visibility"
 						type="radio"
 						:value="visibilityKey"
 						required
+						:data-cy="`visibility-${visibilityKey}`"
 					/>
-					<span>{{ visibility.name }}</span>
+					<strong>{{ visibilityInfo.name }}</strong>
 
 					&mdash;
-					<span>{{ visibility.description }}</span>
+					<small>{{ visibilityInfo.description }}</small>
 				</label>
 			</p>
 		</section>
@@ -139,9 +138,9 @@ async function uploadCover(id: number) {
 			<section id="images">
 				<h2>Images</h2>
 				<Upload
-					:folder="profile?.username ?? '@'"
+					:folder="profile.username ?? '@'"
 					:max="MAX_IMAGES"
-					@uploaded="(urls) => (data.images = urls)"
+					@uploaded="(urls) => (images = urls)"
 				/>
 			</section>
 
@@ -150,30 +149,29 @@ async function uploadCover(id: number) {
 				<p :class="$style.help">Help {{ profile.username }} choose:</p>
 				<input
 					id="title"
-					v-model="data.title"
+					v-model="title"
 					maxlength="25"
 					required
 					:class="$style.titleInput"
 				/>
 				<small>{{
-					data.title.length > 15
-						? `${25 - data.title.length} characters remaining`
-						: ''
+					title.length > 15 ? `${25 - title.length} characters remaining` : ''
 				}}</small>
 			</section>
 
-			<section v-if="data.visibility !== 'private'" id="categories">
+			<section v-if="visibility !== 'private'" id="categories">
 				<h2>Category</h2>
-				<p v-for="(category, key) in CATEGORIES" :key="key">
+				<p v-for="(categoryName, key) in CATEGORIES" :key="key">
 					<label>
 						<input
-							v-model="data.category"
+							v-model="category"
 							type="radio"
 							name="category"
 							:value="key"
 							required
+							:data-cy="`category-${key}`"
 						/>
-						{{ category }}
+						{{ categoryName }}
 					</label>
 				</p>
 			</section>
@@ -184,24 +182,24 @@ async function uploadCover(id: number) {
 			</section>
 
 			<footer>
-				<button type="button" class="button" @click="data.showPreview = true">
+				<button type="button" class="button" @click="showPreview = true">
 					Continue &rarr;
 				</button>
 			</footer>
 
 			<NewPreview
-				v-if="data.showPreview"
-				:title="data.title"
+				v-if="showPreview"
+				:title="title"
 				:username="profile?.username"
 				:validation-message="validationMessage"
-				:heading="VISIBILITIES[data.visibility]?.name"
-				:visibility="data.visibility"
-				@close="data.showPreview = false"
+				:heading="VISIBILITIES[visibility]?.name"
+				:visibility="visibility"
+				@close="showPreview = false"
 			>
 				<template #card-images>
 					<div ref="cardImagesElement" class="cardImages">
 						<img
-							v-for="(image, index) in data.images"
+							v-for="(image, index) in images"
 							:key="index"
 							class="cardImage"
 							:src="image.replace('h_800', 'h_210')"
@@ -213,21 +211,18 @@ async function uploadCover(id: number) {
 					</div>
 				</template>
 
-				<p v-if="data.visibility === 'private'">
+				<p v-if="visibility === 'private'">
 					You will get a private link to share with people you trust.
 				</p>
 
 				<p>Your first 24 hours of voting are free!</p>
 
 				<p>Need more time? It's cheap and easy to extend.</p>
-
 				<button
 					type="submit"
 					class="button"
 					:disabled="
-						data.images.length < MIN_IMAGES ||
-						data.images.length > MAX_IMAGES ||
-						data.loading
+						images.length < MIN_IMAGES || images.length > MAX_IMAGES || loading
 					"
 				>
 					✓ Save and publish

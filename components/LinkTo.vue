@@ -5,19 +5,17 @@ const props = defineProps<{
 	target?: string;
 }>();
 
-const data = reactive({
-	inFrame: false,
-});
+const inFrame = ref(false);
 
 const classes = props.class ? [...props.class.split(' ')] : [];
 
 onMounted(() => {
-	data.inFrame = Boolean(window?.frameElement);
+	inFrame.value = Boolean(window?.frameElement);
 });
 </script>
 
 <template>
-	<NuxtLink v-if="data.inFrame" :to="`${to}`" :class="classes" target="_parent">
+	<NuxtLink v-if="inFrame" :to="`${to}`" :class="classes" target="_parent">
 		<slot />
 	</NuxtLink>
 

@@ -1,44 +1,41 @@
 <script setup lang="ts">
 const supabase = useSupabaseClient<Database>();
 
-const data = reactive({
-	loading: false,
-	requested: false,
-	email: '',
-	token: '',
-});
+const loading = ref(false);
+const requested = ref(false);
+const email = ref('');
 
 async function request() {
 	try {
-		data.loading = true;
-		const response = await supabase.auth.signInWithOtp({ email: data.email });
+		loading.value = true;
+		const response = await supabase.auth.signInWithOtp({ email: email.value });
 
 		if (response.error) throw response.error;
 
-		data.requested = true;
+		requested.value = true;
 	} catch (error: unknown) {
 		alert((error as Error)?.message);
 	} finally {
-		data.loading = false;
+		loading.value = false;
 	}
 }
 
 function retry() {
-	data.requested = false;
-	data.email = '';
+	requested.value = false;
+	email.value = '';
 }
 </script>
 
 <template>
 	<section id="request">
-		<UserLoginToken v-if="data.requested" :email="data.email" @retry="retry">
+		<UserLoginToken v-if="requested" :email="email" @retry="retry">
 			<h1>Confirmation code</h1>
 		</UserLoginToken>
 		<form v-else :class="$style.form" @submit.prevent="request">
 			<slot />
 
 			<input
-				v-model="data.email"
+				v-model="email"
 				type="email"
 				placeholder="Email"
 				title="Email"
@@ -52,11 +49,11 @@ function retry() {
 				<button
 					type="submit"
 					class="button"
-					:disabled="data.loading"
+					:disabled="loading"
 					:class="$style.control"
 					data-cy="submit-email"
 				>
-					{{ data.loading ? 'Loading' : 'Send me a confirmation code &rarr;' }}
+					{{ loading ? 'Loading' : 'Send me a confirmation code &rarr;' }}
 				</button>
 			</footer>
 		</form>
