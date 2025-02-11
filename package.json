@@ -19,7 +19,7 @@
 		"upgrade": "npx nuxi@latest upgrade --force"
 	},
 	"devDependencies": {
-		"@nuxt/eslint": "^0.7.5",
+		"@nuxt/eslint": "^1",
 		"@nuxt/image": "^1",
 		"@nuxtjs/supabase": "^1",
 		"base64-arraybuffer": "^1",
@@ -27,7 +27,7 @@
 		"eslint": "^9",
 		"eslint-config-prettier": "^10",
 		"html-to-image": "^1",
-		"nuxt": "^3.15.2",
+		"nuxt": "^3.15.4",
 		"prettier": "^3"
 	}
 }
