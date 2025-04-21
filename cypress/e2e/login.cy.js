@@ -13,34 +13,34 @@ describe('login', () => {
 	});
 
 	it('fails with bad email', () => {
-		cy.get('[data-cy=email]').click().wait(100).type('bad-email');
-		cy.get('[data-cy=submit-email]').click();
-		cy.get('[data-cy=token]').should('not.exist');
+		cy.get('[data-testid=email]').click().wait(100).type('bad-email');
+		cy.get('[data-testid=submit-email]').click();
+		cy.get('[data-testid=token]').should('not.exist');
 	});
 
 	it('allows retry bad token', () => {
-		cy.getInput('[data-cy=email]').type('test@example.com');
-		cy.get('[data-cy=submit-email]').click();
-		cy.get('[data-cy=token]').should('exist');
+		cy.get('[data-testid=email]').type('test@example.com');
+		cy.get('[data-testid=submit-email]').click();
+		cy.get('[data-testid=token]').should('exist');
 
 		// enter token
-		cy.getInput('[data-cy=token]').type('123456');
-		cy.get('[data-cy=submit-token]').click();
+		cy.get('[data-testid=token]').type('123456');
+		cy.get('[data-testid=submit-token]').click();
 
 		// bad code modal
-		cy.get('[data-cy=enter-correct-code]').click();
-		cy.get('[data-cy=enter-correct-code]').should('not.exist');
-		cy.get('[data-cy=token]').should('be.empty');
+		cy.get('[data-testid=enter-correct-code]').click();
+		cy.get('[data-testid=enter-correct-code]').should('not.exist');
+		cy.get('[data-testid=token]').should('be.empty');
 
 		// reenter token
-		cy.getInput('[data-cy=token]').type('123456');
-		cy.get('[data-cy=submit-token]').click();
+		cy.get('[data-testid=token]').type('123456');
+		cy.get('[data-testid=submit-token]').click();
 
 		// request new code
-		cy.get('[data-cy=request-new-code]').click();
-		cy.get('[data-cy=request-new-code]').should('not.exist');
-		cy.get('[data-cy=token]').should('not.exist');
-		cy.get('[data-cy=submit-email]').should('exist');
+		cy.get('[data-testid=request-new-code]').click();
+		cy.get('[data-testid=request-new-code]').should('not.exist');
+		cy.get('[data-testid=token]').should('not.exist');
+		cy.get('[data-testid=submit-email]').should('exist');
 	});
 
 	it('allows login', () => {
@@ -50,14 +50,14 @@ describe('login', () => {
 			{ body: { data: 'intercepted verify request' } }
 		).as('login-verify');
 
-		cy.getInput('[data-cy=email]').type('test@example.com');
-		cy.get('[data-cy=submit-email]').click();
-		cy.get('[data-cy=token]').should('exist');
+		cy.get('[data-testid=email]').type('test@example.com');
+		cy.get('[data-testid=submit-email]').click();
+		cy.get('[data-testid=token]').should('exist');
 
 		// enter token
-		cy.getInput('[data-cy=token]').type('123456');
-		cy.get('[data-cy=submit-token]').click();
+		cy.get('[data-testid=token]').type('123456');
+		cy.get('[data-testid=submit-token]').click();
 
-		cy.get('[data-cy=request-new-code]').should('not.exist');
+		cy.get('[data-testid=request-new-code]').should('not.exist');
 	});
 });

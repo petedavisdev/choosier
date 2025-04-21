@@ -6,7 +6,7 @@
 			<LinkTo
 				:to="PATHS.category + key"
 				:class="$style.link"
-				data-cy="categories-nav-item"
+				data-testid="categories-nav-item"
 				>{{ key.replace('-', ' ') }}</LinkTo
 			>
 		</template>

@@ -1,7 +1,5 @@
 <script setup lang="ts">
-const props = defineProps<{
-	id: number;
-}>();
+const props = defineProps<{ id: number }>();
 
 const { profile } = useProfile();
 const choice = await useChoice(props.id);
@@ -125,7 +123,7 @@ onMounted(() => {
 			:key="matchIndex"
 			ref="chooseForm"
 			:class="$style.match"
-			:data-cy="`match-${matchIndex < matches1.length ? 1 : 2}`"
+			:data-testid="`match-${matchIndex < matches1.length ? 1 : 2}`"
 			@submit.prevent
 		>
 			<label
@@ -145,7 +143,7 @@ onMounted(() => {
 					:src="option"
 					alt=""
 					:class="$style.optionImage"
-					data-cy="option-image"
+					data-testid="option-image"
 				/>
 			</label>
 		</form>

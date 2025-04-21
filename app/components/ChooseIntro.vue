@@ -6,9 +6,7 @@ const props = defineProps<{
 }>();
 
 const { profile } = useProfile();
-const data = reactive({
-	show: true,
-});
+const data = reactive({ show: true });
 </script>
 
 <template>
@@ -31,7 +29,7 @@ const data = reactive({
 			<button
 				type="button"
 				class="button"
-				data-cy="start"
+				data-testid="start"
 				@click="data.show = false"
 			>
 				Start choosing &rarr;

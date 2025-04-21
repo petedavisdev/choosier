@@ -6,16 +6,19 @@ export default defineNuxtConfig({
 		'~/assets/utils.css',
 	],
 
-	future: {
-		compatibilityVersion: 4,
-	},
+	devtools: { enabled: false },
 
-	modules: ['@nuxtjs/supabase', '@nuxt/image', '@nuxt/eslint'],
+	future: { compatibilityVersion: 4 },
+
+	modules: [
+		'@nuxtjs/supabase',
+		'@nuxt/image',
+		'@nuxt/eslint',
+		'@nuxt/test-utils/module',
+	],
 
 	nitro: {
-		prerender: {
-			routes: ['/', '/about', '/privacy', '/terms', '/hello'],
-		},
+		prerender: { routes: ['/', '/about', '/privacy', '/terms', '/hello'] },
 	},
 
 	runtimeConfig: {
@@ -27,9 +30,7 @@ export default defineNuxtConfig({
 		},
 	},
 
-	supabase: {
-		redirect: false,
-	},
+	supabase: { redirect: false },
 
 	compatibilityDate: '2024-08-27',
 });

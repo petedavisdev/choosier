@@ -3,10 +3,7 @@ const supabase = useSupabaseClient<Database>();
 
 const emit = defineEmits<{ retry: []; verified: [userId: string] }>();
 
-const props = defineProps<{
-	email: string;
-	choiceId?: number;
-}>();
+const props = defineProps<{ email: string; choiceId?: number }>();
 
 const loading = ref(false);
 const token = ref('');
@@ -74,7 +71,7 @@ function handleEnterCode() {
 			<LinkTo
 				to="#request"
 				:class="$style.retry"
-				data-cy="retry"
+				data-testid="retry"
 				@click="emit('retry')"
 			>
 				try again</LinkTo
@@ -93,7 +90,7 @@ function handleEnterCode() {
 				max-length="6"
 				title="6 digit code"
 				required
-				data-cy="token"
+				data-testid="token"
 			/>
 		</p>
 		<p>
@@ -101,7 +98,7 @@ function handleEnterCode() {
 				type="submit"
 				class="button token"
 				:disabled="loading"
-				data-cy="submit-token"
+				data-testid="submit-token"
 			>
 				{{ loading ? 'Loading' : 'Enter &rarr;' }}
 			</button>
@@ -117,7 +114,7 @@ function handleEnterCode() {
 				<button
 					type="button"
 					class="button"
-					data-cy="enter-correct-code"
+					data-testid="enter-correct-code"
 					@click="handleEnterCode"
 				>
 					Enter correct code
@@ -126,7 +123,7 @@ function handleEnterCode() {
 			<LinkTo
 				to="#request"
 				class="button"
-				data-cy="request-new-code"
+				data-testid="request-new-code"
 				@click="emit('retry')"
 			>
 				Request a new code</LinkTo

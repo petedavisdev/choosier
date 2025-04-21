@@ -8,9 +8,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{ undo: [] }>();
 
-const data = reactive({
-	isShareOpen: false,
-});
+const data = reactive({ isShareOpen: false });
 </script>
 
 <template>
@@ -25,7 +23,7 @@ const data = reactive({
 			type="reset"
 			:disabled="props.matchIndex < 1"
 			:class="$style.undo"
-			data-cy="undo"
+			data-testid="undo"
 			@click="emit('undo')"
 		>
 			<IconUndo :class="$style.icon" />

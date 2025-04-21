@@ -26,7 +26,7 @@ const choices = await useFilteredChoices(
 					: choice.id
 			"
 			class="card"
-			data-cy="choice"
+			data-testid="choice"
 		>
 			<div class="cardImages">
 				<NuxtImg

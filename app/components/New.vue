@@ -125,7 +125,7 @@ async function uploadCover(id: number) {
 						type="radio"
 						:value="visibilityKey"
 						required
-						:data-cy="`visibility-${visibilityKey}`"
+						:data-testid="`visibility-${visibilityKey}`"
 					/>
 					<strong>{{ visibilityInfo.name }}</strong>
 
@@ -170,7 +170,7 @@ async function uploadCover(id: number) {
 							name="category"
 							:value="key"
 							required
-							:data-cy="`category-${key}`"
+							:data-testid="`category-${key}`"
 						/>
 						{{ categoryName }}
 					</label>
