@@ -5,6 +5,9 @@ const props = defineProps<{
 	choice: Choice;
 }>();
 
+const productId = useRuntimeConfig().public.polarProductId;
+const user = useSupabaseUser()
+
 // const { profile } = useProfile();
 
 // async function promoteChoice() {
@@ -60,6 +63,6 @@ const props = defineProps<{
 			for you.
 		</p>
 
-		<LinkTo class="button" to="/hello">Request an extension</LinkTo>
+		<LinkTo class="button" :to="`api/checkout?products=${productId}&customerId=${user?.id}&customerEmail=${user?.email}&metadata=${choice.id}`">Request an extension</LinkTo>
 	</section>
 </template>

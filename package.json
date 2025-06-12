@@ -29,5 +29,8 @@
 		"html-to-image": "^1",
 		"nuxt": "^3",
 		"prettier": "^3"
+	},
+	"dependencies": {
+		"@polar-sh/nuxt": "^0.3.1"
 	}
 }
