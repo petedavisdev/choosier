@@ -12,6 +12,12 @@ export default defineNuxtConfig({
 
 	modules: ['@nuxtjs/supabase', '@nuxt/image', '@nuxt/eslint'],
 
+	nitro: {
+		prerender: {
+			routes: ['/', '/about', '/privacy', '/terms', '/hello'],
+		},
+	},
+
 	runtimeConfig: {
 		public: {
 			apiBase: process.env.SUPABASE_URL,
