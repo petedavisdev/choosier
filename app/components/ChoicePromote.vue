@@ -6,7 +6,25 @@ const props = defineProps<{
 }>();
 
 const productId = useRuntimeConfig().public.polarProductId;
-const user = useSupabaseUser()
+const user = useSupabaseUser();
+
+async function checkout() {
+	try {
+		const response = await $fetch(
+			`/api/checkout?products=${productId}&externalCustomerId=${user.value?.id}&customerEmail=${user.value?.email}&metadata={"choice_id":${props.choice.id}}`,
+			{
+				method: 'POST',
+			}
+		);
+		console.log(response);
+	} catch (error: unknown) {
+		if (error instanceof Error) {
+			alert(error.message);
+		} else {
+			alert('An unknown error occurred');
+		}
+	}
+}
 
 // const { profile } = useProfile();
 
@@ -63,6 +81,8 @@ const user = useSupabaseUser()
 			for you.
 		</p>
 
-		<LinkTo class="button" :to="`api/checkout?products=${productId}&customerId=${user?.id}&customerEmail=${user?.email}&metadata=${choice.id}`">Request an extension</LinkTo>
+		<button type="button" class="button" @click="checkout">
+			Request an extension
+		</button>
 	</section>
 </template>

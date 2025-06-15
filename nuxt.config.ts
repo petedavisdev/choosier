@@ -10,7 +10,12 @@ export default defineNuxtConfig({
 		compatibilityVersion: 4,
 	},
 
-	modules: ['@nuxtjs/supabase', '@nuxt/image', '@nuxt/eslint', "@polar-sh/nuxt"],
+	modules: [
+		'@nuxtjs/supabase',
+		'@nuxt/image',
+		'@nuxt/eslint',
+		'@polar-sh/nuxt',
+	],
 
 	nitro: {
 		prerender: {
@@ -20,8 +25,7 @@ export default defineNuxtConfig({
 
 	runtimeConfig: {
 		private: {
-			polarAccessToken: process.env.POLAR_ACCESS_TOKEN, 
-			polarCheckoutSuccessUrl: process.env.POLAR_CHECKOUT_SUCCESS_URL, 
+			polarAccessToken: process.env.POLAR_ACCESS_TOKEN,
 			polarServer: process.env.POLAR_SERVER,
 		},
 

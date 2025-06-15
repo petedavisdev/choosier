@@ -4,6 +4,7 @@ export const PATHS = {
 	contact: '/hello',
 	new: '/!',
 	results: '/=',
+	success: '/$',
 	user: '/@',
 } as const;
 
