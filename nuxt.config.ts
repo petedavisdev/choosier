@@ -13,6 +13,7 @@ export default defineNuxtConfig({
 	modules: ['@nuxtjs/supabase', '@nuxt/image', '@nuxt/eslint'],
 
 	nitro: {
+		preset: 'cloudflare',
 		prerender: {
 			routes: ['/', '/about', '/privacy', '/terms', '/hello'],
 		},
