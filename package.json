@@ -15,7 +15,9 @@
 		"e2e": "cypress run",
 		"cy": "cypress open",
 		"supabase:login": "npx supabase login",
-		"supabase:types": "npx supabase gen types typescript --project-id 'fbyhdhmmctwoorirepai' --schema public > app/utils/database.types.ts",
+		"supabase:types": "supabase gen types typescript --project-id 'fbyhdhmmctwoorirepai' --schema public > app/utils/database.types.ts",
+		"supabase:start": "supabase start --debug",
+		"supabase:stop": "supabase stop",
 		"upgrade": "npx nuxi@latest upgrade --force"
 	},
 	"devDependencies": {
@@ -28,6 +30,7 @@
 		"eslint-config-prettier": "^10",
 		"html-to-image": "^1",
 		"nuxt": "^4.0.0-alpha.2",
-		"prettier": "^3"
+		"prettier": "^3",
+		"supabase": "^2.24.3"
 	}
 }
