@@ -10,7 +10,12 @@ export default defineNuxtConfig({
 		compatibilityVersion: 4,
 	},
 
-	modules: ['@nuxtjs/supabase', '@nuxt/image', '@nuxt/eslint'],
+	modules: [
+		'@nuxtjs/supabase',
+		'@nuxt/image',
+		'@nuxt/eslint',
+		'@polar-sh/nuxt',
+	],
 
 	nitro: {
 		prerender: {
@@ -19,9 +24,15 @@ export default defineNuxtConfig({
 	},
 
 	runtimeConfig: {
+		private: {
+			polarAccessToken: process.env.POLAR_ACCESS_TOKEN,
+			polarServer: process.env.POLAR_SERVER,
+		},
+
 		public: {
 			apiBase: process.env.SUPABASE_URL,
 			baseUrl: process.env.SITE_URL,
+			polarProductId: process.env.POLAR_PRODUCT_ID,
 			prod: process.env.NODE_ENV === 'production',
 			siteUrl: process.env.SITE_URL || 'https://choosier.com',
 		},
