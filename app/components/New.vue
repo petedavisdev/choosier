@@ -15,14 +15,14 @@ const cardImagesElement = ref<HTMLElement>();
 
 const dates = computed(() => {
 	const date = new Date();
-	const VOTE_DAYS = 1;
-	const RESULTS_DAYS = 7;
+	const VOTE_HOURS = 2;
+	const RESULTS_DAYS = 8;
 
-	date.setDate(date.getDate() + VOTE_DAYS);
-	date.setSeconds(0, 0);
+	date.setHours(date.getHours() + VOTE_HOURS);
 	const close = date.toISOString();
 
-	date.setDate(date.getDate() + RESULTS_DAYS + 0.007);
+	date.setDate(date.getDate() + RESULTS_DAYS);
+	date.setHours(23, 59, 59, 999); // End of the day
 	const remove = date.toISOString();
 
 	return { close, remove };

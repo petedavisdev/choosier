@@ -5,6 +5,7 @@
 		"build": "nuxt build",
 		"start": "nuxt start",
 		"dev": "nuxt dev",
+		"dev:https": "NODE_TLS_REJECT_UNAUTHORIZED=0 nuxt dev --https --ssl-cert localhost.pem --ssl-key localhost-key.pem",
 		"generate": "nuxt generate",
 		"prepare": "nuxt prepare",
 		"preview": "nuxt preview",
@@ -15,24 +16,25 @@
 		"e2e": "cypress run",
 		"cy": "cypress open",
 		"supabase:login": "npx supabase login",
-		"supabase:types": "npx supabase gen types typescript --project-id 'fbyhdhmmctwoorirepai' --schema public > shared/types/database.types.ts",
-		"upgrade": "npx nuxi@latest upgrade --force"
+		"supabase:types": "npx supabase gen types typescript --project-id 'fbyhdhmmctwoorirepai' --schema public > shared/types/database.ts",
+		"upgrade": "npx nuxi@latest upgrade --force",
+		"ngrok": "ngrok http http://localhost:3000"
+	},
+	"dependencies": {
+		"@nuxt/image": "^1",
+		"@nuxtjs/supabase": "^1",
+		"@polar-sh/checkout": "^0.1.11",
+		"@polar-sh/nuxt": "^0.3.1",
+		"@polar-sh/sdk": "^0.34.2",
+		"base64-arraybuffer": "^1",
+		"html-to-image": "^1",
+		"nuxt": "^4.0.0-alpha.2"
 	},
 	"devDependencies": {
 		"@nuxt/eslint": "^1",
-		"@nuxt/image": "^1",
-		"@nuxtjs/supabase": "^1",
-		"base64-arraybuffer": "^1",
 		"cypress": "^14",
 		"eslint": "^9",
 		"eslint-config-prettier": "^10",
-		"html-to-image": "^1",
-		"nuxt": "^4.0.0-alpha.2",
 		"prettier": "^3"
-	},
-	"dependencies": {
-		"@polar-sh/checkout": "^0.1.11",
-		"@polar-sh/nuxt": "^0.3.1",
-		"@polar-sh/sdk": "^0.33.1"
 	}
 }

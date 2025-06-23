@@ -1,9 +1,13 @@
 <script setup lang="ts">
-const route = useRoute();
-const checkoutId = route.query.checkout_id;
+const { profile } = useProfile();
+const router = useRouter();
+
+watchEffect(() => {
+	if (!profile.value) return;
+	router.push(PATHS.user + profile.value.username);
+});
 </script>
 
 <template>
-    <h1>Success!</h1>
-    <p>Checkout ID: {{ checkoutId }}</p>
+	<h1>Success...</h1>
 </template>

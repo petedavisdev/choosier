@@ -45,10 +45,10 @@ async function updateChoice(update: Record<string, string>) {
 		</section>
 	</form>
 
-	<!-- TODO: reinstate delete when fixed in Supabase -->
-	<!-- <h3 v-else>Voting has closed</h3>
+	<h3 v-else>Voting has closed</h3>
 
-	<form @submit.prevent="deleteChoice">
+	<!-- TODO: reinstate delete when fixed in Supabase -->
+	<!-- <form @submit.prevent="deleteChoice">
 		<section>
 			<h3>Delete this choice</h3>
 			<p>You will lose access to the choice and the results.</p>

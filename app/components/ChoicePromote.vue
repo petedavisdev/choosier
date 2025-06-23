@@ -1,88 +1,74 @@
 <script setup lang="ts">
+import { PolarEmbedCheckout } from '@polar-sh/checkout/embed';
 import type { Choice } from '~/composables/useChoice';
 
 const props = defineProps<{
 	choice: Choice;
 }>();
 
-const productId = useRuntimeConfig().public.polarProductId;
+const {
+	public: { polarUrl, polarCheckoutPath },
+} = useRuntimeConfig();
 const user = useSupabaseUser();
+const polarCheckoutUrl = computed(() => {
+	return `${polarUrl}${polarCheckoutPath}?customerEmail=${user.value?.email}&reference_id=${props.choice.id}`;
+});
 
-async function checkout() {
-	try {
-		const response = await $fetch(
-			`/api/checkout?products=${productId}&externalCustomerId=${user.value?.id}&customerEmail=${user.value?.email}&metadata={"choice_id":${props.choice.id}}`,
-			{
-				method: 'POST',
-			}
-		);
-		console.log(response);
-	} catch (error: unknown) {
-		if (error instanceof Error) {
-			alert(error.message);
-		} else {
-			alert('An unknown error occurred');
-		}
-	}
-}
+const isClosingSoon = computed(() => {
+	if (!props.choice.closeAt) return false;
+	const closeDate = new Date(props.choice.closeAt);
+	const now = new Date();
+	const hoursUntilClose =
+		(closeDate.getTime() - now.getTime()) / (1000 * 60 * 60);
+	return hoursUntilClose <= 24 && hoursUntilClose > 0;
+});
 
-// const { profile } = useProfile();
-
-// async function promoteChoice() {
-// 	console.log('choice', props.choice);
-// 	if (!profile.value) return;
-
-// 	const supabase = useSupabaseClient<Database>();
-
-// 	const close_at = addDaysToISODate(7, props.choice.createdAt);
-// 	const remove_at = addDaysToISODate(7, close_at);
-
-// 	try {
-// 		const choiceResponse = await supabase
-// 			.from('choices')
-// 			.update({
-// 				close_at,
-// 				remove_at,
-// 			})
-// 			.eq('id', props.choice.id);
-
-// 		if (choiceResponse.error) throw choiceResponse.error;
-
-// 		navigateTo(PATHS.user + profile.value.username);
-// 	} catch (error: unknown) {
-// 		alert((error as Error)?.message);
-// 	}
-// }
+onMounted(() => {
+	PolarEmbedCheckout.init();
+});
 </script>
 
 <template>
 	<section class="box">
-		<h4 v-if="!props.choice.isClosed">
-			Voting closes {{ longDateText(props.choice.closeAt) }}
-		</h4>
+		<h2 v-if="props.choice.isExtended">Voting extended!</h2>
 
-		<p>
-			Results will be available until {{ shortDateText(props.choice.removeAt) }}
-		</p>
+		<template v-if="!props.choice.isClosed">
+			<Countdown v-if="isClosingSoon" :target-date="props.choice.closeAt!" />
+			<h4 v-else>Voting closes {{ longDateText(props.choice.closeAt) }}</h4>
+		</template>
 
-		<template v-if="!choice.isClosed">
+		<p>Results will be available for a week after the poll closes</p>
+
+		<template v-if="!props.choice.isExtended && !props.choice.isClosed">
 			<h2>Need more time?</h2>
-			<p>You can keep voting open for up to a week</p>
+			<p>You can keep voting open for a week</p>
+			<a
+				:href="polarCheckoutUrl"
+				type="button"
+				class="button"
+				data-polar-checkout
+			>
+				+7 days = $3.<small :class="$style.cents">50</small>
+			</a>
 		</template>
 
-		<template v-else>
+		<template v-if="!props.choice.isExtended && props.choice.isClosed">
 			<h2>Need more votes?</h2>
+			<p>You can re-open voting for a week</p>
+			<a
+				:href="polarCheckoutUrl"
+				type="button"
+				class="button"
+				data-polar-checkout
+			>
+				+7 days = $3.<small :class="$style.cents">50</small>
+			</a>
 		</template>
-
-		<p>
-			You will soon be able to pay online for more time, but for now, please
-			send me a message quoting
-			<strong>"Poll number {{ props.choice.id }}"</strong> and I will extend it
-			for you.
-		</p>
-
-		<button type="button" class="button" @click="checkout">
-			Request an extension
-		</button>
 	</section>
 </template>
+
+<style module>
+.cents {
+	font-weight: bold;
+}
+</style>

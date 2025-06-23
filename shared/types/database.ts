@@ -16,6 +16,7 @@ export type Database = {
 					created_at: string | null;
 					id: number;
 					image_urls: string[] | null;
+					order_id: string | null;
 					remove_at: string | null;
 					title: string | null;
 					user_id: string | null;
@@ -29,6 +30,7 @@ export type Database = {
 					created_at?: string | null;
 					id?: number;
 					image_urls?: string[] | null;
+					order_id?: string | null;
 					remove_at?: string | null;
 					title?: string | null;
 					user_id?: string | null;
@@ -42,6 +44,7 @@ export type Database = {
 					created_at?: string | null;
 					id?: number;
 					image_urls?: string[] | null;
+					order_id?: string | null;
 					remove_at?: string | null;
 					title?: string | null;
 					user_id?: string | null;
