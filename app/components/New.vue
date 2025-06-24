@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { decode } from 'base64-arraybuffer';
+import { IMAGE_LIMITS } from '~~/shared/utils/constants';
 
 const supabase = useSupabaseClient<Database>();
 const { profile } = useProfile();
@@ -13,26 +14,24 @@ const showPreview = ref(false);
 
 const cardImagesElement = ref<HTMLElement>();
 
-const dates = computed(() => {
+function getCloseAt() {
 	const date = new Date();
-	const VOTE_HOURS = 2;
-	const RESULTS_DAYS = 8;
+	date.setHours(date.getHours() + TIMES.closeHours);
+	return date.toISOString();
+}
 
-	date.setHours(date.getHours() + VOTE_HOURS);
-	const close = date.toISOString();
-
-	date.setDate(date.getDate() + RESULTS_DAYS);
+function getRemoveAt() {
+	const date = new Date();
+	date.setDate(date.getDate() + TIMES.removeDays);
 	date.setHours(23, 59, 59, 999); // End of the day
-	const remove = date.toISOString();
-
-	return { close, remove };
-});
+	return date.toISOString();
+}
 
 const validationMessage = computed(() => {
-	return images.value.length < MIN_IMAGES
-		? `You need at least ${MIN_IMAGES} images!`
-		: images.value.length > MAX_IMAGES
-			? `You have more than the allowed ${MAX_IMAGES} images!`
+	return images.value.length < IMAGE_LIMITS.min
+		? `You need at least ${IMAGE_LIMITS.min} images!`
+		: images.value.length > IMAGE_LIMITS.max
+			? `You have more than the allowed ${IMAGE_LIMITS.max} images!`
 			: !title.value
 				? 'You need a title!'
 				: !visibility.value
@@ -45,8 +44,8 @@ const validationMessage = computed(() => {
 async function submit() {
 	if (
 		profile.value &&
-		images.value.length >= MIN_IMAGES &&
-		images.value.length <= MAX_IMAGES
+		images.value.length >= IMAGE_LIMITS.min &&
+		images.value.length <= IMAGE_LIMITS.max
 	) {
 		try {
 			loading.value = true;
@@ -60,8 +59,8 @@ async function submit() {
 						user_id: profile.value?.userId,
 						visibility: visibility.value,
 						category: category.value,
-						close_at: dates.value.close,
-						remove_at: dates.value.remove,
+						close_at: getCloseAt(),
+						remove_at: getRemoveAt(),
 						voting_system: images.value.length > 2 ? '2' : '1',
 					},
 				])
@@ -216,14 +215,16 @@ async function uploadCover(id: number) {
 					You will get a private link to share with people you trust.
 				</p>
 
-				<p>Your first 24 hours of voting are free!</p>
+				<p>Your first 2 hours of voting are free!</p>
 
 				<p>Need more time? It's cheap and easy to extend.</p>
 				<button
 					type="submit"
 					class="button"
 					:disabled="
-						images.length < MIN_IMAGES || images.length > MAX_IMAGES || loading
+						images.length < IMAGE_LIMITS.min ||
+						images.length > IMAGE_LIMITS.max ||
+						loading
 					"
 				>
 					✓ Save and publish
