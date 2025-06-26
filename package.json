@@ -16,9 +16,9 @@
 		"e2e": "cypress run",
 		"cy": "cypress open",
 		"supabase:login": "npx supabase login",
-		"supabase:types": "npx supabase gen types typescript --project-id 'fbyhdhmmctwoorirepai' --schema public > shared/types/database.ts",
+		"supabase:types": "source .env && npx supabase gen types typescript --project-id ${SUPABASE_PROJECT_ID} --schema public > shared/types/database.ts",
 		"upgrade": "npx nuxi@latest upgrade --force",
-		"ngrok": "ngrok http http://localhost:3000"
+		"ngrok": "source .env && ngrok http http://localhost:3000 --url=https://${NGROK_FORWARDING_URL}"
 	},
 	"dependencies": {
 		"@nuxt/image": "^1",

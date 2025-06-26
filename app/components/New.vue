@@ -139,7 +139,7 @@ async function uploadCover(id: number) {
 				<h2>Images</h2>
 				<Upload
 					:folder="profile.username ?? '@'"
-					:max="MAX_IMAGES"
+					:max="IMAGE_LIMITS.max"
 					@uploaded="(urls) => (images = urls)"
 				/>
 			</section>

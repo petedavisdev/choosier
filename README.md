@@ -8,19 +8,15 @@ Visual decisions made easy
 
 ## Local Development
 
-### Prerequisites
+### Setup
 
-- [Node.js](https://nodejs.org/en/download/)
-
-### Installation
-
-Create an [ngrok account](https://ngrok.com/) and [install ngrok](https://dashboard.ngrok.com/get-started/setup/macos).
+- [Node.js](https://nodejs.org/en/download/) LTS
+- Create an [ngrok account](https://ngrok.com/), [install ngrok](https://dashboard.ngrok.com/get-started/setup/macos), and [get a free static forwarding URL](https://dashboard.ngrok.com/domains).
+- Copy the `.env.example` file to `.env` and fill in the values.
 
 ```bash
 npm install
 ```
-
-Copy the `.env.example` file to `.env` and fill in the values.
 
 ### Development
 
