@@ -10,7 +10,12 @@ export default defineNuxtConfig({
 		compatibilityVersion: 4,
 	},
 
-	modules: ['@nuxtjs/supabase', '@nuxt/image', '@nuxt/eslint'],
+	modules: [
+		'@nuxtjs/supabase',
+		'@nuxt/image',
+		'@nuxt/eslint',
+		'@polar-sh/nuxt',
+	],
 
 	nitro: {
 		prerender: {
@@ -19,11 +24,19 @@ export default defineNuxtConfig({
 	},
 
 	runtimeConfig: {
+		private: {
+			polarAccessToken: process.env.POLAR_ACCESS_TOKEN,
+			polarServer: process.env.POLAR_SERVER,
+			polarWebhookSecret: process.env.POLAR_WEBHOOK_SECRET,
+		},
+
 		public: {
 			apiBase: process.env.SUPABASE_URL,
 			baseUrl: process.env.SITE_URL,
+			polarUrl: process.env.POLAR_URL,
+			polarCheckoutPath: process.env.POLAR_CHECKOUT_PATH,
 			prod: process.env.NODE_ENV === 'production',
-			siteUrl: process.env.SITE_URL || 'https://choosier.com',
+			siteUrl: process.env.SITE_URL || 'https://www.choosier.com',
 		},
 	},
 
@@ -32,4 +45,10 @@ export default defineNuxtConfig({
 	},
 
 	compatibilityDate: '2024-08-27',
+
+	vite: {
+		server: {
+			allowedHosts: [process.env.NGROK_FORWARDING_URL || process.env.SITE_URL!],
+		},
+	},
 });

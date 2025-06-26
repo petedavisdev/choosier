@@ -28,12 +28,12 @@ const isPrivate = choice.visibility === 'private';
 		<List :filter="['id', id]" allow-private />
 
 		<div class="grid">
+			<ChoicePromote :choice="choice" />
+
 			<section v-if="!choice.isClosed" class="box" :class="$style.wideSection">
 				<h2>Share</h2>
 				<Share :id="id" :uuid="isPrivate ? choice.uuid : undefined" />
 			</section>
-
-			<ChoicePromote :choice="choice" />
 		</div>
 
 		<!-- TODO: reinstate delete when fixed in Supabase -->

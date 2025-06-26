@@ -33,7 +33,7 @@
 	</div>
 
 	<div itemscope itemtype="https://schema.org/WebSite">
-		<link itemprop="url" href="https://choosier.com" />
+		<link itemprop="url" href="https://www.choosier.com" />
 		<meta itemprop="name" content="Choosier" />
 	</div>
 </template>

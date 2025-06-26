@@ -19,6 +19,7 @@ export type Choice = {
 	isRemoved?: boolean;
 	votes: Vote[];
 	uuid: string;
+	isExtended?: boolean;
 	visibility: 'public' | 'private' | 'promoted' | 'draft';
 	votingSystem: '1' | '2';
 };
@@ -46,7 +47,8 @@ export async function useChoice(id: number) {
 				votes (image_urls, user_id, profiles (username)),
 				uuid,
 				visibility,
-				voting_system
+				voting_system,
+				order_id
 				`
 			)
 			.eq('id', id)
@@ -68,6 +70,7 @@ export async function useChoice(id: number) {
 		data.choice.uuid = choiceResponse.data.uuid;
 		data.choice.visibility = choiceResponse.data.visibility;
 		data.choice.votingSystem = choiceResponse.data.voting_system;
+		data.choice.isExtended = !!choiceResponse.data.order_id;
 	} catch (error: unknown) {
 		console.error((error as Error)?.message);
 	} finally {

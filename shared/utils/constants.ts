@@ -4,11 +4,20 @@ export const PATHS = {
 	contact: '/hello',
 	new: '/!',
 	results: '/=',
+	success: '/$',
 	user: '/@',
 } as const;
 
-export const MIN_IMAGES = 2;
-export const MAX_IMAGES = 16;
+export const IMAGE_LIMITS = {
+	min: 2,
+	max: 16,
+} as const;
+
+export const TIMES = {
+	closeHours: 2,
+	removeDays: 7,
+	extendDays: 7,
+} as const;
 
 export const CATEGORIES = {
 	art: 'Art and illustration',
