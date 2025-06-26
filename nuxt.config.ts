@@ -36,7 +36,7 @@ export default defineNuxtConfig({
 			polarUrl: process.env.POLAR_URL,
 			polarCheckoutPath: process.env.POLAR_CHECKOUT_PATH,
 			prod: process.env.NODE_ENV === 'production',
-			siteUrl: process.env.SITE_URL || 'https://choosier.com',
+			siteUrl: process.env.SITE_URL || 'https://www.choosier.com',
 		},
 	},
 

@@ -2,7 +2,7 @@
 
 Visual decisions made easy
 
-[choosier.com](https://choosier.com/)
+[choosier.com](https://www.choosier.com/)
 
 &copy; 2022 Pete Davis
 
