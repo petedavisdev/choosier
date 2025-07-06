@@ -14,15 +14,6 @@ const polarCheckoutUrl = computed(() => {
 	return `${polarUrl}${polarCheckoutPath}?customerEmail=${user.value?.email}&reference_id=${props.choice.id}`;
 });
 
-const isClosingSoon = computed(() => {
-	if (!props.choice.closeAt) return false;
-	const closeDate = new Date(props.choice.closeAt);
-	const now = new Date();
-	const hoursUntilClose =
-		(closeDate.getTime() - now.getTime()) / (1000 * 60 * 60);
-	return hoursUntilClose <= 24 && hoursUntilClose > 0;
-});
-
 onMounted(() => {
 	PolarEmbedCheckout.init();
 });
@@ -30,14 +21,25 @@ onMounted(() => {
 
 <template>
 	<section class="box">
-		<h2 v-if="props.choice.isExtended">Voting extended!</h2>
+		<h2 v-if="props.choice.isExtended && !props.choice.isClosed">
+			Voting extended!
+		</h2>
 
-		<template v-if="!props.choice.isClosed">
-			<Countdown v-if="isClosingSoon" :target-date="props.choice.closeAt!" />
-			<h4 v-else>Voting closes {{ longDateText(props.choice.closeAt) }}</h4>
-		</template>
+		<h4 v-if="!props.choice.isClosed">
+			<Countdown
+				:date="props.choice.closeAt!"
+				date-text="Voting closes"
+				countdown-text="Voting closes in"
+			/>
+		</h4>
 
-		<p>Results will be available for a week after the poll closes</p>
+		<p>
+			<Countdown
+				:date="String(props.choice.removeAt)"
+				date-text="Results available until"
+				countdown-text="Results deleted in"
+			/>
+		</p>
 
 		<template v-if="!props.choice.isExtended && !props.choice.isClosed">
 			<h2>Need more time?</h2>

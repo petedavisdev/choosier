@@ -6,10 +6,8 @@ const props = defineProps<{
 	isPrivate: boolean;
 }>();
 
-const data = reactive({
-	title: props.choice.title,
-	category: props.choice.category,
-});
+const title = ref(props.choice.title);
+const category = ref(props.choice.category);
 
 async function updateChoice() {
 	const supabase = useSupabaseClient<Database>();
@@ -17,7 +15,7 @@ async function updateChoice() {
 	try {
 		const response = await supabase
 			.from('choices')
-			.update({ title: data.title, category: data.category })
+			.update({ title: title.value, category: category.value })
 			.eq('id', props.choice.id);
 
 		if (response.error) throw response.error;
@@ -37,30 +35,30 @@ async function updateChoice() {
 			<p :class="$style.help">Help {{ choice.username }} choose:</p>
 			<input
 				id="title"
-				v-model="data.title"
+				v-model="title"
 				:class="$style.titleInput"
 				maxlength="25"
 				required
 			/>
 			<small>{{
-				data.title.length > 15
-					? `${25 - data.title.length} characters remaining`
+				title.length > 15
+					? `${25 - title.length} characters remaining`
 					: '&nbsp;'
 			}}</small>
 		</section>
 
 		<section v-if="!props.isPrivate" id="categories">
 			<h3>Category</h3>
-			<p v-for="(category, key) in CATEGORIES" :key="key">
+			<p v-for="(categoryName, key) in CATEGORIES" :key="key">
 				<label>
 					<input
-						v-model="data.category"
+						v-model="category"
 						type="radio"
 						name="category"
 						:value="key"
 						required
 					/>
-					{{ category }}
+					{{ categoryName }}
 				</label>
 			</p>
 		</section>

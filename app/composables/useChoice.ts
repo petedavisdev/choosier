@@ -26,6 +26,7 @@ export type Choice = {
 
 export async function useChoice(id: number) {
 	const supabase = useSupabaseClient<Database>();
+	const router = useRouter();
 
 	const data = reactive({
 		loading: true,
@@ -73,6 +74,7 @@ export async function useChoice(id: number) {
 		data.choice.isExtended = !!choiceResponse.data.order_id;
 	} catch (error: unknown) {
 		console.error((error as Error)?.message);
+		router.push(PATHS.home);
 	} finally {
 		data.loading = false;
 	}

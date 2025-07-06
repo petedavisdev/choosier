@@ -23,7 +23,6 @@ function getCloseAt() {
 function getRemoveAt() {
 	const date = new Date();
 	date.setDate(date.getDate() + TIMES.removeDays);
-	date.setHours(23, 59, 59, 999); // End of the day
 	return date.toISOString();
 }
 

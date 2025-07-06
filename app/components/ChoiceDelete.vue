@@ -13,10 +13,9 @@ async function closeChoice() {
 	updateChoice({ close_at: now });
 }
 
-// TODO: reinstate delete when fixed in Supabase
-// async function deleteChoice() {
-// 	updateChoice({ remove_at: now });
-// }
+async function deleteChoice() {
+	updateChoice({ remove_at: now });
+}
 
 async function updateChoice(update: Record<string, string>) {
 	try {
@@ -45,10 +44,7 @@ async function updateChoice(update: Record<string, string>) {
 		</section>
 	</form>
 
-	<h3 v-else>Voting has closed</h3>
-
-	<!-- TODO: reinstate delete when fixed in Supabase -->
-	<!-- <form @submit.prevent="deleteChoice">
+	<form @submit.prevent="deleteChoice">
 		<section>
 			<h3>Delete this choice</h3>
 			<p>You will lose access to the choice and the results.</p>
@@ -56,5 +52,5 @@ async function updateChoice(update: Record<string, string>) {
 				<button class="button" type="submit">Delete it now!</button>
 			</p>
 		</section>
-	</form> -->
+	</form>
 </template>

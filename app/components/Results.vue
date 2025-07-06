@@ -64,8 +64,12 @@ const { profile } = useProfile();
 		<template v-if="choice.isClosed">
 			<h2>Final results</h2>
 			<p>
-				Voting has closed. Results available until
-				{{ longDateText(choice.removeAt) }}
+				Voting has closed.
+				<Countdown
+					:date="String(choice.removeAt)"
+					date-text="Results available until"
+					countdown-text="Results deleted in"
+				/>
 			</p>
 		</template>
 

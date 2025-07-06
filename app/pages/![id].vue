@@ -36,8 +36,7 @@ const isPrivate = choice.visibility === 'private';
 			</section>
 		</div>
 
-		<!-- TODO: reinstate delete when fixed in Supabase -->
-		<div v-if="!choice.isClosed" class="grid">
+		<div class="grid">
 			<section class="box" :class="$style.wideSection">
 				<h2>Edit</h2>
 				<ChoiceEdit :choice="choice" :is-private="isPrivate" />

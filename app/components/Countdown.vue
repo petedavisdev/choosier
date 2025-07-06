@@ -1,14 +1,25 @@
 <script setup lang="ts">
 const props = defineProps<{
-	targetDate: string;
+	date: string;
+	dateText: string;
+	countdownText: string;
 }>();
 
 const timeLeft = ref('');
 let interval: number | null = null;
 
+const isSoon = computed(() => {
+	if (!props.date) return false;
+	const closeDate = new Date(props.date);
+	const now = new Date();
+	const hoursUntilClose =
+		(closeDate.getTime() - now.getTime()) / (1000 * 60 * 60);
+	return hoursUntilClose <= 24 && hoursUntilClose > 0;
+});
+
 function updateTimeLeft() {
 	const now = new Date();
-	const target = new Date(props.targetDate);
+	const target = new Date(props.date);
 	const diff = target.getTime() - now.getTime();
 
 	if (diff <= 0) {
@@ -24,7 +35,11 @@ function updateTimeLeft() {
 	const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
 	const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-	timeLeft.value = `Voting closes in ${hours}h ${minutes}m ${seconds}s`;
+	timeLeft.value = `${to2Digits(hours)}:${to2Digits(minutes)}:${to2Digits(seconds)}`;
+}
+
+function to2Digits(num: number) {
+	return num.toString().padStart(2, '0');
 }
 
 onMounted(() => {
@@ -40,5 +55,10 @@ onUnmounted(() => {
 </script>
 
 <template>
-	<h4>{{ timeLeft }}</h4>
+	<template v-if="isSoon">
+		{{ props.countdownText }} <code>{{ timeLeft }}</code>
+	</template>
+	<template v-else>
+		{{ props.dateText }} {{ longDateText(props.date) }}
+	</template>
 </template>
