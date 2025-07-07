@@ -7,11 +7,11 @@ const props = defineProps<{
 }>();
 
 const {
-	public: { polarUrl, polarCheckoutPath },
+	public: { polarCheckoutLink },
 } = useRuntimeConfig();
 const user = useSupabaseUser();
 const polarCheckoutUrl = computed(() => {
-	return `${polarUrl}${polarCheckoutPath}?customerEmail=${user.value?.email}&reference_id=${props.choice.id}`;
+	return `${polarCheckoutLink}?customerEmail=${user.value?.email}&reference_id=${props.choice.id}`;
 });
 
 onMounted(() => {
