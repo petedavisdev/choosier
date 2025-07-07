@@ -7,10 +7,12 @@ export default defineEventHandler((event) => {
 
 	async function handleOrder(choiceId: number, orderId: string) {
 		const supabase = serverSupabaseServiceRole(event);
+
 		const closeAt = addDaysToISODate(
 			TIMES.extendDays,
 			new Date().toISOString()
 		);
+
 		const removeAt = addDaysToISODate(TIMES.removeDays, closeAt);
 
 		const choiceResponse = await supabase
