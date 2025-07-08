@@ -1,3 +1,5 @@
+const domain = process.env.DOMAIN || process.env.VERCEL_URL || 'localhost:3000';
+
 export default defineNuxtConfig({
 	css: [
 		'~/assets/modern-normalize.css',
@@ -26,14 +28,14 @@ export default defineNuxtConfig({
 	runtimeConfig: {
 		private: {
 			polarWebhookSecret: process.env.POLAR_WEBHOOK_SECRET,
+			supabaseServiceKey: process.env.SUPABASE_SERVICE_KEY,
 		},
 
 		public: {
 			apiBase: process.env.SUPABASE_URL,
-			baseUrl: process.env.SITE_URL,
 			polarCheckoutLink: process.env.POLAR_CHECKOUT_LINK,
 			prod: process.env.NODE_ENV === 'production',
-			siteUrl: process.env.SITE_URL || 'https://www.choosier.com',
+			siteUrl: 'https://' + domain,
 		},
 	},
 
@@ -45,7 +47,7 @@ export default defineNuxtConfig({
 
 	vite: {
 		server: {
-			allowedHosts: [process.env.NGROK_FORWARDING_URL || process.env.SITE_URL!],
+			allowedHosts: [domain],
 		},
 	},
 });
