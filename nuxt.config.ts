@@ -1,4 +1,5 @@
-const domain = process.env.DOMAIN || process.env.VERCEL_URL || 'localhost:3000';
+const domain =
+	process.env.DOMAIN || process.env.VERCEL_BRANCH_URL || 'localhost:3000';
 
 export default defineNuxtConfig({
 	css: [
