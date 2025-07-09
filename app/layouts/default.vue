@@ -6,7 +6,7 @@ useHead(() => ({
 	link: [
 		{
 			rel: 'canonical',
-			href: 'https://choosier.com' + route.path,
+			href: 'https://www.choosier.com' + route.path,
 		},
 	],
 }));

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { Choice } from '../composables/useChoice';
-
 const props = defineProps<{
 	id: Choice['id'];
 	isPrivate: boolean;
@@ -64,8 +62,12 @@ const { profile } = useProfile();
 		<template v-if="choice.isClosed">
 			<h2>Final results</h2>
 			<p>
-				Voting has closed. Results available until
-				{{ longDateText(choice.removeAt) }}
+				Voting has closed.
+				<Countdown
+					:date="String(choice.removeAt)"
+					date-text="Results available until"
+					countdown-text="Results deleted in"
+				/>
 			</p>
 		</template>
 
@@ -81,6 +83,7 @@ const { profile } = useProfile();
 			<aside
 				v-if="!choice.isClosed && (!props.isPrivate || props.isCreator)"
 				class="box"
+				:class="$style.wideSection"
 			>
 				<h2>Share to get more votes</h2>
 				<Share
@@ -90,7 +93,7 @@ const { profile } = useProfile();
 			</aside>
 
 			<template v-if="props.isCreator">
-				<ChoicePromote :choice="choice" />
+				<ChoiceExtend :choice="choice" />
 			</template>
 		</div>
 
@@ -111,5 +114,11 @@ const { profile } = useProfile();
 
 .meta {
 	margin-block: 2em;
+}
+
+@media (min-width: 1000px) {
+	.wideSection {
+		grid-column: span 2;
+	}
 }
 </style>

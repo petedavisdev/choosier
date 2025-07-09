@@ -15,19 +15,25 @@
 		"e2e": "cypress run",
 		"cy": "cypress open",
 		"supabase:login": "npx supabase login",
-		"supabase:types": "npx supabase gen types typescript --project-id 'fbyhdhmmctwoorirepai' --schema public > app/utils/database.types.ts",
-		"upgrade": "npx nuxi@latest upgrade --force"
+		"supabase:types": "npm run supabase:login && source .env && npx supabase gen types typescript --project-id ${SUPABASE_PROJECT_ID} --schema public > shared/types/database.ts",
+		"upgrade": "npx nuxi@latest upgrade --force",
+		"ngrok": "source .env && ngrok http http://localhost:3000 --url=https://${DOMAIN}"
+	},
+	"dependencies": {
+		"@nuxt/image": "^1",
+		"@nuxtjs/supabase": "^1",
+		"@polar-sh/checkout": "^0.1",
+		"@polar-sh/nuxt": "^0.3",
+		"@polar-sh/sdk": "^0.34",
+		"base64-arraybuffer": "^1",
+		"html-to-image": "^1",
+		"nuxt": "^4.0.0-rc.0"
 	},
 	"devDependencies": {
 		"@nuxt/eslint": "^1",
-		"@nuxt/image": "^1",
-		"@nuxtjs/supabase": "^1",
-		"base64-arraybuffer": "^1",
 		"cypress": "^14",
 		"eslint": "^9",
 		"eslint-config-prettier": "^10",
-		"html-to-image": "^1",
-		"nuxt": "^4.0.0-alpha.2",
 		"prettier": "^3"
 	}
 }

@@ -9,7 +9,7 @@ const data = reactive({
 	shareImages: '',
 });
 
-let shareLink = useRuntimeConfig().public.baseUrl + '/' + props.id;
+let shareLink = useRuntimeConfig().public.siteUrl + '/' + props.id;
 if (props.uuid) shareLink += '?uuid=' + props.uuid;
 const embedCode = `<iframe src="${shareLink}" frameborder="0" style="height: calc(90svh - 2rem); width: 100%"></iframe>`;
 

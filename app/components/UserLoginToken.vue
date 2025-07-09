@@ -63,23 +63,6 @@ function handleEnterCode() {
 <template>
 	<form id="verify" @submit.prevent="verify">
 		<slot />
-		<p>
-			Code sent to
-			<br />
-			<strong>{{ props.email }}</strong>
-			<br />
-			Check your inbox. Check your spam.
-			<br />
-			If you don't have it, wait a minute and
-			<LinkTo
-				to="#request"
-				:class="$style.retry"
-				data-cy="retry"
-				@click="emit('retry')"
-			>
-				try again</LinkTo
-			>.
-		</p>
 
 		<p>
 			<input
@@ -105,6 +88,27 @@ function handleEnterCode() {
 			>
 				{{ loading ? 'Loading' : 'Enter &rarr;' }}
 			</button>
+		</p>
+
+		<br />
+
+		<p>
+			Your code was sent to
+			<br />
+			<strong>{{ props.email }}</strong>
+		</p>
+		<p>
+			Check your inbox. Check your spam. Check your spelling!
+			<br />
+			If you don't have it, wait a minute and
+			<LinkTo
+				to="#request"
+				:class="$style.retry"
+				data-cy="retry"
+				@click="emit('retry')"
+			>
+				try again</LinkTo
+			>.
 		</p>
 	</form>
 

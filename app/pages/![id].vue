@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import ChoicePromote from '~/components/ChoicePromote.vue';
-
 const route = useRoute();
 const id = +route.params.id!;
 const choice = await useChoice(id);
@@ -24,8 +22,9 @@ const isPrivate = choice.visibility === 'private';
 	</Head>
 
 	<template v-if="profile?.username === choice.username">
-		<h1>Voting is now {{ choice.isClosed ? 'closed' : 'open' }}</h1>
 		<List :filter="['id', id]" allow-private />
+
+		<h1>Voting is now {{ choice.isClosed ? 'closed' : 'open' }}</h1>
 
 		<div class="grid">
 			<section v-if="!choice.isClosed" class="box" :class="$style.wideSection">
@@ -33,11 +32,10 @@ const isPrivate = choice.visibility === 'private';
 				<Share :id="id" :uuid="isPrivate ? choice.uuid : undefined" />
 			</section>
 
-			<ChoicePromote :choice="choice" />
+			<ChoiceExtend :choice="choice" />
 		</div>
 
-		<!-- TODO: reinstate delete when fixed in Supabase -->
-		<div v-if="!choice.isClosed" class="grid">
+		<div class="grid">
 			<section class="box" :class="$style.wideSection">
 				<h2>Edit</h2>
 				<ChoiceEdit :choice="choice" :is-private="isPrivate" />

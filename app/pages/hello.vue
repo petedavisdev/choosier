@@ -3,7 +3,9 @@
 
 	<section>
 		<p>Hi 👋 I'm Pete</p>
-		<p>Choosier is my pet project and still in beta.</p>
+		<p>
+			I built Choosier to help you make visual decisions without the dithering!
+		</p>
 		<p>
 			I love to receive feedback and bug reports, but please be patient if I
 			don't get back to you straight away.
