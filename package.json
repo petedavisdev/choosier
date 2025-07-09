@@ -15,7 +15,7 @@
 		"e2e": "cypress run",
 		"cy": "cypress open",
 		"supabase:login": "npx supabase login",
-		"supabase:types": "source .env && npx supabase gen types typescript --project-id ${SUPABASE_PROJECT_ID} --schema public > shared/types/database.ts",
+		"supabase:types": "npm run supabase:login && source .env && npx supabase gen types typescript --project-id ${SUPABASE_PROJECT_ID} --schema public > shared/types/database.ts",
 		"upgrade": "npx nuxi@latest upgrade --force",
 		"ngrok": "source .env && ngrok http http://localhost:3000 --url=https://${DOMAIN}"
 	},
