@@ -1,12 +1,8 @@
 import { serverSupabaseServiceRole } from '#supabase/server';
 
 export default defineEventHandler((event) => {
-	const {
-		private: { polarWebhookSecret },
-	} = useRuntimeConfig();
-
 	async function handleOrder(choiceId: number, orderId: string) {
-		const supabase = serverSupabaseServiceRole(event);
+		const supabase = serverSupabaseServiceRole<Database>(event);
 
 		const closeAt = addDaysToISODate(
 			TIMES.extendDays,
@@ -25,23 +21,50 @@ export default defineEventHandler((event) => {
 			.eq('id', choiceId);
 
 		if (choiceResponse.error) {
-			console.error(choiceResponse.error);
-			return;
+			throw createError({
+				statusCode: choiceResponse.status,
+				message: choiceResponse.error.message,
+			});
 		}
 
 		console.log(choiceResponse);
 	}
 
-	const webhooksHandler = Webhooks({
-		webhookSecret: polarWebhookSecret,
-		onOrderPaid: async (order) => {
-			const choiceId = +(order.data.metadata.reference_id ?? '');
+	const {
+		private: { polarWebhookSecret },
+	} = useRuntimeConfig();
 
-			if (!choiceId) return;
+	let webhooksHandler;
 
-			handleOrder(choiceId, order.data.id);
-		},
-	});
+	try {
+		webhooksHandler = Webhooks({
+			webhookSecret: polarWebhookSecret,
+			onOrderPaid: async (order) => {
+				const choiceId = +(order.data.metadata.reference_id ?? '');
+
+				if (!choiceId || choiceId <= 0) {
+					throw createError({
+						statusCode: 400,
+						message: 'order.data.metadata.reference_id is missing',
+					});
+				}
+
+				handleOrder(choiceId, order.data.id);
+			},
+		});
+	} catch (error) {
+		if (error instanceof Error) {
+			throw createError({
+				statusCode: 500,
+				message: error.message,
+			});
+		}
+
+		throw createError({
+			statusCode: 501,
+			message: 'Error creating webhooks handler',
+		});
+	}
 
 	return webhooksHandler(event);
 });
