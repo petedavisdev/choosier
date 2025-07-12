@@ -14,7 +14,7 @@ export const IMAGE_LIMITS = {
 } as const;
 
 export const TIMES = {
-	closeHours: 2,
+	closeHours: 24,
 	removeDays: 7,
 	extendDays: 7,
 } as const;
