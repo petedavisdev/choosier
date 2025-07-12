@@ -50,7 +50,9 @@ onMounted(() => {
 				class="button"
 				data-polar-checkout
 			>
-				+7 days = $3.<small :class="$style.cents">50</small>
+				+{{ TIMES.extendDays }} days = $3.<small :class="$style.cents"
+					>50</small
+				>
 			</a>
 		</template>
 
