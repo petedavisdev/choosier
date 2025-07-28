@@ -18,6 +18,7 @@ export default defineNuxtConfig({
 		'@nuxt/image',
 		'@nuxt/eslint',
 		'@polar-sh/nuxt',
+		'@sentry/nuxt/module',
 	],
 
 	nitro: {
@@ -50,5 +51,18 @@ export default defineNuxtConfig({
 		server: {
 			allowedHosts: [domain],
 		},
+	},
+
+	sentry: {
+		sourceMapsUploadOptions: {
+			org: 'pete-davis',
+			project: 'javascript-nuxt',
+		},
+
+		autoInjectServerSentry: 'top-level-import',
+	},
+
+	sourcemap: {
+		client: 'hidden',
 	},
 });

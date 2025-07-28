@@ -15,7 +15,7 @@
 		"e2e": "cypress run",
 		"cy": "cypress open",
 		"supabase:login": "npx supabase login",
-		"supabase:types": "npm run supabase:login && source .env && npx supabase gen types typescript --project-id ${SUPABASE_PROJECT_ID} --schema public > shared/types/database.ts",
+		"supabase:types": "source .env && npx supabase gen types typescript --project-id ${SUPABASE_PROJECT_ID} --schema public > shared/types/database.ts",
 		"upgrade": "npx nuxi@latest upgrade --force",
 		"ngrok": "source .env && ngrok http http://localhost:3000 --url=https://${DOMAIN}"
 	},
@@ -25,9 +25,10 @@
 		"@polar-sh/checkout": "^0.1",
 		"@polar-sh/nuxt": "^0.3",
 		"@polar-sh/sdk": "^0.34",
+		"@sentry/nuxt": "^9.38.0",
 		"base64-arraybuffer": "^1",
 		"html-to-image": "^1",
-		"nuxt": "^4.0.0-rc.0"
+		"nuxt": "^3.17.6"
 	},
 	"devDependencies": {
 		"@nuxt/eslint": "^1",
@@ -35,5 +36,8 @@
 		"eslint": "^9",
 		"eslint-config-prettier": "^10",
 		"prettier": "^3"
+	},
+	"overrides": {
+		"@vercel/nft": "^0.27.4"
 	}
 }

@@ -217,6 +217,7 @@ async function uploadCover(id: number) {
 				<!-- <p>Your first {{ TIMES.closeHours }} hours of voting are free!</p>
 
 				<p>Need more time? It's cheap and easy to extend.</p> -->
+
 				<button
 					type="submit"
 					class="button"
