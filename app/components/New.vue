@@ -214,9 +214,10 @@ async function uploadCover(id: number) {
 					You will get a private link to share with people you trust.
 				</p>
 
-				<p>Your first {{ TIMES.closeHours }} hours of voting are free!</p>
+				<!-- <p>Your first {{ TIMES.closeHours }} hours of voting are free!</p>
 
-				<p>Need more time? It's cheap and easy to extend.</p>
+				<p>Need more time? It's cheap and easy to extend.</p> -->
+
 				<button
 					type="submit"
 					class="button"
