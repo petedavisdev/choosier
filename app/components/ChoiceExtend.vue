@@ -43,7 +43,10 @@ onMounted(() => {
 
 		<template v-if="!props.choice.isExtended && !props.choice.isClosed">
 			<h2>Need more time?</h2>
-			<!-- <p>You can keep voting open for a week</p>
+
+			<p>The first {{ TIMES.closeHours }} hours of voting are free!</p>
+
+			<p>You can keep voting open for a week</p>
 			<a
 				:href="polarCheckoutUrl"
 				type="button"
@@ -53,9 +56,7 @@ onMounted(() => {
 				+{{ TIMES.extendDays }} days = $3.<small :class="$style.cents"
 					>50</small
 				>
-			</a> -->
-			<LinkTo :to="PATHS.contact">Contact me to request an extension</LinkTo>
-			for poll number {{ props.choice.id }}.
+			</a>
 		</template>
 
 		<template v-if="!props.choice.isExtended && props.choice.isClosed">
@@ -67,7 +68,9 @@ onMounted(() => {
 				class="button"
 				data-polar-checkout
 			>
-				+7 days = $3.<small :class="$style.cents">50</small>
+				+{{ TIMES.extendDays }} days = $3.<small :class="$style.cents"
+					>50
+				</small>
 			</a>
 		</template>
 	</section>
